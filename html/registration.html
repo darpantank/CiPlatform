@@ -14,7 +14,7 @@
 <body>
   <div class="container-fluid">
     <div class="row">
-      <div class="col-sm-12 col-lg-8">
+      <div class="col-sm-12 col-lg-8 col-md-12">
         <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
           <div class="carousel-indicators">
             <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
@@ -74,23 +74,38 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-12 col-lg-4 login d-flex flex-column justify-content-between">
-        <div class="row"></div>
+      <div class="col-sm-12 col-lg-4 col-md-12 registration d-flex flex-column justify-content-between">
         <div class="row">
           <div class="col">
             <form>
+                <div class="mb-3">
+                    <label for="exampleInput" class="form-label text-muted">First Name</label>
+                    <input type="text" class="form-control" id="exampleFirstName">
+                  </div>
+                  <div class="mb-3">
+                    <label for="exampleInput" class="form-label text-muted">Last Name</label>
+                    <input type="text" class="form-control" id="exampleLastName">
+                  </div>
+                  <div class="mb-3">
+                    <label for="examplePhoneNumber" class="form-label text-muted">Phone Number</label>
+                    <input type="tel" class="form-control" id="exampleMobileNo">
+                  </div>
               <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label text-muted">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                <label for="exampleInputEmail" class="form-label text-muted">Email address</label>
+                <input type="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp">
               </div>
               <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label text-muted">Password</label>
+                <label for="exampleInputPassword" class="form-label text-muted">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword">
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label text-muted">Confirm Password</label>
                 <input type="password" class="form-control" id="exampleInputPassword1">
               </div>
-              <button type="submit" class="btn w-100">Login</button>
+              <button type="submit" class="btn w-100">Register</button>
             </form>
             <p class="text-center"><a href="forgotpassword.html" class="text-muted">Lost your password?</a></p>
-            <p class="text-muted text-center">Don’t have an account? <a href="registration.html">Create an account</a></p>
+            <p class="text-muted text-center">Aleready Register? <a href="login.html">Login Now</a></p>
           </div>
         </div>
         <div class="row">

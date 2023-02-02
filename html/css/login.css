@@ -26,13 +26,17 @@ button[type=submit]{
     color:#F88634;
     border-radius: 24px;
     border: 2px solid #F88634;
+    margin-top: 15px;
 }
 button[type=submit]:hover{
     background-color:#F88634;
     color: white;
 }
 img{
-   width: 100%;
+    width:100%;
+}
+.size-fix{
+    height: 100vh;
 }
 .col-lg-8{
     padding-left: 0 !important;
@@ -40,6 +44,10 @@ img{
 .login{
     /* margin-top:14%; */
     padding:0 5%;
+}
+.registration{
+    padding:0 3%;
+    margin-top: 100px;
 }
 .forgotPass{
     color: #414141;
@@ -50,6 +58,21 @@ img{
     height: 8px !important;
     border-radius: 100%;;
 }
+.form-control{
+    line-height:2 !important;
+}
+@media screen and (max-width: 1360px) {
+    .carouselLabelText{
+        font-size: 1.68rem;
+    }
+    .carouselDescriptionText{
+        font-size: 0.68rem;
+    }
+    .size-fix{
+        height: 100vh;
+    }
+  }
+
 @media screen and (max-width: 992px) {
     .row{
         --bs-gutter-x:0;
@@ -61,12 +84,15 @@ img{
         padding:20px;
         margin-top: 0;
     }
-  }
-  @media screen and (max-width: 1360px) {
-    .carouselLabelText{
-        font-size: 1.68rem;
+    .size-fix{
+        height: auto;
     }
-    .carouselDescriptionText{
-        font-size: 0.68rem;
+    .registration{
+        margin-top: 30px;
+    }
+  }
+  @media screen and (max-width: 767px) {
+    .size-fix{
+        height: auto;
     }
   }
