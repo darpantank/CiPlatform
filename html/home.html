@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+
+<body>
+    <!-- main w3-sidebar -->
+    <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="leftMainMenu">
+        <button onclick="closeLeftMainMenu()" class="w3-bar-item w3-button w3-large"> <img src="image/cancel.png"
+                class="sidebarClosingButton" alt="" srcset=""></button>
+        <a href="#" class="w3-bar-item w3-button">Explore</a>
+        <a href="#" class="w3-bar-item w3-button">Story</a>
+        <a href="#" class="w3-bar-item w3-button">Policy</a>
+    </div>
+
+    <!-- Filter SideBar -->
+    <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="leftFilterMenu">
+        <button onclick="closeLeftFilterMenu()" class="w3-bar-item w3-button w3-large"><img src="image/cancel.png"
+                alt="" srcset=""></button>
+        <!-- Filters dropdown Sidebar  -->
+        <div class="dropdown mysidebar">
+            <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="true">
+                <span>Country</span>
+                <img src="image/drop-down.png">
+            </button>
+            <ul class="dropdown-menu">
+                <li><input type="checkbox"> India</li>
+                <li><input type="checkbox"> USA</li>
+            </ul>
+            <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <span>City</span>
+                <img src="image/drop-down.png">
+            </button>
+            <ul class="dropdown-menu">
+                <li><input type="checkbox"> Ahmedabad</li>
+                <li><input type="checkbox"> Delhi</li>
+            </ul>
+            <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <span>Theme</span>
+                <img src="image/drop-down.png">
+            </button>
+            <ul class="dropdown-menu">
+                <li><input type="checkbox"> Dark</li>
+                <li><input type="checkbox"> Light</li>
+            </ul>
+            <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <span>Skill</span>
+                <img src="image/drop-down.png">
+            </button>
+            <ul class="dropdown-menu">
+                <li><input type="checkbox"> Dance</li>
+                <li><input type="checkbox"> Reading</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- NAvbar  -->
+
+    <nav class="navbar navbar-expand-lg d-flex row flex-row justify-content-end">
+        <div class="container-fluid d-flex flex-row col-xs-2 col">
+            <button class="w3-button w3-xlarge w3-left navbar-toggler" onclick="openLeftMainMenu()"
+                data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <img src="image/list.png" alt="" srcset="">
+            </button>
+            <div class="collapse navbar-collapse left gotoMainbar" id="navbarNav">
+                <a href="#" class="logo">Stories</a>
+                <div class="dropdown">
+                    <a class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        Policy <img src="image/drop-down.png">
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <div class="d-flex right col-xs-10 col">
+            <!-- <img src="image/user-img-large.png" class="profileLogo"> -->
+            <div class="bellSearch d-flex align-content-center">
+                <!-- Only For Mobile View Only  -->
+                <img src="image/search.png" class="searchButtonMonitor" alt=""></button>
+                <img src="image/bell.png" alt="">
+            </div>
+
+            <div class="dropdown">
+                <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="image/user-img-large.png" class="profileLogo">
+                    <span class="gotoMainbar">Evan Donohue</span> <img src="image/drop-down.png" class="gotoMainbar">
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Action</a></li>
+                    <li><a class="dropdown-item" href="#">Another </a></li>
+                    <li><a class="dropdown-item" href="#">Something</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- second Header  -->
+    <div class="container-fluid secondHeaderParent">
+        <div class="container d-flex secondHeader justify-content-center">
+            <div class="row d-flex justify-content-between">
+                <div class="col d-flex search justify-content-start">
+                    <form class="d-flex" role="search">
+                        <button class="btn gotoSidebar" type="submit"><img src="image/search.png" alt=""></button>
+                        <input class="form-control me-2" type="search" placeholder="Search Mission..."
+                            aria-label="Search">
+                    </form>
+                    <button class="w3-button w3-xlarge w3-left filterBurger" onclick="openLeftFilterMenu()"><img
+                            src="image/filter.png" alt="" srcset=""></button>
+                </div>
+                <div class="col d-flex justify-content-end filter gotoSidebar">
+                    <div class="dropdown d-flex align-items-center">
+                        <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <span>Country</span>
+                            <img src="image/drop-down.png">
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </div>
+                    <div class="dropdown d-flex align-items-center">
+                        <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <span>City</span>
+                            <img src="image/drop-down.png">
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </div>
+                    <div class="dropdown d-flex align-items-center">
+                        <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <span>Theme</span>
+                            <img src="image/drop-down.png">
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </div>
+                    <div class="dropdown d-flex align-items-center">
+                        <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <span>Skill</span>
+                            <img src="image/drop-down.png">
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- missions List  -->
+
+    <!-- <div class="container d-flex ">
+        <div class="row">
+            <div class="card col-lg-4 col-md-6 col-xs-12">
+                <img src="image/Grow-Trees-On-the-path-to-environment-sustainability-1.png" class="card-img-top"
+                    alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+
+            <div class="card col-lg-4 col-md-6 col-xs-12">
+                <img src="image/Grow-Trees-On-the-path-to-environment-sustainability-1.png" class="card-img-top"
+                    alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+
+            <div class="card col-lg-4 col-md-6 col-xs-12">
+                <img src="image/Grow-Trees-On-the-path-to-environment-sustainability-1.png" class="card-img-top"
+                    alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+    <!-- <button class="w3-button w3-teal w3-xlarge w3-left" onclick="openLeftMainMenu()">&#9776;</button> -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+        integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
+        crossorigin="anonymous"></script>
+    <script src="js/sidebarJs.js"></script>
+
+</html>
