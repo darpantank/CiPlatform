@@ -26,8 +26,9 @@
         <button onclick="closeLeftFilterMenu()" class="w3-bar-item w3-button w3-large"><img src="image/cancel.png"
                 alt="" srcset=""></button>
         <!-- Filters dropdown Sidebar  -->
+
         <div class="dropdown mysidebar">
-            <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="true">
+            <button class="btn dropdown-toggle w-100 d-flex justify-content-between align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="true">
                 <span>Country</span>
                 <img src="image/drop-down.png">
             </button>
@@ -35,7 +36,9 @@
                 <li><input type="checkbox"> India</li>
                 <li><input type="checkbox"> USA</li>
             </ul>
-            <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        </div>
+        <div class="dropdown mysidebar">
+            <button class="btn dropdown-toggle w-100 d-flex justify-content-between align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <span>City</span>
                 <img src="image/drop-down.png">
             </button>
@@ -43,7 +46,9 @@
                 <li><input type="checkbox"> Ahmedabad</li>
                 <li><input type="checkbox"> Delhi</li>
             </ul>
-            <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        </div>
+        <div class="dropdown mysidebar">
+            <button class="btn dropdown-toggle w-100 d-flex justify-content-between align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <span>Theme</span>
                 <img src="image/drop-down.png">
             </button>
@@ -51,7 +56,9 @@
                 <li><input type="checkbox"> Dark</li>
                 <li><input type="checkbox"> Light</li>
             </ul>
-            <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        </div>
+        <div class="dropdown mysidebar">
+            <button class="btn dropdown-toggle w-100 d-flex justify-content-between align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <span>Skill</span>
                 <img src="image/drop-down.png">
             </button>
@@ -65,7 +72,7 @@
     <!-- NAvbar  -->
 
     <nav class="navbar navbar-expand-lg d-flex row flex-row justify-content-end">
-        <div class="container-fluid d-flex flex-row col-xs-2 col">
+        <div class="container-fluid d-flex flex-row col">
             <button class="w3-button w3-xlarge w3-left navbar-toggler" onclick="openLeftMainMenu()"
                 data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -86,11 +93,11 @@
             </div>
 
         </div>
-        <div class="d-flex right col-xs-10 col">
+        <div class="d-flex right col">
             <!-- <img src="image/user-img-large.png" class="profileLogo"> -->
             <div class="bellSearch d-flex align-content-center">
                 <!-- Only For Mobile View Only  -->
-                <img src="image/search.png" class="searchButtonMonitor" alt=""></button>
+                <img src="image/search.png" class="searchButtonMonitor" alt="" onclick="openSecondHeader()"></button>
                 <img src="image/bell.png" alt="">
             </div>
 
@@ -99,7 +106,7 @@
                     <img src="image/user-img-large.png" class="profileLogo">
                     <span class="gotoMainbar">Evan Donohue</span> <img src="image/drop-down.png" class="gotoMainbar">
                 </button>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu dropdown-menu-end">
                     <li><a class="dropdown-item" href="#">Action</a></li>
                     <li><a class="dropdown-item" href="#">Another </a></li>
                     <li><a class="dropdown-item" href="#">Something</a></li>
@@ -109,7 +116,7 @@
     </nav>
 
     <!-- second Header  -->
-    <div class="container-fluid secondHeaderParent">
+    <div class="container-fluid secondHeaderParent" id="secondHeader">
         <div class="container d-flex secondHeader justify-content-center">
             <div class="row d-flex justify-content-between">
                 <div class="col d-flex search justify-content-start">
@@ -176,12 +183,37 @@
     </div>
 
 
+    <!-- Applied Filter Showcase -->
+
+    <div class="container AppliedFilter w-100">
+        <div class="row d-flex justify-content-center" id="myList">
+            <div class="col d-flex align-items-center justify-content-between"><p>Delhi</p><img src="image/cancel.png" onclick="deleteFilter(this)"></div>
+            <div class="col d-flex align-items-center justify-content-between"><p>Natural</p><img src="image/cancel.png" onclick="deleteFilter(this)"></div>
+            <div class="col d-flex align-items-center justify-content-between"><p>India</p><img src="image/cancel.png" onclick="deleteFilter(this)"></div>
+            <div class="col d-flex align-items-center justify-content-between"><p>Volunterring</p><img src="image/cancel.png" onclick="deleteFilter(this)"></div>
+            <div class="col d-flex align-items-center justify-content-between"><p>Tree Plantation</p><img src="image/cancel.png" onclick="deleteFilter(this)"></div>
+            <div class="col d-flex align-items-center justify-content-between"><p>Nutrition</p><img src="image/cancel.png" onclick="deleteFilter(this)"></div>
+            <div class="col d-flex align-items-center justify-content-between"><p>Environment</p><img src="image/cancel.png" onclick="deleteFilter(this)"></div>
+            <div class="col d-flex align-items-center justify-content-between"><p>Volunterring</p><img src="image/cancel.png" onclick="deleteFilter(this)"></div>
+            <div class="col d-flex align-items-center justify-content-between"><p>Tree Plantation</p><img src="image/cancel.png" onclick="deleteFilter(this)"></div>
+            <div class="col d-flex align-items-center justify-content-between"><p>Nutrition</p><img src="image/cancel.png" onclick="deleteFilter(this)"></div>
+            <div class="col d-flex align-items-center justify-content-between"><p>Environment</p><img src="image/cancel.png" onclick="deleteFilter(this)"></div>
+            <div class="col d-flex align-items-center justify-content-between"><p>Environment</p><img src="image/cancel.png" onclick="deleteFilter(this)"></div>
+            <div class="col d-flex align-items-center justify-content-between"><p>Volunterring</p><img src="image/cancel.png" onclick="deleteFilter(this)"></div>
+            <div class="col d-flex align-items-center justify-content-between"><p>Tree Plantation</p><img src="image/cancel.png" onclick="deleteFilter(this)"></div>
+            <div class="col d-flex align-items-center justify-content-between"><p>Nutrition</p><img src="image/cancel.png" onclick="deleteFilter(this)"></div>
+            <div class="col d-flex align-items-center justify-content-between"><p>Environment</p><img src="image/cancel.png" onclick="deleteFilter(this)"></div>
+        </div>
+    </div>
+
+    <!-- <button onclick="addFilter()">Clcik</button> -->
 
     <!-- missions List  -->
 
-    <!-- <div class="container d-flex ">
-        <div class="row">
+    <div class="container d-flex ">
+        <div class="row justify-content-center">
             <div class="card col-lg-4 col-md-6 col-xs-12">
+                <p class="missionCity">London</p>
                 <img src="image/Grow-Trees-On-the-path-to-environment-sustainability-1.png" class="card-img-top"
                     alt="...">
                 <div class="card-body">
@@ -214,7 +246,7 @@
                 </div>
             </div>
         </div>
-    </div> -->
+    </div>
 
     <!-- <button class="w3-button w3-teal w3-xlarge w3-left" onclick="openLeftMainMenu()">&#9776;</button> -->
 

@@ -17,3 +17,21 @@ function openLeftFilterMenu() {
   function closeLeftMainMenu() {
     document.getElementById("leftMainMenu").style.display = "none";
   }
+  function addFilter(){
+    var img = document.createElement("img");
+    img.src = "image/cancel.png";
+    img.setAttribute('onclick', 'deleteFilter(this);');
+    var namep=document.createElement("p");
+    // name.className="";
+    const nameText= document.createTextNode("abc");
+    namep.appendChild(nameText);
+    const node = document.createElement("div");
+    node.className="col d-flex align-items-center justify-content-between";
+  node.appendChild(namep);
+  node.appendChild(img)
+  document.getElementById("myList").appendChild(node);
+  }
+  function deleteFilter(mytag){
+    mytag.parentNode.parentNode.removeChild(mytag.parentNode);
+
+  }
