@@ -1,155 +1,284 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-* {box-sizing: border-box;
-    font-family: Noto  Sans;
-margin: 0;
-padding: 0;}
-body { 
-  margin: 0;
+
+* {
+    box-sizing: border-box;
+    font-family: Noto Sans;
+    margin: 0;
+    padding: 0;
 }
-nav{
+
+body {
+    margin: 0;
+}
+
+nav {
     margin: 0 !important;
     padding: 0 !important;
     margin-bottom: 10px !important;
 }
-.header{
+
+.header {
     margin-top: 16px;
 }
-.left a{
-    padding:0 20px;
+
+.left a {
+    padding: 0 20px;
     text-decoration: none;
-    color:#333333;
+    color: #333333;
 }
-.profileLogo{
+
+.profileLogo {
     height: 40px;
     width: 40px;
     border-radius: 100%;
 }
-.left{
+
+.left {
     justify-content: center !important;
 }
-.right{
+
+.right {
     justify-content: center !important;
 }
-.right a{
+
+.right a {
     text-decoration: none;
 }
-.userName{
+
+.userName {
     font-size: 15px;
     color: #333333;
 }
+
 .dropdown-toggle::after {
     content: none !important;
 }
-.secondHeader col{
+
+.secondHeader col {
     border-right: 2px solid black !important;
 }
-.secondHeaderParent{
-    border-top:1px solid black !important;
-    border-bottom:2px solid black !important;
+
+.secondHeaderParent {
+    border-top: 1px solid black !important;
+    border-bottom: 1.5px solid black !important;
     margin: 0 !important;
     padding: 0 !important;
 }
-.filter .dropdown{
+
+.filter .dropdown {
     /* border:0 1px solid #333333; */
-    height:78px;
+    height: 78px;
 }
-::placeholder{
+
+::placeholder {
     font-size: 20px;
 }
-.search img{
+
+.search img {
     width: 22px;
     height: 22px;
 }
-.search input{
-    border:none !important;
+
+.search input {
+    border: none !important;
     font-size: 20px;
 }
-.dropdown button{
-    padding:0 40px;
+
+.dropdown button {
+    padding: 0 40px;
 }
-.w3-sidebar button{
+
+.w3-sidebar button {
     text-align: right !important;
 }
-.w3-sidebar img{
+
+.w3-sidebar img {
     width: 10px;
     /* height: 10px; */
 }
-.sidebarClosingButton{
+
+.sidebarClosingButton {
     width: 15px;
     height: 15px;
 }
-.w3-sidebar .dropdown-menu{
+
+.w3-sidebar .dropdown-menu {
     z-index: 111;
 }
-.mysidebar button{
-    margin:10px 0;
+
+.mysidebar button {
+    margin: 10px 0;
 }
-.filterBurger{
+
+.filterBurger {
     display: none !important;
 }
-.bellSearch img{
+
+.bellSearch img {
     padding: 0 20px;
     height: 21px;
     width: auto;
     margin-top: 10px;
 }
-.card{
+
+.card {
     max-width: 460px;
     max-height: 618px;
-    padding:10px;
+    padding: 10px;
 }
-.searchButtonMonitor{
+
+.searchButtonMonitor {
     display: none;
 }
-.mysidebar ul{
+
+.mysidebar ul {
     position: static !important;
     transform: translate3d(0px, 0px, 0px) !important;
-    border:none !important;
+    border: none !important;
     padding-left: 1rem;
 }
-.AppliedFilter{
+
+.AppliedFilter {
     margin-top: 20px;
-    max-height:10% ;
+    max-height: 10%;
 }
-.AppliedFilter p{
+
+.AppliedFilter p {
     margin: 0 !important;
     clear: both !important;
-    
-    
+
+
 }
-.AppliedFilter .col{
-    border:0.5px solid #e8e8e8;
-    margin:10px;
+
+.AppliedFilter .col {
+    border: 0.5px solid #e8e8e8;
+    margin: 10px;
     padding: 7px;
     border-radius: 25px;
     max-width: fit-content;
 }
-.AppliedFilter img{
-    padding:0 5px;
+
+.AppliedFilter img {
+    padding: 0 5px;
 }
+
 .AppliedFilter .col {
     flex: none !important;
 }
-.missionCity{
+
+.missionCityGridView {
     position: absolute;
-    padding:7px;
-    background-color: #000000;
-    color:#ffffff;
+    padding: 7px;
+    background-color: rgb(0, 0, 0, 0.4);
+    color: #ffffff;
     border-radius: 25px;
-    opacity: 0.5;
-    right:15px;
-    top:15px;
+    right: 15px;
+    top: 15px;
 }
+
+.missionLikeGridView {
+    position: absolute;
+    right: 5%;
+    top: 20%;
+}
+
+.missionLikeGridView i {
+    margin: 10px;
+    font-size: 18px;
+    background-color: rgb(0, 0, 0, 0.4);
+    color: #FFFFFF;
+    padding: 5px 10px;
+    border-radius: 20px;
+}
+
+.missionImgGridView {
+    max-height: 220px;
+    max-width: 460px;
+}
+
+.missionCategoryDiv {
+    margin-top: -7%;
+    color: #414141;
+
+}
+
+.missionCategoryGridView {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    padding: 5px 10px;
+    border-radius: 17.5px;
+    margin: 0 !important;
+}
+
+.noOfMission {
+    font-size: 24px;
+}
+
+.noOfMission b {
+    font-size: 28px;
+}
+
+.card {
+    border: none !important;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 0px 25px #0000000F;
+    border-radius: 3px;
+}
+
+.leftRightBorder {
+    border-left: 0.5px solid black;
+    border-right: 0.5px solid black;
+}
+
+.leftBorder {
+    border-left: 0.5px solid black;
+}
+
+.card .card-title {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #414141;
+}
+
+.card .card-text {
+    font-size: 1rem;
+    color: #757575;
+}
+
+.ratingStar {
+    --bs-gutter-x: 0 !important;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+
+}
+
+.ratingStar .col {
+    margin: 0 !important;
+    padding: 0 !important;
+    --bs-gutter-x: 0 !important;
+
+}
+.missionDatesGridView{
+    font-size: 15px;
+    color: #414141;
+    text-align: center;
+}
+
 @media only screen and (max-width: 992px) {
-    .gotoSidebar,.gotoMainbar{
+
+    .gotoSidebar,
+    .gotoMainbar,
+    .hideOnSmallScreen {
         display: none !important;
     }
-    .filterBurger{
+
+    .filterBurger {
         display: block !important;
     }
-    .searchButtonMonitor{
+
+    .searchButtonMonitor {
         display: block;
     }
+
     .dropdown button {
         padding: 0 0px;
     }
