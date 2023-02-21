@@ -33,5 +33,4 @@ function openLeftFilterMenu() {
   }
   function deleteFilter(mytag){
     mytag.parentNode.parentNode.removeChild(mytag.parentNode);
-
   }
