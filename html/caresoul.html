@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>image</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style>
+        .wrapper img{
+            height:300px;
+            width:300px;
+        }
+        .image-wrapper img{
+            width:auto
+        }
+        .image-wrapper{
+            width:100%;
+        }
+    </style>
+</head>
+<body>
+    <section class="wrapper">
+        <img src="image/Grow-Trees-On-the-path-to-environment-sustainability-1.png" alt="" id="mainPhoto">
+        <div class="image-wrapper">
+            <img src="image/Grow-Trees-On-the-path-to-environment-sustainability-1.png" alt="" class="imgCarousel">
+            <img src="image/Grow-Trees-On-the-path-to-environment-sustainability-1.png" alt="" class="imgCarousel">
+            <img src="image/Already-volunteered.png" alt="" class="imgCarousel">
+            <img src="image/Grow-Trees-On-the-path-to-environment-sustainability-1.png" alt="" class="imgCarousel">
+            <img src="image/Grow-Trees-On-the-path-to-environment-sustainability-1.png" alt="" class="imgCarousel">
+        </div>
+    </section>
+    <script>
+        let image= Array.from(document.getElementsByClassName("imgCarousel"));
+        let mainphoto = document.getElementById("mainPhoto");
+        function updateimage(event){
+            let image=event.target;
+            mainphoto.src=image.src;
+        }
+        image.forEach(function(image){
+            image.addEventListener('click',updateimage);
+        });
+    </script>
+</body>
+</html>
