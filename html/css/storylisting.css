@@ -45,16 +45,16 @@
     border:1px solid white;
     border-radius: 25px;
 }
-.imgDiv:hover{
+.card:hover .imgDiv{
     background-color: black;
 }
-.imgDiv:hover .viewDetailsHoverButton{
+.card:hover .viewDetailsHoverButton{
     display: flex !important;
     justify-content: center;
     align-items: center;
     z-index: 11;
 }
-.imgDiv:hover img{
+.card:hover .imgDiv>img{
     opacity: 0.5;
 
 }
