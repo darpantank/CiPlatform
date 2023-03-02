@@ -1,0 +1,76 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+p{
+    margin-bottom: 0 !important;
+}
+.imgCarouselDiv img{
+    width: 100%;
+    height: 100%;
+}
+.StoryOwnerPic{
+    border-radius: 100%;
+    height:100px;
+    width: 100px;
+    
+}
+.noOfView{
+    padding: 5px 10px;
+    border:1px solid #E8E8E8;
+    border-radius: 25px;
+}
+.storyDetailsText{
+    font-size: 17px;
+    color:#414141; 
+    text-align: justify;
+    /* text-justify:auto; */
+}
+.StoryButtons button{
+    padding: 10px;
+    border: 2px solid;
+    font-size: 20px;
+    border-radius: 25px;
+}
+.recommendButton{
+    border-color: #757575 !important;
+    color: #757575;
+}
+.openMissionButton{
+    border-color: #F88634 !important;
+    color: #F88634;
+}
+.headingOfMissionStoryText{
+    font-size: 21px;
+    margin-block-start:0 !important;
+    border-bottom: 1px solid #E8E8E8;
+
+}
+hr{
+    margin: 0 !important;
+}
+.smallBackGroundline{
+    width: 150px;
+    height: 2px !important;
+    background-color: #474747;
+}
+@media only screen and (max-width: 768px) {
+    .StoryOwnerPic{
+        height: 50px;
+        width: 50px;
+    }
+    .StoryButtons{
+        flex-direction: column !important;
+    }
+    .StoryButtons button{
+        margin-top:15px;
+        font-size: 16px;
+    }
+}
+@media only screen and (min-width: 992px) and (max-width: 1200px) {
+    .StoryButtons button{
+        padding: 5px;
+        border: 1px solid;
+        font-size: 16px;
+    }
+}

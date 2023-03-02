@@ -15,12 +15,13 @@
 </head>
 
 <body>
+    <div class="container-fluid g-0"  id="headerIncludedTag"></div>
     <div class="container">
         <p class="titleOfStory">
             Share Your Story
         </p>
         <div class="row mt-5">
-            <div class="col">
+            <div class="col-md-12 col-lg-4">
                 <div class="form-group">
                     <div class="rightArrow"><i class="bi bi-chevron-down"></i></div>
                     <label for="storytitle">Select Mission</label>
@@ -30,26 +31,15 @@
                         <option value="Animal Wellfare">Animal Wellfare</option>
                         <option value="Volunteering">Volunteering</option>
                     </select>
-                    <!-- <div class="dropdown w-100">
-                        <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                          Select Your Mission
-                        </button>
-                        <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" href="#">Action</a></li>
-                          <li><a class="dropdown-item" href="#">Another action</a></li>
-                          <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                      </div>
-                  </div> -->
                 </div>
             </div>
-            <div class="col">
+            <div class="col-md-12 col-lg-4">
                 <div class="form-group">
                     <label for="storytitle">My Story Title</label>
                     <input type="text" class="form-control" name="titleOfStory" placeholder="Enter Story Title">
                 </div>
             </div>
-            <div class="col">
+            <div class="col-md-12 col-lg-4">
                 <div class="form-group">
                     <label for="storytitle">Date</label>
                     <input type="text" class="form-control" name="dateOfStory" placeholder="Select Date">
@@ -89,7 +79,9 @@
 
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"
         integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-
+        <script src=
+        "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+            </script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
         integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
         crossorigin="anonymous"></script>
@@ -100,6 +92,7 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
     <script src="js/imageUploader.js"></script>
     <script src="js/ckeditor.js"></script>
+    <script src="js/add_navbar.js"></script>
 </body>
 
 </html>

@@ -11,3 +11,24 @@
 .ck-editor__editable_inline {
     min-height: 150px;
 }
+.plusIcon{
+    /* width:100px; */
+    color: #414141;
+    font-size: 70px;
+}
+.UploadTextMsg{
+    font-size: 18px;
+    color: #414141;
+}
+.btn{
+    border: 1px solid black !important;
+    border-radius: 25px;
+    margin:8px 3px;
+}
+.rightButtons .btn{
+    border-color: #F88634 !important;
+    color:#F88634 !important;
+}
+.ck-dropdown,.ck-disabled,.ck-toolbar__separator{
+    display: none !important;
+}

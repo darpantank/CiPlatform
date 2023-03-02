@@ -1,0 +1,60 @@
+<html>
+    <head>
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    </head>
+    <body>
+        <div class="w3-sidebar w3-bar-block w3-card w3-animate-left myMainSideBar" style="display:none" id="leftMainMenu">
+            <button onclick="closeLeftMainMenu()" class="w3-bar-item w3-button w3-large"> <img src="image/cancel.png"
+                    class="sidebarClosingButton" alt="" srcset=""></button>
+            <a href="#" class="w3-bar-item w3-button">Explore</a>
+            <a href="#" class="w3-bar-item w3-button">Story</a>
+            <a href="#" class="w3-bar-item w3-button">Policy</a>
+        </div>
+        <nav class="navbar navbar-expand-lg row d-flex  flex-row justify-content-end">
+            <div class="container-fluid d-flex flex-row col">
+                <button class="w3-button w3-xlarge w3-left navbar-toggler" onclick="openLeftMainMenu()"
+                    data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <img src="image/list.png" alt="" srcset="">
+                </button>
+                <div class="collapse navbar-collapse left gotoMainbar" id="navbarNav">
+                    <a href="#" class="logo">Stories</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            Policy <img src="image/drop-down.png">
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </div>
+                </div>
+        
+            </div>
+            <div class="d-flex right col">
+                <!-- <img src="image/user-img-large.png" class="profileLogo"> -->
+                <div class="bellSearch d-flex align-content-center">
+                    <!-- Only For Mobile View Only  -->
+                    <img src="image/search.png" class="searchButtonMonitor" alt="" onclick="openSecondHeader()"></button>
+                    <img src="image/bell.png" alt="">
+                </div>
+        
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="image/user-img-large.png" class="profileLogo">
+                        <span class="gotoMainbar">Evan Donohue</span> <img src="image/drop-down.png" class="gotoMainbar">
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another </a></li>
+                        <li><a class="dropdown-item" href="#">Something</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <script src="js/sidebarJs.js"></script>
+    </body>
+</html>

@@ -75,24 +75,4 @@ p {
         position: relative;
         padding-bottom: 100%;
     }
-    .plusIcon{
-        /* width:100px; */
-        color: #414141;
-        font-size: 70px;
-    }
-    .UploadTextMsg{
-        font-size: 18px;
-        color: #414141;
-    }
-    .btn{
-        border: 1px solid;
-        border-radius: 25px;
-        margin:8px 3px;
-    }
-    .rightButtons .btn{
-        border-color: #F88634;
-        color:#F88634;
-    }
-    .ck-dropdown,.ck-disabled,.ck-toolbar__separator{
-        display: none !important;
-    }
+
