@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/editProfile.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+</head>
+
+<body>
+    <!-- Modal For Change PassWord  -->
+    <div class="modal fade" id="ModalForPassWordChange" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Change Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="post">
+                        <div class="form-group mb-3">
+                            <label class="form-label">Enter old password</label>
+                            <input type="password" class="form-control" name="oldPassWord"
+                                placeholder="Enter Your Old PassWord">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label">Enter New Password</label>
+                            <input type="password" class="form-control" name="newPassWord"
+                                placeholder="Enter Your New Password">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label">Enter Confirm Password</label>
+                            <input type="password" class="form-control" name="newPassWord1"
+                                placeholder="Enter Your New Password">
+                        </div>
+                        <div class="d-flex mt-3 justify-content-end buttonsOfModal">
+                            <button class="btn AddSkillButton">Cancel</button>
+                            <button class="btn AddSkillButton orangeButton">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Skill Modal  -->
+
+    <div class="modal fade" id="ModalForAddSkills" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modalDialogForSkills">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add Your Skills</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Modal Body
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid g-0" id="headerIncludedTag"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-3">
+                <div class="profileEditTag mt-5">
+                    <img src="image/user-img-large.png" class="profilePic" alt="Volunteer" srcset="">
+                    <p class="nameOfuser">
+                        Evan Donhulde
+                    </p>
+                    <button class="btn" data-bs-toggle="modal" data-bs-target="#ModalForPassWordChange">Change
+                        Password</button>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-9">
+                <div class="ProfileEditTag mt-5">
+                    <div class="d-flex basicInfoTag">
+                        <p class="basicInfoTagText">
+                            Basic Information
+                        </p>
+                    </div>
+                    <div class="InputFields row">
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label class="form-label">Name</label>
+                            <input type="text" class="form-control" name="nameOfUser" placeholder="Enter Your Name">
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label class="form-label">Surname</label>
+                            <input type="text" class="form-control" name="nameOfUser" placeholder="Enter Your Surname">
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label class="form-label">Employee Id</label>
+                            <input type="text" class="form-control" name="nameOfUser"
+                                placeholder="Enter Your Employee Id">
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label class="form-label">Manager</label>
+                            <input type="text" class="form-control" name="nameOfUser" placeholder="Enter Your Manager">
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label class="form-label">Title</label>
+                            <input type="text" class="form-control" name="nameOfUser" placeholder="Enter Your Title">
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label class="form-label">Department</label>
+                            <input type="text" class="form-control" name="nameOfUser"
+                                placeholder="Enter Your Department">
+                        </div>
+                        <div class="form-group col-12">
+                            <label class="form-label">My Profile</label>
+                            <textarea class="form-control" placeholder="Enter Your comment ..." id="floatingTextarea2"
+                                style="height: 100px"></textarea>
+                        </div>
+                        <div class="form-group col-12">
+                            <label class="form-label">Why I Volunteer ?</label>
+                            <textarea class="form-control" placeholder="Enter Your comment ..." id="floatingTextarea2"
+                                style="height: 100px"></textarea>
+                        </div>
+
+                    </div>
+
+                    <div class="d-flex basicInfoTag mt-4">
+                        <p class="basicInfoTagText">
+                            Address Information
+                        </p>
+                    </div>
+                    <div class="InputFields row">
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label class="form-label">City</label>
+                            <input type="text" class="form-control" name="city" placeholder="Enter Yuur City">
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label class="form-label">Country</label>
+                            <select class="form-select" id="userCountry" aria-label="Select your Country">
+                                <option disabled selected hidden>Select your Countery</option>
+                                <option value="1">india</option>
+                                <option value="2">USA</option>
+                                <option value="3">Canada</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="d-flex basicInfoTag mt-4">
+                        <p class="basicInfoTagText">
+                            Professional Information
+                        </p>
+                    </div>
+                    <div class="InputFields row">
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label class="form-label">Availability</label>
+                            <select class="form-select" id="userCountry" aria-label="Select your Country">
+                                <option disabled selected hidden>Select your Availability</option>
+                                <option value="1">Free</option>
+                                <option value="2">Busy</option>
+                                <option value="3">Half Day</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6">
+                            <label class="form-label">LinkedIn</label>
+                            <input type="text" class="form-control" name="country" placeholder="Enter Your Country">
+                        </div>
+                    </div>
+                    <div class="d-flex basicInfoTag mt-4">
+                        <p class="basicInfoTagText">
+                            My Skills
+                        </p>
+                    </div>
+                    <div class="form-group col-12">
+                        <div class="textAreaofsKILLS mt-4">
+                            <ul>
+                                <li>Anthropology</li>
+                                <li>Archeology</li>
+                                <li>Astronomy</li>
+                                <li>Computer</li>
+                                <li>Science</li>
+                                <li>Environmental</li>
+                                <li>Science</li>
+                                <li>History</li>
+                            </ul>
+                        </div>
+                        <div class="d-flex mt-3">
+                            <button class="btn AddSkillButton" data-bs-toggle="modal" data-bs-target="#ModalForAddSkills">Add Skills</button>
+                        </div>
+                    </div>
+                    <div class="d-flex mt-3 justify-content-end">
+                        <button class="btn AddSkillButton orangeButton">Save</button>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+        integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+        integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
+        crossorigin="anonymous"></script>
+    <script src="js/add_navbar.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,63 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.profileEditTag{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding:15px;
+    border:0.5px solid #D9D9D9;
+}
+.profilePic{
+    height:150px;
+    width: 150px;
+    border-radius: 100%;
+}
+.nameOfuser{
+    font-size: 22px;
+    margin: 0 !important;
+}
+.basicInfoTagText{
+    font-size: 19px;
+    margin: 0 !important;
+    max-width: fit-content;
+    border-bottom: 2px solid #414141;
+}
+.basicInfoTag{
+    border-bottom: 1px solid #D9D9D9;
+}
+.InputFields{
+    margin-top: 15px !important;
+}
+
+.textAreaofsKILLS{
+    display: block;
+    width: 100%;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #414141;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+}
+.textAreaofsKILLS ul{
+    list-style: none !important;
+    margin-bottom: 0.5rem !important;
+    padding-left: 1rem !important;
+}
+.AddSkillButton{
+    padding: 7px 12px;
+    border:2px solid #757575;
+    border-radius: 25px;
+    color:#757575;
+}
+.orangeButton{
+    border-color: #F88634;
+    color:#F88634;
+}
+.modalDialogForSkills{
+    min-width: 50vw !important;
+}
