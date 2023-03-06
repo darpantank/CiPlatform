@@ -1,37 +1,43 @@
-*{
+* {
     margin: 0;
     padding: 0;
 }
-.profileEditTag{
+
+.profileEditTag {
     display: flex;
     align-items: center;
     flex-direction: column;
-    padding:15px;
-    border:0.5px solid #D9D9D9;
+    padding: 15px;
+    border: 0.5px solid #D9D9D9;
 }
-.profilePic{
-    height:150px;
+
+.profilePic {
+    height: 150px;
     width: 150px;
     border-radius: 100%;
 }
-.nameOfuser{
+
+.nameOfuser {
     font-size: 22px;
     margin: 0 !important;
 }
-.basicInfoTagText{
+
+.basicInfoTagText {
     font-size: 19px;
     margin: 0 !important;
     max-width: fit-content;
     border-bottom: 2px solid #414141;
 }
-.basicInfoTag{
+
+.basicInfoTag {
     border-bottom: 1px solid #D9D9D9;
 }
-.InputFields{
+
+.InputFields {
     margin-top: 15px !important;
 }
 
-.textAreaofsKILLS{
+.textAreaofsKILLS {
     display: block;
     width: 100%;
     font-size: 0.875rem;
@@ -40,24 +46,59 @@
     color: #414141;
     background-color: #fff;
     background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
 }
-.textAreaofsKILLS ul{
+
+.textAreaofsKILLS select {
     list-style: none !important;
     margin-bottom: 0.5rem !important;
     padding-left: 1rem !important;
 }
-.AddSkillButton{
+
+.AddSkillButton {
     padding: 7px 12px;
-    border:2px solid #757575;
+    border: 2px solid #757575;
     border-radius: 25px;
-    color:#757575;
+    color: #757575;
 }
-.orangeButton{
+
+.orangeButton {
     border-color: #F88634;
-    color:#F88634;
+    color: #F88634;
 }
-.modalDialogForSkills{
+
+.modalDialogForSkills {
     min-width: 50vw !important;
+    min-height: 60vh !important;
 }
+
+.listboxes {
+    width: 100% !important;
+    height: 50vh;
+    overflow: auto;
+}
+
+.leftRightButton img {
+    width: 10px;
+    height: 15px;
+}
+
+.mainSkillBox {
+    width: 100% !important;
+    border-color: #ced4da;
+    overflow: auto;
+    height: 120px;
+}
+@media (max-width: 576px) {
+    .listboxes {
+        height: auto !important;
+    }
+    #btnRight{
+        transform: rotate(90deg);
+    }
+    #btnLeft{
+        transform: rotate(90deg);
+    }
+    .leftRightButton {
+        flex-direction: row !important;
+    }
+ }

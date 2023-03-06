@@ -50,8 +50,7 @@
 
     <!-- Add Skill Modal  -->
 
-    <div class="modal fade" id="ModalForAddSkills" tabindex="-1" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="ModalForAddSkills" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modalDialogForSkills">
             <div class="modal-content">
                 <div class="modal-header">
@@ -59,7 +58,38 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Modal Body
+                    <div class="TotalItems">
+                        <div class="row g-0 d-flex justify-content-center gap-1">
+                            <div class="col-xs-11 col-sm-5">
+                                <select class="listboxes" multiple="multiple" id='lstBox1'>
+                                    <option value="ajax">Ajax</option>
+                                    <option value="jquery">jQuery</option>
+                                    <option value="javascript">JavaScript</option>
+                                    <option value="mootool">MooTools</option>
+                                    <option value="prototype">Prototype</option>
+                                    <option value="dojo">Dojo</option>
+                                    <option value="java">java</option>
+                                </select>
+                            </div>
+                            <div class="col-xs-11 col-sm-1 leftRightButton d-flex justify-content-center flex-column">
+                                <button class="btn" id="btnRight"><img src="image/right-arrow1.png" alt=""
+                                        srcset=""></button>
+                                <button class="btn" id="btnLeft"><img src="image/left.png" alt="" srcset=""></button>
+                            </div>
+                            <div class="col-xs-11 col-sm-5">
+                                <select class="listboxes" multiple="multiple" id='lstBox2'>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" id="SaveSkills"
+                                data-bs-dismiss="modal">Save</button>
+                        </div>
+
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -155,9 +185,9 @@
                             <label class="form-label">Availability</label>
                             <select class="form-select" id="userCountry" aria-label="Select your Country">
                                 <option disabled selected hidden>Select your Availability</option>
-                                <option value="1">Free</option>
-                                <option value="2">Busy</option>
-                                <option value="3">Half Day</option>
+                                <option value="1">Weekly</option>
+                                <option value="2">Monthly</option>
+                                <option value="3">Yearly</option>
                             </select>
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
@@ -172,19 +202,16 @@
                     </div>
                     <div class="form-group col-12">
                         <div class="textAreaofsKILLS mt-4">
-                            <ul>
-                                <li>Anthropology</li>
-                                <li>Archeology</li>
-                                <li>Astronomy</li>
-                                <li>Computer</li>
-                                <li>Science</li>
-                                <li>Environmental</li>
-                                <li>Science</li>
-                                <li>History</li>
-                            </ul>
+                            <select class="mainSkillBox" multiple="multiple" id="lstBoxMain">
+                                <option value="Ruby On Rails">Ruby On Rails</option>
+                                <option value="Python">Python</option>
+                                <option value="JBPM">JBPM</option>
+                                <option value="java">java</option>
+                            </select>
                         </div>
                         <div class="d-flex mt-3">
-                            <button class="btn AddSkillButton" data-bs-toggle="modal" data-bs-target="#ModalForAddSkills">Add Skills</button>
+                            <button class="btn AddSkillButton" data-bs-toggle="modal"
+                                data-bs-target="#ModalForAddSkills" id="AddSkills">Add Skills</button>
                         </div>
                     </div>
                     <div class="d-flex mt-3 justify-content-end">
@@ -206,6 +233,7 @@
         integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
         crossorigin="anonymous"></script>
     <script src="js/add_navbar.js"></script>
+    <script src="js/add_skill.js"></script>
 </body>
 
 </html>
