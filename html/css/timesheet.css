@@ -1,0 +1,36 @@
+*{
+    margin: 0;
+    padding: 0;
+    color:#414141;
+}
+.headerOfTimeSheet{
+    font-size: 40px;
+    color: #414141;
+}
+.table td,th{
+    font-size: 14px;
+}
+.table img{
+    width: 19px;
+    height: 19px;
+}
+.card{
+    min-height: 455px !important;    
+}
+@media (max-width: 576px) { 
+    .headerOfTimeSheet{
+        font-size: 24px;}
+    .table td,th{
+        font-size: 9px;
+    }
+    .table img{
+        width: 10px;
+        height: 10px;
+    }
+    
+ }
+ @media (max-width: 991px) {
+    .card{
+        min-height: 0 !important;    
+    }
+ }
