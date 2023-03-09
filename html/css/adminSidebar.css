@@ -1,0 +1,53 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.MySidebar{
+    background-color: #F88634 !important;
+}
+.SmallIcons{
+    width: 22px;
+    height: 22px;
+    margin-left: 10px;
+}
+.nav-item a{
+    color:#FFFFFF;
+}
+.nav-item span{
+    font-size: 18px ;
+
+}
+.nav-item a:hover{
+    color: #F88634;
+    background-color: #FFFFFF;
+}
+li:not(:last-child) {
+    margin-bottom: 15px;
+}
+.UserIcon{
+    content: url("/image/admin/user.png");
+}
+.UserIcon:hover{
+    content: url("/image/admin/user.png");
+}
+.CmsIcon{
+    content: url("/image/admin/cms_active.png");
+}
+.MissionIcon{
+    content:  url("/image/admin/mission.png");
+}
+.ThemeIcon{
+    content:  url("/image/admin/themes.png");
+}
+.SkillIcon{
+   content:  url("/image/admin/skills.png");   
+}
+.ApplicationIcon{
+    content: url("/image/admin/application.png");
+}
+.StoryIcon{
+    content: url("/image/admin/story.png");
+}
+.BannerIcon{
+    content: url("/image/admin/banner.png");
+}

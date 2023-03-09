@@ -12,6 +12,86 @@
 </head>
 
 <body>
+    <!-- Modal For Time BAsed Mission  -->
+    <div class="modal fade" id="ModalForTimeBased" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Please input below Volunteering Hours</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Mission</label>
+                        <input type="text" class="form-control" id="MissionNameTimeBasedModal"
+                            aria-describedby="emailHelp" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Date Volunteerd</label>
+                        <input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    </div>
+                    <div class="d-flex row ">
+
+                        <div class="mb-3 col-6">
+                            <label for="exampleInputEmail1" class="form-label">Hours</label>
+                            <input type="text" class="form-control" id="exampleInputEmail1"
+                                placeholder="Enter Spent Hour" aria-describedby="emailHelp">
+                        </div>
+                        <div class="mb-3 col-6">
+                            <label for="exampleInputEmail1" class="form-label">Minutes</label>
+                            <input type="Minutes" class="form-control" id="exampleInputEmail1"
+                                placeholder="Enter Spent Minute" aria-describedby="emailHelp">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Message</label>
+                        <textarea class="form-control" placeholder="Enter Your Message" id="floatingTextarea2"
+                            style="height: 100px"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal For Goal BAsed Mission  -->
+    <div class="modal fade" id="ModalForGoalBased" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Please input below Volunteering Goal</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Mission</label>
+                        <input type="text" class="form-control" id="MissionNameGoalBasedModal"
+                            aria-describedby="emailHelp" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Actions</label>
+                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Action">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Date Volunteerd</label>
+                        <input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Message</label>
+                        <textarea class="form-control" placeholder="Enter Your Message" id="floatingTextarea2"
+                            style="height: 100px"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container-fluid g-0" id="headerIncludedTag"></div>
     <div class="container mt-5" id="mainDiv">
         <p class="headerOfTimeSheet">Volunteering Timesheet</p>
@@ -33,12 +113,13 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Environment Conservation</td>
+                                    <td class="missionnameTimeBased">Environment Conservation</td>
                                     <td>22/02/2022</td>
                                     <td>1h</td>
                                     <td>30min</td>
                                     <td class="d-flex gap-2">
-                                        <img src="image/editing.png" alt="" srcset="">
+                                        <img src="image/editing.png" class="EditDataTimeBased" alt="" srcset=""
+                                            data-bs-toggle="modal" data-bs-target="#ModalForTimeBased">
                                         <img src="image/delete.png" alt="" srcset="">
                                     </td>
                                 </tr>
@@ -52,7 +133,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title mb-3">Volunteering Goals</h5>
-                        
+
                         <table class="table table-borderless w-100 gap-1">
                             <thead>
                                 <tr>
@@ -64,20 +145,20 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Plantation Programme</td>
+                                    <td class="missionnameGoalBased">Plantation Programme</td>
                                     <td>22/02/2022</td>
                                     <td>0</td>
                                     <td class="d-flex gap-2">
-                                        <img src="image/editing.png" alt="" srcset="">
-                                        <img src="image/delete.png" alt="" srcset="">
+                                        <img src="image/editing.png" alt="" srcset="" data-bs-toggle="modal" data-bs-target="#ModalForGoalBased" class="EditDataGoalBased">
+                                        <img src="image/delete.png" alt="" srcset="" >
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Education Programme</td>
+                                    <td class="missionnameGoalBased">Education Programme</td>
                                     <td>22/02/2022</td>
                                     <td>1</td>
                                     <td class="d-flex gap-2">
-                                        <img src="image/editing.png" alt="" srcset="">
+                                        <img src="image/editing.png" alt="" srcset="" data-bs-toggle="modal" data-bs-target="#ModalForGoalBased" class="EditDataGoalBased">
                                         <img src="image/delete.png" alt="" srcset="">
                                     </td>
                                 </tr>
@@ -101,6 +182,7 @@
         integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
         crossorigin="anonymous"></script>
     <script src="js/add_navbar.js"></script>
+    <script src="js/fetchMission.js"></script>
 </body>
 
 </html>
