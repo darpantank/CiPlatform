@@ -5,24 +5,33 @@
 .MySidebar{
     background-color: #F88634 !important;
 }
-.SmallIcons{
-    width: 22px;
-    height: 22px;
-    margin-left: 10px;
-}
 .nav-item a{
     color:#FFFFFF;
 }
 .nav-item span{
     font-size: 18px ;
-
+    
 }
 .nav-item a:hover{
     color: #F88634;
     background-color: #FFFFFF;
 }
+.activeComponent{
+    color: #F88634;
+    background-color: #FFFFFF;
+}
 li:not(:last-child) {
     margin-bottom: 15px;
+}
+.bi{
+    font-size: 18px !important;
+}
+/* Icon Css */
+/* 
+.SmallIcons{
+    width: 22px;
+    height: 22px;
+    margin-left: 10px;
 }
 .UserIcon{
     content: url("/image/admin/user.png");
@@ -47,7 +56,7 @@ li:not(:last-child) {
 }
 .StoryIcon{
     content: url("/image/admin/story.png");
-}
+} */
 .BannerIcon{
     content: url("/image/admin/banner.png");
-}
+} 

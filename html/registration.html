@@ -96,11 +96,11 @@
               </div>
               <div class="mb-3">
                 <label for="exampleInputPassword" class="form-label text-muted">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword">
+                <input type="password" class="form-control" id="password" >
               </div>
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label text-muted">Confirm Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1">
+                <input type="password" class="form-control" id="confirm_password"><span id='message'></span>
               </div>
               <button type="submit" class="btn w-100">Register</button>
             </form>
@@ -116,6 +116,9 @@
     </div>
   </div>
   <script src="js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+        integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+  <script src="js/validatePassword.js"></script>
 </body>
 
 </html>
