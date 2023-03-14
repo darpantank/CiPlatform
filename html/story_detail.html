@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="css/storyDetails.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="css/imageCaresoul.css">
 </head>
 
 <body>
@@ -45,85 +47,119 @@
         <div class="row">
             <!-- image caresoul Div  -->
             <div class="col-md-12 col-lg-6 imgCarouselDiv">
-                <img src="image/Animal-welfare-&-save-birds-campaign-1.png" alt="" srcset="">
-            </div>
-
-            <!-- mission Details div  -->
-            <div class="col-md-12 col-lg-6">
-                <div class="d-flex justify-content-between align-items-end mt-3">
-                    <div class="nameAndPhoto">
-                        <img src="image/volunteer7.png" alt="" srcset="" class="StoryOwnerPic">
-                        <p class="text-center">John Doe</p>
-                    </div>
-                    <div class="ViewsOfStory">
-                        <p class="noOfView"><img src="image/eye.png" alt="" srcset=""> 12,000 Views</p>
+                <div id="firstDiv">
+                    <img src="image/Grow-Trees-On-the-path-to-environment-sustainability - crop.png" alt=""
+                        class="mainPhoto">
+                </div>
+                <div id="SecondDiv">
+                    <div class="swiper mySwiper">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide"><img class="imgCarousel"
+                                    src="image/Grow-Trees-On-the-path-to-environment-sustainability-1.png" alt=""></div>
+                            <div class="swiper-slide"><img class="imgCarousel"
+                                    src="image/Animal-welfare-&-save-birds-campaign-1.png" alt=""></div>
+                            <div class="swiper-slide"><img class="imgCarousel"
+                                    src="image/CSR-initiative-stands-for-Coffee--and-Farmer-Equity-3.png" alt=""></div>
+                            <div class="swiper-slide"><img class="imgCarousel"
+                                    src="image/Education-Supplies-for-Every--Pair-of-Shoes-Sold-1.png" alt=""></div>
+                            <div class="swiper-slide"><img class="imgCarousel"
+                                    src="image/Plantation-and-Afforestation-programme-1.png" alt=""></div>
+                            <div class="swiper-slide"><img class="imgCarousel"
+                                    src="image/Nourish-the-Children-in--African-country-1.png" alt=""></div>
+                        </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
                     </div>
                 </div>
-                <div class="row mt-3">
-                    <p class="storyDetailsText">
-                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Blanditiis aliquid quidem
-                        reprehenderit odio sit sed dolore vitae? Ducimus consequuntur, obcaecati, aut aperiam maiores
-                        harum ut ipsum corrupti omnis non voluptatem!<br>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Pariatur itaque blanditiis praesentium
-                        inventore tenetur, iusto unde officia debitis quam in! Ducimus molestias voluptates, vero hic
-                        ipsa minus saepe laboriosam nulla.
+                </div>
+                <!-- mission Details div  -->
+                <div class="col-md-12 col-lg-6">
+                    <div class="d-flex justify-content-between align-items-end mt-3">
+                        <div class="nameAndPhoto">
+                            <img src="image/volunteer7.png" alt="" srcset="" class="StoryOwnerPic">
+                            <p class="text-center">John Doe</p>
+                        </div>
+                        <div class="ViewsOfStory">
+                            <p class="noOfView"><img src="image/eye.png" alt="" srcset=""> 12,000 Views</p>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <p class="storyDetailsText">
+                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Blanditiis aliquid quidem
+                            reprehenderit odio sit sed dolore vitae? Ducimus consequuntur, obcaecati, aut aperiam
+                            maiores
+                            harum ut ipsum corrupti omnis non voluptatem!<br>
+                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Pariatur itaque blanditiis
+                            praesentium
+                            inventore tenetur, iusto unde officia debitis quam in! Ducimus molestias voluptates, vero
+                            hic
+                            ipsa minus saepe laboriosam nulla.
+                        </p>
+                    </div>
+                    <div class="d-flex justify-content-around StoryButtons mt-3">
+                        <button class="btn recommendButton" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <img src="image/add1.png" alt="" srcset=""> Recommend to a Co-Worker
+                        </button>
+                        <button class="btn openMissionButton">
+                            Open Mission <img src="image/right-arrow.png" alt="" srcset="">
+                        </button>
+                    </div>
+                </div>
+            
+            <div class="row mt-4">
+                <div class="headingOfMissionStory">
+                    <p class="headingOfMissionStoryText ">
+                        Grow Tree On the Path to Environment Sustainbility
                     </p>
+                    <hr class="smallBackGroundline">
                 </div>
-                <div class="d-flex justify-content-around StoryButtons mt-3">
-                    <button class="btn recommendButton" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        <img src="image/add1.png" alt="" srcset=""> Recommend to a Co-Worker
-                    </button>
-                    <button class="btn openMissionButton" >
-                        Open Mission <img src="image/right-arrow.png" alt="" srcset="">
-                    </button>
+                <div class="contentOfMissionStory mt-3">
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perferendis omnis sit ipsa velit
+                    reiciendis
+                    nulla vero corrupti amet, iusto, fugit sed harum veritatis placeat. Rem minus corrupti vitae aliquam
+                    quos.<br><br>
+                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsam optio quos expedita voluptatum sit
+                    quibusdam ipsa ut tempora veniam illum consectetur soluta laudantium provident esse, architecto
+                    impedit
+                    aliquid necessitatibus numquam!<br><br>
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolore nihil delectus, ut beatae vero
+                    assumenda laboriosam rerum illo nam natus asperiores magni sunt deserunt quaerat quod maxime hic
+                    necessitatibus sequi?<br>
+
+                    We use these technologies for a number of purposes, such as:<br>
+                    <ul>
+                        <li>But I must explain to you how all this mistaken idea of denouncing pleasure and praising
+                            pain.
+                        </li>
+                        <li>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
+                            voluptatum
+                            deleniti atque excepturi sint occaecati cupiditate non provident, </li>
+                        <li>similique sunt in culpa qui officia deserunt mollitia animi.</li>
+                        <li>On the other hand, we denounce with righteous indignation and dislike men who are so
+                            beguiled
+                            and demoralized But I must explain to you how all this mistaken idea of denouncing pleasure
+                            and
+                            praising pain.</li>
+                        <li> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                            ut
+                            labore et dolore</li>
+                    </ul>
                 </div>
+
             </div>
         </div>
-        <div class="row mt-4">
-            <div class="headingOfMissionStory">
-                <p class="headingOfMissionStoryText ">
-                    Grow Tree On the Path to Environment Sustainbility
-                </p>
-                <hr class="smallBackGroundline">
-            </div>
-            <div class="contentOfMissionStory mt-3">
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perferendis omnis sit ipsa velit reiciendis
-                nulla vero corrupti amet, iusto, fugit sed harum veritatis placeat. Rem minus corrupti vitae aliquam
-                quos.<br><br>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsam optio quos expedita voluptatum sit
-                quibusdam ipsa ut tempora veniam illum consectetur soluta laudantium provident esse, architecto impedit
-                aliquid necessitatibus numquam!<br><br>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolore nihil delectus, ut beatae vero
-                assumenda laboriosam rerum illo nam natus asperiores magni sunt deserunt quaerat quod maxime hic
-                necessitatibus sequi?<br>
 
-                We use these technologies for a number of purposes, such as:<br>
-                <ul>
-                    <li>But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain.
-                    </li>
-                    <li>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum
-                        deleniti atque excepturi sint occaecati cupiditate non provident, </li>
-                    <li>similique sunt in culpa qui officia deserunt mollitia animi.</li>
-                    <li>On the other hand, we denounce with righteous indignation and dislike men who are so beguiled
-                        and demoralized But I must explain to you how all this mistaken idea of denouncing pleasure and
-                        praising pain.</li>
-                    <li> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                        labore et dolore</li>
-                </ul>
-            </div>
-
-        </div>
-    </div>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
-        integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
-        crossorigin="anonymous"></script>
-    <script src="js/add_navbar.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+            integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+            integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
+            crossorigin="anonymous"></script>
+        <script src="js/add_navbar.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+        <script src="js/imageCaresoul.js"></script>
 </body>
 
 </html>

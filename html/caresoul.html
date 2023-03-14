@@ -6,40 +6,95 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>image</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+
     <style>
-        .wrapper img{
-            height:300px;
-            width:300px;
+        #mainDiv{
+            height: 100%;
+            width: 100%;
+            position: relative;
         }
-        .image-wrapper img{
-            width:auto
+        #firstDiv{
+            width: 100%;
+            height: 75%;
+            position: relative;
         }
-        .image-wrapper{
-            width:100%;
+        #SecondDiv{
+            width: 100%;
+            height: 25%;
+            position: relative;
         }
+      .mainPhoto{
+        width: 100%;
+        height: 100%;}
+        .swiper {
+      width: 100%;
+      height: 100%;
+    }
+
+    .swiper-slide {
+        position: relative;
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .swiper-slide img {
+      /* display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover; */
+      width: 100%;
+      height: 250px;
+    }
+      
     </style>
 </head>
 <body>
-    <section class="wrapper">
-        <img src="image/Grow-Trees-On-the-path-to-environment-sustainability-1.png" alt="" id="mainPhoto">
-        <div class="image-wrapper">
-            <img src="image/Grow-Trees-On-the-path-to-environment-sustainability-1.png" alt="" class="imgCarousel">
-            <img src="image/Grow-Trees-On-the-path-to-environment-sustainability-1.png" alt="" class="imgCarousel">
-            <img src="image/Already-volunteered.png" alt="" class="imgCarousel">
-            <img src="image/Grow-Trees-On-the-path-to-environment-sustainability-1.png" alt="" class="imgCarousel">
-            <img src="image/Grow-Trees-On-the-path-to-environment-sustainability-1.png" alt="" class="imgCarousel">
+    <div id="mainDiv">
+        <div id="firstDiv">
+            <img src="image/Grow-Trees-On-the-path-to-environment-sustainability - crop.png" alt="" class="mainPhoto">
         </div>
-    </section>
+        <div id="SecondDiv">
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide"><img class="imgCarousel" src="image/Grow-Trees-On-the-path-to-environment-sustainability-1.png" alt=""></div>
+                  <div class="swiper-slide"><img class="imgCarousel" src="image/Animal-welfare-&-save-birds-campaign-1.png" alt=""></div>
+                  <div class="swiper-slide"><img class="imgCarousel" src="image/CSR-initiative-stands-for-Coffee--and-Farmer-Equity-3.png" alt=""></div>
+                  <div class="swiper-slide"><img class="imgCarousel" src="image/Education-Supplies-for-Every--Pair-of-Shoes-Sold-1.png" alt=""></div>
+                  <div class="swiper-slide"><img class="imgCarousel" src="image/Plantation-and-Afforestation-programme-1.png" alt=""></div>
+                  <div class="swiper-slide"><img class="imgCarousel" src="image/Nourish-the-Children-in--African-country-1.png" alt=""></div>
+                  <div class="swiper-slide"><img class="imgCarousel" src="image/add.png" alt=""></div>
+                </div>
+                
+              </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.slim.min.js" integrity="sha256-a2yjHM4jnF9f54xUQakjZGaqYs/V1CYvWpoqZzC2/Bw=" crossorigin="anonymous"></script>
     <script>
-        let image= Array.from(document.getElementsByClassName("imgCarousel"));
-        let mainphoto = document.getElementById("mainPhoto");
-        function updateimage(event){
-            let image=event.target;
-            mainphoto.src=image.src;
-        }
-        image.forEach(function(image){
-            image.addEventListener('click',updateimage);
+        var swiper = new Swiper(".mySwiper", {
+          slidesPerView: 4,
+          spaceBetween: 15,
+          pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+          },
         });
+        $(".imgCarousel").click(function(){$(".mainPhoto").attr("src", $(this).prop("src"));});
+        // let image= Array.from(document.getElementsByClassName("imgCarousel"));
+        // console.log(image);
+        // let mainphoto = document.getElementById("mainPhoto");
+        // function updateimage(event){
+        //     let image=event.target;
+        //     mainphoto.src=image.src;
+        // }
+        // image.forEach(function(image){
+        //     image.addEventListener('click',updateimage);
+        // });
     </script>
 </body>
 </html>

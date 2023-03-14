@@ -141,7 +141,14 @@ body {
     height:50px;
     width: 50px;
 }
+
 @media (max-width: 768px){
+    .titleOfMission{
+        font-size: 28px;
+    }
+    .detailsOfMission{
+        font-size: 14px;
+    }
     .ratingStars{
         bottom:-6%;
     }

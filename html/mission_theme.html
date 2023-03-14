@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css">
     <link rel="stylesheet" href="css/userpageAdmin.css">
     <style>
-        #cms {
+        #theme {
             background-color: white;
             color: #F88634;
         }
@@ -48,7 +48,7 @@
             </div>
             <div class="col g-0">
                 <div class="myTopHeadbar w-100">
-                    <!-- Fetching Top Header  -->
+                    <!-- Fetch Headerbar  -->
                 </div>
                 <div class="container">
                     <div class="UserTextDiv mt-4">
@@ -73,60 +73,46 @@
                         <table id="example" class="display nowrap" style="width:100%">
                             <thead>
                                 <tr class="mt-1 mb-1">
-                                    <th>Title</th>
+                                    <th>Id</th>
+                                    <th>Theme Title</th>
                                     <th>Status</th>
-                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae alias quod
-                                        exercitationem similique, est vero.</td>
-                                    <td>
-                                        <p class="activeStatus">Active</p>
+                                    <td id="theme_id">
+                                        11
                                     </td>
                                     <td>
-                                        <img src="image/editing.png" alt="" srcset="">
-                                        <img src="image/delete.png" alt="" srcset="" data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal">
+                                        Environment
+                                    </td>
+                                    <td>
+                                        <p class="activeStatus">Active</p>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae alias quod
-                                        exercitationem similique, est vero.</td>
-                                    <td>
-                                        <p class="activeStatus">Active</p>
+                                    <td id="theme_id">
+                                        12
                                     </td>
                                     <td>
-                                        <img src="image/editing.png" alt="" srcset="">
-                                        <img src="image/delete.png" alt="" srcset="" data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal">
+                                        Education
+                                    </td>
+                                    <td>
+                                        <p class="activeStatus">Active</p>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae alias quod
-                                        exercitationem similique, est vero.</td>
+                                    <td id="theme_id">
+                                        13
+                                    </td>
+                                    <td>
+                                        Rainy
+                                    </td>
                                     <td>
                                         <p class="activeStatus">Active</p>
                                     </td>
-                                    <td>
-                                        <img src="image/editing.png" alt="" srcset="">
-                                        <img src="image/delete.png" alt="" srcset="" data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal">
-                                    </td>
                                 </tr>
-                                <tr>
-                                    <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae alias quod
-                                        exercitationem similique, est vero.</td>
-                                    <td>
-                                        <p class="activeStatus">Active</p>
-                                    </td>
-                                    <td>
-                                        <img src="image/editing.png" alt="" srcset="">
-                                        <img src="image/delete.png" alt="" srcset="" data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal">
-                                    </td>
-                                </tr>
+
                             </tbody>
                         </table>
 
@@ -153,6 +139,23 @@
     <script src="js/dataTableLoad.js"></script>
     <script src="js/addAdminSidebar.js"></script>
     <script src="js/addAdminHeader.js"></script>
+    <script>
+        $(".activeStatus").click(
+            function(){
+                if($(this).html().match("Active")){
+                    $(this).css("color","red");
+                    $(this).html("Deactive");
+                    alert($(this).parent().siblings("#theme_id").html()+" is now Disabled");
+                    
+                }
+                else{
+                    $(this).css("color","#14C506");
+                    $(this).html("Active");
+                    alert($(this).parent().siblings("#theme_id").html()+" is now Active");
+                }
+            }
+        );
+    </script>
 </body>
 
 </html>

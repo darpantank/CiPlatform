@@ -55,6 +55,12 @@ nav {
 .dropdown-toggle{
     border:none !important;
 }
+.w3-sidebar {
+    z-index: 3 !important;
+}
+.vtsheet{
+    color:#F88634 !important;
+}
 @media only screen and (max-width: 992px) {
 
     .gotoSidebar,

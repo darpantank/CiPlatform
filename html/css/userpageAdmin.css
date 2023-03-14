@@ -103,6 +103,9 @@ i{
     color: #F88634 !important;
     background-color: #ffffff !important;
 }
+.activeStatus:hover{
+    cursor: pointer;
+}
 
 /* @media only screen and (max-width: 992px) {
     .gotoMainbar{
