@@ -1,0 +1,96 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.mainPhoto{
+    position: relative !important;
+    width: 100%;
+    height: 250px;
+    background-color: rgb(0,0,0);
+}
+.mainPhoto img{
+    width: 100%;
+    height: 100%;
+    opacity: 0.7;
+}
+.myDesc{    
+    position: absolute;
+}
+.imgDescriptor{
+    color:white;
+    opacity: 1;
+    z-index: 11;
+}
+.shareStoryButton{
+    color: white !important;
+    padding: 10px;
+    border:1px solid white !important;
+    border-radius: 25px !important;
+    opacity: 1;
+    z-index: 11;
+}
+.stories .card{
+    padding:0 !important
+}
+.imgDiv{
+    position: relative;
+}
+.viewDetailsHoverButton{
+    position: absolute;
+    display: none !important;
+}
+.viewDetailsHoverButton button{
+    color:white !important;
+    padding: 7px;
+    border:1px solid white;
+    border-radius: 25px;
+}
+.card:hover .imgDiv{
+    background-color: black;
+}
+.card:hover .viewDetailsHoverButton{
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    z-index: 11;
+}
+.card:hover .imgDiv>img{
+    opacity: 0.5;
+
+}
+.card{
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 0px 25px #0000000F;
+    border:none !important;
+    padding: 5px;
+}
+.card-title{
+    font-size: 22px !important;
+}
+.card-text{
+    font-size: 16px !important;
+}
+.missionCategoryDiv{
+    position: absolute;
+    bottom:-5%;
+    background-color: white;
+    border-radius: 25px;
+}
+.missionCategoryDiv p{
+    margin: 0 !important;
+    padding:3px 7px;
+}
+.profileImage{
+    height: 45px;
+    border-radius: 50%;
+}
+.myPaginationTab a{
+    color: black;
+}
+.myPaginationTab li{
+    margin:0 5px;
+}
+.myPaginationTab .active{
+    color:white;
+    background-color: #F88634 !important;
+}

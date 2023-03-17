@@ -16,7 +16,7 @@
 </head>
 
 <body>
-<c:if test="${email!=''}">
+<c:if test="${token!=''}">
   <div class="container-fluid">
     <div class="row">
       <div class="col-sm-12 col-lg-8">
@@ -86,7 +86,7 @@
             <p class="text-center forgotPass">New Password</p>
             <p class="text-muted text-center">Please enter a new password in the fields below.</p>
             <form action="../resetmypassword" method="post">
-            <input type="hidden" name="email" value="${email}" readonly hidden>
+            <input type="hidden" name="token" value="${token}" readonly hidden>
                 <div class="mb-3">
                     <label for="exampleInputPassword1" class="form-label text-muted">New Password</label>
                     <input type="password" class="form-control" id="exampleInputPassword1" id="password" name="password" minlength="8" required>
@@ -107,8 +107,9 @@
       </div>
     </div>
   </div>
+  <script src="../js/bootstrap.min.js"></script>
+  <script src="../js/validatePassword.js"></script>
   </c:if>
-  <script src="js/bootstrap.min.js"></script>
 </body>
 
 </html>

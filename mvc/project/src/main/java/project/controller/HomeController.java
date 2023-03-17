@@ -20,7 +20,7 @@ public class HomeController {
 	@Autowired
 	userService service;	
 	@RequestMapping("/registration")
-	public String homeView() {
+	public String registrationView() {
 		return "registration";
 	}
 	@RequestMapping("/login")
@@ -31,18 +31,22 @@ public class HomeController {
 	public String forgotPasswordView() {
 		return "forgotpassword";
 	}
+	@RequestMapping("/home")
+	public String homeView() {
+		return "home";
+	}
 	@RequestMapping(value="/resetmypassword", method=RequestMethod.POST)
-	public ModelAndView resetmypassword(@RequestParam("email") String email,@RequestParam("password") String password,@RequestParam("confirm_password") String cnfpassword) {
+	public ModelAndView resetmypassword(@RequestParam("token") String token,@RequestParam("password") String password,@RequestParam("confirm_password") String cnfpassword) {
 		ModelAndView mav=new ModelAndView();
-		if(true) {
+		if(password!=""&&cnfpassword!=null&&token!=null) {
 			
-//			check Given Email is Present in Our DB or not 
-			password_reset prst=this.service.isValidMailForToken(email);
+//			check Given Token is Present in Our DB or not 
+			password_reset prst=this.service.isValidToken(token);
 			System.out.println("1 step");
 			if(prst.isValidObject()) {
 				System.out.println("2 step");
 				System.out.println(password +" 2nd");
-				if(this.service.isPasswordUpdated(email, password)) {
+				if(this.service.isPasswordUpdated(token, password)) {
 					System.out.println("3 step");
 					System.out.println(password +" 3nd");
 					if(this.service.deleteToken(prst)) {
@@ -77,15 +81,21 @@ public class HomeController {
 	public String saveUser(@ModelAttribute("user") user user1,Model m) {
 		
 		System.out.println(user1);
-		if(this.service.storeUserData(user1)) {
-			System.out.println("User Saved successfully...");
-			m.addAttribute("message","registrationsuccess");
-			return "login";
-		}
+		if(!this.service.validateEmailId(user1.getEmail())){
+			if(this.service.storeUserData(user1)) {	
+				System.out.println("User Saved successfully...");
+				m.addAttribute("message","registrationsuccess");
+				return "login";
+			}
+			else {
+				m.addAttribute("message","Data Not Inserted Due to Technical Fault");
+				return "failed";
+			}
+			}
 		else {
 			System.out.println("User Not Valid...");
-			m.addAttribute("message","registrationfailed");
-			return "registration";
+			m.addAttribute("message","user Aleready Found in Rcord");
+			return "failed";
 		}
 		
 	}
@@ -123,11 +133,25 @@ public class HomeController {
 	@RequestMapping(path="/validatetoken/{token}")
 	public ModelAndView validateToken(@PathVariable("token") String Token) {
 		ModelAndView mav=new ModelAndView();
-		String email=this.service.validateToken(Token);
-		if(email!=""){
-			mav.addObject("email",email);
-			mav.setViewName("resetpassword");
-		}else {
+		password_reset prst=this.service.validateToken(Token);
+		System.out.println(prst);
+		if(prst.getEmail()!=null||prst.getToken()!=null||prst.getCreated_at()!=null) {
+			
+//			Check that Token Is Not Expired before Changing Password Opeartion 
+			
+			if(!this.service.isTokenExpire(prst))
+			{
+				mav.addObject("token",Token);
+				mav.setViewName("resetpassword");
+			}
+			else {
+				mav.addObject("message","tokenexpire");
+				mav.setViewName("redirect:forgotpassword");
+			}
+			
+		}
+		else {
+			mav.addObject("message","invalidtoken");
 			mav.setViewName("failed");
 		}
 		return mav;

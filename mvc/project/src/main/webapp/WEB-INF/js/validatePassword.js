@@ -3,5 +3,5 @@ $("form").submit(function( event ) {
       return;
     }
     event.preventDefault();
-    alert("Password and Confirm Password Not Matched !");
+    alert("PassWord and Confirm Password Not Matched !");
   });

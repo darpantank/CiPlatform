@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Component;
 
+import project.model.mission;
 import project.model.password_reset;
 import project.model.user;
 
@@ -22,22 +23,23 @@ public class daoOperation {
 	@Autowired
 	HibernateTemplate hibernateTemplate;
 	@Transactional
-	public int createUser(user user1) {
+	public boolean createUser(user user1) {
 		Integer i=(Integer) this.hibernateTemplate.save(user1);
-		return i;
+		if(i==1) {
+			return true;
+		}
+		return false;
 	}
 	@Transactional
 	public String storeResetPassToken(password_reset prst) {
-		String i=(String) this.hibernateTemplate.save(prst);
-		System.out.println(i);
-		return i;
+		this.hibernateTemplate.saveOrUpdate("token",prst);
+		return prst.getToken();
 	}
 	public List<password_reset> validateToken(String Token) {
 		String que="from password_reset where token=:Token";
 		Query q=hibernateTemplate.getSessionFactory().openSession().createQuery(que);
 		q.setParameter("Token", Token);
-		List<password_reset> mylist=q.list();
-		return mylist;
+		return q.list();
 	}
 	public boolean validateUserDetails(String email,String pass) {
 		String que="from user where email=:email and password=:password";
@@ -46,9 +48,6 @@ public class daoOperation {
 		q.setParameter("password",pass);
 		List<user> mylist=q.list();
 		System.out.println("List Status "+mylist.isEmpty());
-		for(user user1:mylist) {
-			System.out.println(user1);
-		}
 		if(mylist.isEmpty()) {
 			return false;
 		}
@@ -66,8 +65,11 @@ public class daoOperation {
 		return myuser;
 	}
 	
-	public password_reset validateEmailForReset(String email) {
-		password_reset prst=(password_reset)this.hibernateTemplate.get(password_reset.class, email);
+	public password_reset validateTokenForReset(String token) {
+		String que="from password_reset where token=:token";
+		Query q=hibernateTemplate.getSessionFactory().openSession().createQuery(que);
+		q.setParameter("token", token);
+		password_reset prst=(password_reset)q.getSingleResult();
 		return prst;
 	}
 	
@@ -86,4 +88,8 @@ public class daoOperation {
 		this.hibernateTemplate.update(user1);
 		return true;
 	}
+	
+//	public List<mission> fetchAllMission(){
+//		List<mission> missions=this.hibernateTemplate.get
+//	}
 }

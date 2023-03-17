@@ -116,6 +116,16 @@
 					</div>
 					<c:remove var="message"/> 
 			</c:if>
+			<c:if test="${message=='tokenexpire'}">	
+				<div class="alert alert-danger alert-dismissible fade show"
+						role="alert">
+						<strong>Sorry </strong> Your Token Is Expired please use Token in 4 hour next time
+						<button type="button" class="btn-close" data-bs-dismiss="alert"
+							aria-label="Close"></button>
+					</div>
+					<c:remove var="message"/> 
+			</c:if>
+			
 			
         </div>
         <div class="row">

@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    box-sizing: border-box;
+    font-family: Noto Sans;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    color: #414141;
+}
+.titleOfMission{
+    font-size: 38px;
+}
+.detailsOfMission{
+    font-size: 17px;
+}
+.missionsTargets{
+    position: relative;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    color: #757575;
+}
+.missionGoal{
+    position: absolute;
+    top:-25%;
+    background-color: white;
+    padding:3px;
+    border:1px solid #E8E8E8;
+    border-radius: 15px;
+}
+.smallIcon{
+    width: 30px;
+    height: 30px;
+}
+.progress-bar{
+    background-color: #F88634 !important;
+    width: 100%;
+}
+.noOfSeatLeft{
+    font-size: 21px;
+    color: #414141;
+}
+.ratingsAndButtons{
+    position: relative;
+    border-bottom: 1px solid black;
+    color:#757575 !important;
+    font-size: 17px;
+
+}
+.ratingsAndButtons button{
+    border:2px solid #757575;
+    border-radius: 25px;
+    margin:0 10px;
+    margin:7% 0;
+}
+.ratingsAndButtons .row{
+    --bs-gutter-x: 0;   
+}
+.ratingStars{
+    position: absolute;
+    bottom:-15%;
+    background-color: white;
+}
+.W-90{
+    width: 90%;
+}
+.MissioninfoDiv i{
+    font-size: 24px;
+}
+.MissioninfoDiv {
+    font-size: 24px;
+}
+.MissioninfoCard{
+    border: 1px solid #E8E8E8;
+}
+.textBigDark{
+    font-size: 15px;
+    color: #414141;
+    text-align:center;
+}
+.textSmallLight{
+    font-size: 13px;
+    color: #757575;
+    text-align:justify;
+}
+.progress{
+    height: 0.70rem !important;
+    border-radius: 1rem !important;
+}
+.applyButtonDiv button{
+    padding: 10px;
+    border:2px solid #F88634;
+    border-radius: 25px;
+    color:#F88634;
+}
+.hrLine{
+    height:1px;
+    background-color: #414141;
+}
+.nav-tabs .active{
+    border-color: #ffffff #ffffff #000 !important;
+    border-width:2px !important;
+}
+.nav-link{
+    color:#414141 !important;
+}
+.titleOfMissionTab{
+    font-size: 25px;
+    color:#414141;
+}
+.detailsOfMissionTab{
+    font-size: 15px;
+    color:#414141;
+}
+.documentDownloadBtn{
+    padding: 5px;
+    border:1px solid #E8E8E8 !important;
+    border-radius: 25px !important;
+}
+.userCommentsImg{
+    border-radius: 100%;
+    height: 75%;
+    width:60px;
+}
+.informstionContainer{
+    padding:10px;
+}
+.informstionContainerText h3{
+    border-bottom: 2px solid black;
+    margin-bottom:0 !important;
+}
+.gridSys{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-template-rows: repeat(3,1fc);
+}
+.recentVolunteerImg{
+    height:50px;
+    width: 50px;
+}
+
+@media (max-width: 768px){
+    .titleOfMission{
+        font-size: 28px;
+    }
+    .detailsOfMission{
+        font-size: 14px;
+    }
+    .ratingStars{
+        bottom:-6%;
+    }
+}

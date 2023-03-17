@@ -13,5 +13,6 @@
 	<h2><c:if test="${not empty message}">
 		${message}
 	</c:if></h2>
+	<c:remove var="message"/>
 </body>
 </html>

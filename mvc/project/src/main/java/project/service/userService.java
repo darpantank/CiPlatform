@@ -1,6 +1,7 @@
 package project.service;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,9 +11,9 @@ import org.springframework.stereotype.Service;
 import project.dao.daoOperation;
 import project.model.password_reset;
 import project.model.user;
-
 @Service
 public class userService {
+	final static int TOKEN_VALID_TIME=240;
 	@Autowired
 	daoOperation daoOperation;
 	
@@ -22,12 +23,10 @@ public class userService {
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(user1.getEmail());
 		if(user1.getPassword().length()>=8&&matcher.matches()&&user1.getPhone_number().length()==10&&user1.getFirst_name()!=""&&user1.getLast_name()!="") {			
-			int i = this.daoOperation.createUser(user1);
-			if(i==0) {
-				return false;
+			if(this.daoOperation.createUser(user1)) {
+				return true;
 			}
-			System.out.println(i+ "row affected");
-			return true;
+			return false;
 		}
 		else {
 			return false;
@@ -35,18 +34,21 @@ public class userService {
 	}
 
 	public boolean validateUserDetail(String email, String password) {
-		System.out.println("Running Service Method");
-		System.out.println(email + " " + password);
 		return this.daoOperation.validateUserDetails(email, password);
 	}
 
 	public boolean validateEmailId(String email) {
 		user myuser = this.daoOperation.validateEmail(email);
+		if(myuser.getEmail()!=null) {
+			return true;
+		}
+		else {
+			return false;
+		}
 //		System.out.println(mylist);
 //		if (mylist.isEmpty() || mylist.size() > 1) {
 //			return false;
 //		}
-		return true;
 	}
 	public boolean forgotPasswordImpl(String email) {
 		String Token=generateToken.generateNewToken();
@@ -66,31 +68,52 @@ public class userService {
 			return false;
 		}
 	}
-	public String validateToken(String Token) {
-		List<password_reset> list=this.daoOperation.validateToken(Token);
-		if(list.isEmpty()||list.size()>1) {
-			return "";
+	public password_reset validateToken(String Token) {
+		password_reset prst=new password_reset();
+		List<password_reset> prstlist=this.daoOperation.validateToken(Token);
+		for(password_reset temp:prstlist) {
+			prst=temp;
 		}
-		else {
-			System.out.println(list);
-			String email="";
-			for(password_reset pst:list) {
-				email=pst.getEmail();
-			}
-			return email ;
-		}
-		
+		return prst;
 	}
 	public boolean deleteToken(password_reset prst) {
 		return this.daoOperation.deleteToken(prst);
 	}
-	public password_reset isValidMailForToken(String email) {
-		return this.daoOperation.validateEmailForReset(email);
+	public password_reset isValidToken(String token) {
+		return this.daoOperation.validateTokenForReset(token);
 	}
-	public boolean isPasswordUpdated(String email,String password) {
-		if(this.daoOperation.saveUpdatedPassword(email, password)) {
+	public boolean isPasswordUpdated(String Token,String password) {
+		password_reset prst=isValidToken(Token);
+		if(prst.isValidObject()) {
+			String email=prst.getEmail();
+			if(this.daoOperation.saveUpdatedPassword(email, password)) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		else {
+			return false;
+		}
+	}
+	public password_reset getEmailFromToken(String token) {
+		return this.daoOperation.validateTokenForReset(token);
+	}
+
+	public boolean isTokenExpire(password_reset prst) {
+		Date d1=prst.getCreated_at();
+		Date d2=new Date();
+		long diff = d2.getTime() - d1.getTime();
+		TimeUnit time = TimeUnit.MINUTES; 
+		long diffrence = time.convert(diff, TimeUnit.MILLISECONDS);
+		System.out.println();
+		if(diffrence>TOKEN_VALID_TIME) {
+			System.out.println(diffrence);
 			return true;
 		}
-		return false;
+		else {
+			return false;
+		}
 	}
 }
