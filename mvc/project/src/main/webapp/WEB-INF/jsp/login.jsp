@@ -109,6 +109,16 @@
 					</div>
 					<c:remove var="message"/> 
 			</c:if>
+			<c:if test="${message=='logoutsuccess'}">	
+				<div class="alert alert-success alert-dismissible fade show"
+						role="alert">
+						<strong>Thanks </strong> Logout Successfully !
+						
+						<button type="button" class="btn-close" data-bs-dismiss="alert"
+							aria-label="Close"></button>
+					</div>
+					<c:remove var="message"/> 
+			</c:if>
 			 
 		</div>
         <div class="row">

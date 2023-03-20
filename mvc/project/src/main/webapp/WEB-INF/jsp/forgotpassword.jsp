@@ -139,7 +139,7 @@
               </div>
               <button type="submit" class="btn w-100">Reset My Password</button>
             </form>
-            <p class="text-center"><a href="login.html" class="text-muted">Login</a></p>
+            <p class="text-center"><a href="login" class="text-muted">Login</a></p>
             
           </div>
         </div>

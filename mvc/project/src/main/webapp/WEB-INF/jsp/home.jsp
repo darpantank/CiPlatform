@@ -2,6 +2,8 @@
     pageEncoding="ISO-8859-1"%>
 <%@ page isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,13 +20,14 @@
 
 <body>
     <!-- main w3-sidebar -->
-    <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="leftMainMenu">
+    
+    <!-- <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="leftMainMenu">
         <button onclick="closeLeftMainMenu()" class="w3-bar-item w3-button w3-large"> <img src="image/cancel.png"
                 class="sidebarClosingButton" alt="" srcset=""></button>
         <a href="#" class="w3-bar-item w3-button">Explore</a>
         <a href="#" class="w3-bar-item w3-button">Story</a>
         <a href="#" class="w3-bar-item w3-button">Policy</a>
-    </div>
+    </div> -->
 
     <!-- Filter SideBar -->
     <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="leftFilterMenu">
@@ -79,8 +82,11 @@
     </div>
 
     <!-- NAvbar  -->
-
-    <nav class="navbar navbar-expand-lg d-flex row flex-row justify-content-end">
+    <div class="container-fluid">
+	<jsp:include page="fheader.jsp" />
+    </div>
+	
+    <!-- <nav class="navbar navbar-expand-lg d-flex row flex-row justify-content-end">
         <div class="container-fluid d-flex flex-row col">
             <button class="w3-button w3-xlarge w3-left navbar-toggler" onclick="openLeftMainMenu()"
                 data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
@@ -103,9 +109,9 @@
 
         </div>
         <div class="d-flex right col">
-            <!-- <img src="image/user-img-large.png" class="profileLogo"> -->
+            <img src="image/user-img-large.png" class="profileLogo">
             <div class="bellSearch d-flex align-content-center">
-                <!-- Only For Mobile View Only  -->
+                Only For Mobile View Only 
                 <img src="image/search.png" class="searchButtonMonitor" alt="" onclick="openSecondHeader()"></button>
                 <img src="image/bell.png" alt="">
             </div>
@@ -123,7 +129,7 @@
             </div>
         </div>
     </nav>
-
+ -->
     <!-- second Header  -->
     <div class="container-fluid secondHeaderParent" id="secondHeader">
         <div class="container d-flex secondHeader justify-content-center">
@@ -131,7 +137,7 @@
                 <div class="col d-flex search justify-content-start">
                     <form class="d-flex" role="search">
                         <button class="btn gotoSidebar" type="submit"><img src="image/search.png" alt=""></button>
-                        <input class="form-control me-2" type="search" placeholder="Search Mission..."
+                        <input class="form-control me-2 search_field" type="search" placeholder="Search Mission..."
                             aria-label="Search">
                     </form>
                     <button class="w3-button w3-xlarge w3-left filterBurger" onclick="openLeftFilterMenu()"><img
@@ -195,6 +201,8 @@
     <!-- Applied Filter Showcase -->
 
     <div class="container AppliedFilter w-100">
+    	<p>${user}</p>
+    	<p>${missions}</p>
         <div class="row d-flex justify-content-center" id="myList">
             <div class="col d-flex align-items-center justify-content-between">
                 <p>Delhi</p><img src="image/cancel.png" onclick="deleteFilter(this)">
@@ -254,7 +262,7 @@
     <div class="container gridListView">
         <div class="row d-flex justify-content-around">
             <div class="col d-flex justify-content-md-start justify-content-sm-center align-content-center">
-                <p class="noOfMission">Explore <b>72 Mission</b></p>
+                <p class="noOfMission">Explore <b>${fn:length(missions)} Mission</b></p>
             </div>
             <div class="col d-flex justify-content-end hideOnSmallScreen">
                 <div class="row">
@@ -299,22 +307,25 @@
         <div class="tab-pane fade show active" id="grid" role="tabpanel" aria-labelledby="home-tab">
             <div class="container d-flex gridView">
                 <div class="row justify-content-center">
-                    <div class="card col-lg-4 col-md-6 col-xs-12">
-                        <p class="missionCityGridView"><i class="bi bi-geo-alt"></i> London</p>
+                <c:forEach var="mission" items="${missions}">
+                	                    <div class="card col-lg-4 col-md-6 col-xs-12">
+						<div class="d-flex flex-column appliedCloseButtons">
+							<button class="btn btn-success">applied</button>
+							<button class="btn btn-danger">closed</button>
+						</div>
+						<p class="missionCityGridView"><i class="bi bi-geo-alt"></i> ${mission.city.name }</p>
                         <p class="missionLikeGridView d-flex flex-column"><i class="bi bi-heart"></i><i
                                 class="bi bi-person-plus"></i></p>
                         <img src="image/Grow-Trees-On-the-path-to-environment-sustainability-1.png"
                             class="card-img-top missionImgGridView" alt="...">
                         <div class="card-body">
                             <div class="d-flex justify-content-center missionCategoryDiv">
-                                <p class="missionCategoryGridView">Environment</p>
+                                <p class="missionCategoryGridView">${mission.mission_theme.title }</p>
                             </div>
-                            <h5 class="card-title">Education Supplies for Every Pair of Shoes Sold</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
-                                of the
-                                card's content.</p>
+                            <h5 class="card-title">${mission.title}</h5>
+                            <p class="card-text">${mission.short_description}</p>
                             <div class="row ratingDivGridView">
-                                <div class="col">Tree Canada</div>
+                                <div class="col">${mission.organization_name}</div>
                                 <div class="col">
                                     <div class="row d-flex flex-row ratingStar flex-nowrap">
                                         <div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
@@ -328,10 +339,25 @@
                             <br>
                             <div class="hrLine hrLineOverrided"></div>
                             <div class="row missionDatesGridView">
-                                <div class="col d-flex justify-content-center">
-                                    <p>From 10/01/2019 until 25/02/2019</p>
-                                </div>
-
+                            	<c:choose>
+                            		<c:when test="${mission.mission_type == 'GOAL'}">
+                            			<div class="col d-flex justify-content-center">
+                                    		<p>Ongoing Oppurtunity</p>
+                                		</div>
+                            		</c:when>
+                            		<c:otherwise>
+                            			<div class="col d-flex justify-content-center">
+                            			
+                                    		<p>From 
+                                    		 <fmt:formatDate pattern = "dd-MM-yyyy" value = "${mission.start_date}" />
+                                    		 until 
+                                    		 <fmt:formatDate pattern = "dd-MM-yyyy" value = "${mission.end_date}" />
+                                    		 </p>
+                                		</div>
+                            		</c:otherwise>
+                            	</c:choose>
+                            	
+                                
                             </div>
                             <div class="row">
                                 <div class="col">
@@ -362,6 +388,8 @@
 
                         </div>
                     </div>
+                </c:forEach>
+
 
                     <div class="card col-lg-4 col-md-6 col-xs-12">
                         <p class="missionCityGridView"><i class="bi bi-geo-alt"></i> London</p>
@@ -758,13 +786,34 @@
 
 
     <!-- <button class="w3-button w3-teal w3-xlarge w3-left" onclick="openLeftMainMenu()">&#9776;</button> -->
-
+	
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
         integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
         integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
         crossorigin="anonymous"></script>
-    <script src="js/sidebarJs.js"></script>
+         <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+         <script>
+         $(document).ready(function(){
+             $('.search_field').keyup(function(){
+            	 var data1 = $('.search_field').val();
+            	 console.log(data1);
+                 $.ajax({
+                     url: "home",
+                     type: "GET",
+                     cache: false,
+                     data: {
+                    	 "keyword":data1
+                     },
+                     success: function(){
+                       console.log("Thanks for updating");
+                     }
+                 });
+             });
+           });
+         </script>
+ <script src="js/sidebarJs.js"></script>
+<!--     <script src="js/add_navbar.js"></script> -->
 
 </html>

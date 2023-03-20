@@ -1,4 +1,10 @@
 package project.controller;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,14 +17,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import project.model.mission;
 import project.model.password_reset;
 import project.model.user;
-import project.service.userService;
+import project.service.missionServiceInterface;
+import project.service.userServiceInterface;
 
 @Controller
 public class HomeController {
 	@Autowired
-	userService service;	
+	userServiceInterface service;
+	@Autowired
+	missionServiceInterface mservice;
+	final static int LOGOUT_TIME = 900; /* User Session Is Validate For 15 Minutes */
 	@RequestMapping("/registration")
 	public String registrationView() {
 		return "registration";
@@ -31,10 +42,17 @@ public class HomeController {
 	public String forgotPasswordView() {
 		return "forgotpassword";
 	}
-	@RequestMapping("/home")
-	public String homeView() {
-		return "home";
+	@RequestMapping("/logout")
+	public String LogoutUser(HttpSession request,Model m) {
+	    request.removeAttribute("user");
+	    request.invalidate();
+	    m.addAttribute("message","logoutsuccess");
+		return "login";
 	}
+
+	/*
+	 * @RequestMapping("/home") public String homeView() { return "home"; }
+	 */
 	@RequestMapping(value="/resetmypassword", method=RequestMethod.POST)
 	public ModelAndView resetmypassword(@RequestParam("token") String token,@RequestParam("password") String password,@RequestParam("confirm_password") String cnfpassword) {
 		ModelAndView mav=new ModelAndView();
@@ -100,11 +118,21 @@ public class HomeController {
 		
 	}
 	@RequestMapping(value = "/validateuser",method = RequestMethod.POST)
-	public ModelAndView validateUser(@RequestParam("email") String email,@RequestParam("password") String password) {
+	public ModelAndView validateUser(@RequestParam("email") String email,@RequestParam("password") String password,HttpServletRequest request) {
 		ModelAndView mav=new ModelAndView();
-		if(this.service.validateUserDetail(email, password)) {
-			mav.setViewName("success");
+		user myuser=this.service.validateUserDetail(email, password);
+		System.out.println(myuser);
+		if(myuser.getEmail()!=null||myuser.getEmail()!="") {
+			mav.setViewName("home");
 			mav.addObject("message","Successfully login");
+			HttpSession session=request.getSession(true);
+			session.setMaxInactiveInterval(LOGOUT_TIME);
+			request.setAttribute("user",myuser);
+			String keyword="";
+			List<mission> missions=this.mservice.loadAllMission();
+			mav.addObject("missions",missions);
+//			mav.addObject("user",myuser);
+//			mav.addObject("user",user1);
 			}
 		else {
 			mav.setViewName("login");
@@ -145,8 +173,8 @@ public class HomeController {
 				mav.setViewName("resetpassword");
 			}
 			else {
-				mav.addObject("message","tokenexpire");
-				mav.setViewName("redirect:forgotpassword");
+				mav.addObject("message","token is now expired please regenerate mail and use it within 4 hour");
+				mav.setViewName("failed");
 			}
 			
 		}

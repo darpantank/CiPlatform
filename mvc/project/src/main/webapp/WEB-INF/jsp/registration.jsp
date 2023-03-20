@@ -13,10 +13,6 @@
 </head>
 
 <body>
-<div id="spinner-div" class="pt-5">
-    <div class="spinner-border text-primary" role="status">
-    </div>
-</div>
   <div class="container-fluid">
     <div class="row">
       <div class="col-sm-12 col-lg-8 col-md-12">
@@ -79,7 +75,7 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-12 col-lg-4 col-md-12 registration d-flex flex-column justify-content-between">
+      <div class="col-sm-12 col-lg-4 col-md-12 mt-2 registration d-flex flex-column justify-content-between">
       <c:if test="${message=='registrationfailed'}">	
 				<div class="alert alert-warning alert-dismissible fade show"
 						role="alert">

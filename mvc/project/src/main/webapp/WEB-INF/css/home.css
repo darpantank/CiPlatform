@@ -375,6 +375,16 @@ nav {
     padding: 4px;
     border-radius: 25px;
 }
+.appliedCloseButtons{
+	position:absolute;
+}
+.appliedCloseButtons button{
+	width:auto;
+	margin:2px 0;
+	cursor: none;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+}
 @media only screen and (max-width: 992px) {
 
     .gotoSidebar,
