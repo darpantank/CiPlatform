@@ -64,5 +64,10 @@ public class mission_theme {
 	public void setDeleted_at(Date deleted_at) {
 		this.deleted_at = deleted_at;
 	}
+	@Override
+	public String toString() {
+		return "mission_theme [mission_theme_id=" + mission_theme_id + ", title=" + title + ", status=" + status
+				+ ", created_at=" + created_at + ", updated_at=" + updated_at + ", deleted_at=" + deleted_at + "]";
+	}
 	
 }

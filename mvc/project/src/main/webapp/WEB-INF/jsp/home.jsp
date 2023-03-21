@@ -41,11 +41,10 @@
                 <span>Country</span>
                 <img src="image/drop-down.png">
             </button>
-            <ul class="dropdown-menu">
-                <li><input type="checkbox"> India</li>
-                <li><input type="checkbox"> USA</li>
+            <ul class="dropdown-menu country">
+            	<!-- Country Fetch Here Sidebar --> 
             </ul>
-        </div>
+		</div>
         <div class="dropdown mysidebar">
             <button class="btn dropdown-toggle w-100 d-flex justify-content-between align-items-center" type="button"
                 data-bs-toggle="dropdown" aria-expanded="false">
@@ -83,54 +82,9 @@
 
     <!-- NAvbar  -->
     <div class="container-fluid">
-	<jsp:include page="fheader.jsp" />
+		<jsp:include page="fheader.jsp" />
     </div>
-	
-    <!-- <nav class="navbar navbar-expand-lg d-flex row flex-row justify-content-end">
-        <div class="container-fluid d-flex flex-row col">
-            <button class="w3-button w3-xlarge w3-left navbar-toggler" onclick="openLeftMainMenu()"
-                data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <img src="image/list.png" alt="" srcset="">
-            </button>
-            <div class="collapse navbar-collapse left gotoMainbar" id="navbarNav">
-                <a href="#" class="logo">Stories</a>
-                <div class="dropdown">
-                    <a class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        Policy <img src="image/drop-down.png">
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
-                </div>
-            </div>
-
-        </div>
-        <div class="d-flex right col">
-            <img src="image/user-img-large.png" class="profileLogo">
-            <div class="bellSearch d-flex align-content-center">
-                Only For Mobile View Only 
-                <img src="image/search.png" class="searchButtonMonitor" alt="" onclick="openSecondHeader()"></button>
-                <img src="image/bell.png" alt="">
-            </div>
-
-            <div class="dropdown">
-                <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="image/user-img-large.png" class="profileLogo">
-                    <span class="gotoMainbar">Evan Donohue</span> <img src="image/drop-down.png" class="gotoMainbar">
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another </a></li>
-                    <li><a class="dropdown-item" href="#">Something</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
- -->
-    <!-- second Header  -->
+        <!-- second Header  -->
     <div class="container-fluid secondHeaderParent" id="secondHeader">
         <div class="container d-flex secondHeader justify-content-center">
             <div class="row d-flex justify-content-between">
@@ -150,12 +104,10 @@
                             <span>Country</span>
                             <img src="image/drop-down.png">
                         </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <ul class="dropdown-menu country">
+                            <!-- Fetch Country Main Bar -->
                         </ul>
-                    </div>
+					</div>
                     <div class="dropdown d-flex align-items-center leftBorder">
                         <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
@@ -201,8 +153,6 @@
     <!-- Applied Filter Showcase -->
 
     <div class="container AppliedFilter w-100">
-    	<p>${user}</p>
-    	<p>${missions}</p>
         <div class="row d-flex justify-content-center" id="myList">
             <div class="col d-flex align-items-center justify-content-between">
                 <p>Delhi</p><img src="image/cancel.png" onclick="deleteFilter(this)">
@@ -262,7 +212,7 @@
     <div class="container gridListView">
         <div class="row d-flex justify-content-around">
             <div class="col d-flex justify-content-md-start justify-content-sm-center align-content-center">
-                <p class="noOfMission">Explore <b>${fn:length(missions)} Mission</b></p>
+                <p class="noOfMission">Explore <b id="noOfMission">${fn:length(missions)}</b> Mission</p>
             </div>
             <div class="col d-flex justify-content-end hideOnSmallScreen">
                 <div class="row">
@@ -306,447 +256,17 @@
         <!-- Grid View Div  -->
         <div class="tab-pane fade show active" id="grid" role="tabpanel" aria-labelledby="home-tab">
             <div class="container d-flex gridView">
-                <div class="row justify-content-center">
-                <c:forEach var="mission" items="${missions}">
-                	                    <div class="card col-lg-4 col-md-6 col-xs-12">
-						<div class="d-flex flex-column appliedCloseButtons">
-							<button class="btn btn-success">applied</button>
-							<button class="btn btn-danger">closed</button>
-						</div>
-						<p class="missionCityGridView"><i class="bi bi-geo-alt"></i> ${mission.city.name }</p>
-                        <p class="missionLikeGridView d-flex flex-column"><i class="bi bi-heart"></i><i
-                                class="bi bi-person-plus"></i></p>
-                        <img src="image/Grow-Trees-On-the-path-to-environment-sustainability-1.png"
-                            class="card-img-top missionImgGridView" alt="...">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-center missionCategoryDiv">
-                                <p class="missionCategoryGridView">${mission.mission_theme.title }</p>
-                            </div>
-                            <h5 class="card-title">${mission.title}</h5>
-                            <p class="card-text">${mission.short_description}</p>
-                            <div class="row ratingDivGridView">
-                                <div class="col">${mission.organization_name}</div>
-                                <div class="col">
-                                    <div class="row d-flex flex-row ratingStar flex-nowrap">
-                                        <div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
-                                        <div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
-                                        <div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
-                                        <div class="col"><img src="image/star.png" alt="" srcset=""></div>
-                                        <div class="col"><img src="image/star.png" alt="" srcset=""></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <br>
-                            <div class="hrLine hrLineOverrided"></div>
-                            <div class="row missionDatesGridView">
-                            	<c:choose>
-                            		<c:when test="${mission.mission_type == 'GOAL'}">
-                            			<div class="col d-flex justify-content-center">
-                                    		<p>Ongoing Oppurtunity</p>
-                                		</div>
-                            		</c:when>
-                            		<c:otherwise>
-                            			<div class="col d-flex justify-content-center">
-                            			
-                                    		<p>From 
-                                    		 <fmt:formatDate pattern = "dd-MM-yyyy" value = "${mission.start_date}" />
-                                    		 until 
-                                    		 <fmt:formatDate pattern = "dd-MM-yyyy" value = "${mission.end_date}" />
-                                    		 </p>
-                                		</div>
-                            		</c:otherwise>
-                            	</c:choose>
-                            	
-                                
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="row">
-                                        <div class="col"><img src="image/Seats-left.png" alt="" srcset=""></div>
-                                        <div class="col">
-                                            <div class="row">10</div>
-                                            <div class="row">Seats Left</div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="col">
-                                    <div class="row">
-                                        <div class="col"><img src="image/deadline.png" alt="" srcset=""></div>
-                                        <div class="col">
-                                            <div class="row">09/01/2019</div>
-                                            <div class="row">Deadline</div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="hrLine"></div>
-                            <div class="d-flex justify-content-center">
-                                <a href="#" class="applyButtonGridView">Apply <i class="bi bi-arrow-right"></i></a>
-                            </div>
-
-                        </div>
-                    </div>
-                </c:forEach>
-
-
-                    <div class="card col-lg-4 col-md-6 col-xs-12">
-                        <p class="missionCityGridView"><i class="bi bi-geo-alt"></i> London</p>
-                        <p class="missionLikeGridView d-flex flex-column"><i class="bi bi-heart"></i><i
-                                class="bi bi-person-plus"></i></p>
-                        <img src="image/Grow-Trees-On-the-path-to-environment-sustainability-1.png"
-                            class="card-img-top missionImgGridView" alt="...">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-center missionCategoryDiv">
-                                <p class="missionCategoryGridView">Environment</p>
-                            </div>
-                            <h5 class="card-title">Education Supplies for Every Pair of Shoes Sold</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
-                                of the
-                                card's content.</p>
-                            <div class="row ratingDivGridView">
-                                <div class="col">Tree Canada</div>
-                                <div class="col">
-                                    <div class="row d-flex flex-row ratingStar flex-nowrap">
-                                        <div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
-                                        <div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
-                                        <div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
-                                        <div class="col"><img src="image/star.png" alt="" srcset=""></div>
-                                        <div class="col"><img src="image/star.png" alt="" srcset=""></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <br>
-                            <div class="hrLine hrLineOverrided"></div>
-                            <div class="row missionDatesGridView">
-                                <div class="col d-flex justify-content-center">
-                                    <p>From 10/01/2019 until 25/02/2019</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="row">
-                                        <div class="col"><img src="image/Seats-left.png" alt="" srcset=""></div>
-                                        <div class="col">
-                                            <div class="row">10</div>
-                                            <div class="row">Seats Left</div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="col">
-                                    <div class="row">
-                                        <div class="col"><img src="image/deadline.png" alt="" srcset=""></div>
-                                        <div class="col">
-                                            <div class="row">09/01/2019</div>
-                                            <div class="row">Deadline</div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="hrLine"></div>
-                            <div class="d-flex justify-content-center">
-                                <a href="#" class="applyButtonGridView">Apply <i class="bi bi-arrow-right"></i></a>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="card col-lg-4 col-md-6 col-xs-12">
-                        <p class="missionCityGridView"><i class="bi bi-geo-alt"></i> London</p>
-                        <p class="missionLikeGridView d-flex flex-column"><i class="bi bi-heart"></i><i
-                                class="bi bi-person-plus"></i></p>
-                        <img src="image/Grow-Trees-On-the-path-to-environment-sustainability-1.png"
-                            class="card-img-top missionImgGridView" alt="...">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-center missionCategoryDiv">
-                                <p class="missionCategoryGridView">Environment</p>
-                            </div>
-                            <h5 class="card-title">Education Supplies for Every Pair of Shoes Sold</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
-                                of the
-                                card's content.</p>
-                            <div class="row ratingDivGridView">
-                                <div class="col">Tree Canada</div>
-                                <div class="col">
-                                    <div class="row d-flex flex-row ratingStar flex-nowrap">
-                                        <div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
-                                        <div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
-                                        <div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
-                                        <div class="col"><img src="image/star.png" alt="" srcset=""></div>
-                                        <div class="col"><img src="image/star.png" alt="" srcset=""></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <br>
-                            <div class="hrLine hrLineOverrided"></div>
-                            <div class="row missionDatesGridView">
-                                <div class="col d-flex justify-content-center">
-                                    <p>From 10/01/2019 until 25/02/2019</p>
-                                </div>
-
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="row">
-                                        <div class="col"><img src="image/Seats-left.png" alt="" srcset=""></div>
-                                        <div class="col">
-                                            <div class="row">10</div>
-                                            <div class="row">Seats Left</div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="col">
-                                    <div class="row">
-                                        <div class="col"><img src="image/deadline.png" alt="" srcset=""></div>
-                                        <div class="col">
-                                            <div class="row">09/01/2019</div>
-                                            <div class="row">Deadline</div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="hrLine"></div>
-                            <div class="d-flex justify-content-center">
-                                <a href="#" class="applyButtonGridView">Apply <i class="bi bi-arrow-right"></i></a>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="card col-lg-4 col-md-6 col-xs-12">
-                        <p class="missionCityGridView"><i class="bi bi-geo-alt"></i> London</p>
-                        <p class="missionLikeGridView d-flex flex-column"><i class="bi bi-heart"></i><i
-                                class="bi bi-person-plus"></i></p>
-                        <img src="image/Grow-Trees-On-the-path-to-environment-sustainability-1.png"
-                            class="card-img-top missionImgGridView" alt="...">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-center missionCategoryDiv">
-                                <p class="missionCategoryGridView">Environment</p>
-                            </div>
-                            <h5 class="card-title">Education Supplies for Every Pair of Shoes Sold</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
-                                of the
-                                card's content.</p>
-                            <div class="row ratingDivGridView">
-                                <div class="col">Tree Canada</div>
-                                <div class="col">
-                                    <div class="row d-flex flex-row ratingStar flex-nowrap">
-                                        <div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
-                                        <div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
-                                        <div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
-                                        <div class="col"><img src="image/star.png" alt="" srcset=""></div>
-                                        <div class="col"><img src="image/star.png" alt="" srcset=""></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <br>
-                            <div class="hrLine hrLineOverrided"></div>
-                            <div class="row missionDatesGridView">
-                                <div class="col d-flex justify-content-center">
-                                    <p>From 10/01/2019 until 25/02/2019</p>
-                                </div>
-
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="row">
-                                        <div class="col"><img src="image/Seats-left.png" alt="" srcset=""></div>
-                                        <div class="col">
-                                            <div class="row">10</div>
-                                            <div class="row">Seats Left</div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="col">
-                                    <div class="row">
-                                        <div class="col"><img src="image/deadline.png" alt="" srcset=""></div>
-                                        <div class="col">
-                                            <div class="row">09/01/2019</div>
-                                            <div class="row">Deadline</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="hrLine"></div>
-                            <div class="d-flex justify-content-center">
-                                <a href="#" class="applyButtonGridView">Apply <i class="bi bi-arrow-right"></i></a>
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
+                <div class="row GridViewDisplay w-100">
+    				<!-- Data Fetched here of mission  -->
+					
+				</div>
             </div>
         </div>
         
         <div class="tab-pane fade" id="list" role="tabpanel" aria-labelledby="profile-tab">
             <!-- List View Div  -->
-            <div class="container">
-                <div class="row ListViewCard">
-                    <div class="card">
-                        <div class="row g-0">
-                            <div class="col-md-3 missionImg">
-                                <p class="missionCityListView"><i class="bi bi-geo-alt"></i> London</p>
-                                <p class="missionAppliedListView"> Applied</p>
-                                <div class="missionLikeListView d-flex flex-column"><i class="bi bi-heart"></i><i
-                                    class="bi bi-person-plus"></i>
-                                </div>
-                                <div class="d-flex justify-content-center missionCategoryListView"><p>Environment</p></div>
-                                <img src="image/Grow-Trees-On-the-path-to-environment-sustainability-1.png" class="img-fluid rounded-start" alt="...">
-                            </div>
-                            <div class="col-md-9">
-                                <div class="card-body">
-                                    <div class="row w-100 d-flex ">
-                                        <div class="col">
-                                            <div class="row d-flex justify-content-start firstInfoContainerListView">
-                                                <div class="col d-flex"><i class="bi bi-geo-alt"> </i><p> Atlanta</p></div>
-                                                <div class="col d-flex"><i class="bi bi-globe"> </i><p> Environment</p></div>
-                                                <div class="col d-flex"><i class="bi bi-people"> </i> <p>Smith Caring Foundation</p></div>
-                                            </div>
-                                        </div>
-                                        <div class="col d-flex justify-content-end">
-                                            <div class="row ratingDivGridView">
-                                                <div class="col">
-                                                    <div class="row d-flex flex-row ratingStar flex-nowrap">
-                                                        <div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
-                                                        <div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
-                                                        <div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
-                                                        <div class="col"><img src="image/star.png" alt="" srcset=""></div>
-                                                        <div class="col"><img src="image/star.png" alt="" srcset=""></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <h5 class="card-title">Education Supplies for Every Pair of Shoes Sold</h5>
-                                    <p class="card-text">This is a wider card with supporting text below as a natural
-                                        lead-in to additional content. This content is a little bit longer.</p>
-                                    <div class="row">
-                                        <div class="col d-flex">
-                                            <div class="col d-flex">
-                                                <div class="col d-flex align-items-center"><img src="image/Seats-left.png" alt="" srcset=""></div>
-                                                <div class="col">
-                                                    <div class="row">2</div>
-                                                    <div class="row">Seats</div>
-                                                </div>
-                                            </div>
-                                            <div class="col d-flex">
-                                                <div class="col d-flex align-items-center"><img src="image/achieved.png" alt="" srcset=""></div>
-                                                <div class="col">
-                                                    <div class="row">2</div>
-                                                    <div class="row">Seats</div>
-                                                </div>
-                                            </div>
-                                            <div class="col d-flex">
-                                                <div class="col d-flex align-items-center"><img src="image/achieved.png" alt="" srcset=""></div>
-                                                <div class="col">
-                                                    <div class="row">2</div>
-                                                    <div class="row">Seats</div>
-                                                </div>
-                                            </div>
-                                            <div class="col d-flex">
-                                                <div class="col d-flex align-items-center"><img src="image/achieved.png" alt="" srcset=""></div>
-                                                <div class="col">
-                                                    <div class="row">2</div>
-                                                    <div class="row">Seats</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col d-flex justify-content-end">
-                                            <a href="#" class="applyButtonGridView">View Details <i class="bi bi-arrow-right"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                </div>
-                <div class="row ListViewCard">
-                    <div class="card">
-                        <div class="row g-0">
-                            <div class="col-md-3 missionImg">
-                                <p class="missionCityListView"><i class="bi bi-geo-alt"></i> London</p>
-                                <p class="missionAppliedListView"> Applied</p>
-                                <div class="missionLikeListView d-flex flex-column"><i class="bi bi-heart"></i><i
-                                    class="bi bi-person-plus"></i>
-                                </div>
-                                <div class="d-flex justify-content-center missionCategoryListView"><p>Environment</p></div>
-                                <img src="image/Grow-Trees-On-the-path-to-environment-sustainability-1.png" class="img-fluid rounded-start" alt="...">
-                            </div>
-                            <div class="col-md-9">
-                                <div class="card-body">
-                                    <div class="row w-100 d-flex ">
-                                        <div class="col">
-                                            <div class="row d-flex justify-content-start firstInfoContainerListView">
-                                                <div class="col d-flex"><i class="bi bi-geo-alt"> </i><p> Atlanta</p></div>
-                                                <div class="col d-flex"><i class="bi bi-globe"> </i><p> Environment</p></div>
-                                                <div class="col d-flex"><i class="bi bi-people"> </i> <p>Smith Caring Foundation</p></div>
-                                            </div>
-                                        </div>
-                                        <div class="col d-flex justify-content-end">
-                                            <div class="row ratingDivGridView">
-                                                <div class="col">
-                                                    <div class="row d-flex flex-row ratingStar flex-nowrap">
-                                                        <div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
-                                                        <div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
-                                                        <div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
-                                                        <div class="col"><img src="image/star.png" alt="" srcset=""></div>
-                                                        <div class="col"><img src="image/star.png" alt="" srcset=""></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <h5 class="card-title">Education Supplies for Every Pair of Shoes Sold</h5>
-                                    <p class="card-text">This is a wider card with supporting text below as a natural
-                                        lead-in to additional content. This content is a little bit longer.</p>
-                                    <div class="row">
-                                        <div class="col d-flex">
-                                            <div class="col d-flex">
-                                                <div class="col d-flex align-items-center"><img src="image/Seats-left.png" alt="" srcset=""></div>
-                                                <div class="col">
-                                                    <div class="row">2</div>
-                                                    <div class="row">Seats</div>
-                                                </div>
-                                            </div>
-                                            <div class="col d-flex">
-                                                <div class="col d-flex align-items-center"><img src="image/achieved.png" alt="" srcset=""></div>
-                                                <div class="col">
-                                                    <div class="row">2</div>
-                                                    <div class="row">Seats</div>
-                                                </div>
-                                            </div>
-                                            <div class="col d-flex">
-                                                <div class="col d-flex align-items-center"><img src="image/achieved.png" alt="" srcset=""></div>
-                                                <div class="col">
-                                                    <div class="row">2</div>
-                                                    <div class="row">Seats</div>
-                                                </div>
-                                            </div>
-                                            <div class="col d-flex">
-                                                <div class="col d-flex align-items-center"><img src="image/achieved.png" alt="" srcset=""></div>
-                                                <div class="col">
-                                                    <div class="row">2</div>
-                                                    <div class="row">Seats</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col d-flex justify-content-end">
-                                            <a href="#" class="applyButtonGridView">View Details <i class="bi bi-arrow-right"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                </div>
+            <div class="container ListViewDisplay">
+                <!-- List View Fetched Here --> 
             </div>
         </div>
     </div>
@@ -796,23 +316,236 @@
          <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
          <script>
          $(document).ready(function(){
+        	 
+        	 /* Initial Mission Loading Function */
+        	 let missions="";
+        	 let country="";
+        	 $.ajax({
+                 url: "loadAllMission",
+                 dataType: 'json',
+                 success: function(response){
+                	 missions=response;
+                	 console.log(missions);
+                	 console.log("Total Mission :"+Object.keys(missions).length);
+                	 printCardOnGrid(missions);
+                	 printCardOnList(missions);
+                	 
+                	 
+                 }
+             });
+        	 $.ajax({
+                 url: "loadListOfCountry",
+                 dataType: 'json',
+                 success: function(response){
+                	 country=response;
+                	 addCountryList(country);
+                 }
+             });
+        	 
+        	 
+        	 /* Search Mission Logic */
              $('.search_field').keyup(function(){
-            	 var data1 = $('.search_field').val();
-            	 console.log(data1);
+            	 var data1 = { keyword:$('.search_field').val()}; 
                  $.ajax({
-                     url: "home",
-                     type: "GET",
-                     cache: false,
-                     data: {
-                    	 "keyword":data1
-                     },
-                     success: function(){
-                       console.log("Thanks for updating");
+                     url: "searchMission",
+                     type: "POST",
+                     data:data1,
+                     dataType: 'json',
+                     success: function(response){
+                    	missions=response;
+                    	editUpdatedMission(Object.keys(missions).length);
+                    	printCardOnGrid(missions);
+                    	printCardOnList(missions);
                      }
-                 });
+                 });   
              });
            });
-         </script>
+         	function editUpdatedMission(a){
+         		$("#noOfMission").html(a);
+         	}
+         	function addCountryList(country){
+         		var data="";
+         		for(var i in country){
+         			data+='<li><input type="checkbox" value="'+country[i].country_id+'"> '+country[i].name+'</li>';
+         		}
+         		$(".country").append(data);
+         	}
+         	function printCardOnList(missions){
+         		$(".ListViewDisplay").empty();
+         		for(var i in missions){
+         		let list=`<div class="row ListViewCard">
+                    <div class="card">
+                    <div class="row g-0">
+                        <div class="col-md-3 missionImg">
+                            <p class="missionCityListView"><i class="bi bi-geo-alt"></i>`+missions[i].city.name+`</p>
+                            <p class="missionAppliedListView"> Applied</p>
+                            <div class="missionLikeListView d-flex flex-column"><i class="bi bi-heart"></i><i
+                                class="bi bi-person-plus"></i>
+                            </div>
+                            <div class="d-flex justify-content-center missionCategoryListView"><p>`+missions[i].mission_theme.title+`</p></div>
+                            <img src="image/Grow-Trees-On-the-path-to-environment-sustainability-1.png" class="img-fluid rounded-start" alt="...">
+                        </div>
+                        <div class="col-md-9">
+                            <div class="card-body">
+                                <div class="row w-100 d-flex ">
+                                    <div class="col">
+                                        <div class="row d-flex justify-content-start firstInfoContainerListView">
+                                            <div class="col d-flex"><i class="bi bi-geo-alt"> </i><p>`+missions[i].country.name+`</p></div>
+                                            <div class="col d-flex"><i class="bi bi-globe"> </i><p> `+missions[i].mission_theme.title+`</p></div>
+                                            <div class="col d-flex"><i class="bi bi-people"> </i> <p>`+missions[i].organization_name+`</p></div>
+                                        </div>
+                                    </div>
+                                    <div class="col d-flex justify-content-end">
+                                        <div class="row ratingDivGridView">
+                                            <div class="col">
+                                                <div class="row d-flex flex-row ratingStar flex-nowrap">
+                                                    <div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
+                                                    <div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
+                                                    <div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
+                                                    <div class="col"><img src="image/star.png" alt="" srcset=""></div>
+                                                    <div class="col"><img src="image/star.png" alt="" srcset=""></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h5 class="card-title">`+missions[i].title+`</h5>
+                                <p class="card-text">`+missions[i].short_description+`</p>
+                                <div class="row">
+                                    <div class="col d-flex">
+                                        <div class="col d-flex">
+                                            <div class="col d-flex align-items-center"><img src="image/Seats-left.png" alt="" srcset=""></div>
+                                            <div class="col">
+                                                <div class="row">2</div>
+                                                <div class="row">Seats</div>
+                                            </div>
+                                        </div>
+                                        <div class="col d-flex">
+                                            <div class="col d-flex align-items-center"><img src="image/achieved.png" alt="" srcset=""></div>
+                                            <div class="col">
+                                                <div class="row">2</div>
+                                                <div class="row">Seats</div>
+                                            </div>
+                                        </div>
+                                        <div class="col d-flex">
+                                            <div class="col d-flex align-items-center"><img src="image/achieved.png" alt="" srcset=""></div>
+                                            <div class="col">
+                                                <div class="row">2</div>
+                                                <div class="row">Seats</div>
+                                            </div>
+                                        </div>
+                                        <div class="col d-flex">
+                                            <div class="col d-flex align-items-center"><img src="image/achieved.png" alt="" srcset=""></div>
+                                            <div class="col">
+                                                <div class="row">2</div>
+                                                <div class="row">Seats</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col d-flex justify-content-end">
+                                        <a href="#" class="applyButtonGridView">View Details <i class="bi bi-arrow-right"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>`;
+         			$(".ListViewDisplay").append(list);
+         		}
+         	}
+         	function printCardOnGrid(missions){
+         		$(".GridViewDisplay").empty();
+         		
+				for(var i in missions){
+					let card=`<div class="card col-lg-4 col-md-6 col-xs-12">
+						<div class="d-flex flex-column appliedCloseButtons">
+						<button class="btn btn-success">applied</button>
+						<button class="btn btn-danger">closed</button>
+					</div>
+					<p class="missionCityGridView">
+						<i class="bi bi-geo-alt"></i>`+missions[i].city.name+`
+					</p>
+					<p class="missionLikeGridView d-flex flex-column">
+						<i class="bi bi-heart"></i><i class="bi bi-person-plus"></i>
+					</p>
+					<img
+						src="image/Grow-Trees-On-the-path-to-environment-sustainability-1.png"
+						class="card-img-top missionImgGridView" alt="...">
+					<div class="card-body">
+						<div class="d-flex justify-content-center missionCategoryDiv">
+							<p class="missionCategoryGridView">`+missions[i].mission_theme.title+`</p>
+						</div>
+						<h5 class="card-title">`+missions[i].title+`</h5>
+						<p class="card-text">`+missions[i].short_description+`</p>
+						<div class="row ratingDivGridView">
+							<div class="col">`+missions[i].organization_name+`</div>
+							<div class="col">
+								<div class="row d-flex flex-row ratingStar flex-nowrap">
+									<div class="col">
+										<img src="image/selected-star.png" alt="" srcset="">
+									</div>
+									<div class="col">
+										<img src="image/selected-star.png" alt="" srcset="">
+									</div>
+									<div class="col">
+										<img src="image/selected-star.png" alt="" srcset="">
+									</div>
+									<div class="col">
+										<img src="image/star.png" alt="" srcset="">
+									</div>
+									<div class="col">
+										<img src="image/star.png" alt="" srcset="">
+									</div>
+								</div>
+							</div>
+						</div>
+						<br>
+						<div class="hrLine hrLineOverrided"></div>
+						<div class="row missionDatesGridView">
+							<div class="col d-flex justify-content-center">
+								<p>Ongoing Oppurtunity</p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="row">
+									<div class="col">
+										<img src="image/Seats-left.png" alt="" srcset="">
+									</div>
+									<div class="col">
+										<div class="row">10</div>
+										<div class="row">Seats Left</div>
+									</div>
+								</div>
+
+							</div>
+							<div class="col">
+								<div class="row">
+									<div class="col">
+										<img src="image/deadline.png" alt="" srcset="">
+									</div>
+									<div class="col">
+										<div class="row">09/01/2019</div>
+										<div class="row">Deadline</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+						<div class="hrLine"></div>
+						<div class="d-flex justify-content-center">
+							<a href="#" class="applyButtonGridView">Apply <i
+								class="bi bi-arrow-right"></i></a>
+						</div>
+
+					</div>
+				</div>`;
+					$(".GridViewDisplay").append(card);
+				}	
+         	}
+         	</script>
  <script src="js/sidebarJs.js"></script>
 <!--     <script src="js/add_navbar.js"></script> -->
 

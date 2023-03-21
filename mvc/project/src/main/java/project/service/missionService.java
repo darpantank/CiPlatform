@@ -24,8 +24,7 @@ public class missionService implements missionServiceInterface {
 	}
 
 	public List<country> loadListOfCountry() {
-		// TODO Auto-generated method stub
-		return null;
+		return daoOfMission.loadListOfCountry();
 	}
 
 	public List<city> loadCityOfCountry(int country_id) {
@@ -34,8 +33,7 @@ public class missionService implements missionServiceInterface {
 	}
 
 	public List<mission_theme> loadAllThemes() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.daoOfMission.loadAllThemes();
 	}
 	
 }

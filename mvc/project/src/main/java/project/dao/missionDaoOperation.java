@@ -2,9 +2,7 @@ package project.dao;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
-import org.hibernate.Query;
-import org.hibernate.Session;
+import org.hibernate.query.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Component;
@@ -32,21 +30,23 @@ public class missionDaoOperation implements missionDaoInterface {
 
 	public List<country> loadListOfCountry() {
 		// TODO Auto-generated method stub
-		return null;
+		return this.hibernateTemplate.loadAll(country.class);
 	}
 
 	public List<city> loadCityOfCountry(int country_id) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public List<mission_theme> loadAllThemes() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.hibernateTemplate.loadAll(mission_theme.class);
 	}
 
 	public List<mission> loadAllMission() {
-		return this.hibernateTemplate.loadAll(mission.class);
+		String que="from mission";
+		Query q=hibernateTemplate.getSessionFactory().openSession().createQuery(que);
+		q.setFirstResult(0);
+		q.setMaxResults(10);
+		return q.list();
 	}
 
 }
