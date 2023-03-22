@@ -19,8 +19,8 @@ public class missionService implements missionServiceInterface {
 	public List<mission> loadAllMission() {
 		return this.daoOfMission.loadAllMission();
 	}
-	public List<mission> loadAllMissionOnSearch(String keywords) {
-		return this.daoOfMission.loadAllMissionOnSearch(keywords);
+	public List<mission> loadAllMissionOnSearch(String keywords,String CountryId) {
+		return this.daoOfMission.loadAllMissionOnSearch(keywords,CountryId);
 	}
 
 	public List<country> loadListOfCountry() {
@@ -28,8 +28,7 @@ public class missionService implements missionServiceInterface {
 	}
 
 	public List<city> loadCityOfCountry(int country_id) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.daoOfMission.loadCityOfCountry(country_id);
 	}
 
 	public List<mission_theme> loadAllThemes() {

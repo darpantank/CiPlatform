@@ -19,16 +19,7 @@
 </head>
 
 <body>
-    <!-- main w3-sidebar -->
-    
-    <!-- <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="leftMainMenu">
-        <button onclick="closeLeftMainMenu()" class="w3-bar-item w3-button w3-large"> <img src="image/cancel.png"
-                class="sidebarClosingButton" alt="" srcset=""></button>
-        <a href="#" class="w3-bar-item w3-button">Explore</a>
-        <a href="#" class="w3-bar-item w3-button">Story</a>
-        <a href="#" class="w3-bar-item w3-button">Policy</a>
-    </div> -->
-
+	<input type="text" class="defaultCountry" hidden value="${user.country.country_id}">
     <!-- Filter SideBar -->
     <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="leftFilterMenu">
         <button onclick="closeLeftFilterMenu()" class="w3-bar-item w3-button w3-large"><img src="image/cancel.png"
@@ -36,25 +27,14 @@
         <!-- Filters dropdown Sidebar  -->
 
         <div class="dropdown mysidebar">
-            <button class="btn dropdown-toggle w-100 d-flex justify-content-between align-items-center" type="button"
-                data-bs-toggle="dropdown" aria-expanded="true">
-                <span>Country</span>
-                <img src="image/drop-down.png">
-            </button>
-            <ul class="dropdown-menu country">
-            	<!-- Country Fetch Here Sidebar --> 
-            </ul>
+            <select class="countrySelectSidebar btn dropdown-toggle">
+                <option value="country" hidden>Country</option>
+            </select>
 		</div>
         <div class="dropdown mysidebar">
-            <button class="btn dropdown-toggle w-100 d-flex justify-content-between align-items-center" type="button"
-                data-bs-toggle="dropdown" aria-expanded="false">
-                <span>City</span>
-                <img src="image/drop-down.png">
-            </button>
-            <ul class="dropdown-menu">
-                <li><input type="checkbox"> Ahmedabad</li>
-                <li><input type="checkbox"> Delhi</li>
-            </ul>
+            <select class="citySelectSidebar btn dropdown-toggle">
+                <option value="city" hidden>City</option>
+            </select>
         </div>
         <div class="dropdown mysidebar">
             <button class="btn dropdown-toggle w-100 d-flex justify-content-between align-items-center" type="button"
@@ -92,33 +72,21 @@
                     <form class="d-flex" role="search">
                         <button class="btn gotoSidebar" type="submit"><img src="image/search.png" alt=""></button>
                         <input class="form-control me-2 search_field" type="search" placeholder="Search Mission..."
-                            aria-label="Search">
+                            aria-label="Search" value="">
                     </form>
                     <button class="w3-button w3-xlarge w3-left filterBurger" onclick="openLeftFilterMenu()"><img
                             src="image/filter.png" alt="" srcset=""></button>
                 </div>
                 <div class="col d-flex justify-content-end filter gotoSidebar">
                     <div class="dropdown d-flex align-items-center leftBorder">
-                        <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            <span>Country</span>
-                            <img src="image/drop-down.png">
-                        </button>
-                        <ul class="dropdown-menu country">
-                            <!-- Fetch Country Main Bar -->
-                        </ul>
+                        <select class="countrySelect btn dropdown-toggle">
+                        	<option value="country" hidden>Country</option>
+                        </select>
 					</div>
                     <div class="dropdown d-flex align-items-center leftBorder">
-                        <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            <span>City</span>
-                            <img src="image/drop-down.png">
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
+                        <select class="citySelect btn dropdown-toggle">
+                        	<option value="city" hidden>City</option>
+                        </select>
                     </div>
                     <div class="dropdown d-flex align-items-center leftBorder">
                         <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
@@ -315,11 +283,15 @@
         crossorigin="anonymous"></script>
          <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
          <script>
+         let missions="";
+    	 let country="";
+    	 let CheckedCountry="";
+    	 let cityList="";
+    	 var CountryOfUser="";
          $(document).ready(function(){
-        	 
-        	 /* Initial Mission Loading Function */
-        	 let missions="";
-        	 let country="";
+        	 CountryOfUser=$(".defaultCountry").val;
+        	 console.log(CountryOfUser);
+        	 /* Initial Mission Loading Function */     		 
         	 $.ajax({
                  url: "loadAllMission",
                  dataType: 'json',
@@ -328,9 +300,7 @@
                 	 console.log(missions);
                 	 console.log("Total Mission :"+Object.keys(missions).length);
                 	 printCardOnGrid(missions);
-                	 printCardOnList(missions);
-                	 
-                	 
+                	 printCardOnList(missions);                	                 	 
                  }
              });
         	 $.ajax({
@@ -341,34 +311,89 @@
                 	 addCountryList(country);
                  }
              });
-        	 
-        	 
         	 /* Search Mission Logic */
              $('.search_field').keyup(function(){
-            	 var data1 = { keyword:$('.search_field').val()}; 
-                 $.ajax({
-                     url: "searchMission",
-                     type: "POST",
-                     data:data1,
-                     dataType: 'json',
-                     success: function(response){
-                    	missions=response;
-                    	editUpdatedMission(Object.keys(missions).length);
-                    	printCardOnGrid(missions);
-                    	printCardOnList(missions);
-                     }
-                 });   
+            	 updateMissionsOnChange();
              });
-           });
+        	 
+             $('.countrySelect, .countrySelectSidebar').on('change', function () {
+            	 CheckedCountry = $(this).find("option:selected").val();
+                 getCityList(CheckedCountry);
+                 updateMissionsOnChange();
+            });
+        });
+        	 
+         function  updateMissionsOnChange(){
+        	 var data1 = { keyword:$('.search_field').val(),
+        			 		Country: CheckedCountry
+        			 	}; 
+             $.ajax({
+                 url: "searchMission",
+                 type: "POST",
+                 data:data1,
+                 dataType: 'json',
+                 success: function(response){
+                	missions=response;
+                	var a=Object.keys(missions).length;
+                	editUpdatedMission(a);                   		
+                	printCardOnGrid(missions);
+                	printCardOnList(missions);  
+                	if(a==0){
+                		if($(".noMissionFound").length===0){
+                			noMissionFound();
+                		}
+                	}
+                	else{
+                		$(".noMissionFound").remove();
+                	}
+                 }
+             });   
+         }
+         	function getCityList(CheckedCountry){
+         		//get City List
+         		$.ajax({
+                    url: "loadListOfCity",
+                    dataType: 'json',
+                    data:{countryId: CheckedCountry},
+                    type:"POST",
+                    success: function(response){
+                   	 cityList=response;
+                   	addCityList(cityList);
+                    }
+                });
+         	}
+         	function addCityList(cityList){
+         		console.log(cityList);
+         		$(".citySelect").empty();
+         		$(".citySelectSidebar").empty();
+         		var data="<option value='city' hidden>city</option>";
+         		let status=0;
+         		for(var i in cityList){
+         			status=1;
+         			data+='<option value="'+cityList[i].city_id+'"><input type="checkbox" class="cityList"> '+cityList[i].name+'</option>';
+         		}
+         		if(status==0){
+         			data+="<option value='Nocity'>No city Found</option>";
+         		}
+         		$(".citySelect").append(data);
+         		$(".citySelectSidebar").append(data);
+         	}
          	function editUpdatedMission(a){
          		$("#noOfMission").html(a);
+         	}
+         	function noMissionFound(){
+         		$(".gridListView").append('<h1 class="noMissionFound">No Mission Found</h1>');
          	}
          	function addCountryList(country){
          		var data="";
          		for(var i in country){
-         			data+='<li><input type="checkbox" value="'+country[i].country_id+'"> '+country[i].name+'</li>';
+         			if(CountryOfUser==country[i].country_id){
+         				console.log("thanks");
+         			}
+         			data+='<option value="'+country[i].country_id+'"> '+country[i].name+'</option>';
          		}
-         		$(".country").append(data);
+         		$(".countrySelect").append(data);
+         		$(".countrySelectSidebar").append(data);
          	}
          	function printCardOnList(missions){
          		$(".ListViewDisplay").empty();

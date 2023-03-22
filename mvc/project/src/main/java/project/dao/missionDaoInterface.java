@@ -9,7 +9,7 @@ import project.model.mission_theme;
 
 
 public interface missionDaoInterface {
-	public List<mission> loadAllMissionOnSearch(String keywords);
+	public List<mission> loadAllMissionOnSearch(String keywords,String CountryId);
 	public List<country> loadListOfCountry();
 	public List<city> loadCityOfCountry(int country_id);
 	public List<mission_theme> loadAllThemes();

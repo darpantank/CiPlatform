@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import project.model.city;
 import project.model.country;
 import project.model.mission;
 import project.service.missionServiceInterface;
@@ -38,8 +39,8 @@ public class missionController {
 	}
 	
 	@RequestMapping(value="/searchMission",method = RequestMethod.POST)
-	public @ResponseBody String loadAllMissionOnSearch(@RequestParam("keyword") String keyword) {
-		List<mission> mylist=this.service.loadAllMissionOnSearch(keyword);
+	public @ResponseBody String loadAllMissionOnSearch(@RequestParam("keyword") String keyword,@RequestParam("Country") String CountryId) {
+		List<mission> mylist=this.service.loadAllMissionOnSearch(keyword,CountryId);
 		ObjectMapper obj=new ObjectMapper();
 		String Output="";
 		try {
@@ -53,6 +54,20 @@ public class missionController {
 	@RequestMapping(value="/loadListOfCountry")
 	public @ResponseBody String loadCountryList() {
 		List<country> mylist=this.service.loadListOfCountry();
+		ObjectMapper obj=new ObjectMapper();
+		String Output="";
+		try {
+			Output=obj.writeValueAsString(mylist);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return Output;
+	}
+	@RequestMapping(value="/loadListOfCity",method = RequestMethod.POST)
+	public @ResponseBody String loadCountryList(@RequestParam("countryId") int countryId) {
+		List<city> mylist=this.service.loadCityOfCountry(countryId);
+		System.out.println(mylist);
 		ObjectMapper obj=new ObjectMapper();
 		String Output="";
 		try {
