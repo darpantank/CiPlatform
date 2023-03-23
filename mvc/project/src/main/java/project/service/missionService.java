@@ -1,11 +1,15 @@
 package project.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import project.dao.missionDaoInterface;
+import project.dto.FilterObject;
 import project.model.city;
 import project.model.country;
 import project.model.mission;
@@ -19,8 +23,8 @@ public class missionService implements missionServiceInterface {
 	public List<mission> loadAllMission() {
 		return this.daoOfMission.loadAllMission();
 	}
-	public List<mission> loadAllMissionOnSearch(String keywords,String CountryId) {
-		return this.daoOfMission.loadAllMissionOnSearch(keywords,CountryId);
+	public List<mission> loadAllMissionOnSearch(FilterObject filters) {
+		return this.daoOfMission.loadAllMissionOnSearch(filters);
 	}
 
 	public List<country> loadListOfCountry() {

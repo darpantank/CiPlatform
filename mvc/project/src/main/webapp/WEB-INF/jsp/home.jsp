@@ -32,19 +32,22 @@
             </select>
 		</div>
         <div class="dropdown mysidebar">
-            <select class="citySelectSidebar btn dropdown-toggle">
-                <option value="city" hidden>City</option>
-            </select>
-        </div>
+			<button class="btn dropdown-toggle" type="button"
+				data-bs-toggle="dropdown" aria-expanded="false">
+				<span>City</span> <img src="image/drop-down.png">
+			</button>
+			<ul class="dropdown-menu citySelectorSidebar">
+				
+			</ul>
+		</div>
         <div class="dropdown mysidebar">
             <button class="btn dropdown-toggle w-100 d-flex justify-content-between align-items-center" type="button"
                 data-bs-toggle="dropdown" aria-expanded="false">
                 <span>Theme</span>
                 <img src="image/drop-down.png">
             </button>
-            <ul class="dropdown-menu">
-                <li><input type="checkbox"> Dark</li>
-                <li><input type="checkbox"> Light</li>
+            <ul class="dropdown-menu themeSelectorSidebar">
+
             </ul>
         </div>
         <div class="dropdown mysidebar">
@@ -84,9 +87,20 @@
                         </select>
 					</div>
                     <div class="dropdown d-flex align-items-center leftBorder">
-                        <select class="citySelect btn dropdown-toggle">
+                        
+                        <!-- <select class="citySelect btn dropdown-toggle">
                         	<option value="city" hidden>City</option>
                         </select>
+                         -->
+                        <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <span>City</span>
+                            <img src="image/drop-down.png">
+                        </button>
+                        <ul class="dropdown-menu citySelector">
+                            
+                        </ul>
+                        
                     </div>
                     <div class="dropdown d-flex align-items-center leftBorder">
                         <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
@@ -94,10 +108,8 @@
                             <span>Theme</span>
                             <img src="image/drop-down.png">
                         </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <ul class="dropdown-menu themeSelector">
+                            
                         </ul>
                     </div>
                     <div class="dropdown d-flex align-items-center leftRightBorder">
@@ -283,12 +295,19 @@
         crossorigin="anonymous"></script>
          <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
          <script>
+         let searchWord="";
          let missions="";
     	 let country="";
     	 let CheckedCountry="";
     	 let cityList="";
+    	 let themeList=[];
+    	 let skills=[];
     	 var CountryOfUser="";
-         $(document).ready(function(){
+		 var selectedCity = [];
+		 var selectedTheme=[];
+		 let selecttedCityString="";
+		 let ThemeList="";
+		 $(document).ready(function(){
         	 CountryOfUser=$(".defaultCountry").val;
         	 console.log(CountryOfUser);
         	 /* Initial Mission Loading Function */     		 
@@ -311,6 +330,17 @@
                 	 addCountryList(country);
                  }
              });
+        	 
+        	 $.ajax({
+                 url: "loadListOfTheme",
+                 dataType: 'json',
+                 success: function(response){
+                	 ThemeList=response;
+                	 console.log(response);
+                	addThemeList(ThemeList);
+                 }
+             });
+        	 
         	 /* Search Mission Logic */
              $('.search_field').keyup(function(){
             	 updateMissionsOnChange();
@@ -321,256 +351,309 @@
                  getCityList(CheckedCountry);
                  updateMissionsOnChange();
             });
+             
         });
+		 function cityCheckedClickEvent(){
+			 $('.citySelector input:checked , .citySelectorSidebar input:checked').each(function(){
+				 if($(this).attr('checked',true)){
+					 if (!selectedCity.includes($(this).attr('value'))) {
+		        		 	selectedCity.push($(this).attr('value'));
+		        		 }
+				 }
+             });
+			 $('.citySelector input:checked , .citySelectorSidebar input:checked').each(function(){
+					 if (!selectedCity.includes($(this).attr('value'))) {
+		        		 	selectedCity.push($(this).attr('value'));
+		        		 }
+             });
+			 updateMissionsOnChange();
         	 
-         function  updateMissionsOnChange(){
-        	 var data1 = { keyword:$('.search_field').val(),
-        			 		Country: CheckedCountry
-        			 	}; 
-             $.ajax({
-                 url: "searchMission",
-                 type: "POST",
-                 data:data1,
-                 dataType: 'json',
-                 success: function(response){
-                	missions=response;
-                	var a=Object.keys(missions).length;
-                	editUpdatedMission(a);                   		
-                	printCardOnGrid(missions);
-                	printCardOnList(missions);  
-                	if(a==0){
-                		if($(".noMissionFound").length===0){
-                			noMissionFound();
-                		}
-                	}
-                	else{
-                		$(".noMissionFound").remove();
-                	}
-                 }
-             });   
-         }
-         	function getCityList(CheckedCountry){
-         		//get City List
-         		$.ajax({
-                    url: "loadListOfCity",
-                    dataType: 'json',
-                    data:{countryId: CheckedCountry},
-                    type:"POST",
-                    success: function(response){
-                   	 cityList=response;
-                   	addCityList(cityList);
-                    }
-                });
-         	}
-         	function addCityList(cityList){
-         		console.log(cityList);
-         		$(".citySelect").empty();
-         		$(".citySelectSidebar").empty();
-         		var data="<option value='city' hidden>city</option>";
-         		let status=0;
-         		for(var i in cityList){
-         			status=1;
-         			data+='<option value="'+cityList[i].city_id+'"><input type="checkbox" class="cityList"> '+cityList[i].name+'</option>';
-         		}
-         		if(status==0){
-         			data+="<option value='Nocity'>No city Found</option>";
-         		}
-         		$(".citySelect").append(data);
-         		$(".citySelectSidebar").append(data);
-         	}
-         	function editUpdatedMission(a){
-         		$("#noOfMission").html(a);
-         	}
-         	function noMissionFound(){
-         		$(".gridListView").append('<h1 class="noMissionFound">No Mission Found</h1>');
-         	}
-         	function addCountryList(country){
-         		var data="";
-         		for(var i in country){
-         			if(CountryOfUser==country[i].country_id){
-         				console.log("thanks");
-         			}
-         			data+='<option value="'+country[i].country_id+'"> '+country[i].name+'</option>';
-         		}
-         		$(".countrySelect").append(data);
-         		$(".countrySelectSidebar").append(data);
-         	}
-         	function printCardOnList(missions){
-         		$(".ListViewDisplay").empty();
-         		for(var i in missions){
-         		let list=`<div class="row ListViewCard">
-                    <div class="card">
-                    <div class="row g-0">
-                        <div class="col-md-3 missionImg">
-                            <p class="missionCityListView"><i class="bi bi-geo-alt"></i>`+missions[i].city.name+`</p>
-                            <p class="missionAppliedListView"> Applied</p>
-                            <div class="missionLikeListView d-flex flex-column"><i class="bi bi-heart"></i><i
-                                class="bi bi-person-plus"></i>
-                            </div>
-                            <div class="d-flex justify-content-center missionCategoryListView"><p>`+missions[i].mission_theme.title+`</p></div>
-                            <img src="image/Grow-Trees-On-the-path-to-environment-sustainability-1.png" class="img-fluid rounded-start" alt="...">
-                        </div>
-                        <div class="col-md-9">
-                            <div class="card-body">
-                                <div class="row w-100 d-flex ">
-                                    <div class="col">
-                                        <div class="row d-flex justify-content-start firstInfoContainerListView">
-                                            <div class="col d-flex"><i class="bi bi-geo-alt"> </i><p>`+missions[i].country.name+`</p></div>
-                                            <div class="col d-flex"><i class="bi bi-globe"> </i><p> `+missions[i].mission_theme.title+`</p></div>
-                                            <div class="col d-flex"><i class="bi bi-people"> </i> <p>`+missions[i].organization_name+`</p></div>
-                                        </div>
-                                    </div>
-                                    <div class="col d-flex justify-content-end">
-                                        <div class="row ratingDivGridView">
-                                            <div class="col">
-                                                <div class="row d-flex flex-row ratingStar flex-nowrap">
-                                                    <div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
-                                                    <div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
-                                                    <div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
-                                                    <div class="col"><img src="image/star.png" alt="" srcset=""></div>
-                                                    <div class="col"><img src="image/star.png" alt="" srcset=""></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <h5 class="card-title">`+missions[i].title+`</h5>
-                                <p class="card-text">`+missions[i].short_description+`</p>
-                                <div class="row">
-                                    <div class="col d-flex">
-                                        <div class="col d-flex">
-                                            <div class="col d-flex align-items-center"><img src="image/Seats-left.png" alt="" srcset=""></div>
-                                            <div class="col">
-                                                <div class="row">2</div>
-                                                <div class="row">Seats</div>
-                                            </div>
-                                        </div>
-                                        <div class="col d-flex">
-                                            <div class="col d-flex align-items-center"><img src="image/achieved.png" alt="" srcset=""></div>
-                                            <div class="col">
-                                                <div class="row">2</div>
-                                                <div class="row">Seats</div>
-                                            </div>
-                                        </div>
-                                        <div class="col d-flex">
-                                            <div class="col d-flex align-items-center"><img src="image/achieved.png" alt="" srcset=""></div>
-                                            <div class="col">
-                                                <div class="row">2</div>
-                                                <div class="row">Seats</div>
-                                            </div>
-                                        </div>
-                                        <div class="col d-flex">
-                                            <div class="col d-flex align-items-center"><img src="image/achieved.png" alt="" srcset=""></div>
-                                            <div class="col">
-                                                <div class="row">2</div>
-                                                <div class="row">Seats</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col d-flex justify-content-end">
-                                        <a href="#" class="applyButtonGridView">View Details <i class="bi bi-arrow-right"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>`;
-         			$(".ListViewDisplay").append(list);
-         		}
-         	}
-         	function printCardOnGrid(missions){
-         		$(".GridViewDisplay").empty();
-         		
-				for(var i in missions){
-					let card=`<div class="card col-lg-4 col-md-6 col-xs-12">
-						<div class="d-flex flex-column appliedCloseButtons">
-						<button class="btn btn-success">applied</button>
-						<button class="btn btn-danger">closed</button>
-					</div>
-					<p class="missionCityGridView">
-						<i class="bi bi-geo-alt"></i>`+missions[i].city.name+`
-					</p>
-					<p class="missionLikeGridView d-flex flex-column">
-						<i class="bi bi-heart"></i><i class="bi bi-person-plus"></i>
-					</p>
-					<img
-						src="image/Grow-Trees-On-the-path-to-environment-sustainability-1.png"
-						class="card-img-top missionImgGridView" alt="...">
-					<div class="card-body">
-						<div class="d-flex justify-content-center missionCategoryDiv">
-							<p class="missionCategoryGridView">`+missions[i].mission_theme.title+`</p>
+		 }
+		 
+		 function themeCheckedClickEvent(){
+			 console.log();
+			 $('.themeSelector input:checked , .themeSelectorSidebar input:checked').each(function(){
+        		 if (!selectedTheme.includes($(this).attr('value'))) {
+        			 selectedTheme.push($(this).attr('value'));
+        		 }
+             });
+			 updateMissionsOnChange();
+        	 
+		 }
+/* 		 function cityListOfChecked(selectedCity){
+	       		selecttedCityString=JSON.stringify(selectedCity);
+	       		updateMissionsOnChange();     			
+	       	}  */	
+	       	function addCityList(cityList){
+	     		console.log(cityList);
+	     		$(".citySelector").empty();
+	     		$(".citySelectorSidebar").empty();
+	     		var data="";
+	     		let status=0;
+	     		for(var i in cityList){
+	     			status=1;
+	     			data+='<input type="checkbox" onChange="cityCheckedClickEvent()" value="'+cityList[i].city_id+'"/> '+cityList[i].name+'<br>';
+	     		}
+	     		if(status==0){
+	     			data+="No City Found";
+	     		}
+	     		$(".citySelector").append(data);
+	      		$(".citySelectorSidebar").append(data);
+	     	}
+	       	function addThemeList(ThemeList){
+	     		console.log(ThemeList);
+	     		$(".themeSelector").empty();
+	     		$(".themeSelectorSidebar").empty();
+	     		var data="";
+	     		let status=0;
+	     		for(var i in ThemeList){
+	     			status=1;
+	     			data+='<input type="checkbox" onChange="themeCheckedClickEvent()" value="'+ThemeList[i].mission_theme_id+'"/> '+ThemeList[i].title+'<br>';
+	     		}
+	     		if(status==0){
+	     			data+="No Theme Found";
+	     		}
+	     		$(".themeSelector").append(data);
+	      		$(".themeSelectorSidebar").append(data);
+	     	}
+	         function  updateMissionsOnChange(){
+	        	 let searchWord=$('.search_field').val();
+	        	 FilterObject={
+	    				 keyword :searchWord ,
+	    				 country_id : CheckedCountry,
+	    				 cities: selectedCity,
+	    				 themes: selectedTheme,
+	    				 skills: skills
+	    		 }
+	             $.ajax({
+	                 url: "searchMission",
+	                 type: "POST",
+	                 data:	{'Filters': JSON.stringify(FilterObject)},
+	                 dataType: 'json',
+	                 success: function(response){
+	                	missions=response;
+	                	var a=Object.keys(missions).length;
+	                	editUpdatedMission(a);                   		
+	                	printCardOnGrid(missions);
+	                	printCardOnList(missions);  
+	                	if(a==0){
+	                		if($(".noMissionFound").length===0){
+	                			noMissionFound();
+	                		}
+	                	}
+	                	else{
+	                		$(".noMissionFound").remove();
+	                	}
+	                 }
+	             });   
+	         }
+	         	function getCityList(CheckedCountry){
+	         		//get City List
+	         		$.ajax({
+	                    url: "loadListOfCity",
+	                    dataType: 'json',
+	                    data:{countryId: CheckedCountry},
+	                    type:"POST",
+	                    success: function(response){
+	                   	 cityList=response;
+	                   	addCityList(cityList);
+	                    }
+	                });
+	         	}
+	         	
+	         	function editUpdatedMission(a){
+	         		$("#noOfMission").html(a);
+	         	}
+	         	function noMissionFound(){
+	         		$(".gridListView").append('<h1 class="noMissionFound">No Mission Found</h1>');
+	         	}
+	         	function addCountryList(country){
+	         		var data="";
+	         		for(var i in country){
+	         			if(CountryOfUser==country[i].country_id){
+	         				console.log("thanks");
+	         			}
+	         			data+='<option value="'+country[i].country_id+'"> '+country[i].name+'</option>';
+	         		}
+	         		$(".countrySelect").append(data);
+	         		$(".countrySelectSidebar").append(data);
+	         	}
+	         	function printCardOnList(missions){
+	         		$(".ListViewDisplay").empty();
+	         		for(var i in missions){
+	         		let list=`<div class="row ListViewCard">
+	                    <div class="card">
+	                    <div class="row g-0">
+	                        <div class="col-md-3 missionImg">
+	                            <p class="missionCityListView"><i class="bi bi-geo-alt"></i>`+missions[i].city.name+`</p>
+	                            <p class="missionAppliedListView"> Applied</p>
+	                            <div class="missionLikeListView d-flex flex-column"><i class="bi bi-heart"></i><i
+	                                class="bi bi-person-plus"></i>
+	                            </div>
+	                            <div class="d-flex justify-content-center missionCategoryListView"><p>`+missions[i].mission_theme.title+`</p></div>
+	                            <img src="image/Grow-Trees-On-the-path-to-environment-sustainability-1.png" class="img-fluid rounded-start" alt="...">
+	                        </div>
+	                        <div class="col-md-9">
+	                            <div class="card-body">
+	                                <div class="row w-100 d-flex ">
+	                                    <div class="col">
+	                                        <div class="row d-flex justify-content-start firstInfoContainerListView">
+	                                            <div class="col d-flex"><i class="bi bi-geo-alt"> </i><p>`+missions[i].country.name+`</p></div>
+	                                            <div class="col d-flex"><i class="bi bi-globe"> </i><p> `+missions[i].mission_theme.title+`</p></div>
+	                                            <div class="col d-flex"><i class="bi bi-people"> </i> <p>`+missions[i].organization_name+`</p></div>
+	                                        </div>
+	                                    </div>
+	                                    <div class="col d-flex justify-content-end">
+	                                        <div class="row ratingDivGridView">
+	                                            <div class="col">
+	                                                <div class="row d-flex flex-row ratingStar flex-nowrap">
+	                                                    <div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
+	                                                    <div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
+	                                                    <div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
+	                                                    <div class="col"><img src="image/star.png" alt="" srcset=""></div>
+	                                                    <div class="col"><img src="image/star.png" alt="" srcset=""></div>
+	                                                </div>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                                <h5 class="card-title">`+missions[i].title+`</h5>
+	                                <p class="card-text">`+missions[i].short_description+`</p>
+	                                <div class="row">
+	                                    <div class="col d-flex">
+	                                        <div class="col d-flex">
+	                                            <div class="col d-flex align-items-center"><img src="image/Seats-left.png" alt="" srcset=""></div>
+	                                            <div class="col">
+	                                                <div class="row">2</div>
+	                                                <div class="row">Seats</div>
+	                                            </div>
+	                                        </div>
+	                                        <div class="col d-flex">
+	                                            <div class="col d-flex align-items-center"><img src="image/achieved.png" alt="" srcset=""></div>
+	                                            <div class="col">
+	                                                <div class="row">2</div>
+	                                                <div class="row">Seats</div>
+	                                            </div>
+	                                        </div>
+	                                        <div class="col d-flex">
+	                                            <div class="col d-flex align-items-center"><img src="image/achieved.png" alt="" srcset=""></div>
+	                                            <div class="col">
+	                                                <div class="row">2</div>
+	                                                <div class="row">Seats</div>
+	                                            </div>
+	                                        </div>
+	                                        <div class="col d-flex">
+	                                            <div class="col d-flex align-items-center"><img src="image/achieved.png" alt="" srcset=""></div>
+	                                            <div class="col">
+	                                                <div class="row">2</div>
+	                                                <div class="row">Seats</div>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                    <div class="col d-flex justify-content-end">
+	                                        <a href="#" class="applyButtonGridView">View Details <i class="bi bi-arrow-right"></i></a>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	                
+	            </div>`;
+	         			$(".ListViewDisplay").append(list);
+	         		}
+	         	}
+	         	function printCardOnGrid(missions){
+	         		$(".GridViewDisplay").empty();
+	         		
+					for(var i in missions){
+						let card=`<div class="card col-lg-4 col-md-6 col-xs-12">
+							<div class="d-flex flex-column appliedCloseButtons">
+							<button class="btn btn-success">applied</button>
+							<button class="btn btn-danger">closed</button>
 						</div>
-						<h5 class="card-title">`+missions[i].title+`</h5>
-						<p class="card-text">`+missions[i].short_description+`</p>
-						<div class="row ratingDivGridView">
-							<div class="col">`+missions[i].organization_name+`</div>
-							<div class="col">
-								<div class="row d-flex flex-row ratingStar flex-nowrap">
-									<div class="col">
-										<img src="image/selected-star.png" alt="" srcset="">
-									</div>
-									<div class="col">
-										<img src="image/selected-star.png" alt="" srcset="">
-									</div>
-									<div class="col">
-										<img src="image/selected-star.png" alt="" srcset="">
-									</div>
-									<div class="col">
-										<img src="image/star.png" alt="" srcset="">
-									</div>
-									<div class="col">
-										<img src="image/star.png" alt="" srcset="">
+						<p class="missionCityGridView">
+							<i class="bi bi-geo-alt"></i>`+missions[i].city.name+`
+						</p>
+						<p class="missionLikeGridView d-flex flex-column">
+							<i class="bi bi-heart"></i><i class="bi bi-person-plus"></i>
+						</p>
+						<img
+							src="image/Grow-Trees-On-the-path-to-environment-sustainability-1.png"
+							class="card-img-top missionImgGridView" alt="...">
+						<div class="card-body">
+							<div class="d-flex justify-content-center missionCategoryDiv">
+								<p class="missionCategoryGridView">`+missions[i].mission_theme.title+`</p>
+							</div>
+							<h5 class="card-title">`+missions[i].title+`</h5>
+							<p class="card-text">`+missions[i].short_description+`</p>
+							<div class="row ratingDivGridView">
+								<div class="col">`+missions[i].organization_name+`</div>
+								<div class="col">
+									<div class="row d-flex flex-row ratingStar flex-nowrap">
+										<div class="col">
+											<img src="image/selected-star.png" alt="" srcset="">
+										</div>
+										<div class="col">
+											<img src="image/selected-star.png" alt="" srcset="">
+										</div>
+										<div class="col">
+											<img src="image/selected-star.png" alt="" srcset="">
+										</div>
+										<div class="col">
+											<img src="image/star.png" alt="" srcset="">
+										</div>
+										<div class="col">
+											<img src="image/star.png" alt="" srcset="">
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-						<br>
-						<div class="hrLine hrLineOverrided"></div>
-						<div class="row missionDatesGridView">
-							<div class="col d-flex justify-content-center">
-								<p>Ongoing Oppurtunity</p>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col">
-								<div class="row">
-									<div class="col">
-										<img src="image/Seats-left.png" alt="" srcset="">
-									</div>
-									<div class="col">
-										<div class="row">10</div>
-										<div class="row">Seats Left</div>
-									</div>
+							<br>
+							<div class="hrLine hrLineOverrided"></div>
+							<div class="row missionDatesGridView">
+								<div class="col d-flex justify-content-center">
+									<p>Ongoing Oppurtunity</p>
 								</div>
-
 							</div>
-							<div class="col">
-								<div class="row">
-									<div class="col">
-										<img src="image/deadline.png" alt="" srcset="">
+							<div class="row">
+								<div class="col">
+									<div class="row">
+										<div class="col">
+											<img src="image/Seats-left.png" alt="" srcset="">
+										</div>
+										<div class="col">
+											<div class="row">10</div>
+											<div class="row">Seats Left</div>
+										</div>
 									</div>
-									<div class="col">
-										<div class="row">09/01/2019</div>
-										<div class="row">Deadline</div>
-									</div>
+
 								</div>
+								<div class="col">
+									<div class="row">
+										<div class="col">
+											<img src="image/deadline.png" alt="" srcset="">
+										</div>
+										<div class="col">
+											<div class="row">09/01/2019</div>
+											<div class="row">Deadline</div>
+										</div>
+									</div>
 
+								</div>
 							</div>
-						</div>
-						<div class="hrLine"></div>
-						<div class="d-flex justify-content-center">
-							<a href="#" class="applyButtonGridView">Apply <i
-								class="bi bi-arrow-right"></i></a>
-						</div>
+							<div class="hrLine"></div>
+							<div class="d-flex justify-content-center">
+								<a href="#" class="applyButtonGridView">Apply <i
+									class="bi bi-arrow-right"></i></a>
+							</div>
 
-					</div>
-				</div>`;
-					$(".GridViewDisplay").append(card);
-				}	
-         	}
-         	</script>
+						</div>
+					</div>`;
+						$(".GridViewDisplay").append(card);
+					}	
+	         	}
+         </script>
  <script src="js/sidebarJs.js"></script>
 <!--     <script src="js/add_navbar.js"></script> -->
 

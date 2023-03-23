@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Component;
 
+import project.dto.FilterObject;
 import project.model.city;
 import project.model.country;
 import project.model.mission;
@@ -20,13 +22,45 @@ public class missionDaoOperation implements missionDaoInterface {
 	@Autowired
 	private HibernateTemplate hibernateTemplate;
 
-	public List<mission> loadAllMissionOnSearch(String keyword,String CountryId) {
-		 String que="from mission where title like :keyword and country_id=:CountryId"; 
-		 Query q=hibernateTemplate.getSessionFactory().openSession().createQuery(que);
-		 q.setParameter("keyword", "%"+keyword+"%");
-		 q.setParameter("CountryId",CountryId);
-		 List<mission> mylist=q.list();
-		return mylist;
+	public List<mission> loadAllMissionOnSearch(FilterObject filters) {
+		
+		Session s = this.hibernateTemplate.getSessionFactory().openSession();
+		Criteria c = s.createCriteria(mission.class);
+	    if(filters.getKeyword()!="") {
+	    	c.add(Restrictions.like("title", "%" +filters.getKeyword()+ "%"));
+	    }
+	    
+	    if(filters.getCountry_id()!= 0) {
+	    	c.add(Restrictions.eq("country.country_id",filters.getCountry_id()));
+	    }
+	    if(filters.getCities().size()>0) {
+	    	c.add(Restrictions.in("city.city_id",filters.getCities()));
+	    }
+	    if(filters.getThemes().size()>0) {
+	    	c.add(Restrictions.in("mission_theme.mission_theme_id",filters.getThemes()));
+	    }
+		 
+		return c.list();
+//		String que="from mission where title like :keyword and country_id=:CountryId and city_id in :CityList"; 
+//			if(CountryId!="") {
+//				if(CityList!="") {
+//					que="from mission where title like :keyword and country_id=:CountryId and city_id in :CityList";
+//				}
+//				else {
+//					que="from mission where title like :keyword and country_id=:CountryId";
+//				}
+//			}
+//			else {
+//				que="from mission where title like :keyword";
+//			}
+//		 
+//		 Query q=hibernateTemplate.getSessionFactory().openSession().createQuery(que);
+//		 q.setParameter("keyword", "%"+keyword+"%");
+//		
+//		 q.setParameter("CityList",CityList);
+//		 List<mission> mylist=q.list();
+//		return mylist;
+		
 	}
 
 	public List<country> loadListOfCountry() {

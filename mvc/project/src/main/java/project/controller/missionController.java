@@ -4,19 +4,23 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 
+import project.dto.FilterObject;
 import project.model.city;
 import project.model.country;
 import project.model.mission;
+import project.model.mission_theme;
 import project.service.missionServiceInterface;
 
 @Controller
@@ -39,16 +43,24 @@ public class missionController {
 	}
 	
 	@RequestMapping(value="/searchMission",method = RequestMethod.POST)
-	public @ResponseBody String loadAllMissionOnSearch(@RequestParam("keyword") String keyword,@RequestParam("Country") String CountryId) {
-		List<mission> mylist=this.service.loadAllMissionOnSearch(keyword,CountryId);
-		ObjectMapper obj=new ObjectMapper();
+	public @ResponseBody String loadAllMissionOnSearch(@RequestParam("Filters") String filters) {
 		String Output="";
+		System.out.println("Enter in Search Mission"+filters);
+		ObjectMapper obj=new ObjectMapper();
 		try {
-			Output=obj.writeValueAsString(mylist);
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
+			FilterObject filter=obj.readValue(filters, FilterObject.class);
+			try {
+				List<mission> mylist=this.service.loadAllMissionOnSearch(filter);
+				
+				Output=obj.writeValueAsString(mylist);
+			} catch (JsonProcessingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}catch(JsonProcessingException e){
 			e.printStackTrace();
 		}
+		System.out.println("output:"+ Output);
 		return Output;
 	}
 	@RequestMapping(value="/loadListOfCountry")
@@ -67,6 +79,20 @@ public class missionController {
 	@RequestMapping(value="/loadListOfCity",method = RequestMethod.POST)
 	public @ResponseBody String loadCountryList(@RequestParam("countryId") int countryId) {
 		List<city> mylist=this.service.loadCityOfCountry(countryId);
+		System.out.println(mylist);
+		ObjectMapper obj=new ObjectMapper();
+		String Output="";
+		try {
+			Output=obj.writeValueAsString(mylist);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return Output;
+	}
+	@RequestMapping(value="/loadListOfTheme")
+	public @ResponseBody String loadAllTheme() {
+		List<mission_theme> mylist=this.service.loadAllThemes();
 		System.out.println(mylist);
 		ObjectMapper obj=new ObjectMapper();
 		String Output="";
