@@ -1,16 +1,19 @@
 package project.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class mission {
@@ -42,7 +45,8 @@ public class mission {
 	private Date created_at;
 	private Date updated_at;
 	private Date deleted_at;
-	
+	@OneToMany(mappedBy = "missions" , cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	private List<mission_skill> missionSkills;
 	public enum MissionType{
 		TIME,
 		GOAL;
@@ -61,10 +65,13 @@ public class mission {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	
 	public mission(int mission_id, project.model.mission_theme mission_theme, project.model.city city,
 			project.model.country country, String title, String short_description, String description, Date start_date,
 			Date end_date, MissionType mission_type, Status status, String organization_name,
-			String organization_detail, Availability availability, Date created_at, Date updated_at, Date deleted_at) {
+			String organization_detail, Availability availability, Date created_at, Date updated_at, Date deleted_at,
+			List<mission_skill> ms) {
 		super();
 		this.mission_id = mission_id;
 		this.mission_theme = mission_theme;
@@ -83,7 +90,10 @@ public class mission {
 		this.created_at = created_at;
 		this.updated_at = updated_at;
 		this.deleted_at = deleted_at;
+		this.missionSkills = missionSkills;
 	}
+
+
 	public int getMission_id() {
 		return mission_id;
 	}
@@ -108,6 +118,21 @@ public class mission {
 	public void setCountry(country country) {
 		this.country = country;
 	}
+	
+
+
+
+
+	public List<mission_skill> getMissionSkills() {
+		return missionSkills;
+	}
+
+
+	public void setMissionSkills(List<mission_skill> missionSkills) {
+		this.missionSkills = missionSkills;
+	}
+
+
 	public String getTitle() {
 		return title;
 	}
@@ -186,6 +211,8 @@ public class mission {
 	public void setDeleted_at(Date deleted_at) {
 		this.deleted_at = deleted_at;
 	}
+
+
 	@Override
 	public String toString() {
 		return "mission [mission_id=" + mission_id + ", mission_theme=" + mission_theme + ", city=" + city
@@ -193,8 +220,13 @@ public class mission {
 				+ ", description=" + description + ", start_date=" + start_date + ", end_date=" + end_date
 				+ ", mission_type=" + mission_type + ", status=" + status + ", organization_name=" + organization_name
 				+ ", organization_detail=" + organization_detail + ", availability=" + availability + ", created_at="
-				+ created_at + ", updated_at=" + updated_at + ", deleted_at=" + deleted_at + "]";
+				+ created_at + ", updated_at=" + updated_at + ", deleted_at=" + deleted_at + ", missionSkills="
+				+ missionSkills + "]";
 	}
+
+
+
+
 	
 	
 }

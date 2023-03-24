@@ -21,6 +21,7 @@ import project.model.city;
 import project.model.country;
 import project.model.mission;
 import project.model.mission_theme;
+import project.model.skill;
 import project.service.missionServiceInterface;
 
 @Controller
@@ -50,8 +51,7 @@ public class missionController {
 		try {
 			FilterObject filter=obj.readValue(filters, FilterObject.class);
 			try {
-				List<mission> mylist=this.service.loadAllMissionOnSearch(filter);
-				
+				List<mission> mylist=this.service.loadAllMissionOnSearch(filter);	
 				Output=obj.writeValueAsString(mylist);
 			} catch (JsonProcessingException e) {
 				// TODO Auto-generated catch block
@@ -93,6 +93,20 @@ public class missionController {
 	@RequestMapping(value="/loadListOfTheme")
 	public @ResponseBody String loadAllTheme() {
 		List<mission_theme> mylist=this.service.loadAllThemes();
+		System.out.println(mylist);
+		ObjectMapper obj=new ObjectMapper();
+		String Output="";
+		try {
+			Output=obj.writeValueAsString(mylist);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return Output;
+	}
+	@RequestMapping(value="/loadListOfSkill")
+	public @ResponseBody String loadAllSkill() {
+		List<skill> mylist=this.service.loadAllSkills();
 		System.out.println(mylist);
 		ObjectMapper obj=new ObjectMapper();
 		String Output="";

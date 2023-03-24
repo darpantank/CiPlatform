@@ -17,13 +17,13 @@ function openLeftFilterMenu() {
   function closeLeftMainMenu() {
     document.getElementById("leftMainMenu").style.display = "none";
   }
-  function addFilter(){
+  function addFilter(currentAddedFilter){
     var img = document.createElement("img");
     img.src = "image/cancel.png";
     img.setAttribute('onclick', 'deleteFilter(this);');
     var namep=document.createElement("p");
     // name.className="";
-    const nameText= document.createTextNode("abc");
+    const nameText= document.createTextNode(currentAddedFilter);
     namep.appendChild(nameText);
     const node = document.createElement("div");
     node.className="col d-flex align-items-center justify-content-between";

@@ -5,8 +5,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Property;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateTemplate;
@@ -17,6 +16,7 @@ import project.model.city;
 import project.model.country;
 import project.model.mission;
 import project.model.mission_theme;
+import project.model.skill;
 @Component
 public class missionDaoOperation implements missionDaoInterface {
 	@Autowired
@@ -27,9 +27,10 @@ public class missionDaoOperation implements missionDaoInterface {
 		Session s = this.hibernateTemplate.getSessionFactory().openSession();
 		Criteria c = s.createCriteria(mission.class);
 	    if(filters.getKeyword()!="") {
-	    	c.add(Restrictions.like("title", "%" +filters.getKeyword()+ "%"));
+	    	Criterion searchByTitle= Restrictions.like("title", "%" +filters.getKeyword()+ "%");
+	    	Criterion searchByDescription= Restrictions.like("description", "%" +filters.getKeyword()+ "%");
+	    	c.add(Restrictions.or(searchByTitle,searchByDescription));
 	    }
-	    
 	    if(filters.getCountry_id()!= 0) {
 	    	c.add(Restrictions.eq("country.country_id",filters.getCountry_id()));
 	    }
@@ -39,28 +40,11 @@ public class missionDaoOperation implements missionDaoInterface {
 	    if(filters.getThemes().size()>0) {
 	    	c.add(Restrictions.in("mission_theme.mission_theme_id",filters.getThemes()));
 	    }
-		 
+	    if(filters.getSkills().size()>0) {
+	    	c.createAlias("missionSkills", "ms");
+	    	c.add(Restrictions.in("ms.skills.skill_id",filters.getSkills()));
+	    }
 		return c.list();
-//		String que="from mission where title like :keyword and country_id=:CountryId and city_id in :CityList"; 
-//			if(CountryId!="") {
-//				if(CityList!="") {
-//					que="from mission where title like :keyword and country_id=:CountryId and city_id in :CityList";
-//				}
-//				else {
-//					que="from mission where title like :keyword and country_id=:CountryId";
-//				}
-//			}
-//			else {
-//				que="from mission where title like :keyword";
-//			}
-//		 
-//		 Query q=hibernateTemplate.getSessionFactory().openSession().createQuery(que);
-//		 q.setParameter("keyword", "%"+keyword+"%");
-//		
-//		 q.setParameter("CityList",CityList);
-//		 List<mission> mylist=q.list();
-//		return mylist;
-		
 	}
 
 	public List<country> loadListOfCountry() {
@@ -85,6 +69,10 @@ public class missionDaoOperation implements missionDaoInterface {
 		q.setFirstResult(0);
 		q.setMaxResults(10);
 		return q.list();
+	}
+
+	public List<skill> loadAllSkill() {
+		return this.hibernateTemplate.loadAll(skill.class);
 	}
 
 }

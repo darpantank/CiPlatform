@@ -186,7 +186,7 @@ public class HomeController {
 	}
 	@ExceptionHandler(value = ConstraintViolationException.class)
     public String sqlExceptionHanler(Model m) {       
-        m.addAttribute("message", "You are trying to add data which already present in our record");
+        m.addAttribute("message", "Some thing went wrong");
         return "failed";
     }
 	@ExceptionHandler(value = Exception.class)

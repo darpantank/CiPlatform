@@ -46,6 +46,7 @@
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</prop>
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
 				<prop key="hibernate.show_sql">true</prop>
+				<prop key="format_sql">true</prop>
 			</props>
 		</property>
 		<property name="annotatedClasses">
@@ -70,6 +71,12 @@
 				</value>
 				<value>
 					project.model.mission_theme
+				</value>
+				<value>
+					project.model.skill
+				</value>
+				<value>
+					project.model.mission_skill
 				</value>
 			</list>
 		</property>

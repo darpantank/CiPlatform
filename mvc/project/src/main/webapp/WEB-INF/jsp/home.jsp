@@ -4,6 +4,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<c:if test="${empty user.email}">
+	<% response.sendRedirect("login"); %> 
+</c:if>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -56,15 +59,13 @@
                 <span>Skill</span>
                 <img src="image/drop-down.png">
             </button>
-            <ul class="dropdown-menu">
-                <li><input type="checkbox"> Dance</li>
-                <li><input type="checkbox"> Reading</li>
+            <ul class="dropdown-menu skillSelectorSidebar">
             </ul>
         </div>
     </div>
 
     <!-- NAvbar  -->
-    <div class="container-fluid">
+    <div class="container-fluid g-0">
 		<jsp:include page="fheader.jsp" />
     </div>
         <!-- second Header  -->
@@ -88,10 +89,6 @@
 					</div>
                     <div class="dropdown d-flex align-items-center leftBorder">
                         
-                        <!-- <select class="citySelect btn dropdown-toggle">
-                        	<option value="city" hidden>City</option>
-                        </select>
-                         -->
                         <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
                             <span>City</span>
@@ -118,10 +115,8 @@
                             <span>Skill</span>
                             <img src="image/drop-down.png">
                         </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <ul class="dropdown-menu skillSelector">
+                            
                         </ul>
                     </div>
                 </div>
@@ -134,54 +129,7 @@
 
     <div class="container AppliedFilter w-100">
         <div class="row d-flex justify-content-center" id="myList">
-            <div class="col d-flex align-items-center justify-content-between">
-                <p>Delhi</p><img src="image/cancel.png" onclick="deleteFilter(this)">
-            </div>
-            <div class="col d-flex align-items-center justify-content-between">
-                <p>Natural</p><img src="image/cancel.png" onclick="deleteFilter(this)">
-            </div>
-            <div class="col d-flex align-items-center justify-content-between">
-                <p>India</p><img src="image/cancel.png" onclick="deleteFilter(this)">
-            </div>
-            <div class="col d-flex align-items-center justify-content-between">
-                <p>Volunterring</p><img src="image/cancel.png" onclick="deleteFilter(this)">
-            </div>
-            <div class="col d-flex align-items-center justify-content-between">
-                <p>Tree Plantation</p><img src="image/cancel.png" onclick="deleteFilter(this)">
-            </div>
-            <div class="col d-flex align-items-center justify-content-between">
-                <p>Nutrition</p><img src="image/cancel.png" onclick="deleteFilter(this)">
-            </div>
-            <div class="col d-flex align-items-center justify-content-between">
-                <p>Environment</p><img src="image/cancel.png" onclick="deleteFilter(this)">
-            </div>
-            <div class="col d-flex align-items-center justify-content-between">
-                <p>Volunterring</p><img src="image/cancel.png" onclick="deleteFilter(this)">
-            </div>
-            <div class="col d-flex align-items-center justify-content-between">
-                <p>Tree Plantation</p><img src="image/cancel.png" onclick="deleteFilter(this)">
-            </div>
-            <div class="col d-flex align-items-center justify-content-between">
-                <p>Nutrition</p><img src="image/cancel.png" onclick="deleteFilter(this)">
-            </div>
-            <div class="col d-flex align-items-center justify-content-between">
-                <p>Environment</p><img src="image/cancel.png" onclick="deleteFilter(this)">
-            </div>
-            <div class="col d-flex align-items-center justify-content-between">
-                <p>Environment</p><img src="image/cancel.png" onclick="deleteFilter(this)">
-            </div>
-            <div class="col d-flex align-items-center justify-content-between">
-                <p>Volunterring</p><img src="image/cancel.png" onclick="deleteFilter(this)">
-            </div>
-            <div class="col d-flex align-items-center justify-content-between">
-                <p>Tree Plantation</p><img src="image/cancel.png" onclick="deleteFilter(this)">
-            </div>
-            <div class="col d-flex align-items-center justify-content-between">
-                <p>Nutrition</p><img src="image/cancel.png" onclick="deleteFilter(this)">
-            </div>
-            <div class="col d-flex align-items-center justify-content-between">
-                <p>Environment</p><img src="image/cancel.png" onclick="deleteFilter(this)">
-            </div>
+<!--             Applied Filter Shows Here              -->
         </div>
     </div>
 
@@ -299,6 +247,7 @@
          let missions="";
     	 let country="";
     	 let CheckedCountry="";
+    	 let CheckedCountryName="";
     	 let cityList="";
     	 let themeList=[];
     	 let skills=[];
@@ -307,6 +256,8 @@
 		 var selectedTheme=[];
 		 let selecttedCityString="";
 		 let ThemeList="";
+		 let AppliedFilterArray=[];
+		 let SkillList="";
 		 $(document).ready(function(){
         	 CountryOfUser=$(".defaultCountry").val;
         	 console.log(CountryOfUser);
@@ -340,6 +291,16 @@
                 	addThemeList(ThemeList);
                  }
              });
+        	 $.ajax({
+                 url: "loadListOfSkill",
+                 dataType: 'json',
+                 success: function(response){
+                	 SkillList=response;
+                	 console.log(response);
+                	 addSkillList(SkillList);
+                 }
+             });
+
         	 
         	 /* Search Mission Logic */
              $('.search_field').keyup(function(){
@@ -348,34 +309,32 @@
         	 
              $('.countrySelect, .countrySelectSidebar').on('change', function () {
             	 CheckedCountry = $(this).find("option:selected").val();
+            	 CheckedCountryName = $(this).find("option:selected");
+            	 console.log(CheckedCountryName);
+            	 addFilter(CheckedCountryName[0].innerText);
                  getCityList(CheckedCountry);
                  updateMissionsOnChange();
             });
              
         });
 		 function cityCheckedClickEvent(){
-			 $('.citySelector input:checked , .citySelectorSidebar input:checked').each(function(){
-				 if($(this).attr('checked',true)){
-					 if (!selectedCity.includes($(this).attr('value'))) {
-		        		 	selectedCity.push($(this).attr('value'));
-		        		 }
-				 }
-             });
-			 $('.citySelector input:checked , .citySelectorSidebar input:checked').each(function(){
-					 if (!selectedCity.includes($(this).attr('value'))) {
-		        		 	selectedCity.push($(this).attr('value'));
-		        		 }
+			 selectedCity=[];
+			 $('.citySelector input:checked , .citySelectorSidebar input:checked').each(function(){	
+		        selectedCity.push($(this).attr('value'));		        		
              });
 			 updateMissionsOnChange();
-        	 
 		 }
-		 
+		 function skillCheckedClickEvent(){
+			 skills=[];
+			 $('.skillSelector input:checked , .skillSelectorSidebar input:checked').each(function(){	
+				 skills.push($(this).attr('value'));		        		
+             });
+			 updateMissionsOnChange();
+		 }
 		 function themeCheckedClickEvent(){
-			 console.log();
+			 selectedTheme=[];
 			 $('.themeSelector input:checked , .themeSelectorSidebar input:checked').each(function(){
-        		 if (!selectedTheme.includes($(this).attr('value'))) {
-        			 selectedTheme.push($(this).attr('value'));
-        		 }
+        		selectedTheme.push($(this).attr('value'));
              });
 			 updateMissionsOnChange();
         	 
@@ -392,7 +351,7 @@
 	     		let status=0;
 	     		for(var i in cityList){
 	     			status=1;
-	     			data+='<input type="checkbox" onChange="cityCheckedClickEvent()" value="'+cityList[i].city_id+'"/> '+cityList[i].name+'<br>';
+	     			data+='<input type="checkbox" onChange="cityCheckedClickEvent()" name="'+cityList[i].name+'" value="'+cityList[i].city_id+'"/> '+cityList[i].name+'<br>';
 	     		}
 	     		if(status==0){
 	     			data+="No City Found";
@@ -408,7 +367,7 @@
 	     		let status=0;
 	     		for(var i in ThemeList){
 	     			status=1;
-	     			data+='<input type="checkbox" onChange="themeCheckedClickEvent()" value="'+ThemeList[i].mission_theme_id+'"/> '+ThemeList[i].title+'<br>';
+	     			data+='<input type="checkbox" onChange="themeCheckedClickEvent()" name="'+ThemeList[i].title+'" value="'+ThemeList[i].mission_theme_id+'"/> '+ThemeList[i].title+'<br>';
 	     		}
 	     		if(status==0){
 	     			data+="No Theme Found";
@@ -416,6 +375,22 @@
 	     		$(".themeSelector").append(data);
 	      		$(".themeSelectorSidebar").append(data);
 	     	}
+	       	function addSkillList(SkillList){
+	       		console.log(ThemeList);
+	     		$(".skillSelector").empty();
+	     		$(".skillSelectorSidebar").empty();
+	     		var data="";
+	     		let status=0;
+	     		for(var i in SkillList){
+	     			status=1;
+	     			data+='<input type="checkbox" onChange="skillCheckedClickEvent()" name="'+SkillList[i].skill_name+'" value="'+SkillList[i].skill_id+'"/> '+SkillList[i].skill_name+'<br>';
+	     		}
+	     		if(status==0){
+	     			data+="No Skill Found";
+	     		}
+	     		$(".skillSelector").append(data);
+	      		$(".skillSelectorSidebar").append(data);
+	       	}
 	         function  updateMissionsOnChange(){
 	        	 let searchWord=$('.search_field').val();
 	        	 FilterObject={
@@ -435,7 +410,7 @@
 	                	var a=Object.keys(missions).length;
 	                	editUpdatedMission(a);                   		
 	                	printCardOnGrid(missions);
-	                	printCardOnList(missions);  
+	                	printCardOnList(missions);
 	                	if(a==0){
 	                		if($(".noMissionFound").length===0){
 	                			noMissionFound();
@@ -444,8 +419,32 @@
 	                	else{
 	                		$(".noMissionFound").remove();
 	                	}
+	                	updateChips(FilterObject);
+	                	console.log(FilterObject);
 	                 }
 	             });   
+	         }
+	         function updateChips(FilterObject){
+	        	 console.log("country"+CheckedCountryName);
+	        	 let city=FilterObject.cities;
+	        	 for(var i in city){
+	        		 for(var j in cityList){
+	        			 if(cityList[j].city_id==city[i]){
+	 	        	 		console.log(cityList[j].name);
+	 	        	 	} 
+	        		 }
+	        	 		        		 
+	        	 }
+	        	 let Theme=FilterObject.themes;
+	        	 for(var i in Theme){
+	        		 for(var j in ThemeList){
+	        			 if(ThemeList[j].mission_theme_id==Theme[i]){
+	 	        	 		console.log(ThemeList[j].title);
+	 	        	 	} 
+	        		 }	        		 
+	        	 }
+
+	        	 
 	         }
 	         	function getCityList(CheckedCountry){
 	         		//get City List
@@ -473,7 +472,7 @@
 	         			if(CountryOfUser==country[i].country_id){
 	         				console.log("thanks");
 	         			}
-	         			data+='<option value="'+country[i].country_id+'"> '+country[i].name+'</option>';
+	         			data+='<option value="'+country[i].country_id+'" name="'+country[i].name+'"> '+country[i].name+'</option>';
 	         		}
 	         		$(".countrySelect").append(data);
 	         		$(".countrySelectSidebar").append(data);

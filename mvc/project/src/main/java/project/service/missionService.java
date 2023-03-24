@@ -14,6 +14,7 @@ import project.model.city;
 import project.model.country;
 import project.model.mission;
 import project.model.mission_theme;
+import project.model.skill;
 @Service
 public class missionService implements missionServiceInterface {
 
@@ -37,6 +38,9 @@ public class missionService implements missionServiceInterface {
 
 	public List<mission_theme> loadAllThemes() {
 		return this.daoOfMission.loadAllThemes();
+	}
+	public List<skill> loadAllSkills() {
+		return this.daoOfMission.loadAllSkill();
 	}
 	
 }

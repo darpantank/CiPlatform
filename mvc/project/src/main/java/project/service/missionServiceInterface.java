@@ -9,6 +9,7 @@ import project.model.city;
 import project.model.country;
 import project.model.mission;
 import project.model.mission_theme;
+import project.model.skill;
 @Service
 public interface missionServiceInterface {
 	public List<mission> loadAllMissionOnSearch(FilterObject filters);
@@ -16,4 +17,5 @@ public interface missionServiceInterface {
 	public List<city> loadCityOfCountry(int country_id);
 	public List<mission_theme> loadAllThemes();
 	public List<mission> loadAllMission();
+	public List<skill> loadAllSkills();
 }
