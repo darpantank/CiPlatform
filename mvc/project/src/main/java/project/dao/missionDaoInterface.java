@@ -15,6 +15,6 @@ public interface missionDaoInterface {
 	public List<country> loadListOfCountry();
 	public List<city> loadCityOfCountry(int country_id);
 	public List<mission_theme> loadAllThemes();
-	public List<mission> loadAllMission();
 	public List<skill> loadAllSkill();
+	public long countTotalEntry(FilterObject filters);
 }

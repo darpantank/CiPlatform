@@ -8,19 +8,25 @@ public class FilterObject {
 	private List<Integer> cities;
 	private List<Integer> themes;
 	private List<Integer> skills;
-	public FilterObject() {
+	private int currentPage;
+	private String sortBy;
+	String[] ORDER_BY={"NO_ORDER","NEWEST","OLDEST"};
+	public FilterObject(){
 		super();
-		// TODO Auto-generated constructor stub
 	}
+	
 	public FilterObject(String keyword, int country_id, List<Integer> cities, List<Integer> themes,
-			List<Integer> skills) {
+			List<Integer> skills, int currentPage, String sortBy) {
 		super();
 		this.keyword = keyword;
 		this.country_id = country_id;
 		this.cities = cities;
 		this.themes = themes;
 		this.skills = skills;
+		this.currentPage = currentPage;
+		this.sortBy = sortBy;
 	}
+
 	public String getKeyword() {
 		return keyword;
 	}
@@ -51,12 +57,28 @@ public class FilterObject {
 	public void setSkills(List<Integer> skills) {
 		this.skills = skills;
 	}
+	public int getCurrentPage() {
+		return currentPage;
+	}
+
+	public void setCurrentPage(int currentPage) {
+		this.currentPage = currentPage;
+	}
+
+	
+	public String getSortBy() {
+		return sortBy;
+	}
+	public void setSortBy(int sortBy) {
+		if(sortBy<0||sortBy>6) {
+			sortBy=0;
+		}			
+		this.sortBy = ORDER_BY[sortBy];
+	}
 	@Override
 	public String toString() {
 		return "FilterObject [keyword=" + keyword + ", country_id=" + country_id + ", cities=" + cities + ", themes="
 				+ themes + ", skills=" + skills + "]";
 	}
-	
-	
 	
 }

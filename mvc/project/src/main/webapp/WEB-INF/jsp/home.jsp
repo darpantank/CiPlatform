@@ -1,252 +1,248 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1"%>
 <%@ page isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:if test="${empty user.email}">
-	<% response.sendRedirect("login"); %> 
+	<%
+	response.sendRedirect("login");
+	%>
 </c:if>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/home.css">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home Page</title>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/home.css">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 </head>
 
 <body>
-	<input type="text" class="defaultCountry" hidden value="${user.country.country_id}">
-    <!-- Filter SideBar -->
-    <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="leftFilterMenu">
-        <button onclick="closeLeftFilterMenu()" class="w3-bar-item w3-button w3-large"><img src="image/cancel.png"
-                alt="" srcset=""></button>
-        <!-- Filters dropdown Sidebar  -->
+	<input type="text" class="defaultCountry" hidden
+		value="${user.country.country_id}">
+	<!-- Filter SideBar -->
+	<div class="w3-sidebar w3-bar-block w3-card w3-animate-left"
+		style="display: none" id="leftFilterMenu">
+		<button onclick="closeLeftFilterMenu()"
+			class="w3-bar-item w3-button w3-large">
+			<img src="image/cancel.png" alt="" srcset="">
+		</button>
+		<!-- Filters dropdown Sidebar  -->
 
-        <div class="dropdown mysidebar">
-            <select class="countrySelectSidebar btn dropdown-toggle">
-                <option value="country" hidden>Country</option>
-            </select>
+		<div class="dropdown mysidebar">
+			<select class="countrySelectSidebar btn dropdown-toggle">
+				<option value="country" hidden>Country</option>
+			</select>
 		</div>
-        <div class="dropdown mysidebar">
+		<div class="dropdown mysidebar">
 			<button class="btn dropdown-toggle" type="button"
 				data-bs-toggle="dropdown" aria-expanded="false">
 				<span>City</span> <img src="image/drop-down.png">
 			</button>
 			<ul class="dropdown-menu citySelectorSidebar">
-				
+
 			</ul>
 		</div>
-        <div class="dropdown mysidebar">
-            <button class="btn dropdown-toggle w-100 d-flex justify-content-between align-items-center" type="button"
-                data-bs-toggle="dropdown" aria-expanded="false">
-                <span>Theme</span>
-                <img src="image/drop-down.png">
-            </button>
-            <ul class="dropdown-menu themeSelectorSidebar">
+		<div class="dropdown mysidebar">
+			<button
+				class="btn dropdown-toggle w-100 d-flex justify-content-between align-items-center"
+				type="button" data-bs-toggle="dropdown" aria-expanded="false">
+				<span>Theme</span> <img src="image/drop-down.png">
+			</button>
+			<ul class="dropdown-menu themeSelectorSidebar">
 
-            </ul>
-        </div>
-        <div class="dropdown mysidebar">
-            <button class="btn dropdown-toggle w-100 d-flex justify-content-between align-items-center" type="button"
-                data-bs-toggle="dropdown" aria-expanded="false">
-                <span>Skill</span>
-                <img src="image/drop-down.png">
-            </button>
-            <ul class="dropdown-menu skillSelectorSidebar">
-            </ul>
-        </div>
-    </div>
+			</ul>
+		</div>
+		<div class="dropdown mysidebar">
+			<button
+				class="btn dropdown-toggle w-100 d-flex justify-content-between align-items-center"
+				type="button" data-bs-toggle="dropdown" aria-expanded="false">
+				<span>Skill</span> <img src="image/drop-down.png">
+			</button>
+			<ul class="dropdown-menu skillSelectorSidebar">
+			</ul>
+		</div>
+	</div>
 
-    <!-- NAvbar  -->
-    <div class="container-fluid g-0">
+	<!-- NAvbar  -->
+	<div class="container-fluid g-0">
 		<jsp:include page="fheader.jsp" />
-    </div>
-        <!-- second Header  -->
-    <div class="container-fluid secondHeaderParent" id="secondHeader">
-        <div class="container d-flex secondHeader justify-content-center">
-            <div class="row d-flex justify-content-between">
-                <div class="col d-flex search justify-content-start">
-                    <form class="d-flex" role="search">
-                        <button class="btn gotoSidebar" type="submit"><img src="image/search.png" alt=""></button>
-                        <input class="form-control me-2 search_field" type="search" placeholder="Search Mission..."
-                            aria-label="Search" value="">
-                    </form>
-                    <button class="w3-button w3-xlarge w3-left filterBurger" onclick="openLeftFilterMenu()"><img
-                            src="image/filter.png" alt="" srcset=""></button>
-                </div>
-                <div class="col d-flex justify-content-end filter gotoSidebar">
-                    <div class="dropdown d-flex align-items-center leftBorder">
-                        <select class="countrySelect btn dropdown-toggle">
-                        	<option value="country" hidden>Country</option>
-                        </select>
-					</div>
-                    <div class="dropdown d-flex align-items-center leftBorder">
-                        
-                        <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            <span>City</span>
-                            <img src="image/drop-down.png">
-                        </button>
-                        <ul class="dropdown-menu citySelector">
-                            
-                        </ul>
-                        
-                    </div>
-                    <div class="dropdown d-flex align-items-center leftBorder">
-                        <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            <span>Theme</span>
-                            <img src="image/drop-down.png">
-                        </button>
-                        <ul class="dropdown-menu themeSelector">
-                            
-                        </ul>
-                    </div>
-                    <div class="dropdown d-flex align-items-center leftRightBorder">
-                        <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            <span>Skill</span>
-                            <img src="image/drop-down.png">
-                        </button>
-                        <ul class="dropdown-menu skillSelector">
-                            
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- Applied Filter Showcase -->
-
-    <div class="container AppliedFilter w-100">
-        <div class="row d-flex justify-content-center" id="myList">
-<!--             Applied Filter Shows Here              -->
-        </div>
-    </div>
-
-    <!-- <button onclick="addFilter()">Clcik</button> -->
-
-
-    <!-- Explore Mission  -->
-    <div class="container gridListView">
-        <div class="row d-flex justify-content-around">
-            <div class="col d-flex justify-content-md-start justify-content-sm-center align-content-center">
-                <p class="noOfMission">Explore <b id="noOfMission">${fn:length(missions)}</b> Mission</p>
-            </div>
-            <div class="col d-flex justify-content-end hideOnSmallScreen">
-                <div class="row">
-                    <div class="col d-flex align-items-center">
-                        <div class="dropdown">
-                            <button class="btn dropdown-toggle border" type="button" id="dropdownMenuButton1"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                Sort By <i class="bi bi-chevron-down"></i>
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col gridListButtons d-flex align-items-center">
-                        <ul class="nav nav-tabs" id="myTab" role="tablist">
-                            <li class="nav-item d-flex align-items-center" role="presentation">
-                                <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
-                                    data-bs-target="#grid" type="button" role="tab" aria-controls="home"
-                                    aria-selected="true"><img src="image/grid.png"></button>
-                            </li>
-                            <li class="nav-item d-flex align-items-center" role="presentation">
-                                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#list"
-                                    type="button" role="tab" aria-controls="profile" aria-selected="false"><img
-                                        src="image/list.png"></button>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-
-        </div>
-    </div>
-
-    <!-- missions List  -->
-    <div class="tab-content" id="myTabContent">
-
-        <!-- Grid View Div  -->
-        <div class="tab-pane fade show active" id="grid" role="tabpanel" aria-labelledby="home-tab">
-            <div class="container d-flex gridView">
-                <div class="row GridViewDisplay w-100">
-    				<!-- Data Fetched here of mission  -->
-					
+	</div>
+	<!-- second Header  -->
+	<div class="container-fluid secondHeaderParent" id="secondHeader">
+		<div class="container d-flex secondHeader justify-content-center">
+			<div class="row d-flex justify-content-between">
+				<div class="col d-flex search justify-content-start">
+					<form class="d-flex" role="search">
+						<button class="btn gotoSidebar" type="submit">
+							<img src="image/search.png" alt="">
+						</button>
+						<input class="form-control me-2 search_field" type="search"
+							placeholder="Search Mission..." aria-label="Search" value="">
+					</form>
+					<button class="w3-button w3-xlarge w3-left filterBurger"
+						onclick="openLeftFilterMenu()">
+						<img src="image/filter.png" alt="" srcset="">
+					</button>
 				</div>
-            </div>
-        </div>
-        
-        <div class="tab-pane fade" id="list" role="tabpanel" aria-labelledby="profile-tab">
-            <!-- List View Div  -->
-            <div class="container ListViewDisplay">
-                <!-- List View Fetched Here --> 
-            </div>
-        </div>
-    </div>
-    <div class="myPaginationTab d-flex justify-content-center text-danger">
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
-                        <span aria-hidden="true"><i class="bi bi-chevron-double-left"></i></span>
-                    </a>
-                  </li>
-              <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true"><i class="bi bi-chevron-left"></i></span>
-                </a>
-              </li>
-              <li class="page-item"><a class="page-link active" href="#">1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item"><a class="page-link" href="#">4</a></li>
-              <li class="page-item"><a class="page-link" href="#">5</a></li>
-              <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                  <span aria-hidden="true"><i class="bi bi-chevron-right"></i></span>
-                </a>
-              </li>
-              <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true"><i class="bi bi-chevron-double-right"></i></span>
-                  </a>
-              </li>
-            </ul>
-          </nav>
-    </div>
+				<div class="col d-flex justify-content-end filter gotoSidebar">
+					<div class="dropdown d-flex align-items-center leftBorder">
+						<select class="countrySelect btn dropdown-toggle">
+							<option value="country" hidden>Country</option>
+						</select>
+					</div>
+					<div class="dropdown d-flex align-items-center leftBorder">
+
+						<button class="btn dropdown-toggle" type="button"
+							data-bs-toggle="dropdown" aria-expanded="false">
+							<span>City</span> <img src="image/drop-down.png">
+						</button>
+						<ul class="dropdown-menu citySelector">
+
+						</ul>
+
+					</div>
+					<div class="dropdown d-flex align-items-center leftBorder">
+						<button class="btn dropdown-toggle" type="button"
+							data-bs-toggle="dropdown" aria-expanded="false">
+							<span>Theme</span> <img src="image/drop-down.png">
+						</button>
+						<ul class="dropdown-menu themeSelector">
+
+						</ul>
+					</div>
+					<div class="dropdown d-flex align-items-center leftRightBorder">
+						<button class="btn dropdown-toggle" type="button"
+							data-bs-toggle="dropdown" aria-expanded="false">
+							<span>Skill</span> <img src="image/drop-down.png">
+						</button>
+						<ul class="dropdown-menu skillSelector">
+
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- Applied Filter Showcase -->
+
+	<div class="container AppliedFilter w-100">
+		<div class="row d-flex justify-content-center" id="myList">
+			<!--             Applied Filter Shows Here              -->
+		</div>
+	</div>
+
+	<!-- <button onclick="addFilter()">Clcik</button> -->
+
+
+	<!-- Explore Mission  -->
+	<div class="container gridListView">
+		<div class="row d-flex justify-content-around">
+			<div
+				class="col d-flex justify-content-md-start justify-content-sm-center align-content-center">
+				<p class="noOfMission">
+					Explore <b id="noOfMission">${fn:length(missions)}</b> Mission
+				</p>
+			</div>
+			<div class="col d-flex justify-content-end hideOnSmallScreen">
+				<div class="d-flex">
+					<div class="col d-flex align-items-center">
+						<select class="dropdown-toggle sortBy"
+							aria-labelledby="dropdownMenuButton1" name="Sort BY">
+							<option value="0" hidden>Sort By</option>
+							<option value="1">Newest</option>
+							<option value="2">Oldest</option>
+						</select>
+					</div>
+					<div class="row">
+					<div class="gridListButtons d-flex align-items-center">
+						<ul class="nav nav-tabs row g-0 d-flex align-items-center" id="myTab" role="tablist">
+							<li class="nav-item d-flex align-items-center col"
+								role="presentation">
+								<button class="nav-link active" id="home-tab"
+									data-bs-toggle="tab" data-bs-target="#grid" type="button"
+									role="tab" aria-controls="home" aria-selected="true">
+									<img src="image/grid.png">
+								</button>
+							</li>
+							<li class="nav-item d-flex align-items-center col"
+								role="presentation">
+								<button class="nav-link" id="profile-tab" data-bs-toggle="tab"
+									data-bs-target="#list" type="button" role="tab"
+									aria-controls="profile" aria-selected="false">
+									<img src="image/list.png">
+								</button>
+							</li>
+						</ul>
+					</div>
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+	</div>
+
+	<!-- missions List  -->
+	<div class="tab-content" id="myTabContent">
+
+		<!-- Grid View Div  -->
+		<div class="tab-pane fade show active" id="grid" role="tabpanel"
+			aria-labelledby="home-tab">
+			<div class="container d-flex gridView">
+				<div class="row GridViewDisplay w-100">
+					<!-- Data Fetched here of mission  -->
+
+				</div>
+			</div>
+		</div>
+
+		<div class="tab-pane fade" id="list" role="tabpanel"
+			aria-labelledby="profile-tab">
+			<!-- List View Div  -->
+			<div class="container ListViewDisplay">
+				<!-- List View Fetched Here -->
+			</div>
+		</div>
+	</div>
+	<div class="myPaginationTab d-flex justify-content-center text-danger">
+		<nav aria-label="Page navigation example">
+			<ul class="pagination">
+			</ul>
+		</nav>
+	</div>
 
 
 
 
-    <!-- <button class="w3-button w3-teal w3-xlarge w3-left" onclick="openLeftMainMenu()">&#9776;</button> -->
-	
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
-        integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
-        crossorigin="anonymous"></script>
-         <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
-         <script>
+	<!-- <button class="w3-button w3-teal w3-xlarge w3-left" onclick="openLeftMainMenu()">&#9776;</button> -->
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+		integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+		integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
+		crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.6.4.js"
+		integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
+		crossorigin="anonymous"></script>
+	<script>
          let searchWord="";
          let missions="";
     	 let country="";
     	 let CheckedCountry="";
+    	 let CheckedSortBy="";
     	 let CheckedCountryName="";
     	 let cityList="";
     	 let themeList=[];
@@ -258,21 +254,11 @@
 		 let ThemeList="";
 		 let AppliedFilterArray=[];
 		 let SkillList="";
+		 let currentPage=1;
 		 $(document).ready(function(){
         	 CountryOfUser=$(".defaultCountry").val;
         	 console.log(CountryOfUser);
-        	 /* Initial Mission Loading Function */     		 
-        	 $.ajax({
-                 url: "loadAllMission",
-                 dataType: 'json',
-                 success: function(response){
-                	 missions=response;
-                	 console.log(missions);
-                	 console.log("Total Mission :"+Object.keys(missions).length);
-                	 printCardOnGrid(missions);
-                	 printCardOnList(missions);                	                 	 
-                 }
-             });
+        	 updateMissionsOnChange();
         	 $.ajax({
                  url: "loadListOfCountry",
                  dataType: 'json',
@@ -315,6 +301,12 @@
                  getCityList(CheckedCountry);
                  updateMissionsOnChange();
             });
+             $('.sortBy').on('change', function () {
+           	 CheckedSortBy = $(this).find("option:selected").val();
+        	 console.log(CheckedSortBy);
+             updateMissionsOnChange();
+        });
+            
              
         });
 		 function cityCheckedClickEvent(){
@@ -398,7 +390,9 @@
 	    				 country_id : CheckedCountry,
 	    				 cities: selectedCity,
 	    				 themes: selectedTheme,
-	    				 skills: skills
+	    				 skills: skills,
+	    				 currentPage: currentPage,
+	    				 sortBy : CheckedSortBy
 	    		 }
 	             $.ajax({
 	                 url: "searchMission",
@@ -406,9 +400,14 @@
 	                 data:	{'Filters': JSON.stringify(FilterObject)},
 	                 dataType: 'json',
 	                 success: function(response){
-	                	missions=response;
-	                	var a=Object.keys(missions).length;
-	                	editUpdatedMission(a);                   		
+	                	const obj=JSON.parse(response);
+	                	console.log("main result : "+response);
+						for(var b in obj){
+							var a=b;
+							missions=obj[b];
+						}           		
+						createPaginationList(a,currentPage);
+						editUpdatedMission(a);
 	                	printCardOnGrid(missions);
 	                	printCardOnList(missions);
 	                	if(a==0){
@@ -465,6 +464,7 @@
 	         	}
 	         	function noMissionFound(){
 	         		$(".gridListView").append('<h1 class="noMissionFound">No Mission Found</h1>');
+	         		$(".pagination").empty();
 	         	}
 	         	function addCountryList(country){
 	         		var data="";
@@ -476,6 +476,56 @@
 	         		}
 	         		$(".countrySelect").append(data);
 	         		$(".countrySelectSidebar").append(data);
+	         	}
+	         	function changeMyPage(b){
+	         		currentPage=b;
+	         		updateMissionsOnChange();
+	         	}
+	         	function createPaginationList(totalCount,currentPage){
+	         		$(".pagination").empty();
+	         		let data = `<li class="page-item">
+	                    <a class="page-link" href="#" aria-label="Next">
+	                        <span aria-hidden="true"><i class="bi bi-chevron-double-left"></i></span>
+	                    </a>
+	                  </li>
+	              <li class="page-item">
+	                <a class="page-link" href="#" aria-label="Next">
+	                    <span aria-hidden="true"><i class="bi bi-chevron-left"></i></span>
+	                </a>
+	              </li>`;
+	              let perPageMission=3;
+	              let totalPages=totalCount/perPageMission;
+	              if(totalCount!=0){
+	            	  if(totalPages==0){	            		  
+	            	  totalPages=1;
+	            	  }
+	              }
+	              if(totalCount%perPageMission!=0)
+	            	  {
+	            	  totalPages++;
+	            	  }
+	            	  
+	              for(var a=1;a<=totalPages;a++){
+	            	  	if(a==currentPage)
+	            		{	            		  
+	            	  		data+=`<li class="page-item active"><a class="page-link" onclick="changeMyPage(`+a+`)">`+a+`</a></li>`;
+	            		}
+	            	  	else{
+	            	  		data+=`<li class="page-item"><a class="page-link" onclick="changeMyPage(`+a+`)">`+a+`</a></li>`;
+	            	  	}
+	              }
+	              
+	              data+=`<li class="page-item">
+	                <a class="page-link" href="#" aria-label="Next">
+	                  <span aria-hidden="true"><i class="bi bi-chevron-right"></i></span>
+	                </a>
+	              </li>
+	              <li class="page-item">
+	                <a class="page-link" href="#" aria-label="Next">
+	                    <span aria-hidden="true"><i class="bi bi-chevron-double-right"></i></span>
+	                  </a>
+	              </li>`;
+	              $(".pagination").append(data);
 	         	}
 	         	function printCardOnList(missions){
 	         		$(".ListViewDisplay").empty();
@@ -653,7 +703,6 @@
 					}	
 	         	}
          </script>
- <script src="js/sidebarJs.js"></script>
-<!--     <script src="js/add_navbar.js"></script> -->
-
+	<script src="js/sidebarJs.js"></script>
+	<!--     <script src="js/add_navbar.js"></script> -->
 </html>

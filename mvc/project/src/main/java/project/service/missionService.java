@@ -1,11 +1,13 @@
 package project.service;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import project.dao.missionDaoInterface;
@@ -20,12 +22,22 @@ public class missionService implements missionServiceInterface {
 
 	@Autowired
 	missionDaoInterface daoOfMission;
-	
-	public List<mission> loadAllMission() {
-		return this.daoOfMission.loadAllMission();
-	}
-	public List<mission> loadAllMissionOnSearch(FilterObject filters) {
-		return this.daoOfMission.loadAllMissionOnSearch(filters);
+	public String loadAllMissionOnSearch(FilterObject filters) {
+		Map<Long,List<mission>> map=new HashMap<Long,List<mission>>();  
+		List<mission> missions;
+		Long totalMission=0L;
+		String Output="";
+		ObjectMapper obj=new ObjectMapper();
+		try{
+			missions=this.daoOfMission.loadAllMissionOnSearch(filters);
+			totalMission=this.daoOfMission.countTotalEntry(filters);
+			map.put(totalMission,missions);
+			Output=obj.writeValueAsString(map);
+		}
+		catch(JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return Output;
 	}
 
 	public List<country> loadListOfCountry() {

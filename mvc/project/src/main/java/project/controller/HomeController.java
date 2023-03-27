@@ -128,11 +128,6 @@ public class HomeController {
 			HttpSession session=request.getSession(true);
 			session.setMaxInactiveInterval(LOGOUT_TIME);
 			request.setAttribute("user",myuser);
-			String keyword="";
-			List<mission> missions=this.mservice.loadAllMission();
-			mav.addObject("missions",missions);
-//			mav.addObject("user",myuser);
-//			mav.addObject("user",user1);
 			}
 		else {
 			mav.setViewName("login");

@@ -1,6 +1,7 @@
 package project.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,22 +28,7 @@ import project.service.missionServiceInterface;
 @Controller
 public class missionController {
 	@Autowired
-	missionServiceInterface service;
-	
-	@RequestMapping(value = "/loadAllMission")
-	public @ResponseBody String loadAllMission(){
-		List<mission> mylist=this.service.loadAllMission();
-		ObjectMapper obj=new ObjectMapper();
-		String Output="";
-		try {
-			Output=obj.writeValueAsString(mylist);
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return Output;
-	}
-	
+	missionServiceInterface service;	
 	@RequestMapping(value="/searchMission",method = RequestMethod.POST)
 	public @ResponseBody String loadAllMissionOnSearch(@RequestParam("Filters") String filters) {
 		String Output="";
@@ -51,10 +37,8 @@ public class missionController {
 		try {
 			FilterObject filter=obj.readValue(filters, FilterObject.class);
 			try {
-				List<mission> mylist=this.service.loadAllMissionOnSearch(filter);	
-				Output=obj.writeValueAsString(mylist);
+				Output=obj.writeValueAsString(this.service.loadAllMissionOnSearch(filter));
 			} catch (JsonProcessingException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}catch(JsonProcessingException e){
