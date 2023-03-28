@@ -7,6 +7,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 @Entity
 public class country {
 	@Id
@@ -14,7 +17,9 @@ public class country {
 	private int country_id;
 	private String name;
 	private String ISO;
+	@CreationTimestamp
 	private Date created_at;
+	@UpdateTimestamp
 	private Date updated_at;
 	private Date deleted_at;
 	public country() {

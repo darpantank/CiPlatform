@@ -2,6 +2,8 @@ package project.dao;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Component;
 import project.dto.FilterObject;
 import project.model.city;
 import project.model.country;
+import project.model.favorite_mission;
 import project.model.mission;
 import project.model.mission_theme;
 import project.model.skill;
@@ -58,20 +61,20 @@ public class missionDaoOperation implements missionDaoInterface {
 	    if(filters.getCurrentPage()==0) {
 	    	filters.setCurrentPage(1);
 	    }
-	    int firstResultCount;
-//	    if(filters.getCurrentPage()==1) {
-//	    	firstResultCount=((filters.getCurrentPage()-1)*3)+1;
-//	    }
-//	    else {
-//	    }
+	    int firstResultCount=1;
 	    if(filters.getCurrentPage()==1) {
 	    	c.setFirstResult(0);
-	    	c.setMaxResults(totalMissionPerPage+1);
-	    }
-	    else {	    	
-	    	c.setFirstResult((filters.getCurrentPage()-1)*3);
 	    	c.setMaxResults(totalMissionPerPage);
 	    }
+	    else {	    	
+	    	c.setFirstResult(((filters.getCurrentPage()-1)*3)+1);
+	    	c.setMaxResults(totalMissionPerPage);
+	    }
+	    System.out.println("Length is"+c.list().size());
+		if(c.list().size()<3) {
+			int setMax=totalMissionPerPage + (3-c.list().size());
+			c.setMaxResults(setMax);
+		}
 		return c.list();
 	}
 
@@ -113,6 +116,15 @@ public class missionDaoOperation implements missionDaoInterface {
 	    	c.createAlias("missionSkills", "ms");
 	    	c.add(Restrictions.in("ms.skills.skill_id",filters.getSkills()));
 	    }
+	    if(filters.getSortBy()!="NO_ORDER") {
+	    	if(filters.getSortBy()=="NEWEST") {
+	    		System.out.println("NEWEST Select");
+	    		c.addOrder(Order.asc("created_at"));
+	    	}
+	    	if(filters.getSortBy()=="OLDEST") {
+	    		c.addOrder(Order.desc("created_at"));
+	    	}
+	    }
 	    c.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		c.setProjection(Projections.rowCount());
 		long result=(Long)c.uniqueResult();
@@ -120,4 +132,17 @@ public class missionDaoOperation implements missionDaoInterface {
 		return result;
 	}
 
+	public mission fetchMissionById(int mission_id) {
+		return this.hibernateTemplate.get(mission.class,mission_id);
+	}
+	@Transactional
+	public boolean addFavourite(favorite_mission myFavMission) {
+		Integer i=(Integer)this.hibernateTemplate.save(myFavMission);
+		if(i!=0) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 }

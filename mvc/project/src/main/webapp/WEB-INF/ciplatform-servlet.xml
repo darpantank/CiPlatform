@@ -78,6 +78,9 @@
 				<value>
 					project.model.mission_skill
 				</value>
+				<value>
+					project.model.favorite_mission
+				</value>
 			</list>
 		</property>
 	</bean>

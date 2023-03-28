@@ -3,10 +3,12 @@ package project.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestAttribute;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,14 +17,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 
+import project.dto.AddToFavourite;
 import project.dto.FilterObject;
 import project.model.city;
 import project.model.country;
+import project.model.favorite_mission;
 import project.model.mission;
 import project.model.mission_theme;
 import project.model.skill;
+import project.model.user;
 import project.service.missionServiceInterface;
 
 @Controller
@@ -30,22 +34,18 @@ public class missionController {
 	@Autowired
 	missionServiceInterface service;	
 	@RequestMapping(value="/searchMission",method = RequestMethod.POST)
-	public @ResponseBody String loadAllMissionOnSearch(@RequestParam("Filters") String filters) {
-		String Output="";
-		System.out.println("Enter in Search Mission"+filters);
-		ObjectMapper obj=new ObjectMapper();
-		try {
-			FilterObject filter=obj.readValue(filters, FilterObject.class);
-			try {
-				Output=obj.writeValueAsString(this.service.loadAllMissionOnSearch(filter));
-			} catch (JsonProcessingException e) {
-				e.printStackTrace();
-			}
-		}catch(JsonProcessingException e){
+	public @ResponseBody Map<Long,List<mission>> loadAllMissionOnSearch(@RequestParam("FilterObject") String filters){
+		ObjectMapper mp=new ObjectMapper();
+		FilterObject fo=new FilterObject();
+		try{			
+			System.out.println("Enter into Mission Controller");
+			System.out.println(filters);
+			fo=mp.readValue(filters, FilterObject.class);
+		}
+		catch(Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("output:"+ Output);
-		return Output;
+		return this.service.loadAllMissionOnSearch(fo);
 	}
 	@RequestMapping(value="/loadListOfCountry")
 	public @ResponseBody String loadCountryList() {
@@ -63,7 +63,6 @@ public class missionController {
 	@RequestMapping(value="/loadListOfCity",method = RequestMethod.POST)
 	public @ResponseBody String loadCountryList(@RequestParam("countryId") int countryId) {
 		List<city> mylist=this.service.loadCityOfCountry(countryId);
-		System.out.println(mylist);
 		ObjectMapper obj=new ObjectMapper();
 		String Output="";
 		try {
@@ -77,7 +76,6 @@ public class missionController {
 	@RequestMapping(value="/loadListOfTheme")
 	public @ResponseBody String loadAllTheme() {
 		List<mission_theme> mylist=this.service.loadAllThemes();
-		System.out.println(mylist);
 		ObjectMapper obj=new ObjectMapper();
 		String Output="";
 		try {
@@ -91,7 +89,6 @@ public class missionController {
 	@RequestMapping(value="/loadListOfSkill")
 	public @ResponseBody String loadAllSkill() {
 		List<skill> mylist=this.service.loadAllSkills();
-		System.out.println(mylist);
 		ObjectMapper obj=new ObjectMapper();
 		String Output="";
 		try {
@@ -102,5 +99,23 @@ public class missionController {
 		}
 		return Output;
 	}
+	@RequestMapping(value="/getMyMission" ,method = RequestMethod.GET)
+	public String loadMissionPage(Model m,HttpServletRequest request,@RequestParam("mission_id") int mission_id){
+		mission Mission=new mission();
+		Mission=this.service.fetchMissionById(mission_id);
+		m.addAttribute("Mission",Mission);
+		return "mission";
+	}
+//	@RequestMapping(value="/addToMyFavourite" ,method = RequestMethod.POST)
+//	public void addMyFavouriteMission(@RequestParam("missionId") String missionId,HttpServletRequest request) {
+//		int mission=Integer.parseInt(missionId);
+//		mission myMission=this.service.fetchMissionById(mission);
+//		user Myuser= (user)request.getSession().getAttribute("user");
+//		System.out.println(Myuser);
+//		favorite_mission myATF=new favorite_mission();
+//		myATF.setMission(myMission);
+//		myATF.setUser(Myuser);
+//		this.service.addToFavourite(myATF);
+//	}
 	
 }

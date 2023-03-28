@@ -6,6 +6,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 @Entity
 public class banner {
 	@Id
@@ -14,7 +17,9 @@ public class banner {
 	private String image;
 	private String text;
 	private int sort_order;
+	@CreationTimestamp
 	private Date created_at;
+	@UpdateTimestamp
 	private Date updated_at;
 	private Date deleted_at;
 	public banner() {
