@@ -1,8 +1,6 @@
 package project.model;
 
 import java.util.Date;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,10 +16,10 @@ public class favorite_mission {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int favourite_mission_id;
-	@ManyToOne(cascade = CascadeType.ALL , targetEntity = user.class)
+	@ManyToOne(targetEntity = user.class)
 	@JoinColumn(name = "user_id")
 	private user user;
-	@ManyToOne(cascade = CascadeType.ALL ,targetEntity = mission.class)
+	@ManyToOne(targetEntity = mission.class)
 	@JoinColumn(name = "mission_id")
 	private mission mission;
 	@CreationTimestamp
@@ -42,6 +40,10 @@ public class favorite_mission {
 		this.created_at = created_at;
 		this.updated_at = updated_at;
 		this.deleted_at = deleted_at;
+	}
+	public favorite_mission(mission myMission,user Myuser) {
+		this.user = Myuser;
+		this.mission = myMission;
 	}
 	public int getFavourite_mission_id() {
 		return favourite_mission_id;

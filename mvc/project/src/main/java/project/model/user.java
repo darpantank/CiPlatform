@@ -1,16 +1,19 @@
 package project.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 @Entity
 public class user {
@@ -45,15 +48,18 @@ public class user {
 	private Date created_at;
 	private Date updated_at;
 	private Date deleted_at;
+	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.EAGER,targetEntity = favorite_mission.class)
+	private List<mission> favorite_mission;
 	public user() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
+
 	public user(int user_id, String first_name, String last_name, String email, String password, String phone_number,
 			String avatar, String why_i_volunteer, String employee_id, String department, project.model.city city,
 			project.model.country country, String profile_text, String linked_in_url, String title, Status status,
-			Date created_at, Date updated_at, Date deleted_at) {
+			Date created_at, Date updated_at, Date deleted_at, List<mission> favorite_mission) {
 		super();
 		this.user_id = user_id;
 		this.first_name = first_name;
@@ -74,7 +80,9 @@ public class user {
 		this.created_at = created_at;
 		this.updated_at = updated_at;
 		this.deleted_at = deleted_at;
+		this.favorite_mission = favorite_mission;
 	}
+
 
 	public int getUser_id() {
 		return user_id;
@@ -190,6 +198,17 @@ public class user {
 		this.deleted_at = deleted_at;
 	}
 	
+	
+	public List<mission> getFavorite_mission() {
+		return favorite_mission;
+	}
+
+
+	public void setFavorite_mission(List<mission> favorite_mission) {
+		this.favorite_mission = favorite_mission;
+	}
+
+	
 	@Override
 	public String toString() {
 		return "user [user_id=" + user_id + ", first_name=" + first_name + ", last_name=" + last_name + ", email="
@@ -197,8 +216,10 @@ public class user {
 				+ ", why_i_volunteer=" + why_i_volunteer + ", employee_id=" + employee_id + ", department=" + department
 				+ ", city=" + city + ", country=" + country + ", profile_text=" + profile_text + ", linked_in_url="
 				+ linked_in_url + ", title=" + title + ", status=" + status + ", created_at=" + created_at
-				+ ", updated_at=" + updated_at + ", deleted_at=" + deleted_at + "]";
+				+ ", updated_at=" + updated_at + ", deleted_at=" + deleted_at + ", favorite_mission=" + favorite_mission
+				+ "]";
 	}
+
 
 	public enum Status{
 		ACTIVE,

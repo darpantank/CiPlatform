@@ -71,7 +71,7 @@ public class mission {
 			project.model.country country, String title, String short_description, String description, Date start_date,
 			Date end_date, MissionType mission_type, Status status, String organization_name,
 			String organization_detail, Availability availability, Date created_at, Date updated_at, Date deleted_at,
-			List<mission_skill> ms) {
+			List<mission_skill> missionSkills) {
 		super();
 		this.mission_id = mission_id;
 		this.mission_theme = mission_theme;
@@ -211,22 +211,5 @@ public class mission {
 	public void setDeleted_at(Date deleted_at) {
 		this.deleted_at = deleted_at;
 	}
-
-
-	@Override
-	public String toString() {
-		return "mission [mission_id=" + mission_id + ", mission_theme=" + mission_theme + ", city=" + city
-				+ ", country=" + country + ", title=" + title + ", short_description=" + short_description
-				+ ", description=" + description + ", start_date=" + start_date + ", end_date=" + end_date
-				+ ", mission_type=" + mission_type + ", status=" + status + ", organization_name=" + organization_name
-				+ ", organization_detail=" + organization_detail + ", availability=" + availability + ", created_at="
-				+ created_at + ", updated_at=" + updated_at + ", deleted_at=" + deleted_at + ", missionSkills="
-				+ missionSkills + "]";
-	}
-
-
-
-
-	
 	
 }

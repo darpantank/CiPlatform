@@ -106,16 +106,16 @@ public class missionController {
 		m.addAttribute("Mission",Mission);
 		return "mission";
 	}
-//	@RequestMapping(value="/addToMyFavourite" ,method = RequestMethod.POST)
-//	public void addMyFavouriteMission(@RequestParam("missionId") String missionId,HttpServletRequest request) {
-//		int mission=Integer.parseInt(missionId);
-//		mission myMission=this.service.fetchMissionById(mission);
-//		user Myuser= (user)request.getSession().getAttribute("user");
-//		System.out.println(Myuser);
-//		favorite_mission myATF=new favorite_mission();
-//		myATF.setMission(myMission);
-//		myATF.setUser(Myuser);
-//		this.service.addToFavourite(myATF);
-//	}
+	@RequestMapping(value="/addToMyFavourite" ,method = RequestMethod.POST)
+	public @ResponseBody boolean addMyFavouriteMission(@RequestParam("missionId") String missionId,HttpServletRequest request) {
+		int mission=Integer.parseInt(missionId);
+		mission myMission=this.service.fetchMissionById(mission);
+		user Myuser= (user)request.getSession().getAttribute("user");
+		if(Myuser.getEmail()!=null) {			
+			favorite_mission myATF=new favorite_mission(myMission,Myuser);
+			return this.service.addToFavourite(myATF);
+		}
+		return false;
+	}
 	
 }

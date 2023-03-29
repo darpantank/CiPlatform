@@ -1,5 +1,6 @@
 package project.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -9,6 +10,8 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projection;
+import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +33,6 @@ public class missionDaoOperation implements missionDaoInterface {
 	public List<mission> loadAllMissionOnSearch(FilterObject filters) {
 		Session s = this.hibernateTemplate.getSessionFactory().openSession();
 		Criteria c = s.createCriteria(mission.class);
-		c.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 	    if(filters.getKeyword()!="") {
 	    	Criterion searchByTitle= Restrictions.like("title", "%" +filters.getKeyword()+ "%");
 	    	Criterion searchByDescription= Restrictions.like("description", "%" +filters.getKeyword()+ "%");
@@ -58,24 +60,38 @@ public class missionDaoOperation implements missionDaoInterface {
 	    		c.addOrder(Order.desc("created_at"));
 	    	}
 	    }
+	    int StartingIndex=(filters.getCurrentPage()-1)*3;
 	    if(filters.getCurrentPage()==0) {
-	    	filters.setCurrentPage(1);
+	    	StartingIndex=0;
 	    }
-	    int firstResultCount=1;
-	    if(filters.getCurrentPage()==1) {
-	    	c.setFirstResult(0);
-	    	c.setMaxResults(totalMissionPerPage);
+	    ProjectionList myProjections=Projections.projectionList();
+	    myProjections.add(Projections.property("mission_id"));
+	    myProjections.add(Projections.property("created_at"));
+	    c.setProjection(Projections.distinct(myProjections));
+	    c.setFirstResult(StartingIndex);
+	    c.setMaxResults(totalMissionPerPage);
+	    List<Object[]> myObjSet=c.list();
+	    List<mission> myMissions=new ArrayList<mission>();
+	    for(Object[] myObj:myObjSet) {
+	    	myMissions.add(this.fetchMissionById((Integer)myObj[0]));
 	    }
-	    else {	    	
-	    	c.setFirstResult(((filters.getCurrentPage()-1)*3)+1);
-	    	c.setMaxResults(totalMissionPerPage);
-	    }
-	    System.out.println("Length is"+c.list().size());
-		if(c.list().size()<3) {
-			int setMax=totalMissionPerPage + (3-c.list().size());
-			c.setMaxResults(setMax);
-		}
-		return c.list();
+//	    int firstResultCount=1;
+//	    if(filters.getCurrentPage()==1) {
+//	    	c.setFirstResult(0);
+//	    	c.setMaxResults(totalMissionPerPage);
+//	    }
+//	    else {	    	
+//	    	c.setFirstResult(((filters.getCurrentPage()-1)*3)+1);
+//	    	c.setMaxResults(totalMissionPerPage);
+//	    }
+//	    System.out.println("Length is"+c.list().size());
+//		if(c.list().size()<3) {
+//			int setMax=totalMissionPerPage + (3-c.list().size());
+//			c.setMaxResults(setMax);
+//		}
+//	    c.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+//		c.setProjection(Projections.projectionList().add(Projections.distinct(Projections.property("mission_id"))));
+		return myMissions;
 	}
 
 	public List<country> loadListOfCountry() {
@@ -126,7 +142,7 @@ public class missionDaoOperation implements missionDaoInterface {
 	    	}
 	    }
 	    c.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-		c.setProjection(Projections.rowCount());
+		c.setProjection(Projections.countDistinct("mission_id"));
 		long result=(Long)c.uniqueResult();
 		System.out.println("Total Entry : "+result);
 		return result;
@@ -136,13 +152,20 @@ public class missionDaoOperation implements missionDaoInterface {
 		return this.hibernateTemplate.get(mission.class,mission_id);
 	}
 	@Transactional
-	public boolean addFavourite(favorite_mission myFavMission) {
-		Integer i=(Integer)this.hibernateTemplate.save(myFavMission);
-		if(i!=0) {
-			return true;
+	public boolean addFavourite(favorite_mission myFavMission) {		
+		//check before Insertion 
+		Session s = this.hibernateTemplate.getSessionFactory().openSession();
+		Criteria c = s.createCriteria(favorite_mission.class);
+		c.add(Restrictions.eq("mission", myFavMission.getMission()));
+		c.add(Restrictions.eq("user", myFavMission.getUser()));
+		favorite_mission fm=(favorite_mission)c.uniqueResult();
+		if(fm!=null) {			
+			this.hibernateTemplate.delete(fm);
+			return false;
 		}
 		else {
-			return false;
+			this.hibernateTemplate.save(myFavMission);
+			return true;
 		}
 	}
 }

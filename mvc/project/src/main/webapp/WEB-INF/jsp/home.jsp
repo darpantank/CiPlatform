@@ -25,6 +25,7 @@
 </head>
 
 <body>
+	
 	<c:if test="${not empty user.user_id}">
 		<input type="text" class="defaultId" hidden
 		value="${user}">

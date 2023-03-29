@@ -1,6 +1,8 @@
 package project.controller;
 
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -16,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-
+import project.model.mission;
 import project.model.password_reset;
 import project.model.user;
 import project.service.missionServiceInterface;
@@ -120,7 +122,6 @@ public class HomeController {
 	public ModelAndView validateUser(@RequestParam("email") String email,@RequestParam("password") String password,HttpServletRequest request) {
 		ModelAndView mav=new ModelAndView();
 		user myuser=this.service.validateUserDetail(email, password);
-		System.out.println(myuser);
 		if(myuser.getEmail()!=null||myuser.getEmail()!="") {
 			mav.setViewName("home");
 			mav.addObject("message","Successfully login");

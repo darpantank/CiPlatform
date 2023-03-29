@@ -52,8 +52,8 @@
              $('.search_field').keyup(function(){
             	 updateMissionsOnChange();
              });
-        	 
              $('.countrySelect, .countrySelectSidebar').on('change', function () {
+				 currentPage=1;
             	 CheckedCountry = $(this).find("option:selected").val();
             	 CheckedCountryName = $(this).find("option:selected");
             	 console.log(CheckedCountryName);
@@ -72,6 +72,7 @@
         });
 		 function cityCheckedClickEvent(){
 			 selectedCity=[];
+			 currentPage=1;
 			 $('.citySelector input:checked , .citySelectorSidebar input:checked').each(function(){	
 		        selectedCity.push($(this).attr('value'));		        		
              });
@@ -79,6 +80,7 @@
 		 }
 		 function skillCheckedClickEvent(){
 			 skills=[];
+			 currentPage=1;
 			 $('.skillSelector input:checked , .skillSelectorSidebar input:checked').each(function(){	
 				 skills.push($(this).attr('value'));		        		
              });
@@ -86,6 +88,7 @@
 		 }
 		 function themeCheckedClickEvent(){
 			 selectedTheme=[];
+			 currentPage=1;
 			 $('.themeSelector input:checked , .themeSelectorSidebar input:checked').each(function(){
         		selectedTheme.push($(this).attr('value'));
              });
@@ -166,10 +169,7 @@
 						for(var b in obj){
 							var a=b;
 							missions=obj[b];
-						}
-						if(a<=3&&a>Object.keys(missions).length){
-							a=Object.keys(missions).length;
-						}         		
+						}        		
 						createPaginationList(a,currentPage);
 						editUpdatedMission(a);
 	                	printCardOnGrid(missions);
@@ -245,17 +245,7 @@
 	         		currentPage=b;
 	         		updateMissionsOnChange();
 	         	}
-	         	function addToFavourite(mission){
-					 $.ajax({
-	                    url: "addToMyFavourite",
-	                    dataType: 'json',
-	                    data:{missionId:"1"},
-	                    type:"POST",
-	                    success: function(response){
-	                   	 console.log("Added to Favorite");
-	                    }
-	                });
-				 }
+
 	         	function createPaginationList(totalCount,currentPage){
 	         		$(".pagination").empty();
 	         		let data = `<li class="page-item">
@@ -399,9 +389,10 @@
 						<p class="missionCityGridView">
 							<i class="bi bi-geo-alt"></i>`+missions[i].city.name+`
 						</p>
-						<p class="missionLikeGridView d-flex flex-column">
-							<i class="bi bi-heart" onclick="addToFavourite(`+missions[i].mission_id+`)"></i><i class="bi bi-person-plus"></i>
-						</p>
+						<div class="missionLikeGridView d-flex flex-column">
+							<i class="LikeButton bi bi-heart" id="`+missions[i].mission_id+`"></i>
+							<i class="bi bi-person-plus"></i>
+						</div>
 						<img
 							src="image/Grow-Trees-On-the-path-to-environment-sustainability-1.png"
 							class="card-img-top missionImgGridView" alt="...">
@@ -475,5 +466,28 @@
 						</div>
 					</div>`;
 						$(".GridViewDisplay").append(card);
-					}	
+					}
+					
+					$(".LikeButton").click(function(){
+						var missionId=$(this).attr("id");
+						let res="";
+					 	$.ajax({
+	                    url: "addToMyFavourite",
+	                    dataType: 'json',
+	                    data:{missionId:missionId},
+	                    type:"POST",
+	                    success: function(response){
+							res=JSON.parse(response);
+	                    }
+	                });
+	                console.log(res);
+	                if($(this).is(".bi-heart")){						
+					$(this).removeClass("bi-heart");
+					$(this).addClass("bi-heart-fill LikedMission").css("color","red");
+					}
+					else{
+						$(this).removeClass("bi-heart-fill LikedMission");
+						$(this).addClass("bi-heart").css("color","white");
+					}
+						});
 	         	}
