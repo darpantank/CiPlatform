@@ -1,8 +1,11 @@
 package project.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +14,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import project.dao.missionDaoInterface;
-import project.dto.AddToFavourite;
+import project.dto.FetchMissionByUser;
 import project.dto.FilterObject;
 import project.model.city;
 import project.model.country;
@@ -19,18 +22,32 @@ import project.model.favorite_mission;
 import project.model.mission;
 import project.model.mission_theme;
 import project.model.skill;
+import project.model.user;
 @Service
 public class missionService implements missionServiceInterface {
 
 	@Autowired
 	missionDaoInterface daoOfMission;
-	public Map<Long,List<mission>> loadAllMissionOnSearch(FilterObject filters) {
-		Map<Long,List<mission>> map=new HashMap<Long,List<mission>>();  
+	public Map<Long,List<FetchMissionByUser>> loadAllMissionOnSearch(FilterObject filters,user userId) {
+		Map<Long,List<FetchMissionByUser>> map=new HashMap<Long,List<FetchMissionByUser>>();  
 		List<mission> missions;
 		Long totalMission=0L;
 		missions = this.daoOfMission.loadAllMissionOnSearch(filters);
+		List<FetchMissionByUser> myMissionListWithFavourite=new ArrayList<FetchMissionByUser>();			
+			for(mission m:missions) {
+				FetchMissionByUser fetchMissionWithFav=new FetchMissionByUser();
+				fetchMissionWithFav.setMission(m);
+				fetchMissionWithFav.setRating(this.daoOfMission.getRatingOfMission(m));
+				if(userId==null) {
+					fetchMissionWithFav.setFavourited(false);
+				}
+				else {					
+					fetchMissionWithFav.setFavourited(this.daoOfMission.favouriteMission(userId,m));
+				}
+				myMissionListWithFavourite.add(fetchMissionWithFav);
+			}
 		totalMission = this.daoOfMission.countTotalEntry(filters);
-		map.put(totalMission, missions);
+		map.put(totalMission, myMissionListWithFavourite);
 		return map;
 	}
 
@@ -56,5 +73,7 @@ public class missionService implements missionServiceInterface {
 		//convert dto to favorite_mission object
 		return this.daoOfMission.addFavourite(myATF);
 	}
-	
+	public boolean favouriteMission(user user,mission mission) {
+		return this.daoOfMission.favouriteMission(user, mission);
+	}
 }

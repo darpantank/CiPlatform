@@ -48,8 +48,6 @@ public class user {
 	private Date created_at;
 	private Date updated_at;
 	private Date deleted_at;
-	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.EAGER,targetEntity = favorite_mission.class)
-	private List<mission> favorite_mission;
 	public user() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -80,7 +78,6 @@ public class user {
 		this.created_at = created_at;
 		this.updated_at = updated_at;
 		this.deleted_at = deleted_at;
-		this.favorite_mission = favorite_mission;
 	}
 
 
@@ -199,14 +196,7 @@ public class user {
 	}
 	
 	
-	public List<mission> getFavorite_mission() {
-		return favorite_mission;
-	}
 
-
-	public void setFavorite_mission(List<mission> favorite_mission) {
-		this.favorite_mission = favorite_mission;
-	}
 
 	
 	@Override
@@ -216,8 +206,7 @@ public class user {
 				+ ", why_i_volunteer=" + why_i_volunteer + ", employee_id=" + employee_id + ", department=" + department
 				+ ", city=" + city + ", country=" + country + ", profile_text=" + profile_text + ", linked_in_url="
 				+ linked_in_url + ", title=" + title + ", status=" + status + ", created_at=" + created_at
-				+ ", updated_at=" + updated_at + ", deleted_at=" + deleted_at + ", favorite_mission=" + favorite_mission
-				+ "]";
+				+ ", updated_at=" + updated_at + ", deleted_at=" + deleted_at + "]";
 	}
 
 

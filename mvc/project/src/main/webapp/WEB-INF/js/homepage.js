@@ -17,7 +17,6 @@
 		 let currentPage=1;
 		 $(document).ready(function(){
         	 CountryOfUser=$(".defaultCountry").val();
-        	 console.log(CountryOfUser);
         	 updateMissionsOnChange();
         	 $.ajax({
                  url: "loadListOfCountry",
@@ -33,7 +32,6 @@
                  dataType: 'json',
                  success: function(response){
                 	 ThemeList=response;
-                	 console.log(response);
                 	addThemeList(ThemeList);
                  }
              });
@@ -42,7 +40,6 @@
                  dataType: 'json',
                  success: function(response){
                 	 SkillList=response;
-                	 console.log(response);
                 	 addSkillList(SkillList);
                  }
              });
@@ -56,7 +53,6 @@
 				 currentPage=1;
             	 CheckedCountry = $(this).find("option:selected").val();
             	 CheckedCountryName = $(this).find("option:selected");
-            	 console.log(CheckedCountryName);
             	 addFilter(CheckedCountryName[0].innerText);
                  getCityList(CheckedCountry);
                  updateMissionsOnChange();
@@ -64,7 +60,6 @@
              $('.sortBy').on('change', function () {
            	 CheckedSortBy = $(this).find("option:selected").val();
            	 currentPage=1;
-        	 console.log(CheckedSortBy);
              updateMissionsOnChange();
         });
             
@@ -100,7 +95,6 @@
 	       		updateMissionsOnChange();     			
 	       	}  */	
 	       	function addCityList(cityList){
-	     		console.log(cityList);
 	     		$(".citySelector").empty();
 	     		$(".citySelectorSidebar").empty();
 	     		var data="";
@@ -116,7 +110,6 @@
 	      		$(".citySelectorSidebar").append(data);
 	     	}
 	       	function addThemeList(ThemeList){
-	     		console.log(ThemeList);
 	     		$(".themeSelector").empty();
 	     		$(".themeSelectorSidebar").empty();
 	     		var data="";
@@ -132,7 +125,6 @@
 	      		$(".themeSelectorSidebar").append(data);
 	     	}
 	       	function addSkillList(SkillList){
-	       		console.log(ThemeList);
 	     		$(".skillSelector").empty();
 	     		$(".skillSelectorSidebar").empty();
 	     		var data="";
@@ -165,11 +157,11 @@
 	                 dataType: 'json',
 	                 success: function(response){
 	                	const obj=response;
-	                	console.log("main result : "+response);
 						for(var b in obj){
 							var a=b;
 							missions=obj[b];
-						}        		
+						}   
+						console.log(missions);     		
 						createPaginationList(a,currentPage);
 						editUpdatedMission(a);
 	                	printCardOnGrid(missions);
@@ -182,32 +174,8 @@
 	                	else{
 	                		$(".noMissionFound").remove();
 	                	}
-	                	updateChips(FilterObject);
-	                	console.log(FilterObject);
 	                 }
 	             });   
-	         }
-	         function updateChips(FilterObject){
-	        	 console.log("country"+CheckedCountryName);
-	        	 let city=FilterObject.cities;
-	        	 for(var i in city){
-	        		 for(var j in cityList){
-	        			 if(cityList[j].city_id==city[i]){
-	 	        	 		console.log(cityList[j].name);
-	 	        	 	} 
-	        		 }
-	        	 		        		 
-	        	 }
-	        	 let Theme=FilterObject.themes;
-	        	 for(var i in Theme){
-	        		 for(var j in ThemeList){
-	        			 if(ThemeList[j].mission_theme_id==Theme[i]){
-	 	        	 		console.log(ThemeList[j].title);
-	 	        	 	} 
-	        		 }	        		 
-	        	 }
-
-	        	 
 	         }
 	         	function getCityList(CheckedCountry){
 	         		//get City List
@@ -234,7 +202,6 @@
 	         		var data="";
 	         		for(var i in country){
 	         			if(CountryOfUser==country[i].country_id){
-	         				console.log("thanks");
 	         			}
 	         			data+='<option value="'+country[i].country_id+'" name="'+country[i].name+'"> '+country[i].name+'</option>';
 	         		}
@@ -295,16 +262,39 @@
 	         	function printCardOnList(missions){
 	         		$(".ListViewDisplay").empty();
 	         		for(var i in missions){
+					let mission=missions[i].mission;
+					let isFavourite=missions[i].favourited;
+					let ratingCount=Math.ceil(missions[i].rating);
+						let generatedRatingStar="";
+						for(var a=1;a<=5;a++){
+							if(ratingCount>0){
+								generatedRatingStar+=`<div class="col">
+											<img src="image/selected-star.png" alt="" srcset="">
+										</div>`;
+								ratingCount--;
+							}
+							else{
+								generatedRatingStar+=`<div class="col">
+											<img src="image/star.png" alt="" srcset="">
+										</div>`;
+							}
+						}
+						let LikeTag=`<i class="LikeButtonList bi bi-heart" id="`+mission.mission_id+`"></i>`;
+						if(isFavourite){
+							LikeTag=`<i class="LikeButtonList bi bi-heart-fill" id="`+mission.mission_id+`"></i>`;
+						}
+
 	         		let list=`<div class="row ListViewCard">
 	                    <div class="card">
 	                    <div class="row g-0">
 	                        <div class="col-md-3 missionImg">
-	                            <p class="missionCityListView"><i class="bi bi-geo-alt"></i>`+missions[i].city.name+`</p>
+	                            <p class="missionCityListView"><i class="bi bi-geo-alt"></i>`+mission.city.name+`</p>
 	                            <p class="missionAppliedListView"> Applied</p>
-	                            <div class="missionLikeListView d-flex flex-column"><i class="bi bi-heart"></i><i
-	                                class="bi bi-person-plus"></i>
+	                            <div class="missionLikeListView d-flex flex-column">
+	                            	`+LikeTag+`
+	                            	<i class="bi bi-person-plus"></i>
 	                            </div>
-	                            <div class="d-flex justify-content-center missionCategoryListView"><p>`+missions[i].mission_theme.title+`</p></div>
+	                            <div class="d-flex justify-content-center missionCategoryListView"><p>`+mission.mission_theme.title+`</p></div>
 	                            <img src="image/Grow-Trees-On-the-path-to-environment-sustainability-1.png" class="img-fluid rounded-start" alt="...">
 	                        </div>
 	                        <div class="col-md-9">
@@ -312,27 +302,23 @@
 	                                <div class="row w-100 d-flex ">
 	                                    <div class="col">
 	                                        <div class="row d-flex justify-content-start firstInfoContainerListView">
-	                                            <div class="col d-flex"><i class="bi bi-geo-alt"> </i><p>`+missions[i].country.name+`</p></div>
-	                                            <div class="col d-flex"><i class="bi bi-globe"> </i><p> `+missions[i].mission_theme.title+`</p></div>
-	                                            <div class="col d-flex"><i class="bi bi-people"> </i> <p>`+missions[i].organization_name+`</p></div>
+	                                            <div class="col d-flex"><i class="bi bi-geo-alt"> </i><p>`+mission.country.name+`</p></div>
+	                                            <div class="col d-flex"><i class="bi bi-globe"> </i><p> `+mission.mission_theme.title+`</p></div>
+	                                            <div class="col d-flex"><i class="bi bi-people"> </i> <p>`+mission.organization_name+`</p></div>
 	                                        </div>
 	                                    </div>
 	                                    <div class="col d-flex justify-content-end">
 	                                        <div class="row ratingDivGridView">
 	                                            <div class="col">
 	                                                <div class="row d-flex flex-row ratingStar flex-nowrap">
-	                                                    <div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
-	                                                    <div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
-	                                                    <div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
-	                                                    <div class="col"><img src="image/star.png" alt="" srcset=""></div>
-	                                                    <div class="col"><img src="image/star.png" alt="" srcset=""></div>
+	                                                    `+generatedRatingStar+`
 	                                                </div>
 	                                            </div>
 	                                        </div>
 	                                    </div>
 	                                </div>
-	                                <h5 class="card-title">`+missions[i].title+`</h5>
-	                                <p class="card-text">`+missions[i].short_description+`</p>
+	                                <h5 class="card-title">`+mission.title+`</h5>
+	                                <p class="card-text">`+mission.short_description+`</p>
 	                                <div class="row">
 	                                    <div class="col d-flex">
 	                                        <div class="col d-flex">
@@ -376,21 +362,64 @@
 	            </div>`;
 	         			$(".ListViewDisplay").append(list);
 	         		}
+	         		$(".LikeButtonList").click(function(){
+						var missionId=$(this).attr("id");
+						let res="";
+					 	$.ajax({
+	                    url: "addToMyFavourite",
+	                    dataType: 'json',
+	                    data:{missionId:missionId},
+	                    type:"POST",
+	                    success: function(response){
+							res=JSON.parse(response);
+	                    }
+	                });
+	                if($(this).is(".bi-heart")){						
+					$(this).removeClass("bi-heart");
+					$(this).addClass("bi-heart-fill LikedMission");
+					}
+					else{
+						$(this).removeClass("bi-heart-fill LikedMission");
+						$(this).addClass("bi-heart");
+					}
+						});
 	         	}
 	         	function printCardOnGrid(missions){
 	         		$(".GridViewDisplay").empty();
 	         		
 					for(var i in missions){
+						let mission=missions[i].mission;
+						let isFavourite=missions[i].favourited;
+						let ratingCount=Math.ceil(missions[i].rating);
+						let generatedRatingStar="";
+						for(var a=1;a<=5;a++){
+							if(ratingCount>0){
+								generatedRatingStar+=`<div class="col">
+											<img src="image/selected-star.png" alt="" srcset="">
+										</div>`;
+								ratingCount--;
+							}
+							else{
+								generatedRatingStar+=`<div class="col">
+											<img src="image/star.png" alt="" srcset="">
+										</div>`;
+							}
+						}
+						let LikeTag=`<i class="LikeButton bi bi-heart" id="`+mission.mission_id+`"></i>`;
+						if(isFavourite){
+							LikeTag=`<i class="LikeButton bi bi-heart-fill" id="`+mission.mission_id+`"></i>`;
+						}
 						let card=`<div class="card col-lg-4 col-md-6 col-xs-12">
 							<div class="d-flex flex-column appliedCloseButtons">
 							<button class="btn btn-success">applied</button>
 							<button class="btn btn-danger">closed</button>
 						</div>
 						<p class="missionCityGridView">
-							<i class="bi bi-geo-alt"></i>`+missions[i].city.name+`
+							<i class="bi bi-geo-alt"></i>`+mission.city.name+`
 						</p>
-						<div class="missionLikeGridView d-flex flex-column">
-							<i class="LikeButton bi bi-heart" id="`+missions[i].mission_id+`"></i>
+						<div class="missionLikeGridView d-flex flex-column">`+
+						LikeTag
+						+`
 							<i class="bi bi-person-plus"></i>
 						</div>
 						<img
@@ -398,29 +427,15 @@
 							class="card-img-top missionImgGridView" alt="...">
 						<div class="card-body">
 							<div class="d-flex justify-content-center missionCategoryDiv">
-								<p class="missionCategoryGridView">`+missions[i].mission_theme.title+`</p>
+								<p class="missionCategoryGridView">`+mission.mission_theme.title+`</p>
 							</div>
-							<h5 class="card-title">`+missions[i].title+`</h5>
-							<p class="card-text">`+missions[i].short_description+`</p>
+							<h5 class="card-title">`+mission.title+`</h5>
+							<p class="card-text">`+mission.short_description+`</p>
 							<div class="row ratingDivGridView">
-								<div class="col">`+missions[i].organization_name+`</div>
+								<div class="col">`+mission.organization_name+`</div>
 								<div class="col">
 									<div class="row d-flex flex-row ratingStar flex-nowrap">
-										<div class="col">
-											<img src="image/selected-star.png" alt="" srcset="">
-										</div>
-										<div class="col">
-											<img src="image/selected-star.png" alt="" srcset="">
-										</div>
-										<div class="col">
-											<img src="image/selected-star.png" alt="" srcset="">
-										</div>
-										<div class="col">
-											<img src="image/star.png" alt="" srcset="">
-										</div>
-										<div class="col">
-											<img src="image/star.png" alt="" srcset="">
-										</div>
+										`+generatedRatingStar+`
 									</div>
 								</div>
 							</div>
@@ -459,7 +474,7 @@
 							</div>
 							<div class="hrLine"></div>
 							<div class="d-flex justify-content-center">
-								<a href="getMyMission?mission_id=`+missions[i].mission_id+`" class="applyButtonGridView">Apply <i
+								<a href="getMyMission?mission_id=`+mission.mission_id+`" class="applyButtonGridView">Apply <i
 									class="bi bi-arrow-right"></i></a>
 							</div>
 
@@ -480,14 +495,13 @@
 							res=JSON.parse(response);
 	                    }
 	                });
-	                console.log(res);
 	                if($(this).is(".bi-heart")){						
 					$(this).removeClass("bi-heart");
-					$(this).addClass("bi-heart-fill LikedMission").css("color","red");
+					$(this).addClass("bi-heart-fill LikedMission");
 					}
 					else{
 						$(this).removeClass("bi-heart-fill LikedMission");
-						$(this).addClass("bi-heart").css("color","white");
+						$(this).addClass("bi-heart");
 					}
 						});
 	         	}

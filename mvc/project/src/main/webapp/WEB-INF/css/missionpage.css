@@ -141,7 +141,12 @@ body {
     height:50px;
     width: 50px;
 }
-
+.bi-heart{
+	color:black !important;
+}
+.bi-heart-fill{
+	color:red !important;
+}
 @media (max-width: 768px){
     .titleOfMission{
         font-size: 28px;

@@ -9,6 +9,7 @@ import project.model.favorite_mission;
 import project.model.mission;
 import project.model.mission_theme;
 import project.model.skill;
+import project.model.user;
 
 
 public interface missionDaoInterface {
@@ -20,4 +21,6 @@ public interface missionDaoInterface {
 	public long countTotalEntry(FilterObject filters);
 	public mission fetchMissionById(int mission_id);
 	public boolean addFavourite(favorite_mission myFavMission);
+	public boolean favouriteMission(user userId,mission missionId);
+	public Double getRatingOfMission(mission mission);
 }

@@ -81,6 +81,9 @@
 				<value>
 					project.model.favorite_mission
 				</value>
+				<value>
+					project.model.MissionRating
+				</value>
 			</list>
 		</property>
 	</bean>

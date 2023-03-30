@@ -30,6 +30,7 @@
 </head>
 
 <body>    
+	
 	<!--NAvbar-->
 	<div class="container-fluid g-0">
 		<jsp:include page="fheader.jsp" />
@@ -108,8 +109,17 @@
                 </div>
                 <div class="ratingsAndButtons">
                     <div class="row d-flex justify-content-center">
-                        <div class="col-sm-12 col-md-6"><button type="button" class="btn W-90"><i
-                                    class="bi bi-heart"></i> Add to Favourite</button></div>
+                        <div class="col-sm-12 col-md-6">
+                        <c:if test="${isFavourited}">                        
+                        <button type="button" class="btn W-90">
+                        <i class="bi bi-heart-fill" id="${Mission.mission_id }"></i> remove from Favourite</button>
+                        </c:if>
+                        <c:if test="${not isFavourited}">                        
+                        <button type="button" class="btn W-90">
+                        <i class="bi bi-heart" id="${Mission.mission_id }"></i> Add to Favourite</button>
+                        </c:if>
+                        
+                        </div>
                         <div class="col-sm-12 col-md-6"><button type="button" class="btn W-90"><i
                                     class="bi bi-person-plus"></i> Recommend to a Co-Worker</button></div>
                     </div>
@@ -178,7 +188,7 @@
                         <div class="container mt-4">
                             <h2 class="titleOfMissionTab">Introduction</h2>
                             <p class="detailsOfMissionTab">
-                            ${Mission.description }
+                            ${Mission.description}
                             </p>
                             <h2 class="titleOfMissionTab">Challange</h2>
                             <p class="detailsOfMissionTab">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
@@ -263,12 +273,19 @@
                         <div class="hrLine mb-3"></div>
                         <div class="row">
                             <div class="col">Skills</div>
-                            <div class="col">Cool, Easy going, Math, Computer</div>
+                            <div class="col">
+                            <c:forEach var="a" items="${Mission.missionSkills}" varStatus="state">
+                            	<c:if test="${not state.first}">
+									,       								
+    							</c:if>
+                            	${a.skills.skill_name}
+								</c:forEach>
+                            </div>
                         </div>
                         <div class="hrLine mt-2 mb-2"></div>
                         <div class="row">
                             <div class="col">Days</div>
-                            <div class="col">Weekend only</div>
+                            <div class="col">${ Mission.availability}</div>
                         </div>
                         <div class="hrLine mt-2 mb-2"></div>
                         <div class="row">

@@ -19,12 +19,14 @@ import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Component;
 
 import project.dto.FilterObject;
+import project.model.MissionRating;
 import project.model.city;
 import project.model.country;
 import project.model.favorite_mission;
 import project.model.mission;
 import project.model.mission_theme;
 import project.model.skill;
+import project.model.user;
 @Component
 public class missionDaoOperation implements missionDaoInterface {
 	@Autowired
@@ -167,5 +169,27 @@ public class missionDaoOperation implements missionDaoInterface {
 			this.hibernateTemplate.save(myFavMission);
 			return true;
 		}
+	}
+	public boolean favouriteMission(user userId,mission missionId) {
+		Session s=this.hibernateTemplate.getSessionFactory().openSession();
+		Criteria c = s.createCriteria(favorite_mission.class);
+	    c.add(Restrictions.eq("user", userId));
+	    c.add(Restrictions.eq("mission", missionId));
+		if(c.list().size()>0) {
+			System.out.println("Found Fav Mission");
+			return true;
+		}
+		else {
+			System.out.println("No Found Fav Mission");
+			return false;
+		}
+	}
+	public Double getRatingOfMission(mission mission) {
+		Session s=this.hibernateTemplate.getSessionFactory().openSession();
+		Criteria c = s.createCriteria(MissionRating.class);
+		c.add(Restrictions.eq("mission", mission));
+		c.setProjection(Projections.avg("rating"));
+		System.out.println(c.list());
+		return (Double)c.uniqueResult();
 	}
 }

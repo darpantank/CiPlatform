@@ -385,8 +385,11 @@ nav {
     border-top-right-radius: 25px;
     border-bottom-right-radius: 25px;
 }
-.LikedMission{
-	color:red;
+.bi-heart{
+	color:white;
+}
+.bi-heart-fill{
+	color:red !important;
 }
 @media only screen and (max-width: 992px) {
 

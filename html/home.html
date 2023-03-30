@@ -10,6 +10,40 @@
     <link rel="stylesheet" href="css/home.css">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <style>
+        svg {
+            width: 2em;
+            height: 2em;
+            fill: white;
+            pointer-events: none;
+            border: none !important;
+        }
+
+        .stars {
+            display: flex;
+            border: none !important;
+            flex-flow: row-reverse;
+            justify-content: flex-end;
+        }
+
+        .star.is-selected svg,
+        .star.is-selected~.star svg {
+            fill: #996300;
+        }
+
+        .star:hover svg,
+        .star:hover~.star svg {
+            fill: orange;
+        }
+
+        #rated {
+            margin-top: 1em;
+        }
+
+        .rtl {
+            direction: rtl;
+        }
+    </style>
 </head>
 
 <body>
@@ -312,13 +346,28 @@
                             <div class="row ratingDivGridView">
                                 <div class="col">Tree Canada</div>
                                 <div class="col">
-                                    <div class="row d-flex flex-row ratingStar flex-nowrap">
-                                        <div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
-                                        <div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
-                                        <div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
-                                        <div class="col"><img src="image/star.png" alt="" srcset=""></div>
-                                        <div class="col"><img src="image/star.png" alt="" srcset=""></div>
+
+                                    <div style="display: inline-block">
+                                        <div id="stars" class="stars">
+                                            <a class="star" href="#star">
+                                                <img src="image/star-empty.png" alt="">
+                                            </a>
+                                            <a class="star" href="#">
+                                                <img src="image/star-empty.png" alt="">        
+                                            </a>
+                                            <a class="star" href="#">
+                                                <img src="image/star-empty.png" alt="">
+                                            </a>
+                                            <a class="star" href="#">
+                                                <img src="image/star-empty.png" alt="">
+                                            </a>
+                                            <a class="star" href="#">
+                                                <img src="image/star-empty.png" alt="">
+                                            </a>
+                                        </div>
                                     </div>
+
+                                    <div id="rated"></div>
                                 </div>
                             </div>
                             <br>
@@ -800,7 +849,22 @@
         integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
         crossorigin="anonymous"></script>
     <script src="js/sidebarJs.js"></script>
+    <script>
+        var starContainer = document.getElementById('stars');
+var stars = Array.prototype.slice.call(starContainer.children);
+var totalStars = stars.length;
+var rated = document.getElementById('rated');
 
+starContainer.addEventListener('click', function (e) {
+  var index = stars.indexOf(e.target);
+  var count = count = totalStars - index;
+  stars.forEach(el => el.classList.remove('is-selected'));
+  e.target.classList.add('is-selected');
+
+
+  rated.textContent = 'You have rated ' + count + ' stars';
+});
+    </script>
 </html>
 
 

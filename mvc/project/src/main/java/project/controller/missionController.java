@@ -6,10 +6,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import project.dto.AddToFavourite;
+import project.dto.FetchMissionByUser;
 import project.dto.FilterObject;
 import project.model.city;
 import project.model.country;
@@ -34,18 +32,18 @@ public class missionController {
 	@Autowired
 	missionServiceInterface service;	
 	@RequestMapping(value="/searchMission",method = RequestMethod.POST)
-	public @ResponseBody Map<Long,List<mission>> loadAllMissionOnSearch(@RequestParam("FilterObject") String filters){
+	public @ResponseBody Map<Long,List<FetchMissionByUser>> loadAllMissionOnSearch(@RequestParam("FilterObject") String filters,HttpServletRequest request){
 		ObjectMapper mp=new ObjectMapper();
 		FilterObject fo=new FilterObject();
+		user user=new user();
+		user=(user)request.getSession().getAttribute("user");
 		try{			
-			System.out.println("Enter into Mission Controller");
-			System.out.println(filters);
 			fo=mp.readValue(filters, FilterObject.class);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-		return this.service.loadAllMissionOnSearch(fo);
+		return this.service.loadAllMissionOnSearch(fo,user);
 	}
 	@RequestMapping(value="/loadListOfCountry")
 	public @ResponseBody String loadCountryList() {
@@ -100,9 +98,11 @@ public class missionController {
 		return Output;
 	}
 	@RequestMapping(value="/getMyMission" ,method = RequestMethod.GET)
-	public String loadMissionPage(Model m,HttpServletRequest request,@RequestParam("mission_id") int mission_id){
+	public String loadMissionPage(Model m,@RequestParam("mission_id") int mission_id,HttpServletRequest request){
 		mission Mission=new mission();
+		user Myuser= (user)request.getSession().getAttribute("user");
 		Mission=this.service.fetchMissionById(mission_id);
+		m.addAttribute("isFavourited",this.service.favouriteMission(Myuser, Mission));
 		m.addAttribute("Mission",Mission);
 		return "mission";
 	}
