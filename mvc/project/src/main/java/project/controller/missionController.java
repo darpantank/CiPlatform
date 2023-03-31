@@ -102,7 +102,10 @@ public class missionController {
 		mission Mission=new mission();
 		user Myuser= (user)request.getSession().getAttribute("user");
 		Mission=this.service.fetchMissionById(mission_id);
+		m.addAttribute("documents",this.service.getDocumentOfMission(Mission));
 		m.addAttribute("isFavourited",this.service.favouriteMission(Myuser, Mission));
+		int rating=this.service.ratingOfMission(Mission);
+		m.addAttribute("rating",rating);
 		m.addAttribute("Mission",Mission);
 		return "mission";
 	}
@@ -117,5 +120,11 @@ public class missionController {
 		}
 		return false;
 	}
-	
+	@RequestMapping(value = "/getRelatedMission" , method = RequestMethod.GET)
+	public @ResponseBody List<FetchMissionByUser> relatedMission(@RequestParam("missionId") String missionId,HttpServletRequest request) {
+		int mission=Integer.parseInt(missionId);
+		user Myuser= (user)request.getSession().getAttribute("user");
+		mission myMission=this.service.fetchMissionById(mission);
+		return this.service.getRelatedMission(myMission,Myuser);
+	}
 }

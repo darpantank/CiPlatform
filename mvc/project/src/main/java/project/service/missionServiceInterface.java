@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import project.dto.FetchMissionByUser;
 import project.dto.FilterObject;
+import project.model.MissionDocument;
 import project.model.city;
 import project.model.country;
 import project.model.favorite_mission;
@@ -23,4 +24,7 @@ public interface missionServiceInterface {
 	public mission fetchMissionById(int mission_id);
 	public boolean addToFavourite(favorite_mission myATF);
 	public boolean favouriteMission(user user,mission mission);
+	public int ratingOfMission(mission mission);
+	public List<MissionDocument> getDocumentOfMission(mission mission);
+	public List<FetchMissionByUser> getRelatedMission(mission mission,user user);
 }

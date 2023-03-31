@@ -22,11 +22,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${Mission.title}</title>
-    <link rel="stylesheet" href="css/missionpage.css">
+    <link rel="stylesheet" href="<c:url value="/css/missionpage.css" />">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="<c:url value="css/imageCaresoul.css"/>">
+    <link rel="stylesheet" href="<c:url value="/css/imageCaresoul.css"/>">
 </head>
 
 <body>    
@@ -36,6 +36,7 @@
 		<jsp:include page="fheader.jsp" />
 	</div>
     <div class="container mainContainer gap-2">
+    	<input type="text" class="missionId" value="${Mission.mission_id}" hidden>
         <div class="row">
             <!-- image caresoul Div  -->
             <div class="col-md-12 col-lg-5">
@@ -112,11 +113,11 @@
                         <div class="col-sm-12 col-md-6">
                         <c:if test="${isFavourited}">                        
                         <button type="button" class="btn W-90">
-                        <i class="bi bi-heart-fill" id="${Mission.mission_id }"></i> remove from Favourite</button>
+                        <i class="bi bi-heart-fill LikeButtonMain"></i> Add to Favourite</button>
                         </c:if>
                         <c:if test="${not isFavourited}">                        
                         <button type="button" class="btn W-90">
-                        <i class="bi bi-heart" id="${Mission.mission_id }"></i> Add to Favourite</button>
+                        <i class="bi bi-heart LikeButtonMain"></i> Add to Favourite</button>
                         </c:if>
                         
                         </div>
@@ -124,12 +125,12 @@
                                     class="bi bi-person-plus"></i> Recommend to a Co-Worker</button></div>
                     </div>
                     <div class="d-flex justify-content-center">
-                        <div class="row d-flex flex-row flex-nowrap  ratingStars">
-                            <div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
-                            <div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
-                            <div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
-                            <div class="col"><img src="image/star.png" alt="" srcset=""></div>
-                            <div class="col"><img src="image/star.png" alt="" srcset=""></div>
+                        <div class="row d-flex flex-row flex-nowrap ratingStars">
+                            <div class="col ratingStar" value="ONE"><img src="image/selected-star.png" alt="" srcset=""></div>
+                            <div class="col ratingStar" value="TWO"><img src="image/selected-star.png" alt="" srcset=""></div>
+                            <div class="col ratingStar" value="THREE"><img src="image/selected-star.png" alt="" srcset=""></div>
+                            <div class="col ratingStar" value="FOUR"><img src="image/star.png" alt="" srcset=""></div>
+                            <div class="col ratingStar" value="FIVE"><img src="image/star.png" alt="" srcset=""></div>
                         </div>
                     </div>
 
@@ -203,12 +204,22 @@
                                 deserunt mollit anim id est laborum.</p>
                             <h2 class="titleOfMissionTab">Documents</h2>
                             <div class="d-flex flex-column justify-content-start gap-2 flex-md-row mt-2">
-                                <button class="btn documentDownloadBtn"><img src="image/pdf.png">
-                                    lorem-ipsum.pdf</button>
-                                <button class="btn documentDownloadBtn"><img src="image/doc.png">
-                                    lorem-ipfrd.doc</button>
-                                <button class="btn documentDownloadBtn"><img src="image/xlsx.png">
-                                    loesm-igtgsum.xls</button>
+                            <c:forEach var="doc" items="${documents}">
+                            	
+                                <a class="btn documentDownloadBtn" href='<c:url value="${doc.document_path}${doc.document_name}"></c:url>'>
+										<c:choose>
+											<c:when test="${doc.document_type== 'PDF'}">
+												<img src="image/pdf.png">
+											</c:when>
+											<c:when test="${doc.document_type== 'XLS'}">
+												<img src="image/xlsx.png">
+											</c:when>
+											<c:otherwise>
+												<img src="image/doc.png">
+											</c:otherwise>
+										</c:choose>
+                                    ${doc.document_name}</a>
+                            </c:forEach>
                             </div>
 
                         </div>
@@ -292,11 +303,13 @@
                             <div class="col">Rating</div>
                             <div class="col">
                                 <div class="row d-flex flex-nowrap g-0 starsOfRating">
-                                    <div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
-                                    <div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
-                                    <div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
-                                    <div class="col"><img src="image/star.png" alt="" srcset=""></div>
-                                    <div class="col"><img src="image/star.png" alt="" srcset=""></div>
+                                
+                                	<c:forEach begin="1" end="${rating}">                                	
+                                    	<div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
+                                	</c:forEach>
+                                	<c:forEach begin="${rating+1}" end="5">                                		
+                                    	<div class="col"><img src="image/star.png" alt="" srcset=""></div>
+                                	</c:forEach>                            
                                 </div>
                             </div>
                         </div>
@@ -360,7 +373,20 @@
             </div>
         </div>
     </div>
+    
+    
+<!--     Related Missions -->
+	
+	<div class="container mt-4">
+		<p class="h2 text-center mt-2">Related Mission</p>
+		<div class="container d-flex gridView">
+				<div class="row GridViewDisplay w-100">
+					<!-- Data Fetched here of mission  -->
 
+				</div>
+			</div>
+	</div>
+	
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"
         integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
@@ -372,10 +398,166 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script src="js/imageCaresoul.js"></script>
     <script>
-    $(".applyButtonDiv").click(function(){
-    	console.log("Thanks");
-    });	
-    
+    $( document ).ready(function() {
+    	let missions="";
+    	let missionId=$(".missionId").val();
+    	$.ajax({
+            url: "getRelatedMission",
+            data:{missionId:missionId},
+            type:"GET",
+            success: function(response){
+            	missions=response;
+            	printCardOnGrid(missions);
+            }
+        });    	    	    	
+    	
+    });
+		$(".LikeButtonMain").click(function(){
+			var missionId=$(".missionId").val();
+			let res="";
+		 	$.ajax({
+            url: "addToMyFavourite",
+            dataType: 'json',
+            data:{missionId:missionId},
+            type:"POST",
+            success: function(response){
+            }
+        });
+		 	if($(this).hasClass("bi-heart")){
+				$(this).removeClass("bi-heart");
+				$(this).addClass("bi-heart-fill");
+			}
+			else{
+				$(this).addClass("bi-heart");
+				$(this).removeClass("bi-heart-fill");
+			}
+		});
+		
+		
+		function printCardOnGrid(missions){
+     		$(".GridViewDisplay").empty();
+     		console.log(missions);
+			for(var i in missions){
+				let mission=missions[i].mission;
+				let isFavourite=missions[i].favourited;
+				let ratingCount=Math.ceil(missions[i].rating);
+				let generatedRatingStar="";
+				for(var a=1;a<=5;a++){
+					if(ratingCount>0){
+						generatedRatingStar+=`<div class="col">
+									<img src="image/selected-star.png" alt="" srcset="">
+								</div>`;
+						ratingCount--;
+					}
+					else{
+						generatedRatingStar+=`<div class="col">
+									<img src="image/star.png" alt="" srcset="">
+								</div>`;
+					}
+				}
+				let LikeTag=`<i class="LikeButton bi bi-heart" id="`+mission.mission_id+`"></i>`;
+				if(isFavourite){
+					LikeTag=`<i class="LikeButton bi bi-heart-fill" id="`+mission.mission_id+`"></i>`;
+				}
+				let card=`<div class="card col-lg-4 col-md-6 col-xs-12">
+					<div class="d-flex flex-column appliedCloseButtons">
+					<button class="btn btn-success">applied</button>
+					<button class="btn btn-danger">closed</button>
+				</div>
+				<p class="missionCityGridView">
+					<i class="bi bi-geo-alt"></i>`+mission.city.name+`
+				</p>
+				<div class="missionLikeGridView d-flex flex-column">`+
+				LikeTag
+				+`
+					<i class="bi bi-person-plus"></i>
+				</div>
+				<img
+					src="image/Grow-Trees-On-the-path-to-environment-sustainability-1.png"
+					class="card-img-top missionImgGridView" alt="...">
+				<div class="card-body">
+					<div class="d-flex justify-content-center missionCategoryDiv">
+						<p class="missionCategoryGridView">`+mission.mission_theme.title+`</p>
+					</div>
+					<h5 class="card-title">`+mission.title+`</h5>
+					<p class="card-text">`+mission.short_description+`</p>
+					<div class="row ratingDivGridView">
+						<div class="col">`+mission.organization_name+`</div>
+						<div class="col">
+							<div class="row d-flex flex-row ratingStar flex-nowrap">
+								`+generatedRatingStar+`
+							</div>
+						</div>
+					</div>
+					<br>
+					<div class="hr1Line hrLineOverrided"></div>
+					<div class="row missionDatesGridView">
+						<div class="col d-flex justify-content-center">
+							<p>Ongoing Oppurtunity</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col">
+							<div class="row">
+								<div class="col">
+									<img src="image/Seats-left.png" alt="" srcset="">
+								</div>
+								<div class="col">
+									<div class="row">10</div>
+									<div class="row">Seats Left</div>
+								</div>
+							</div>
+
+						</div>
+						<div class="col">
+							<div class="row">
+								<div class="col">
+									<img src="image/deadline.png" alt="" srcset="">
+								</div>
+								<div class="col">
+									<div class="row">09/01/2019</div>
+									<div class="row">Deadline</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="hr1Line"></div>
+					<div class="d-flex justify-content-center">
+						<a href="getMyMission?mission_id=`+mission.mission_id+`" class="applyButtonGridView">Apply <i
+							class="bi bi-arrow-right"></i></a>
+					</div>
+
+				</div>
+			</div>`;
+				$(".GridViewDisplay").append(card);
+			}
+			
+			$(".LikeButton").click(function(){
+				var missionId=$(this).attr("id");
+			 	$.ajax({
+                url: "addToMyFavourite",
+                dataType: 'json',
+                data:{missionId:missionId},
+                type:"POST",
+                success: function(response){
+                }
+            });
+            if($(this).is(".bi-heart")){						
+			$(this).removeClass("bi-heart");
+			$(this).addClass("bi-heart-fill LikedMission");
+			}
+			else{
+				$(this).removeClass("bi-heart-fill LikedMission");
+				$(this).addClass("bi-heart");
+			}
+				});
+     	}
+    	
+		
+		$(".ratingStar").click(function(){
+			console.log($(this).attr("value"));
+		})
     </script>
 </body>
 

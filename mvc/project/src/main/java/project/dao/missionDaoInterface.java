@@ -3,6 +3,7 @@ package project.dao;
 import java.util.List;
 
 import project.dto.FilterObject;
+import project.model.MissionDocument;
 import project.model.city;
 import project.model.country;
 import project.model.favorite_mission;
@@ -23,4 +24,6 @@ public interface missionDaoInterface {
 	public boolean addFavourite(favorite_mission myFavMission);
 	public boolean favouriteMission(user userId,mission missionId);
 	public Double getRatingOfMission(mission mission);
+	public List<MissionDocument> getDocumentOfMission(mission mission);
+	public List<mission> getRelatedMissions(mission MyMission);
 }

@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import project.dao.missionDaoInterface;
 import project.dto.FetchMissionByUser;
 import project.dto.FilterObject;
+import project.model.MissionDocument;
 import project.model.city;
 import project.model.country;
 import project.model.favorite_mission;
@@ -75,5 +76,27 @@ public class missionService implements missionServiceInterface {
 	}
 	public boolean favouriteMission(user user,mission mission) {
 		return this.daoOfMission.favouriteMission(user, mission);
+	}
+	public int ratingOfMission(mission mission) {
+		return (int) Math.ceil(daoOfMission.getRatingOfMission(mission));
+	}
+	public List<MissionDocument> getDocumentOfMission(mission mission) {
+		return this.daoOfMission.getDocumentOfMission(mission);
+	}
+
+	public List<FetchMissionByUser> getRelatedMission(mission mission,user user) {
+		List<mission> missions=this.daoOfMission.getRelatedMissions(mission);
+		if(missions.size()>3) {
+			missions=missions.subList(0,3);
+		}
+		List<FetchMissionByUser> missionWithData=new ArrayList<FetchMissionByUser>();
+		for(mission m:missions) {
+			FetchMissionByUser temp=new FetchMissionByUser();
+			temp.setMission(m);
+			temp.setFavourited(this.daoOfMission.favouriteMission(user, m));
+			temp.setRating(this.daoOfMission.getRatingOfMission(m));
+			missionWithData.add(temp);
+		}
+		return missionWithData;
 	}
 }

@@ -19,6 +19,7 @@ import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Component;
 
 import project.dto.FilterObject;
+import project.model.MissionDocument;
 import project.model.MissionRating;
 import project.model.city;
 import project.model.country;
@@ -32,6 +33,7 @@ public class missionDaoOperation implements missionDaoInterface {
 	@Autowired
 	private HibernateTemplate hibernateTemplate;
 	private final int totalMissionPerPage=3; //Total Mission On single page used For Pagination purpose please Add +1 to show perfectly
+	private final int totalRelatedMissions=3;
 	public List<mission> loadAllMissionOnSearch(FilterObject filters) {
 		Session s = this.hibernateTemplate.getSessionFactory().openSession();
 		Criteria c = s.createCriteria(mission.class);
@@ -189,7 +191,42 @@ public class missionDaoOperation implements missionDaoInterface {
 		Criteria c = s.createCriteria(MissionRating.class);
 		c.add(Restrictions.eq("mission", mission));
 		c.setProjection(Projections.avg("rating"));
-		System.out.println(c.list());
-		return (Double)c.uniqueResult();
+		Double rating=(Double)c.uniqueResult();
+		if(rating==null) {
+			return 0D;
+		}
+		else {			
+			return rating;
+		}
+	}
+	public List<MissionDocument> getDocumentOfMission(mission mission){
+		Session s=this.hibernateTemplate.getSessionFactory().openSession();
+		Criteria c = s.createCriteria(MissionDocument.class);
+		c.add(Restrictions.eq("mission", mission));
+		c.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		return c.list();
+	}
+
+	public List<mission> getRelatedMissions(mission MyMission) {
+		Session s=this.hibernateTemplate.getSessionFactory().openSession();
+		Criteria cUsedInCity = s.createCriteria(mission.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		Criteria cUsedInCountry = s.createCriteria(mission.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		Criteria cUsedInTheme = s.createCriteria(mission.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		cUsedInCity.add(Restrictions.ne("mission_id", MyMission.getMission_id()));
+		cUsedInCity.add(Restrictions.eq("city",MyMission.getCity()));
+		if(cUsedInCity.list().size()==0) {
+			cUsedInCountry.add(Restrictions.ne("mission_id", MyMission.getMission_id()));
+			cUsedInCountry.add(Restrictions.eq("country",MyMission.getCountry()));
+			if(cUsedInCountry.list().size()==0) {
+				cUsedInTheme.add(Restrictions.ne("mission_id", MyMission.getMission_id()));
+				cUsedInTheme.add(Restrictions.eq("mission_theme",MyMission.getMission_theme()));
+				return cUsedInTheme.list();
+			}
+			else {
+				return cUsedInCountry.list();
+			}
+		}else {
+			return cUsedInCity.list();
+		}
 	}
 }

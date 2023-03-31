@@ -351,7 +351,7 @@
 	                                        </div>
 	                                    </div>
 	                                    <div class="col d-flex justify-content-end">
-	                                        <a href="#" class="applyButtonGridView">View Details <i class="bi bi-arrow-right"></i></a>
+	                                        <a href="getMyMission?mission_id=`+mission.mission_id+`" class="applyButtonGridView">View Details <i class="bi bi-arrow-right"></i></a>
 	                                    </div>
 	                                </div>
 	                            </div>

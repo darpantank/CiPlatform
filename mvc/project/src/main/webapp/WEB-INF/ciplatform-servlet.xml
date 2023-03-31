@@ -84,6 +84,9 @@
 				<value>
 					project.model.MissionRating
 				</value>
+				<value>
+					project.model.MissionDocument
+				</value>
 			</list>
 		</property>
 	</bean>
