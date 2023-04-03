@@ -14,21 +14,25 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
-public class mission {
+@Table(name = "mission")
+public class Mission {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int mission_id;
 	@ManyToOne
 	@JoinColumn(name="theme_id")
-	private mission_theme mission_theme;
+	private MissionTheme mission_theme;
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="city_id")
-	private city city ;
+	private City city ;
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="country_id")
-	private country country;
+	private Country country;
 	private String title;
 	private String short_description;
 	private String description;
@@ -42,11 +46,12 @@ public class mission {
 	private String organization_detail;
 	@Enumerated(EnumType.STRING)
 	private Availability availability;
+	@CreationTimestamp
 	private Date created_at;
 	private Date updated_at;
 	private Date deleted_at;
 	@OneToMany(mappedBy = "missions" , cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-	private List<mission_skill> missionSkills;
+	private List<MissionSkill> missionSkills;
 	public enum MissionType{
 		TIME,
 		GOAL;
@@ -61,17 +66,17 @@ public class mission {
 		ACTIVE,
 		INACTIVE;
 	}
-	public mission() {
+	public Mission() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
 	
-	public mission(int mission_id, project.model.mission_theme mission_theme, project.model.city city,
-			project.model.country country, String title, String short_description, String description, Date start_date,
+	public Mission(int mission_id, project.model.MissionTheme mission_theme, project.model.City city,
+			project.model.Country country, String title, String short_description, String description, Date start_date,
 			Date end_date, MissionType mission_type, Status status, String organization_name,
 			String organization_detail, Availability availability, Date created_at, Date updated_at, Date deleted_at,
-			List<mission_skill> missionSkills) {
+			List<MissionSkill> missionSkills) {
 		super();
 		this.mission_id = mission_id;
 		this.mission_theme = mission_theme;
@@ -100,22 +105,22 @@ public class mission {
 	public void setMission_id(int mission_id) {
 		this.mission_id = mission_id;
 	}
-	public mission_theme getMission_theme() {
+	public MissionTheme getMission_theme() {
 		return mission_theme;
 	}
-	public void setMission_theme(mission_theme mission_theme) {
+	public void setMission_theme(MissionTheme mission_theme) {
 		this.mission_theme = mission_theme;
 	}
-	public city getCity() {
+	public City getCity() {
 		return city;
 	}
-	public void setCity(city city) {
+	public void setCity(City city) {
 		this.city = city;
 	}
-	public country getCountry() {
+	public Country getCountry() {
 		return country;
 	}
-	public void setCountry(country country) {
+	public void setCountry(Country country) {
 		this.country = country;
 	}
 	
@@ -123,12 +128,12 @@ public class mission {
 
 
 
-	public List<mission_skill> getMissionSkills() {
+	public List<MissionSkill> getMissionSkills() {
 		return missionSkills;
 	}
 
 
-	public void setMissionSkills(List<mission_skill> missionSkills) {
+	public void setMissionSkills(List<MissionSkill> missionSkills) {
 		this.missionSkills = missionSkills;
 	}
 

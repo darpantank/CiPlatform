@@ -13,32 +13,34 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import project.dao.missionDaoInterface;
-import project.dto.FetchMissionByUser;
-import project.dto.FilterObject;
+import project.dao.MissionDaoInterface;
+import project.dto.FetchMissionByUserDto;
+import project.dto.FilterObjectDto;
 import project.model.MissionDocument;
-import project.model.city;
-import project.model.country;
-import project.model.favorite_mission;
-import project.model.mission;
-import project.model.mission_theme;
-import project.model.skill;
-import project.model.user;
+import project.model.City;
+import project.model.Country;
+import project.model.FavoriteMission;
+import project.model.Mission;
+import project.model.MissionTheme;
+import project.model.Skill;
+import project.model.User;
 @Service
-public class missionService implements missionServiceInterface {
+public class MissionService implements MissionServiceInterface {
 
 	@Autowired
-	missionDaoInterface daoOfMission;
-	public Map<Long,List<FetchMissionByUser>> loadAllMissionOnSearch(FilterObject filters,user userId) {
-		Map<Long,List<FetchMissionByUser>> map=new HashMap<Long,List<FetchMissionByUser>>();  
-		List<mission> missions;
+	MissionDaoInterface daoOfMission;
+	public Map<Long,List<FetchMissionByUserDto>> loadAllMissionOnSearch(FilterObjectDto filters,User userId) {
+		Map<Long,List<FetchMissionByUserDto>> map=new HashMap<Long,List<FetchMissionByUserDto>>();  
+		List<Mission> missions;
 		Long totalMission=0L;
 		missions = this.daoOfMission.loadAllMissionOnSearch(filters);
-		List<FetchMissionByUser> myMissionListWithFavourite=new ArrayList<FetchMissionByUser>();			
-			for(mission m:missions) {
-				FetchMissionByUser fetchMissionWithFav=new FetchMissionByUser();
+		List<FetchMissionByUserDto> myMissionListWithFavourite=new ArrayList<FetchMissionByUserDto>();			
+			for(Mission m:missions) {
+				FetchMissionByUserDto fetchMissionWithFav=new FetchMissionByUserDto();
+				Map<Double,Long> map1=this.daoOfMission.getRatingOfMission(m);
 				fetchMissionWithFav.setMission(m);
-				fetchMissionWithFav.setRating(this.daoOfMission.getRatingOfMission(m));
+				fetchMissionWithFav.setRating((Double)map1.keySet().toArray()[0]);
+				fetchMissionWithFav.setRatingByNo((Long)map1.get(map1.keySet().toArray()[0]));
 				if(userId==null) {
 					fetchMissionWithFav.setFavourited(false);
 				}
@@ -52,51 +54,60 @@ public class missionService implements missionServiceInterface {
 		return map;
 	}
 
-	public List<country> loadListOfCountry() {
+	public List<Country> loadListOfCountry() {
 		return daoOfMission.loadListOfCountry();
 	}
 
-	public List<city> loadCityOfCountry(int country_id) {
+	public List<City> loadCityOfCountry(int country_id) {
 		return this.daoOfMission.loadCityOfCountry(country_id);
 	}
 
-	public List<mission_theme> loadAllThemes() {
+	public List<MissionTheme> loadAllThemes() {
 		return this.daoOfMission.loadAllThemes();
 	}
-	public List<skill> loadAllSkills() {
+	public List<Skill> loadAllSkills() {
 		return this.daoOfMission.loadAllSkill();
 	}
 
-	public mission fetchMissionById(int mission_id) {
+	public Mission fetchMissionById(int mission_id) {
 		return this.daoOfMission.fetchMissionById(mission_id);
 	}
-	public boolean addToFavourite(favorite_mission myATF) {
+	public boolean addToFavourite(FavoriteMission myATF) {
 		//convert dto to favorite_mission object
 		return this.daoOfMission.addFavourite(myATF);
 	}
-	public boolean favouriteMission(user user,mission mission) {
+	public boolean favouriteMission(User user,Mission mission) {
 		return this.daoOfMission.favouriteMission(user, mission);
 	}
-	public int ratingOfMission(mission mission) {
-		return (int) Math.ceil(daoOfMission.getRatingOfMission(mission));
+	public Map<Double,Long> ratingOfMission(Mission mission) {
+		return daoOfMission.getRatingOfMission(mission);
 	}
-	public List<MissionDocument> getDocumentOfMission(mission mission) {
+	public List<MissionDocument> getDocumentOfMission(Mission mission) {
 		return this.daoOfMission.getDocumentOfMission(mission);
 	}
 
-	public List<FetchMissionByUser> getRelatedMission(mission mission,user user) {
-		List<mission> missions=this.daoOfMission.getRelatedMissions(mission);
+	public List<FetchMissionByUserDto> getRelatedMission(Mission mission,User user) {
+		List<Mission> missions=this.daoOfMission.getRelatedMissions(mission);
 		if(missions.size()>3) {
 			missions=missions.subList(0,3);
 		}
-		List<FetchMissionByUser> missionWithData=new ArrayList<FetchMissionByUser>();
-		for(mission m:missions) {
-			FetchMissionByUser temp=new FetchMissionByUser();
+		List<FetchMissionByUserDto> missionWithData=new ArrayList<FetchMissionByUserDto>();
+		for(Mission m:missions) {
+			FetchMissionByUserDto temp=new FetchMissionByUserDto();
 			temp.setMission(m);
 			temp.setFavourited(this.daoOfMission.favouriteMission(user, m));
-			temp.setRating(this.daoOfMission.getRatingOfMission(m));
+			Map<Double,Long> map=this.daoOfMission.getRatingOfMission(m);
+			System.out.println("map valaues "+map.values().toArray()[0]);
+			temp.setRating(0D);
 			missionWithData.add(temp);
 		}
 		return missionWithData;
+	}
+
+	public Boolean ratingToMission(User myuser, Mission myMission, int rating) {
+		return this.daoOfMission.ratingToMission(myuser,myMission,rating);
+	}
+	public int ratingOfParticularUser(User myUser,Mission myMission) {
+		return this.daoOfMission.ratingOfMissionOfParticularUser(myUser,myMission);
 	}
 }

@@ -13,17 +13,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Component;
 
-import project.model.mission;
-import project.model.password_reset;
-import project.model.user;
+import project.model.Mission;
+import project.model.PasswordReset;
+import project.model.User;
 
 @Component
-public class userDaoOperation implements userDaoInterface{
+public class UserDaoOperation implements UserDaoInterface{
 	@Autowired
 	HibernateTemplate hibernateTemplate;
 	
 	@Transactional
-	public boolean createUser(user user1) {
+	public boolean createUser(User user1) {
 		Integer i=(Integer) this.hibernateTemplate.save(user1);
 		System.out.println(i);
 		if(i==0) {
@@ -32,51 +32,51 @@ public class userDaoOperation implements userDaoInterface{
 		return true;
 	}
 	@Transactional
-	public String storeResetPassToken(password_reset prst) {
+	public String storeResetPassToken(PasswordReset prst) {
 		this.hibernateTemplate.saveOrUpdate("token",prst);
 		return prst.getToken();
 	}
-	public List<password_reset> validateToken(String Token) {
-		String que="from password_reset where token=:Token";
+	public List<PasswordReset> validateToken(String Token) {
+		String que="from PasswordReset where token=:Token";
 		Query q=hibernateTemplate.getSessionFactory().openSession().createQuery(que);
 		q.setParameter("Token", Token);
 		return q.list();
 	}
-	public user validateUserDetails(String email,String pass) {
-		String que="from user where email=:email and password=:password";
+	public User validateUserDetails(String email,String pass) {
+		String que="from User where email=:email and password=:password";
 		Query q=hibernateTemplate.getSessionFactory().openSession().createQuery(que);
 		q.setParameter("email", email);
 		q.setParameter("password",pass);
-		List<user> mylist=q.list();
-		user myuser=new user();
-		for(user temp:mylist) {
+		List<User> mylist=q.list();
+		User myuser=new User();
+		for(User temp:mylist) {
 			myuser=temp;
 		}
 		return myuser;
 	}
 	
-	public user validateEmail(String email) {
-		String que="from user where email=:email";
+	public User validateEmail(String email) {
+		String que="from User where email=:email";
 		Query q=hibernateTemplate.getSessionFactory().openSession().createQuery(que);
 		q.setParameter("email", email);
-		user myuser=new user();
-		List<user> users=q.list();
-		for(user temp:users) {
+		User myuser=new User();
+		List<User> users=q.list();
+		for(User temp:users) {
 			myuser=temp;
 		}
 		return myuser;
 	}
 	
-	public password_reset validateTokenForReset(String token) {
-		String que="from password_reset where token=:token";
+	public PasswordReset validateTokenForReset(String token) {
+		String que="from PasswordReset where token=:token";
 		Query q=hibernateTemplate.getSessionFactory().openSession().createQuery(que);
 		q.setParameter("token", token);
-		password_reset prst=(password_reset)q.getSingleResult();
+		PasswordReset prst=(PasswordReset)q.getSingleResult();
 		return prst;
 	}
 	
 	@Transactional
-	public boolean deleteToken(password_reset prst) {
+	public boolean deleteToken(PasswordReset prst) {
 		if(prst.isValidObject()) {
 			this.hibernateTemplate.delete(prst);
 			return true;
@@ -85,7 +85,7 @@ public class userDaoOperation implements userDaoInterface{
 	}
 	@Transactional
 	public boolean saveUpdatedPassword(String email,String password) {
-		user user1=this.validateEmail(email);
+		User user1=this.validateEmail(email);
 		user1.setPassword(password);
 		this.hibernateTemplate.update(user1);
 		return true;

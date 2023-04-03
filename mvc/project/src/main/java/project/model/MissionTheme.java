@@ -3,47 +3,44 @@ package project.model;
 import java.util.Date;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "skill")
-public class Skill {
+@Table(name = "mission_theme")
+public class MissionTheme {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int skill_id;
-	private String skill_name;
+	private int mission_theme_id;
+	private String title;
 	private int status;
 	private Date created_at;
 	private Date updated_at;
 	private Date deleted_at;
-	
-	public Skill() {
+	public MissionTheme() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Skill(int skill_id, String skill_name, int status, Date created_at, Date updated_at, Date deleted_at) {
+	public MissionTheme(int mission_theme_id, String title, int status, Date created_at, Date updated_at,
+			Date deleted_at) {
 		super();
-		this.skill_id = skill_id;
-		this.skill_name = skill_name;
+		this.mission_theme_id = mission_theme_id;
+		this.title = title;
 		this.status = status;
 		this.created_at = created_at;
 		this.updated_at = updated_at;
 		this.deleted_at = deleted_at;
 	}
-	public int getSkill_id() {
-		return skill_id;
+	public int getMission_theme_id() {
+		return mission_theme_id;
 	}
-	public void setSkill_id(int skill_id) {
-		this.skill_id = skill_id;
+	public void setMission_theme_id(int mission_theme_id) {
+		this.mission_theme_id = mission_theme_id;
 	}
-	public String getSkill_name() {
-		return skill_name;
+	public String getTitle() {
+		return title;
 	}
-	public void setSkill_name(String skill_name) {
-		this.skill_name = skill_name;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	public int getStatus() {
 		return status;
@@ -71,8 +68,8 @@ public class Skill {
 	}
 	@Override
 	public String toString() {
-		return "skill [skill_id=" + skill_id + ", skill_name=" + skill_name + ", status=" + status + ", created_at="
-				+ created_at + ", updated_at=" + updated_at + ", deleted_at=" + deleted_at + "]";
+		return "mission_theme [mission_theme_id=" + mission_theme_id + ", title=" + title + ", status=" + status
+				+ ", created_at=" + created_at + ", updated_at=" + updated_at + ", deleted_at=" + deleted_at + "]";
 	}
 	
 }

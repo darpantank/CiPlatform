@@ -2,16 +2,16 @@ package project.dao;
 
 import java.util.List;
 
-import project.model.password_reset;
-import project.model.user;
+import project.model.PasswordReset;
+import project.model.User;
 
-public interface userDaoInterface {
-	public boolean createUser(user user1);
-	public String storeResetPassToken(password_reset prst);
-	public List<password_reset> validateToken(String Token);
-	public user validateUserDetails(String email,String pass);
-	public user validateEmail(String email);
-	public password_reset validateTokenForReset(String token);
-	public boolean deleteToken(password_reset prst);
+public interface UserDaoInterface {
+	public boolean createUser(User user1);
+	public String storeResetPassToken(PasswordReset prst);
+	public List<PasswordReset> validateToken(String Token);
+	public User validateUserDetails(String email,String pass);
+	public User validateEmail(String email);
+	public PasswordReset validateTokenForReset(String token);
+	public boolean deleteToken(PasswordReset prst);
 	public boolean saveUpdatedPassword(String email,String password);
 }

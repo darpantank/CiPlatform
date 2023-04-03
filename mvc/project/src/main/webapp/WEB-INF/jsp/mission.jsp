@@ -126,11 +126,14 @@
                     </div>
                     <div class="d-flex justify-content-center">
                         <div class="row d-flex flex-row flex-nowrap ratingStars">
-                            <div class="col ratingStar" value="ONE"><img src="image/selected-star.png" alt="" srcset=""></div>
-                            <div class="col ratingStar" value="TWO"><img src="image/selected-star.png" alt="" srcset=""></div>
-                            <div class="col ratingStar" value="THREE"><img src="image/selected-star.png" alt="" srcset=""></div>
-                            <div class="col ratingStar" value="FOUR"><img src="image/star.png" alt="" srcset=""></div>
-                            <div class="col ratingStar" value="FIVE"><img src="image/star.png" alt="" srcset=""></div>
+                        
+                       	 <c:forEach var="i" begin="1" end="${ratingOfUser}">                                	
+                                 <div class="col ratingStar" value="${i }"><img src="image/selected-star.png" alt="" srcset=""></div>
+                          </c:forEach>
+                           <c:forEach var="i" begin="${ratingOfUser+1}" end="5">                                		
+                                  <div class="col ratingStar" value="${i }"><img src="image/star.png" alt="" srcset=""></div>
+                           </c:forEach>  
+                            
                         </div>
                     </div>
 
@@ -283,7 +286,7 @@
 
                         <div class="hrLine mb-3"></div>
                         <div class="row">
-                            <div class="col">Skills</div>
+                            <div class="col-auto">Skills</div>
                             <div class="col">
                             <c:forEach var="a" items="${Mission.missionSkills}" varStatus="state">
                             	<c:if test="${not state.first}">
@@ -295,21 +298,22 @@
                         </div>
                         <div class="hrLine mt-2 mb-2"></div>
                         <div class="row">
-                            <div class="col">Days</div>
+                            <div class="col-auto">Days</div>
                             <div class="col">${ Mission.availability}</div>
                         </div>
                         <div class="hrLine mt-2 mb-2"></div>
                         <div class="row">
-                            <div class="col">Rating</div>
+                            <div class="col-auto">Rating</div>
                             <div class="col">
                                 <div class="row d-flex flex-nowrap g-0 starsOfRating">
                                 
                                 	<c:forEach begin="1" end="${rating}">                                	
-                                    	<div class="col"><img src="image/selected-star.png" alt="" srcset=""></div>
+                                    	<div class="col-auto"><img src="image/selected-star.png" alt="" srcset=""></div>
                                 	</c:forEach>
                                 	<c:forEach begin="${rating+1}" end="5">                                		
-                                    	<div class="col"><img src="image/star.png" alt="" srcset=""></div>
-                                	</c:forEach>                            
+                                    	<div class="col-auto"><img src="image/star.png" alt="" srcset=""></div>
+                                	</c:forEach>       
+                                	<div class="col">(by ${ratingByPeople } Volunteers)</div>             
                                 </div>
                             </div>
                         </div>
@@ -412,6 +416,33 @@
         });    	    	    	
     	
     });
+	
+	$(".ratingStar").click(function(){
+		var rating=$(this).attr("value");
+		var missionId=$(".missionId").attr("value");
+    	$.ajax({
+        url: "ratingToMission",
+        type: "POST",
+        data:	{"missionId": missionId,
+        		"rating":rating	
+        },
+        success: function(response){
+       		$(".ratingStars").empty();
+       		data=``;
+       		for(var a=1;a<=5;a++){
+       			if(rating>0){       				
+       			data+=`<div class="col ratingStar" value=`+a+`><img src="image/selected-star.png" alt="" srcset=""></div>`;
+       			rating--;
+       			}
+       			else{
+       				data+=`<div class="col ratingStar" value=`+a+`><img src="image/star.png" alt="" srcset=""></div>`;
+       			}
+       		}
+       		$(".ratingStars").append(data);
+        }
+		
+	});
+	});
 		$(".LikeButtonMain").click(function(){
 			var missionId=$(".missionId").val();
 			let res="";
@@ -553,11 +584,7 @@
 			}
 				});
      	}
-    	
-		
-		$(".ratingStar").click(function(){
-			console.log($(this).attr("value"));
-		})
+
     </script>
 </body>
 

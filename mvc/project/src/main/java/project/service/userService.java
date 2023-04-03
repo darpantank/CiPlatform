@@ -9,17 +9,17 @@ import java.util.regex.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import project.dao.userDaoInterface;
-import project.model.password_reset;
-import project.model.user;
+import project.dao.UserDaoInterface;
+import project.model.PasswordReset;
+import project.model.User;
 
 @Service
-public class userService implements userServiceInterface {
+public class UserService implements UserServiceInterface {
 	final static int TOKEN_VALID_TIME = 240;
 	@Autowired
-	userDaoInterface daoOperation;
+	UserDaoInterface daoOperation;
 
-	public boolean storeUserData(user user1) {
+	public boolean storeUserData(User user1) {
 		user1.setCreated_at(new Date());
 		String regex = "^(.+)@(.+)$";
 		Pattern pattern = Pattern.compile(regex);
@@ -38,12 +38,12 @@ public class userService implements userServiceInterface {
 		}
 	}
 
-	public user validateUserDetail(String email, String password) {
+	public User validateUserDetail(String email, String password) {
 		return this.daoOperation.validateUserDetails(email, password);
 	}
 
 	public boolean validateEmailId(String email) {
-		user myuser = this.daoOperation.validateEmail(email);
+		User myuser = this.daoOperation.validateEmail(email);
 		if (myuser.getEmail() != null) {
 			return true;
 		} else {
@@ -52,9 +52,9 @@ public class userService implements userServiceInterface {
 	}
 
 	public boolean forgotPasswordImpl(String email) {
-		String Token = generateToken.generateNewToken();
-		if (sendMail.send(email, Token)) {
-			password_reset prst = new password_reset();
+		String Token = GenerateToken.generateNewToken();
+		if (SendMail.send(email, Token)) {
+			PasswordReset prst = new PasswordReset();
 			prst.setEmail(email);
 			prst.setToken(Token);
 			prst.setCreated_at(new Date());
@@ -68,25 +68,25 @@ public class userService implements userServiceInterface {
 		}
 	}
 
-	public password_reset validateToken(String Token) {
-		password_reset prst = new password_reset();
-		List<password_reset> prstlist = this.daoOperation.validateToken(Token);
-		for (password_reset temp : prstlist) {
+	public PasswordReset validateToken(String Token) {
+		PasswordReset prst = new PasswordReset();
+		List<PasswordReset> prstlist = this.daoOperation.validateToken(Token);
+		for (PasswordReset temp : prstlist) {
 			prst = temp;
 		}
 		return prst;
 	}
 
-	public boolean deleteToken(password_reset prst) {
+	public boolean deleteToken(PasswordReset prst) {
 		return this.daoOperation.deleteToken(prst);
 	}
 
-	public password_reset isValidToken(String token) {
+	public PasswordReset isValidToken(String token) {
 		return this.daoOperation.validateTokenForReset(token);
 	}
 
 	public boolean isPasswordUpdated(String Token, String password) {
-		password_reset prst = isValidToken(Token);
+		PasswordReset prst = isValidToken(Token);
 		if (prst.isValidObject()) {
 			String email = prst.getEmail();
 			if (this.daoOperation.saveUpdatedPassword(email, password)) {
@@ -99,11 +99,11 @@ public class userService implements userServiceInterface {
 		}
 	}
 
-	public password_reset getEmailFromToken(String token) {
+	public PasswordReset getEmailFromToken(String token) {
 		return this.daoOperation.validateTokenForReset(token);
 	}
 
-	public boolean isTokenExpire(password_reset prst) {
+	public boolean isTokenExpire(PasswordReset prst) {
 		Date d1 = prst.getCreated_at();
 		Date d2 = new Date();
 		long diff = d2.getTime() - d1.getTime();

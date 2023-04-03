@@ -18,18 +18,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import project.model.mission;
-import project.model.password_reset;
-import project.model.user;
-import project.service.missionServiceInterface;
-import project.service.userServiceInterface;
+import project.model.Mission;
+import project.model.PasswordReset;
+import project.model.User;
+import project.service.MissionServiceInterface;
+import project.service.UserServiceInterface;
 
 @Controller
 public class HomeController {
 	@Autowired
-	userServiceInterface service;
+	UserServiceInterface service;
 	@Autowired
-	missionServiceInterface mservice;
+	MissionServiceInterface mservice;
 	final static int LOGOUT_TIME = 900; /* User Session Is Validate For 15 Minutes */
 	@RequestMapping("/registration")
 	public String registrationView() {
@@ -60,7 +60,7 @@ public class HomeController {
 		if(password!=""&&cnfpassword!=null&&token!=null) {
 			
 //			check Given Token is Present in Our DB or not 
-			password_reset prst=this.service.isValidToken(token);
+			PasswordReset prst=this.service.isValidToken(token);
 			System.out.println("1 step");
 			if(prst.isValidObject()) {
 				System.out.println("2 step");
@@ -97,7 +97,7 @@ public class HomeController {
 		return mav;
 	}
 	@RequestMapping(value = "/saveuser",method = RequestMethod.POST)
-	public String saveUser(@ModelAttribute("user") user user1,Model m) {
+	public String saveUser(@ModelAttribute("user") User user1,Model m) {
 		
 		System.out.println(user1);
 		if(!this.service.validateEmailId(user1.getEmail())){
@@ -121,7 +121,7 @@ public class HomeController {
 	@RequestMapping(value = "/validateuser",method = RequestMethod.POST)
 	public ModelAndView validateUser(@RequestParam("email") String email,@RequestParam("password") String password,HttpServletRequest request) {
 		ModelAndView mav=new ModelAndView();
-		user myuser=this.service.validateUserDetail(email, password);
+		User myuser=this.service.validateUserDetail(email, password);
 		if(myuser.getEmail()!=null||myuser.getEmail()!="") {
 			mav.setViewName("home");
 			mav.addObject("message","Successfully login");
@@ -156,7 +156,7 @@ public class HomeController {
 	@RequestMapping(path="/validatetoken/{token}")
 	public ModelAndView validateToken(@PathVariable("token") String Token) {
 		ModelAndView mav=new ModelAndView();
-		password_reset prst=this.service.validateToken(Token);
+		PasswordReset prst=this.service.validateToken(Token);
 		System.out.println(prst);
 		if(prst.getEmail()!=null||prst.getToken()!=null||prst.getCreated_at()!=null) {
 			
@@ -179,14 +179,14 @@ public class HomeController {
 		}
 		return mav;
 	}
-	@ExceptionHandler(value = ConstraintViolationException.class)
-    public String sqlExceptionHanler(Model m) {       
-        m.addAttribute("message", "Some thing went wrong");
-        return "failed";
-    }
-	@ExceptionHandler(value = Exception.class)
-    public String centralExceptionHanler(Model m) {       
-        m.addAttribute("message", "Data Handling Error");
-        return "failed";
-    }
+//	@ExceptionHandler(value = ConstraintViolationException.class)
+//    public String sqlExceptionHanler(Model m) {       
+//        m.addAttribute("message", "Some thing went wrong");
+//        return "failed";
+//    }
+//	@ExceptionHandler(value = Exception.class)
+//    public String centralExceptionHanler(Model m) {       
+//        m.addAttribute("message", "Data Handling Error");
+//        return "failed";
+//    }
 }

@@ -52,34 +52,34 @@
 		<property name="annotatedClasses">
 			<list>
 				<value>
-					project.model.user
+					project.model.User
 				</value>
 				<value>
-					project.model.city
+					project.model.City
 				</value>
 				<value>
-					project.model.country
+					project.model.Country
 				</value>
 				<value>
-					project.model.banner
+					project.model.Banner
 				</value>
 				<value>
-					project.model.password_reset
+					project.model.PasswordReset
 				</value>
 				<value>
-					project.model.mission
+					project.model.Mission
 				</value>
 				<value>
-					project.model.mission_theme
+					project.model.MissionTheme
 				</value>
 				<value>
-					project.model.skill
+					project.model.Skill
 				</value>
 				<value>
-					project.model.mission_skill
+					project.model.MissionSkill
 				</value>
 				<value>
-					project.model.favorite_mission
+					project.model.FavoriteMission
 				</value>
 				<value>
 					project.model.MissionRating

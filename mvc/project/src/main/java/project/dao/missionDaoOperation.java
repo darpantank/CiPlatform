@@ -1,13 +1,16 @@
 package project.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projection;
@@ -18,25 +21,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Component;
 
-import project.dto.FilterObject;
+import project.dto.FilterObjectDto;
 import project.model.MissionDocument;
 import project.model.MissionRating;
-import project.model.city;
-import project.model.country;
-import project.model.favorite_mission;
-import project.model.mission;
-import project.model.mission_theme;
-import project.model.skill;
-import project.model.user;
+import project.model.MissionRating.Rating;
+import project.model.City;
+import project.model.Country;
+import project.model.FavoriteMission;
+import project.model.Mission;
+import project.model.MissionTheme;
+import project.model.Skill;
+import project.model.User;
 @Component
-public class missionDaoOperation implements missionDaoInterface {
+public class MissionDaoOperation implements MissionDaoInterface {
 	@Autowired
 	private HibernateTemplate hibernateTemplate;
 	private final int totalMissionPerPage=3; //Total Mission On single page used For Pagination purpose please Add +1 to show perfectly
 	private final int totalRelatedMissions=3;
-	public List<mission> loadAllMissionOnSearch(FilterObject filters) {
+	public List<Mission> loadAllMissionOnSearch(FilterObjectDto filters) {
 		Session s = this.hibernateTemplate.getSessionFactory().openSession();
-		Criteria c = s.createCriteria(mission.class);
+		Criteria c = s.createCriteria(Mission.class);
 	    if(filters.getKeyword()!="") {
 	    	Criterion searchByTitle= Restrictions.like("title", "%" +filters.getKeyword()+ "%");
 	    	Criterion searchByDescription= Restrictions.like("description", "%" +filters.getKeyword()+ "%");
@@ -75,7 +79,7 @@ public class missionDaoOperation implements missionDaoInterface {
 	    c.setFirstResult(StartingIndex);
 	    c.setMaxResults(totalMissionPerPage);
 	    List<Object[]> myObjSet=c.list();
-	    List<mission> myMissions=new ArrayList<mission>();
+	    List<Mission> myMissions=new ArrayList<Mission>();
 	    for(Object[] myObj:myObjSet) {
 	    	myMissions.add(this.fetchMissionById((Integer)myObj[0]));
 	    }
@@ -98,26 +102,26 @@ public class missionDaoOperation implements missionDaoInterface {
 		return myMissions;
 	}
 
-	public List<country> loadListOfCountry() {
-		return this.hibernateTemplate.loadAll(country.class);
+	public List<Country> loadListOfCountry() {
+		return this.hibernateTemplate.loadAll(Country.class);
 	}
 
-	public List<city> loadCityOfCountry(int country_id) {
-		String que="from city where country_id=:country_id"; 
+	public List<City> loadCityOfCountry(int country_id) {
+		String que="from City where country_id=:country_id"; 
 		 Query q=hibernateTemplate.getSessionFactory().openSession().createQuery(que);
 		 q.setParameter("country_id",country_id);
-		 List<city> mylist=q.list();
+		 List<City> mylist=q.list();
 		return mylist;
 	}
-	public List<mission_theme> loadAllThemes() {
-		return this.hibernateTemplate.loadAll(mission_theme.class);
+	public List<MissionTheme> loadAllThemes() {
+		return this.hibernateTemplate.loadAll(MissionTheme.class);
 	}
-	public List<skill> loadAllSkill() {
-		return this.hibernateTemplate.loadAll(skill.class);
+	public List<Skill> loadAllSkill() {
+		return this.hibernateTemplate.loadAll(Skill.class);
 	}
-	public long countTotalEntry(FilterObject filters) {
+	public long countTotalEntry(FilterObjectDto filters) {
 		Session s = this.hibernateTemplate.getSessionFactory().openSession();
-		Criteria c = s.createCriteria(mission.class);
+		Criteria c = s.createCriteria(Mission.class);
 	    if(filters.getKeyword()!="") {
 	    	Criterion searchByTitle= Restrictions.like("title", "%" +filters.getKeyword()+ "%");
 	    	Criterion searchByDescription= Restrictions.like("description", "%" +filters.getKeyword()+ "%");
@@ -152,17 +156,17 @@ public class missionDaoOperation implements missionDaoInterface {
 		return result;
 	}
 
-	public mission fetchMissionById(int mission_id) {
-		return this.hibernateTemplate.get(mission.class,mission_id);
+	public Mission fetchMissionById(int mission_id) {
+		return this.hibernateTemplate.get(Mission.class,mission_id);
 	}
 	@Transactional
-	public boolean addFavourite(favorite_mission myFavMission) {		
+	public boolean addFavourite(FavoriteMission myFavMission) {		
 		//check before Insertion 
 		Session s = this.hibernateTemplate.getSessionFactory().openSession();
-		Criteria c = s.createCriteria(favorite_mission.class);
+		Criteria c = s.createCriteria(FavoriteMission.class);
 		c.add(Restrictions.eq("mission", myFavMission.getMission()));
 		c.add(Restrictions.eq("user", myFavMission.getUser()));
-		favorite_mission fm=(favorite_mission)c.uniqueResult();
+		FavoriteMission fm=(FavoriteMission)c.uniqueResult();
 		if(fm!=null) {			
 			this.hibernateTemplate.delete(fm);
 			return false;
@@ -172,34 +176,35 @@ public class missionDaoOperation implements missionDaoInterface {
 			return true;
 		}
 	}
-	public boolean favouriteMission(user userId,mission missionId) {
+	public boolean favouriteMission(User userId,Mission missionId) {
 		Session s=this.hibernateTemplate.getSessionFactory().openSession();
-		Criteria c = s.createCriteria(favorite_mission.class);
+		Criteria c = s.createCriteria(FavoriteMission.class);
 	    c.add(Restrictions.eq("user", userId));
 	    c.add(Restrictions.eq("mission", missionId));
 		if(c.list().size()>0) {
-			System.out.println("Found Fav Mission");
 			return true;
 		}
-		else {
-			System.out.println("No Found Fav Mission");
+		else {	
 			return false;
 		}
 	}
-	public Double getRatingOfMission(mission mission) {
+	public Map<Double,Long> getRatingOfMission(Mission mission) {
 		Session s=this.hibernateTemplate.getSessionFactory().openSession();
 		Criteria c = s.createCriteria(MissionRating.class);
 		c.add(Restrictions.eq("mission", mission));
-		c.setProjection(Projections.avg("rating"));
-		Double rating=(Double)c.uniqueResult();
-		if(rating==null) {
-			return 0D;
-		}
-		else {			
-			return rating;
-		}
+		Projection p1=Projections.avg("rating");
+		Projection p2=Projections.count("mission");
+		ProjectionList projectionList = Projections.projectionList();
+		projectionList.add(p1);
+		projectionList.add(p2);
+		c.setProjection(projectionList);
+		Object[] obj=(Object[])c.uniqueResult();
+		Map<Double,Long> map=new HashMap<Double,Long>();
+		map.put((Double)obj[0], (Long)obj[1]);
+		System.out.println("My Map"+map);
+		return map;
 	}
-	public List<MissionDocument> getDocumentOfMission(mission mission){
+	public List<MissionDocument> getDocumentOfMission(Mission mission){
 		Session s=this.hibernateTemplate.getSessionFactory().openSession();
 		Criteria c = s.createCriteria(MissionDocument.class);
 		c.add(Restrictions.eq("mission", mission));
@@ -207,11 +212,11 @@ public class missionDaoOperation implements missionDaoInterface {
 		return c.list();
 	}
 
-	public List<mission> getRelatedMissions(mission MyMission) {
+	public List<Mission> getRelatedMissions(Mission MyMission) {
 		Session s=this.hibernateTemplate.getSessionFactory().openSession();
-		Criteria cUsedInCity = s.createCriteria(mission.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-		Criteria cUsedInCountry = s.createCriteria(mission.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-		Criteria cUsedInTheme = s.createCriteria(mission.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		Criteria cUsedInCity = s.createCriteria(Mission.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		Criteria cUsedInCountry = s.createCriteria(Mission.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		Criteria cUsedInTheme = s.createCriteria(Mission.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		cUsedInCity.add(Restrictions.ne("mission_id", MyMission.getMission_id()));
 		cUsedInCity.add(Restrictions.eq("city",MyMission.getCity()));
 		if(cUsedInCity.list().size()==0) {
@@ -227,6 +232,47 @@ public class missionDaoOperation implements missionDaoInterface {
 			}
 		}else {
 			return cUsedInCity.list();
+		}
+	}
+	@Transactional
+	public Boolean ratingToMission(User myuser, Mission myMission, int rating) {
+		Session s=this.hibernateTemplate.getSessionFactory().openSession();
+		Criteria c = s.createCriteria(MissionRating.class);
+		c.add(Restrictions.eq("mission", myMission));
+		c.add(Restrictions.eq("user", myuser));
+		 if(myuser.getEmail()==null || myuser.getEmail()=="") {
+			return false;
+		 }
+		 else {
+			 if(c.list().size()>0) {
+				 MissionRating temp=(MissionRating)c.uniqueResult();
+				 temp.setRating(Rating.values()[rating]);
+				 this.hibernateTemplate.update(temp);
+			 }
+			 else {
+				 MissionRating missionRating=new MissionRating();
+					missionRating.setMission(myMission);
+					missionRating.setUser(myuser);
+				 missionRating.setRating(Rating.values()[rating]);
+				this.hibernateTemplate.save("rating", missionRating);
+			 }
+		 }
+		
+		return true;
+	}
+
+	public int ratingOfMissionOfParticularUser(User myUser, Mission myMission) {
+		Session s=this.hibernateTemplate.getSessionFactory().openSession();
+		Criteria c = s.createCriteria(MissionRating.class);
+		c.add(Restrictions.eq("user", myUser));
+		c.add(Restrictions.eq("mission", myMission));
+		MissionRating temp=(MissionRating)c.uniqueResult();
+		if(temp==null||temp.getRating()==null) {
+			return 0;
+		}
+		else {
+			
+			return temp.getRating().ordinal();
 		}
 	}
 }

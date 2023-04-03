@@ -9,25 +9,27 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
-public class city {
+@Table(name = "city")
+public class City {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int city_id;
 	@OneToOne(cascade = CascadeType.ALL)       
 	@JoinColumn(name = "country_id")
-	private country country;
+	private Country country;
 	private String name;
 	private Date created_at;
 	private Date updated_at;
 	private Date deleted_at;
-	public city() {
+	public City() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
-	public city(int city_id, project.model.country country, String name, Date created_at, Date updated_at,
+	public City(int city_id, project.model.Country country, String name, Date created_at, Date updated_at,
 			Date deleted_at) {
 		super();
 		this.city_id = city_id;
@@ -45,11 +47,11 @@ public class city {
 		this.city_id = city_id;
 	}
 	
-	public country getCountry() {
+	public Country getCountry() {
 		return country;
 	}
 
-	public void setCountry(country country) {
+	public void setCountry(Country country) {
 		this.country = country;
 	}
 

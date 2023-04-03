@@ -6,12 +6,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
-public class country {
+@Table(name = "country")
+public class Country {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int country_id;
@@ -22,11 +24,11 @@ public class country {
 	@UpdateTimestamp
 	private Date updated_at;
 	private Date deleted_at;
-	public country() {
+	public Country() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public country(int country_id, String name, String iSO, Date created_at, Date updated_at, Date deleted_at) {
+	public Country(int country_id, String name, String iSO, Date created_at, Date updated_at, Date deleted_at) {
 		super();
 		this.country_id = country_id;
 		this.name = name;

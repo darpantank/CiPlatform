@@ -6,11 +6,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 @Entity
-public class banner {
+@Table(name = "banner")
+public class Banner {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int banner_id;
@@ -22,11 +24,11 @@ public class banner {
 	@UpdateTimestamp
 	private Date updated_at;
 	private Date deleted_at;
-	public banner() {
+	public Banner() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public banner(int banner_id, String image, String text, int sort_order, Date created_at, Date updated_at,
+	public Banner(int banner_id, String image, String text, int sort_order, Date created_at, Date updated_at,
 			Date deleted_at) {
 		super();
 		this.banner_id = banner_id;

@@ -16,29 +16,29 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import project.dto.FetchMissionByUser;
-import project.dto.FilterObject;
-import project.model.city;
-import project.model.country;
-import project.model.favorite_mission;
-import project.model.mission;
-import project.model.mission_theme;
-import project.model.skill;
-import project.model.user;
-import project.service.missionServiceInterface;
+import project.dto.FetchMissionByUserDto;
+import project.dto.FilterObjectDto;
+import project.model.City;
+import project.model.Country;
+import project.model.FavoriteMission;
+import project.model.Mission;
+import project.model.MissionTheme;
+import project.model.Skill;
+import project.model.User;
+import project.service.MissionServiceInterface;
 
 @Controller
-public class missionController {
+public class MissionController {
 	@Autowired
-	missionServiceInterface service;	
+	MissionServiceInterface service;	
 	@RequestMapping(value="/searchMission",method = RequestMethod.POST)
-	public @ResponseBody Map<Long,List<FetchMissionByUser>> loadAllMissionOnSearch(@RequestParam("FilterObject") String filters,HttpServletRequest request){
+	public @ResponseBody Map<Long,List<FetchMissionByUserDto>> loadAllMissionOnSearch(@RequestParam("FilterObject") String filters,HttpServletRequest request){
 		ObjectMapper mp=new ObjectMapper();
-		FilterObject fo=new FilterObject();
-		user user=new user();
-		user=(user)request.getSession().getAttribute("user");
+		FilterObjectDto fo=new FilterObjectDto();
+		User user=new User();
+		user=(User)request.getSession().getAttribute("user");
 		try{			
-			fo=mp.readValue(filters, FilterObject.class);
+			fo=mp.readValue(filters, FilterObjectDto.class);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -47,7 +47,7 @@ public class missionController {
 	}
 	@RequestMapping(value="/loadListOfCountry")
 	public @ResponseBody String loadCountryList() {
-		List<country> mylist=this.service.loadListOfCountry();
+		List<Country> mylist=this.service.loadListOfCountry();
 		ObjectMapper obj=new ObjectMapper();
 		String Output="";
 		try {
@@ -60,7 +60,7 @@ public class missionController {
 	}
 	@RequestMapping(value="/loadListOfCity",method = RequestMethod.POST)
 	public @ResponseBody String loadCountryList(@RequestParam("countryId") int countryId) {
-		List<city> mylist=this.service.loadCityOfCountry(countryId);
+		List<City> mylist=this.service.loadCityOfCountry(countryId);
 		ObjectMapper obj=new ObjectMapper();
 		String Output="";
 		try {
@@ -73,7 +73,7 @@ public class missionController {
 	}
 	@RequestMapping(value="/loadListOfTheme")
 	public @ResponseBody String loadAllTheme() {
-		List<mission_theme> mylist=this.service.loadAllThemes();
+		List<MissionTheme> mylist=this.service.loadAllThemes();
 		ObjectMapper obj=new ObjectMapper();
 		String Output="";
 		try {
@@ -86,7 +86,7 @@ public class missionController {
 	}
 	@RequestMapping(value="/loadListOfSkill")
 	public @ResponseBody String loadAllSkill() {
-		List<skill> mylist=this.service.loadAllSkills();
+		List<Skill> mylist=this.service.loadAllSkills();
 		ObjectMapper obj=new ObjectMapper();
 		String Output="";
 		try {
@@ -99,32 +99,49 @@ public class missionController {
 	}
 	@RequestMapping(value="/getMyMission" ,method = RequestMethod.GET)
 	public String loadMissionPage(Model m,@RequestParam("mission_id") int mission_id,HttpServletRequest request){
-		mission Mission=new mission();
-		user Myuser= (user)request.getSession().getAttribute("user");
+		Mission Mission=new Mission();
+		User Myuser= (User)request.getSession().getAttribute("user");
 		Mission=this.service.fetchMissionById(mission_id);
 		m.addAttribute("documents",this.service.getDocumentOfMission(Mission));
 		m.addAttribute("isFavourited",this.service.favouriteMission(Myuser, Mission));
-		int rating=this.service.ratingOfMission(Mission);
+		m.addAttribute("ratingOfUser",this.service.ratingOfParticularUser(Myuser, Mission));
+		Double rating=0D;
+		Long ratingByPeople=0L;
+		Map<Double,Long> map=this.service.ratingOfMission(Mission);
+		if(map!=null||!map.isEmpty()) {			
+			ratingByPeople=(Long)map.get(map.keySet().toArray()[0]);
+			rating=(Double)map.keySet().toArray()[0];
+		}
 		m.addAttribute("rating",rating);
+		m.addAttribute("ratingByPeople",ratingByPeople);
 		m.addAttribute("Mission",Mission);
 		return "mission";
 	}
 	@RequestMapping(value="/addToMyFavourite" ,method = RequestMethod.POST)
 	public @ResponseBody boolean addMyFavouriteMission(@RequestParam("missionId") String missionId,HttpServletRequest request) {
 		int mission=Integer.parseInt(missionId);
-		mission myMission=this.service.fetchMissionById(mission);
-		user Myuser= (user)request.getSession().getAttribute("user");
+		Mission myMission=this.service.fetchMissionById(mission);
+		User Myuser= (User)request.getSession().getAttribute("user");
 		if(Myuser.getEmail()!=null) {			
-			favorite_mission myATF=new favorite_mission(myMission,Myuser);
+			FavoriteMission myATF=new FavoriteMission(myMission,Myuser);
 			return this.service.addToFavourite(myATF);
 		}
 		return false;
 	}
 	@RequestMapping(value = "/getRelatedMission" , method = RequestMethod.GET)
-	public @ResponseBody List<FetchMissionByUser> relatedMission(@RequestParam("missionId") String missionId,HttpServletRequest request) {
+	public @ResponseBody List<FetchMissionByUserDto> relatedMission(@RequestParam("missionId") String missionId,HttpServletRequest request) {
 		int mission=Integer.parseInt(missionId);
-		user Myuser= (user)request.getSession().getAttribute("user");
-		mission myMission=this.service.fetchMissionById(mission);
+		User Myuser= (User)request.getSession().getAttribute("user");
+		Mission myMission=this.service.fetchMissionById(mission);
 		return this.service.getRelatedMission(myMission,Myuser);
+	}
+	@RequestMapping(value = "/ratingToMission",method = RequestMethod.POST)
+	public @ResponseBody Boolean ratingToMission(@RequestParam("missionId") String missionId,@RequestParam("rating") String rating,HttpServletRequest request) {
+		System.out.print(missionId);
+		int mission=Integer.parseInt(missionId);
+		int ratingCon=Integer.parseInt(rating);
+		User Myuser= (User)request.getSession().getAttribute("user");
+		Mission myMission=this.service.fetchMissionById(mission);
+		return this.service.ratingToMission(Myuser,myMission,ratingCon);
 	}
 }

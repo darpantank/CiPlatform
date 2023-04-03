@@ -19,9 +19,9 @@ public class MissionDocument {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int mission_document_id;
-	@ManyToOne(targetEntity = mission.class)
+	@ManyToOne(targetEntity = Mission.class)
 	@JoinColumn(name="mission_id")
-	private mission mission;
+	private Mission mission;
 	private String document_name;
 	private String document_type;
 	private String document_path;
@@ -34,7 +34,7 @@ public class MissionDocument {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public MissionDocument(int mission_document_id, project.model.mission mission, String document_name,
+	public MissionDocument(int mission_document_id, project.model.Mission mission, String document_name,
 			String document_type, String document_path, Date created_at, Date updated_at, Date deleted_at) {
 		super();
 		this.mission_document_id = mission_document_id;
@@ -52,10 +52,10 @@ public class MissionDocument {
 	public void setMission_document_id(int mission_document_id) {
 		this.mission_document_id = mission_document_id;
 	}
-	public mission getMission() {
+	public Mission getMission() {
 		return mission;
 	}
-	public void setMission(mission mission) {
+	public void setMission(Mission mission) {
 		this.mission = mission;
 	}
 	public String getDocument_name() {

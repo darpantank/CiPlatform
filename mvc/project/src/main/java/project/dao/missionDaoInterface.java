@@ -1,29 +1,32 @@
 package project.dao;
 
 import java.util.List;
+import java.util.Map;
 
-import project.dto.FilterObject;
+import project.dto.FilterObjectDto;
 import project.model.MissionDocument;
-import project.model.city;
-import project.model.country;
-import project.model.favorite_mission;
-import project.model.mission;
-import project.model.mission_theme;
-import project.model.skill;
-import project.model.user;
+import project.model.City;
+import project.model.Country;
+import project.model.FavoriteMission;
+import project.model.Mission;
+import project.model.MissionTheme;
+import project.model.Skill;
+import project.model.User;
 
 
-public interface missionDaoInterface {
-	public List<mission> loadAllMissionOnSearch(FilterObject filters);
-	public List<country> loadListOfCountry();
-	public List<city> loadCityOfCountry(int country_id);
-	public List<mission_theme> loadAllThemes();
-	public List<skill> loadAllSkill();
-	public long countTotalEntry(FilterObject filters);
-	public mission fetchMissionById(int mission_id);
-	public boolean addFavourite(favorite_mission myFavMission);
-	public boolean favouriteMission(user userId,mission missionId);
-	public Double getRatingOfMission(mission mission);
-	public List<MissionDocument> getDocumentOfMission(mission mission);
-	public List<mission> getRelatedMissions(mission MyMission);
+public interface MissionDaoInterface {
+	public List<Mission> loadAllMissionOnSearch(FilterObjectDto filters);
+	public List<Country> loadListOfCountry();
+	public List<City> loadCityOfCountry(int country_id);
+	public List<MissionTheme> loadAllThemes();
+	public List<Skill> loadAllSkill();
+	public long countTotalEntry(FilterObjectDto filters);
+	public Mission fetchMissionById(int mission_id);
+	public boolean addFavourite(FavoriteMission myFavMission);
+	public boolean favouriteMission(User userId,Mission missionId);
+	public Map<Double, Long> getRatingOfMission(Mission mission);
+	public List<MissionDocument> getDocumentOfMission(Mission mission);
+	public List<Mission> getRelatedMissions(Mission MyMission);
+	public Boolean ratingToMission(User myuser, Mission myMission, int rating);
+	public int ratingOfMissionOfParticularUser(User myUser, Mission myMission);
 }

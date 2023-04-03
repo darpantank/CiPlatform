@@ -15,8 +15,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 @Entity
-public class user {
+@Table(name = "user")
+public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int user_id;
@@ -33,10 +35,10 @@ public class user {
 	private String department;
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "city_id")
-	private city city;
+	private City city;
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name ="country_id" )
-	private country country;
+	private Country country;
 	private String profile_text;
 	private String linked_in_url;
 	private String title;
@@ -48,16 +50,16 @@ public class user {
 	private Date created_at;
 	private Date updated_at;
 	private Date deleted_at;
-	public user() {
+	public User() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
 
-	public user(int user_id, String first_name, String last_name, String email, String password, String phone_number,
-			String avatar, String why_i_volunteer, String employee_id, String department, project.model.city city,
-			project.model.country country, String profile_text, String linked_in_url, String title, Status status,
-			Date created_at, Date updated_at, Date deleted_at, List<mission> favorite_mission) {
+	public User(int user_id, String first_name, String last_name, String email, String password, String phone_number,
+			String avatar, String why_i_volunteer, String employee_id, String department, project.model.City city,
+			project.model.Country country, String profile_text, String linked_in_url, String title, Status status,
+			Date created_at, Date updated_at, Date deleted_at, List<Mission> favorite_mission) {
 		super();
 		this.user_id = user_id;
 		this.first_name = first_name;
@@ -141,16 +143,16 @@ public class user {
 	public void setDepartment(String department) {
 		this.department = department;
 	}
-	public city getCity() {
+	public City getCity() {
 		return city;
 	}
-	public void setCity(city city) {
+	public void setCity(City city) {
 		this.city = city;
 	}
-	public country getCountry() {
+	public Country getCountry() {
 		return country;
 	}
-	public void setCountry(country country) {
+	public void setCountry(Country country) {
 		this.country = country;
 	}
 	public String getProfile_text() {

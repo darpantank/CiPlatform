@@ -186,6 +186,7 @@
 	                    type:"POST",
 	                    success: function(response){
 	                   	 cityList=response;
+	                   	 console.log(response);
 	                   	addCityList(cityList);
 	                    }
 	                });

@@ -11,7 +11,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-public class sendMail {
+public class SendMail {
 	public static boolean send(String email,String Token) {
 		boolean status=false;
 		Properties props = new Properties();
