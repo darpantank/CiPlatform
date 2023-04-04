@@ -16,8 +16,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import project.dao.MissionDaoInterface;
 import project.dto.FetchMissionByUserDto;
 import project.dto.FilterObjectDto;
+import project.dto.MissionCommentDto;
 import project.model.MissionDocument;
 import project.model.City;
+import project.model.Comment;
 import project.model.Country;
 import project.model.FavoriteMission;
 import project.model.Mission;
@@ -97,8 +99,7 @@ public class MissionService implements MissionServiceInterface {
 			temp.setMission(m);
 			temp.setFavourited(this.daoOfMission.favouriteMission(user, m));
 			Map<Double,Long> map=this.daoOfMission.getRatingOfMission(m);
-			System.out.println("map valaues "+map.values().toArray()[0]);
-			temp.setRating(0D);
+			temp.setRating((Double)map.keySet().toArray()[0]);
 			missionWithData.add(temp);
 		}
 		return missionWithData;
@@ -109,5 +110,26 @@ public class MissionService implements MissionServiceInterface {
 	}
 	public int ratingOfParticularUser(User myUser,Mission myMission) {
 		return this.daoOfMission.ratingOfMissionOfParticularUser(myUser,myMission);
+	}
+
+	public void recommandToCoWorker(Mission myMission, User sendFromUser, User sendToUser) {
+		String msg="<!DOCTYPE html><h2>Your Friend "+sendFromUser.getFirst_name()+" "+sendFromUser.getLast_name()+" is recommand to you for this mission</h2><h3>Click Below Button to Open Mission</h3> <br><a href='http://localhost:8080/project/getMyMission?mission_id="+myMission.getMission_id()+"' class='btn btn-success'>Click Here</a>";
+		String subject="Ci-Platform Recommandation Link";
+		if(SendMail.send(sendToUser.getEmail(), msg,subject)) {			
+			this.daoOfMission.recommandToCoWorker(myMission,sendFromUser,sendToUser);
+		}
+	}
+
+	public List<MissionCommentDto> loadCommentsOfMission(Mission myMission) {
+		List<Comment> myListOfComments=this.daoOfMission.loadAllCommentsOfMission(myMission);
+		List<MissionCommentDto> listOfCommentsDto=new ArrayList<MissionCommentDto>();
+		for(Comment comment:myListOfComments) {
+			MissionCommentDto commentDto=new MissionCommentDto();
+			commentDto.setAvatar(comment.getUser().getAvatar());
+			commentDto.setComment(comment.getComment());
+			commentDto.setName(comment.getUser().getFirst_name()+" "+comment.getUser().getLast_name());
+			listOfCommentsDto.add(commentDto);
+		}
+		return listOfCommentsDto;
 	}
 }

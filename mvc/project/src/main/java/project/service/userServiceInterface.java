@@ -14,4 +14,5 @@ public interface UserServiceInterface {
 	public boolean isPasswordUpdated(String Token,String password);
 	public PasswordReset getEmailFromToken(String token);
 	public boolean isTokenExpire(PasswordReset prst);
+	public User getUserFromEmail(String email);
 }

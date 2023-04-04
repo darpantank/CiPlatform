@@ -1,13 +1,17 @@
 package project.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,7 +22,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import project.dto.FetchMissionByUserDto;
 import project.dto.FilterObjectDto;
+import project.dto.MissionCommentDto;
+import project.dto.PostCommentDto;
 import project.model.City;
+import project.model.Comment;
 import project.model.Country;
 import project.model.FavoriteMission;
 import project.model.Mission;
@@ -26,11 +33,14 @@ import project.model.MissionTheme;
 import project.model.Skill;
 import project.model.User;
 import project.service.MissionServiceInterface;
+import project.service.UserServiceInterface;
 
 @Controller
 public class MissionController {
 	@Autowired
 	MissionServiceInterface service;	
+	@Autowired
+	UserServiceInterface userService;
 	@RequestMapping(value="/searchMission",method = RequestMethod.POST)
 	public @ResponseBody Map<Long,List<FetchMissionByUserDto>> loadAllMissionOnSearch(@RequestParam("FilterObject") String filters,HttpServletRequest request){
 		ObjectMapper mp=new ObjectMapper();
@@ -143,5 +153,38 @@ public class MissionController {
 		User Myuser= (User)request.getSession().getAttribute("user");
 		Mission myMission=this.service.fetchMissionById(mission);
 		return this.service.ratingToMission(Myuser,myMission,ratingCon);
+	}
+	
+	@RequestMapping(value= "/recommandtocoworker" , method = RequestMethod.POST)
+	public @ResponseBody String recommandToCoWorker(@RequestParam("missionId") String missionId,@RequestParam("email_id") String email,HttpServletRequest request) {
+		int mission=Integer.parseInt(missionId);
+		Mission myMission=this.service.fetchMissionById(mission);
+		User SendFromUser= (User)request.getSession().getAttribute("user");
+		User SendToUser= this.userService.getUserFromEmail(email);
+		if(SendToUser.getEmail()==null||SendToUser.getEmail()=="") {
+			return "emailnotfound";
+		}
+		else if(SendFromUser.getEmail().equals(SendToUser.getEmail())) {
+			return "bothusersame";
+		}
+		else if(SendFromUser==null||SendFromUser.getEmail()==null||SendFromUser.getEmail()=="") {
+			return "sessionnotfound";
+		}
+		else {
+			//Store Data Of Recommandation
+			this.service.recommandToCoWorker(myMission,SendFromUser,SendToUser);
+			return "success";
+		}
+	}
+	@RequestMapping(value="/getCommentsOfMission" ,method = RequestMethod.GET)
+	public @ResponseBody List<MissionCommentDto> loadCommentsOfMission(@RequestParam("missionId") String missionId){
+		int mission=Integer.parseInt(missionId);
+		Mission myMission=this.service.fetchMissionById(mission);
+		return this.service.loadCommentsOfMission(myMission);
+	}
+	@PostMapping(value="/postcomment",consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Boolean postCommentByUser(@RequestBody PostCommentDto postCommentDto) {
+		System.out.println(postCommentDto);
+		return true;
 	}
 }

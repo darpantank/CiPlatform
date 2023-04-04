@@ -30,10 +30,8 @@ public class UserService implements UserServiceInterface {
 			if (this.daoOperation.createUser(user1)) {
 				return true;
 			}
-			System.out.println("dao not successfully done");
 			return false;
 		} else {
-			System.out.println("Basic Validation Fiailed");
 			return false;
 		}
 	}
@@ -50,10 +48,14 @@ public class UserService implements UserServiceInterface {
 			return false;
 		}
 	}
-
+	public User getUserFromEmail(String email) {
+		return this.daoOperation.validateEmail(email);
+	}
 	public boolean forgotPasswordImpl(String email) {
 		String Token = GenerateToken.generateNewToken();
-		if (SendMail.send(email, Token)) {
+		String message="<!DOCTYPE html><h3>Click Below Button to Reset Your Password</h3> <br><a href=http://localhost:8080/project/validatetoken/"+Token+" class='btn btn-success'>Click Here</a>";
+		String subject="Ci-Platform Reset Password";
+		if (SendMail.send(email, message,subject)) {
 			PasswordReset prst = new PasswordReset();
 			prst.setEmail(email);
 			prst.setToken(Token);

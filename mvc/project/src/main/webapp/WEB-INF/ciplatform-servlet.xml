@@ -87,6 +87,12 @@
 				<value>
 					project.model.MissionDocument
 				</value>
+				<value>
+					project.model.MissionInvite
+				</value>
+				<value>
+					project.model.Comment
+				</value>
 			</list>
 		</property>
 	</bean>

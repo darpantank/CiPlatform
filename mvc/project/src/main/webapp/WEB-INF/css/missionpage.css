@@ -172,6 +172,10 @@ body {
 .bi-heart-fill{
 	color:red !important;
 }
+.userComments{
+	height:325px;
+	overflow-y:auto;
+}
 .appliedCloseButtons {
     position: absolute;
 }

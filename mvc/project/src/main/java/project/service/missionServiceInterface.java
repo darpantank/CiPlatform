@@ -6,8 +6,10 @@ import org.springframework.stereotype.Service;
 
 import project.dto.FetchMissionByUserDto;
 import project.dto.FilterObjectDto;
+import project.dto.MissionCommentDto;
 import project.model.MissionDocument;
 import project.model.City;
+import project.model.Comment;
 import project.model.Country;
 import project.model.FavoriteMission;
 import project.model.Mission;
@@ -29,4 +31,6 @@ public interface MissionServiceInterface {
 	public List<FetchMissionByUserDto> getRelatedMission(Mission mission,User user);
 	public Boolean ratingToMission(User myuser, Mission myMission, int rating);
 	public int ratingOfParticularUser(User myUser,Mission myMission);
+	public void recommandToCoWorker(Mission myMission, User sendFromUser, User sendToUser);
+	public List<MissionCommentDto> loadCommentsOfMission(Mission myMission);
 }

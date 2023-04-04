@@ -30,6 +30,31 @@
 </head>
 
 <body>    
+
+<!-- 	Recommend to Coworker Modal  -->
+
+	<div class="modal fade" id="recommendModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Receommend to Co-Worker</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+					<div class="mb-3">
+						<label for="exampleInputEmail1" class="form-label">Enter Email
+							address Of CoWorker</label> <input type="email" class="form-control"
+							id="recommendworkerEmail" aria-describedby="emailHelp">
+					</div>
+					<div class="modalMessageBody"></div>
+				</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary recommandToCoworker">Recommand</button>
+      </div>
+    </div>
+  </div>
+</div>
 	
 	<!--NAvbar-->
 	<div class="container-fluid g-0">
@@ -121,7 +146,7 @@
                         </c:if>
                         
                         </div>
-                        <div class="col-sm-12 col-md-6"><button type="button" class="btn W-90"><i
+                        <div class="col-sm-12 col-md-6" data-bs-toggle="modal" data-bs-target="#recommendModal"><button type="button" class="btn W-90"><i
                                     class="bi bi-person-plus"></i> Recommend to a Co-Worker</button></div>
                     </div>
                     <div class="d-flex justify-content-center">
@@ -238,42 +263,12 @@
                                 placeholder="Enter Your Comments..."></textarea>
                         </div>
                         <div class="applyButtonDiv mt-3">
-                            <button class="btn">Post Comment</button>
+                            <button class="btn postCommentBtn">Post Comment</button>
                         </div>
-                        <div class="userComments">
-                            <div class="container mt-2">
-                                <div class="row border mt-1">
-                                    <div class="col-auto d-flex align-items-center">
-                                        <img src="image/volunteer1.png" class="userCommentsImg" alt="" srcset="">
-                                    </div>
-                                    <div class="col d-flex flex-column">
-                                        <div class="col">margret walah</div>
-                                        <div class="col">Monday , October 21, 2019 4:57 pm</div>
-                                        <div class="col">Really Nice Mission Helpful for peoples</div>
-                                    </div>
-                                </div>
-                                <div class="row border mt-1">
-                                    <div class="col-auto d-flex align-items-center">
-                                        <img src="image/volunteer2.png" class="userCommentsImg" alt="" srcset="">
-                                    </div>
-                                    <div class="col d-flex flex-column">
-                                        <div class="col">John Doe</div>
-                                        <div class="col">Monday , October 21, 2019 4:57 pm</div>
-                                        <div class="col">Good Mission for Some peoples</div>
-                                    </div>
-                                </div>
-                                <div class="row border mt-1">
-                                    <div class="col-auto d-flex align-items-center">
-                                        <img src="image/volunteer3.png" class="userCommentsImg" alt="" srcset="">
-                                    </div>
-                                    <div class="col d-flex flex-column">
-                                        <div class="col">Sam Doe</div>
-                                        <div class="col">Monday , October 22, 2019 4:57 pm</div>
-                                        <div class="col">Need Improvement into mission</div>
-                                    </div>
-                                </div>
+                            <div class="container mt-2 userComments">
+<!--                                 Comments are fetched Here                               -->
                             </div>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -413,10 +408,85 @@
             	missions=response;
             	printCardOnGrid(missions);
             }
-        });    	    	    	
+        });  
+    	$.ajax({
+            url: "getCommentsOfMission",
+            data:{missionId:missionId},
+            type:"GET",
+            success: function(response){
+            	console.log(response);
+            	printComments(response);
+            }
+        });  
     	
     });
-	
+    
+    $(".postCommentBtn").click(function(){
+    	var commentText=$("#userCommentText").val();
+    	let missionId=$(".missionId").val();
+    	var mydata={'mission_id':missionId,
+        		'comment':commentText};
+    	if(commentText!=""){
+    		$.ajax({
+                url: "postcomment",
+                data: mydata,
+                dataType : "json",
+                type:"POST",
+                success: function(response){
+                	console.log(response);
+                }
+            });  
+    	}
+    }
+    );
+    
+    $(".recommandToCoworker").click(function(){
+		$(".modalMessageBody").empty();
+		let messageBody="";
+		var email_id=$("#recommendworkerEmail").val();
+		let missionId=$(".missionId").val();
+		if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email_id)){
+			$.ajax({
+	            url: "recommandtocoworker",
+	            data:{missionId:missionId,
+	            	  email_id:email_id},
+	            type:"POST",
+	            success: function(response){
+	            	if(response=="emailnotfound"){
+	            		messageBody=`<div class="alert alert-danger" role="alert">
+	      				  Email Address is Not Found In Our Record
+	      				</div>`;
+	      			$(".modalMessageBody").html(messageBody);
+	            	}
+	            	else if(response=="bothusersame"){
+	            		messageBody=`<div class="alert alert-warning" role="alert">
+		      				  You can Not Recommand to Your Self
+		      				</div>`;
+		      			$(".modalMessageBody").html(messageBody);
+	            	}
+	            	else if(response=="sessionnotfound"){
+	            		messageBody=`<div class="alert alert-warning" role="alert">
+		      				  Please Re login to send Recommondation to friends...
+		      				</div>`;
+		      			$(".modalMessageBody").html(messageBody);
+	            	}
+	            	else if(response=="success"){
+	            		messageBody=`<div class="alert alert-success" role="alert">
+		      				  Thanks For Sending Recommandation to Your Friend
+		      				</div>`;
+		      			$(".modalMessageBody").html(messageBody);
+		      			
+	            	}
+	            }
+	        });
+		}
+		else{
+			messageBody=`<div class="alert alert-danger" role="alert">
+				  Email Address is Not Proper
+				</div>`;
+			$(".modalMessageBody").html(messageBody);
+		}
+	});
 	$(".ratingStar").click(function(){
 		var rating=$(this).attr("value");
 		var missionId=$(".missionId").attr("value");
@@ -463,6 +533,36 @@
 				$(this).removeClass("bi-heart-fill");
 			}
 		});
+		
+		function printComments(response){
+			$(".userComments").empty();
+			for(var a in response){			
+				
+				var comment=response[a].comment;
+				var createdat=response[a].created_at;
+				var name=response[a].name;
+				var avatar=response[a].avatar;
+				if(avatar==null||avatar==""){
+					avatar="user1.png";
+				}
+				if(createdat==null)createdat='';
+				if(name==null)name='';
+				if(comment==null)comment='';
+			let Comments=`<div class="row border mt-1">
+                <div class="col-auto d-flex align-items-center">
+                <img src="image/`+avatar+`" class="userCommentsImg" alt="" srcset="">
+            </div>
+            <div class="col d-flex flex-column">
+                <div class="col">`+name+`</div>
+                <div class="col">`+createdat+`</div>
+                <div class="col">`+comment+`</div>
+            </div>
+        </div>`;
+        
+        $(".userComments").append(Comments);
+			}
+			
+		}
 		
 		
 		function printCardOnGrid(missions){

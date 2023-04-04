@@ -293,7 +293,7 @@
 	                            <p class="missionAppliedListView"> Applied</p>
 	                            <div class="missionLikeListView d-flex flex-column">
 	                            	`+LikeTag+`
-	                            	<i class="bi bi-person-plus"></i>
+	                            	<i class="bi bi-person-plus recommandButtonList" data-bs-toggle="modal" data-bs-target="#recommendModal"></i>
 	                            </div>
 	                            <div class="d-flex justify-content-center missionCategoryListView"><p>`+mission.mission_theme.title+`</p></div>
 	                            <img src="image/Grow-Trees-On-the-path-to-environment-sustainability-1.png" class="img-fluid rounded-start" alt="...">
@@ -384,6 +384,9 @@
 						$(this).addClass("bi-heart");
 					}
 						});
+						$(".recommandButtonList").click(function() {
+							$("#missionId").attr("value", $(this).siblings(".LikeButtonList").attr("id"));
+						});
 	         	}
 	         	function printCardOnGrid(missions){
 	         		$(".GridViewDisplay").empty();
@@ -421,7 +424,7 @@
 						<div class="missionLikeGridView d-flex flex-column">`+
 						LikeTag
 						+`
-							<i class="bi bi-person-plus"></i>
+							<i class="bi bi-person-plus recommandButton" data-bs-toggle="modal" data-bs-target="#recommendModal"></i>
 						</div>
 						<img
 							src="image/Grow-Trees-On-the-path-to-environment-sustainability-1.png"
@@ -495,7 +498,7 @@
 	                    success: function(response){
 							res=JSON.parse(response);
 	                    }
-	                });
+	                }); 
 	                if($(this).is(".bi-heart")){						
 					$(this).removeClass("bi-heart");
 					$(this).addClass("bi-heart-fill LikedMission");
@@ -504,5 +507,8 @@
 						$(this).removeClass("bi-heart-fill LikedMission");
 						$(this).addClass("bi-heart");
 					}
+						});
+						$(".recommandButton").click(function() {
+							$("#missionId").attr("value", $(this).siblings(".LikeButton").attr("id"));
 						});
 	         	}

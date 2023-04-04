@@ -25,7 +25,33 @@
 </head>
 
 <body>
-	
+	<!-- 	Recommend to Coworker Modal  -->
+
+	<div class="modal fade" id="recommendModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Receommend to Co-Worker</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+					<div class="mb-3">
+						<label for="exampleInputEmail1" class="form-label">Enter Email
+							address Of CoWorker</label> <input type="email" class="form-control"
+							id="recommendworkerEmail" aria-describedby="emailHelp">
+					</div>
+					<input type="email" class="form-control missionId"
+							id="missionId" aria-describedby="emailHelp" hidden>
+
+					<div class="modalMessageBody"></div>
+				</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary recommandToCoworker">Recommand</button>
+      </div>
+    </div>
+  </div>
+</div>
 	<c:if test="${not empty user.user_id}">
 		<input type="text" class="defaultId" hidden
 		value="${user}">
@@ -238,5 +264,54 @@
 		crossorigin="anonymous"></script>
 	<script src="<c:url value="js/homepage.js" />"></script>
 	<script src="js/sidebarJs.js"></script>
+	<script>	
+	$(".recommandToCoworker").click(function(){
+		$(".modalMessageBody").empty();
+		let messageBody="";
+		var email_id=$("#recommendworkerEmail").val();
+		let missionId=$(".missionId").val();
+		if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email_id)){
+			$.ajax({
+	            url: "recommandtocoworker",
+	            data:{missionId:missionId,
+	            	  email_id:email_id},
+	            type:"POST",
+	            success: function(response){
+	            	if(response=="emailnotfound"){
+	            		messageBody=`<div class="alert alert-danger" role="alert">
+	      				  Email Address is Not Found In Our Record
+	      				</div>`;
+	      			$(".modalMessageBody").html(messageBody);
+	            	}
+	            	else if(response=="bothusersame"){
+	            		messageBody=`<div class="alert alert-warning" role="alert">
+		      				  You can Not Recommand to Your Self
+		      				</div>`;
+		      			$(".modalMessageBody").html(messageBody);
+	            	}
+	            	else if(response=="sessionnotfound"){
+	            		messageBody=`<div class="alert alert-warning" role="alert">
+		      				  Please Re login to send Recommondation to friends...
+		      				</div>`;
+		      			$(".modalMessageBody").html(messageBody);
+	            	}
+	            	else if(response=="success"){
+	            		messageBody=`<div class="alert alert-success" role="alert">
+		      				  Thanks For Sending Recommandation to Your Friend
+		      				</div>`;
+		      			$(".modalMessageBody").html(messageBody);
+		      			
+	            	}
+	            }
+	        });
+		}
+		else{
+			messageBody=`<div class="alert alert-danger" role="alert">
+				  Email Address is Not Proper
+				</div>`;
+			$(".modalMessageBody").html(messageBody);
+		}
+	});
+	</script>
 	<!--     <script src="js/add_navbar.js"></script> -->
 </html>

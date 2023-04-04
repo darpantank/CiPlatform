@@ -23,9 +23,11 @@ import org.springframework.stereotype.Component;
 
 import project.dto.FilterObjectDto;
 import project.model.MissionDocument;
+import project.model.MissionInvite;
 import project.model.MissionRating;
 import project.model.MissionRating.Rating;
 import project.model.City;
+import project.model.Comment;
 import project.model.Country;
 import project.model.FavoriteMission;
 import project.model.Mission;
@@ -201,7 +203,6 @@ public class MissionDaoOperation implements MissionDaoInterface {
 		Object[] obj=(Object[])c.uniqueResult();
 		Map<Double,Long> map=new HashMap<Double,Long>();
 		map.put((Double)obj[0], (Long)obj[1]);
-		System.out.println("My Map"+map);
 		return map;
 	}
 	public List<MissionDocument> getDocumentOfMission(Mission mission){
@@ -274,5 +275,21 @@ public class MissionDaoOperation implements MissionDaoInterface {
 			
 			return temp.getRating().ordinal();
 		}
+	}
+	@Transactional
+	public void recommandToCoWorker(Mission myMission, User sendFromUser, User sendToUser) {
+		MissionInvite missionInvite=new MissionInvite();
+		missionInvite.setMission(myMission);
+		missionInvite.setToUser(sendToUser);
+		missionInvite.setFromUser(sendFromUser);
+		this.hibernateTemplate.save(missionInvite);
+	}
+
+	public List<Comment> loadAllCommentsOfMission(Mission myMission) {
+		Session s=this.hibernateTemplate.getSessionFactory().openSession();
+		Criteria c = s.createCriteria(Comment.class);
+		c.add(Restrictions.eq("mission", myMission));
+		c.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		return c.list();
 	}
 }

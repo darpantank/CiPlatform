@@ -11,6 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 @Entity
 @Table(name = "city")
 public class City {
@@ -21,7 +24,9 @@ public class City {
 	@JoinColumn(name = "country_id")
 	private Country country;
 	private String name;
+	@CreationTimestamp
 	private Date created_at;
+	@UpdateTimestamp
 	private Date updated_at;
 	private Date deleted_at;
 	public City() {
