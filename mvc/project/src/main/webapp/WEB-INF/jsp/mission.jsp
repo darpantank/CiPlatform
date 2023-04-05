@@ -27,6 +27,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
     <link rel="stylesheet" href="<c:url value="/css/imageCaresoul.css"/>">
+    <script>
+    </script>
 </head>
 
 <body>    
@@ -55,7 +57,6 @@
     </div>
   </div>
 </div>
-	
 	<!--NAvbar-->
 	<div class="container-fluid g-0">
 		<jsp:include page="fheader.jsp" />
@@ -66,24 +67,35 @@
             <!-- image caresoul Div  -->
             <div class="col-md-12 col-lg-5">
                 <div id="firstDiv">
-                    <img src="image/Grow-Trees-On-the-path-to-environment-sustainability - crop.png" alt=""
+                <c:forEach var="a" items="${media}" varStatus="loop">
+                	<c:if test="${a.mediaDefault=='DEFAULT'}">
+                		<img src="image/${a.media_name }" alt=""
                         class="mainPhoto">
+                	</c:if>
+                </c:forEach>
+                    
                 </div>
                 <div id="SecondDiv">
                     <div class="swiper mySwiper">
                         <div class="swiper-wrapper">
-                            <div class="swiper-slide"><img class="imgCarousel"
-                                    src="image/Grow-Trees-On-the-path-to-environment-sustainability-1.png" alt=""></div>
-                            <div class="swiper-slide"><img class="imgCarousel"
-                                    src="image/Animal-welfare-&-save-birds-campaign-1.png" alt=""></div>
-                            <div class="swiper-slide"><img class="imgCarousel"
-                                    src="image/CSR-initiative-stands-for-Coffee--and-Farmer-Equity-3.png" alt=""></div>
-                            <div class="swiper-slide"><img class="imgCarousel"
-                                    src="image/Education-Supplies-for-Every--Pair-of-Shoes-Sold-1.png" alt=""></div>
-                            <div class="swiper-slide"><img class="imgCarousel"
-                                    src="image/Plantation-and-Afforestation-programme-1.png" alt=""></div>
-                            <div class="swiper-slide"><img class="imgCarousel"
-                                    src="image/Nourish-the-Children-in--African-country-1.png" alt=""></div>
+							<c:if test="${empty media}">
+    							<h2>No Image Found For Mission</h2>
+							</c:if>
+							<c:forEach var="a" items="${media}">
+                        	<div class="swiper-slide"><img class="imgCarousel"
+                                    src="image/${a.media_name}" alt=""></div>
+                        </c:forEach>
+                            
+<!--                             <div class="swiper-slide"><img class="imgCarousel" -->
+<!--                                     src="image/Animal-welfare-&-save-birds-campaign-1.png" alt=""></div> -->
+<!--                             <div class="swiper-slide"><img class="imgCarousel" -->
+<!--                                     src="image/CSR-initiative-stands-for-Coffee--and-Farmer-Equity-3.png" alt=""></div> -->
+<!--                             <div class="swiper-slide"><img class="imgCarousel" -->
+<!--                                     src="image/Education-Supplies-for-Every--Pair-of-Shoes-Sold-1.png" alt=""></div> -->
+<!--                             <div class="swiper-slide"><img class="imgCarousel" -->
+<!--                                     src="image/Plantation-and-Afforestation-programme-1.png" alt=""></div> -->
+<!--                             <div class="swiper-slide"><img class="imgCarousel" -->
+<!--                                     src="image/Nourish-the-Children-in--African-country-1.png" alt=""></div> -->
                         </div>
                         <div class="swiper-button-next"></div>
                         <div class="swiper-button-prev"></div>
@@ -315,59 +327,25 @@
                     </div>
                 </div>
                 <div class="col">
-                    <div class="informstionContainer border mt-4">
+                    <div class="informstionContainer border mt-4 pb-0">
                         <div class="d-flex informstionContainerText">
                             <h3>Recent Volunteers</h3>
                         </div>
                         <div class="hrLine mb-3"></div>
                         <div class="gridSys">
-                            <div class="d-flex flex-column align-items-center">
-                                <img src="image/volunteer1.png" class="rounded-circle recentVolunteerImg" alt=""
-                                    srcset="">
-                                <p>John Doe</p>
-                            </div>
-                            <div class="d-flex flex-column align-items-center">
-                                <img src="image/volunteer2.png" class="rounded-circle recentVolunteerImg" alt=""
-                                    srcset="">
-                                <p>John Doe</p>
-                            </div>
-                            <div class="d-flex flex-column align-items-center">
-                                <img src="image/volunteer3.png" class="rounded-circle recentVolunteerImg" alt=""
-                                    srcset="">
-                                <p>John Doe</p>
-                            </div>
-                            <div class="d-flex flex-column align-items-center">
-                                <img src="image/volunteer4.png" class="rounded-circle recentVolunteerImg" alt=""
-                                    srcset="">
-                                <p>John Doe</p>
-                            </div>
-                            <div class="d-flex flex-column align-items-center">
-                                <img src="image/volunteer5.png" class="rounded-circle recentVolunteerImg" alt=""
-                                    srcset="">
-                                <p>John Doe</p>
-                            </div>
-                            <div class="d-flex flex-column align-items-center">
-                                <img src="image/volunteer6.png" class="rounded-circle recentVolunteerImg" alt=""
-                                    srcset="">
-                                <p>John Doe</p>
-                            </div>
-                            <div class="d-flex flex-column align-items-center">
-                                <img src="image/volunteer7.png" class="rounded-circle recentVolunteerImg" alt=""
-                                    srcset="">
-                                <p>John Doe</p>
-                            </div>
-                            <div class="d-flex flex-column align-items-center">
-                                <img src="image/volunteer8.png" class="rounded-circle recentVolunteerImg" alt=""
-                                    srcset="">
-                                <p>John Doe</p>
-                            </div>
-                            <div class="d-flex flex-column align-items-center">
-                                <img src="image/volunteer9.png" class="rounded-circle recentVolunteerImg" alt=""
-                                    srcset="">
-                                <p>John Doe</p>
-                            </div>
+                            
+<!--                             Recent Volunteers Fetched Here -->
+                            
                         </div>
-                    </div>
+                        
+                        <!-- Pagination Of Volunteers  -->
+
+						<div class="row mt-2 justify-content-center border-top">
+							<div class="col-auto border-end d-flex align-items-center leftButtonRecentVolunteers">&lt;</div>
+							<div class="col text-center my-2 recentVolunteerText"></div>
+							<div class="col-auto border-start d-flex align-items-center rightButtonRecentVolunteers">&gt;</div>
+						</div>
+					</div>
                 </div>
             </div>
         </div>
@@ -397,28 +375,16 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script src="js/imageCaresoul.js"></script>
     <script>
+    let missionId=$(".missionId").val();
+    let currentPageRecentVolunteer=1;
+    let totalPageRecentVolunteer=1;
+    let getTotalVolunteerOfMission=0;
+    let missions="";
+    let volunteers="";
     $( document ).ready(function() {
-    	let missions="";
-    	let missionId=$(".missionId").val();
-    	$.ajax({
-            url: "getRelatedMission",
-            data:{missionId:missionId},
-            type:"GET",
-            success: function(response){
-            	missions=response;
-            	printCardOnGrid(missions);
-            }
-        });  
-    	$.ajax({
-            url: "getCommentsOfMission",
-            data:{missionId:missionId},
-            type:"GET",
-            success: function(response){
-            	console.log(response);
-            	printComments(response);
-            }
-        });  
-    	
+    	loadRelatedMission();
+    	loadCommentsOfMission();
+    	loadNumberOfVolunteers();
     });
     
     $(".postCommentBtn").click(function(){
@@ -433,7 +399,9 @@
                 dataType : "json",
                 type:"POST",
                 success: function(response){
-                	console.log(response);
+                	alert("Comment Posted Successfully");
+                	$("#userCommentText").val('');
+                	loadCommentsOfMission();
                 }
             });  
     	}
@@ -533,13 +501,112 @@
 				$(this).removeClass("bi-heart-fill");
 			}
 		});
-		
+
+    	function loadRelatedMission(){
+    		$.ajax({
+                url: "getRelatedMission",
+                data:{missionId:missionId},
+                type:"GET",
+                success: function(response){
+                	missions=response;
+                	printCardOnGrid(missions);
+                }
+            });
+    	}
+		function loadNumberOfVolunteers(){
+	    	$.ajax({
+	            url: "getTotalVolunteerOfMission",
+	            data:{missionId:missionId},
+	            type:"GET",
+	            dataType:"json",
+	            success: function(response){
+	            	getTotalVolunteerOfMission=response;
+	            	calculateTotalPages();
+	            	loadVolunteers();
+	            }
+	        });
+		}
+		function calculateTotalPages(){
+			totalPageRecentVolunteer=getTotalVolunteerOfMission/3;
+			totalPageRecentVolunteer=Math.ceil(totalPageRecentVolunteer);
+			console.log("Total Pages"+totalPageRecentVolunteer);
+		}
+		$(".leftButtonRecentVolunteers").click(function(){
+			if(currentPageRecentVolunteer>1){				
+			currentPageRecentVolunteer--;
+			loadVolunteers();
+			}
+			else{
+				alert("You are Already On First Slide You can't back more...");
+			}
+		});
+		$(".rightButtonRecentVolunteers").click(function(){
+			if(currentPageRecentVolunteer<totalPageRecentVolunteer){				
+			currentPageRecentVolunteer++;
+			loadVolunteers();
+			}
+			else{
+				alert("You are Already On Last Slide You can't forward more...");
+			}
+		});
+		function loadVolunteers(){
+			$.ajax({
+	            url: "getVolunteers",
+	            data:{missionId:missionId,
+	            		pageNumber:currentPageRecentVolunteer},
+	            type:"GET",
+	            dataType:"json",
+	            success: function(response){
+	            	volunteers=response;
+	            	console.log(response);
+	            	printVolunteers();
+	            	updatePaginationText();
+	            }
+	        });
+		}
+		function printVolunteers(){
+			$(".gridSys").empty();
+			for(var i in volunteers){
+				var name=volunteers[i].name;
+				var avatar=volunteers[i].avatar;
+				if(name==null)name="";
+				if(avatar==null||avatar=="")avatar="user1.png";
+				
+				let card=`<div class="d-flex flex-column align-items-center">
+                    <img src="image/`+avatar+`" class="rounded-circle recentVolunteerImg" alt=""
+                    srcset="">
+                <p>`+name+`</p>
+            </div>`;
+				$(".gridSys").append(card);
+			}
+		}
+		function updatePaginationText(){
+			$(".recentVolunteerText").empty();
+			var firstEntry=(3*(currentPageRecentVolunteer-1))+1;
+			var lastEntry=firstEntry+3>getTotalVolunteerOfMission?getTotalVolunteerOfMission:(firstEntry+3)-1;
+			var text=firstEntry+" - "+lastEntry+" Of "+getTotalVolunteerOfMission+" Recent Volunteers";
+			if(getTotalVolunteerOfMission==0){
+				text="No Volunteers Found In This Mission";
+			}
+			$(".recentVolunteerText").append(text);
+		}
+		function loadCommentsOfMission(){
+    		$.ajax({
+                url: "getCommentsOfMission",
+                data:{missionId:missionId},
+                type:"GET",
+                success: function(response){
+                	console.log(response);
+                	printComments(response);
+                }
+            }); 
+    	}
 		function printComments(response){
 			$(".userComments").empty();
 			for(var a in response){			
 				
 				var comment=response[a].comment;
-				var createdat=response[a].created_at;
+				var createdat=new Date(response[a].created_at).toLocaleString();
 				var name=response[a].name;
 				var avatar=response[a].avatar;
 				if(avatar==null||avatar==""){

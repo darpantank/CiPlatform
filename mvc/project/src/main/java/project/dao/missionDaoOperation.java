@@ -5,12 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projection;
@@ -24,13 +23,18 @@ import org.springframework.stereotype.Component;
 import project.dto.FilterObjectDto;
 import project.model.MissionDocument;
 import project.model.MissionInvite;
+import project.model.MissionMedia;
+import project.model.MissionMedia.MediaDefault;
 import project.model.MissionRating;
 import project.model.MissionRating.Rating;
 import project.model.City;
 import project.model.Comment;
+import project.model.Comment.ApprovalStatus;
 import project.model.Country;
 import project.model.FavoriteMission;
 import project.model.Mission;
+import project.model.MissionApplication;
+import project.model.MissionApplication.ApprovalStatusMissionApplication;
 import project.model.MissionTheme;
 import project.model.Skill;
 import project.model.User;
@@ -38,8 +42,9 @@ import project.model.User;
 public class MissionDaoOperation implements MissionDaoInterface {
 	@Autowired
 	private HibernateTemplate hibernateTemplate;
-	private final int totalMissionPerPage=3; //Total Mission On single page used For Pagination purpose please Add +1 to show perfectly
-	private final int totalRelatedMissions=3;
+	private final int totalMissionPerPage=9; //Total Mission On single page used For Pagination purpose please Add +1 to show perfectly
+	private final int totalRelatedMissions=3; // Fetch How many Related missions in Detail Mission Page
+	private final int totalVolunteersInMissionViewPage=3;
 	public List<Mission> loadAllMissionOnSearch(FilterObjectDto filters) {
 		Session s = this.hibernateTemplate.getSessionFactory().openSession();
 		Criteria c = s.createCriteria(Mission.class);
@@ -70,7 +75,7 @@ public class MissionDaoOperation implements MissionDaoInterface {
 	    		c.addOrder(Order.desc("created_at"));
 	    	}
 	    }
-	    int StartingIndex=(filters.getCurrentPage()-1)*3;
+	    int StartingIndex=(filters.getCurrentPage()-1)*totalMissionPerPage;
 	    if(filters.getCurrentPage()==0) {
 	    	StartingIndex=0;
 	    }
@@ -85,22 +90,6 @@ public class MissionDaoOperation implements MissionDaoInterface {
 	    for(Object[] myObj:myObjSet) {
 	    	myMissions.add(this.fetchMissionById((Integer)myObj[0]));
 	    }
-//	    int firstResultCount=1;
-//	    if(filters.getCurrentPage()==1) {
-//	    	c.setFirstResult(0);
-//	    	c.setMaxResults(totalMissionPerPage);
-//	    }
-//	    else {	    	
-//	    	c.setFirstResult(((filters.getCurrentPage()-1)*3)+1);
-//	    	c.setMaxResults(totalMissionPerPage);
-//	    }
-//	    System.out.println("Length is"+c.list().size());
-//		if(c.list().size()<3) {
-//			int setMax=totalMissionPerPage + (3-c.list().size());
-//			c.setMaxResults(setMax);
-//		}
-//	    c.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-//		c.setProjection(Projections.projectionList().add(Projections.distinct(Projections.property("mission_id"))));
 		return myMissions;
 	}
 
@@ -112,7 +101,7 @@ public class MissionDaoOperation implements MissionDaoInterface {
 		String que="from City where country_id=:country_id"; 
 		 Query q=hibernateTemplate.getSessionFactory().openSession().createQuery(que);
 		 q.setParameter("country_id",country_id);
-		 List<City> mylist=q.list();
+		 List<City> mylist=q.getResultList();
 		return mylist;
 	}
 	public List<MissionTheme> loadAllThemes() {
@@ -212,6 +201,13 @@ public class MissionDaoOperation implements MissionDaoInterface {
 		c.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		return c.list();
 	}
+	public List<MissionMedia> getMediaOfMission(Mission mission) {
+		Session s=this.hibernateTemplate.getSessionFactory().openSession();
+		Criteria c = s.createCriteria(MissionMedia.class);
+		c.add(Restrictions.eq("mission", mission));
+		c.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		return c.list();
+	}
 
 	public List<Mission> getRelatedMissions(Mission MyMission) {
 		Session s=this.hibernateTemplate.getSessionFactory().openSession();
@@ -262,7 +258,7 @@ public class MissionDaoOperation implements MissionDaoInterface {
 		return true;
 	}
 
-	public int ratingOfMissionOfParticularUser(User myUser, Mission myMission) {
+	public int ratingOfMissionByParticularUser(User myUser, Mission myMission) {
 		Session s=this.hibernateTemplate.getSessionFactory().openSession();
 		Criteria c = s.createCriteria(MissionRating.class);
 		c.add(Restrictions.eq("user", myUser));
@@ -292,4 +288,60 @@ public class MissionDaoOperation implements MissionDaoInterface {
 		c.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		return c.list();
 	}
+	@Transactional
+	public void postUserComment(User user, Mission mission, String commentText) {
+		Comment comment=new Comment();
+		comment.setComment(commentText);
+		comment.setMission(mission);
+		comment.setUser(user);
+		comment.setApprovalStatus(ApprovalStatus.PENDING);
+		this.hibernateTemplate.save(comment);
+	}
+
+	public long countTotalVolunteersInMission(Mission mission) {
+		Session s = this.hibernateTemplate.getSessionFactory().openSession();
+		Criteria c = s.createCriteria(MissionApplication.class);
+		c.add(Restrictions.eq("mission", mission));
+		c.add(Restrictions.eq("approval_status",ApprovalStatusMissionApplication.APPROVE));
+		c.setProjection(Projections.countDistinct("user"));
+		long result=(Long)c.uniqueResult();
+		return result;
+	}
+
+	public List<MissionApplication> getVolunteersOfMission(Mission mission, int pageNumber) {
+		Session s = this.hibernateTemplate.getSessionFactory().openSession();
+//		Criteria c = s.createCriteria(MissionApplication.class);
+//		c.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+//		c.add(Restrictions.eq("mission", mission));
+//		c.add(Restrictions.eq("approval_status",ApprovalStatusMissionApplication.APPROVE));
+//		int FirstCount=(pageNumber-1)*totalVolunteersInMissionViewPage;
+//		c.setFirstResult(FirstCount);
+//		c.setMaxResults(totalVolunteersInMissionViewPage);
+//		return c.list();
+		
+		String hql="from MissionApplication as m where m.mission=:mission and m.approval_status=:approval_status order by created_at";
+		Query q=s.createQuery(hql);
+		q.setParameter("mission", mission);
+		q.setParameter("approval_status",ApprovalStatusMissionApplication.APPROVE);
+		int FirstCount=(pageNumber-1)*totalVolunteersInMissionViewPage;
+		q.setFirstResult(FirstCount);
+		q.setMaxResults(totalVolunteersInMissionViewPage);
+		return q.getResultList();
+	}
+
+	public String findDefaultMediaOfMission(Mission m) {
+		String image="";
+		Session s = this.hibernateTemplate.getSessionFactory().openSession();
+		String hql="from MissionMedia as m where m.mission=:mission and m.mediaDefault=:defaultMedia order by created_at";
+		Query q=s.createQuery(hql);
+		q.setParameter("mission", m);
+		q.setParameter("defaultMedia",MediaDefault.DEFAULT);
+		if(q.getResultList().size()>0) {			
+			MissionMedia missionMedia=(MissionMedia)q.getResultList().get(0);
+			image=(String)missionMedia.getMedia_name();
+		}
+		return image;
+	}
+
+	
 }

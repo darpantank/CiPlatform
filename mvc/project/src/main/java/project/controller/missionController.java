@@ -1,6 +1,5 @@
 package project.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +22,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import project.dto.FetchMissionByUserDto;
 import project.dto.FilterObjectDto;
 import project.dto.MissionCommentDto;
+import project.dto.MissionVolunteerIncomingDto;
+import project.dto.MissionVolunteersOutgoingDto;
 import project.dto.PostCommentDto;
 import project.model.City;
 import project.model.Comment;
@@ -115,6 +116,7 @@ public class MissionController {
 		m.addAttribute("documents",this.service.getDocumentOfMission(Mission));
 		m.addAttribute("isFavourited",this.service.favouriteMission(Myuser, Mission));
 		m.addAttribute("ratingOfUser",this.service.ratingOfParticularUser(Myuser, Mission));
+		m.addAttribute("media",this.service.getMediaofMission(Mission));
 		Double rating=0D;
 		Long ratingByPeople=0L;
 		Map<Double,Long> map=this.service.ratingOfMission(Mission);
@@ -182,9 +184,23 @@ public class MissionController {
 		Mission myMission=this.service.fetchMissionById(mission);
 		return this.service.loadCommentsOfMission(myMission);
 	}
-	@PostMapping(value="/postcomment",consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody Boolean postCommentByUser(@RequestBody PostCommentDto postCommentDto) {
-		System.out.println(postCommentDto);
+	@PostMapping(value="/postcomment")
+	@ResponseBody
+	public boolean postCommentByUser(PostCommentDto postCommentDto,HttpServletRequest request) {
+		User user= (User)request.getSession().getAttribute("user");
+		this.service.postComment(postCommentDto, user);
 		return true;
+	}
+	@RequestMapping(value = "/getTotalVolunteerOfMission")
+	@ResponseBody
+	public long totalVolunteersInMission(@RequestParam("missionId") String missionId) {
+		int mission_id=Integer.parseInt(missionId);
+		Mission mission=this.service.fetchMissionById(mission_id);
+		return this.service.fetchTotalVolunteersInMisson(mission);
+	}
+	@RequestMapping(value = "getVolunteers")
+	@ResponseBody
+	public List<MissionVolunteersOutgoingDto> getVolunteersOfMission(MissionVolunteerIncomingDto missionVolunteerIncomingDto) {
+		return this.service.getVolunteersOfMission(missionVolunteerIncomingDto);
 	}
 }

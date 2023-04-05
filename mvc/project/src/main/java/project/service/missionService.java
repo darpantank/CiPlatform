@@ -17,12 +17,17 @@ import project.dao.MissionDaoInterface;
 import project.dto.FetchMissionByUserDto;
 import project.dto.FilterObjectDto;
 import project.dto.MissionCommentDto;
+import project.dto.MissionVolunteerIncomingDto;
+import project.dto.MissionVolunteersOutgoingDto;
+import project.dto.PostCommentDto;
 import project.model.MissionDocument;
+import project.model.MissionMedia;
 import project.model.City;
 import project.model.Comment;
 import project.model.Country;
 import project.model.FavoriteMission;
 import project.model.Mission;
+import project.model.MissionApplication;
 import project.model.MissionTheme;
 import project.model.Skill;
 import project.model.User;
@@ -42,7 +47,8 @@ public class MissionService implements MissionServiceInterface {
 				Map<Double,Long> map1=this.daoOfMission.getRatingOfMission(m);
 				fetchMissionWithFav.setMission(m);
 				fetchMissionWithFav.setRating((Double)map1.keySet().toArray()[0]);
-				fetchMissionWithFav.setRatingByNo((Long)map1.get(map1.keySet().toArray()[0]));
+//				fetchMissionWithFav.setRatingByNo((Long)map1.get(map1.keySet().toArray()[0]));
+				fetchMissionWithFav.setImage(this.daoOfMission.findDefaultMediaOfMission(m));
 				if(userId==null) {
 					fetchMissionWithFav.setFavourited(false);
 				}
@@ -87,6 +93,9 @@ public class MissionService implements MissionServiceInterface {
 	public List<MissionDocument> getDocumentOfMission(Mission mission) {
 		return this.daoOfMission.getDocumentOfMission(mission);
 	}
+	public List<MissionMedia> getMediaofMission(Mission mission){
+		return this.daoOfMission.getMediaOfMission(mission);
+	}
 
 	public List<FetchMissionByUserDto> getRelatedMission(Mission mission,User user) {
 		List<Mission> missions=this.daoOfMission.getRelatedMissions(mission);
@@ -109,7 +118,7 @@ public class MissionService implements MissionServiceInterface {
 		return this.daoOfMission.ratingToMission(myuser,myMission,rating);
 	}
 	public int ratingOfParticularUser(User myUser,Mission myMission) {
-		return this.daoOfMission.ratingOfMissionOfParticularUser(myUser,myMission);
+		return this.daoOfMission.ratingOfMissionByParticularUser(myUser,myMission);
 	}
 
 	public void recommandToCoWorker(Mission myMission, User sendFromUser, User sendToUser) {
@@ -128,8 +137,32 @@ public class MissionService implements MissionServiceInterface {
 			commentDto.setAvatar(comment.getUser().getAvatar());
 			commentDto.setComment(comment.getComment());
 			commentDto.setName(comment.getUser().getFirst_name()+" "+comment.getUser().getLast_name());
+			commentDto.setCreated_at(comment.getCreated_at());
 			listOfCommentsDto.add(commentDto);
 		}
 		return listOfCommentsDto;
+	}
+	public void postComment(PostCommentDto postCommentDto,User user) {
+		Mission mission=this.fetchMissionById(postCommentDto.getMission_id());
+		String commentText=postCommentDto.getComment();
+		this.daoOfMission.postUserComment(user,mission,commentText);
+	}
+
+	public long fetchTotalVolunteersInMisson(Mission mission) {
+		return this.daoOfMission.countTotalVolunteersInMission(mission);
+	}
+
+	public List<MissionVolunteersOutgoingDto> getVolunteersOfMission(MissionVolunteerIncomingDto missionVolunteerIncomingDto) {
+		Mission mission=this.fetchMissionById(missionVolunteerIncomingDto.getMissionId());
+		int pageNumber=missionVolunteerIncomingDto.getPageNumber();
+		List<MissionApplication> myApplicationList=this.daoOfMission.getVolunteersOfMission(mission,pageNumber);
+		List<MissionVolunteersOutgoingDto> myResultList=new ArrayList<MissionVolunteersOutgoingDto>();
+		for(MissionApplication application:myApplicationList) {
+			MissionVolunteersOutgoingDto missionVolunteersOutgoingDto=new MissionVolunteersOutgoingDto();
+			missionVolunteersOutgoingDto.setAvatar(application.getUser().getAvatar());
+			missionVolunteersOutgoingDto.setName(application.getUser().getFirst_name()+" "+application.getUser().getLast_name());
+			myResultList.add(missionVolunteersOutgoingDto);
+		}
+		return myResultList;
 	}
 }

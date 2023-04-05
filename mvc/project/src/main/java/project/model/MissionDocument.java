@@ -13,12 +13,15 @@ import javax.persistence.Table;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "mission_document")
 public class MissionDocument {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int mission_document_id;
+	@JsonIgnore
 	@ManyToOne(targetEntity = Mission.class)
 	@JoinColumn(name="mission_id")
 	private Mission mission;

@@ -93,6 +93,21 @@
 				<value>
 					project.model.Comment
 				</value>
+				<value>
+					project.model.MissionApplication
+				</value>
+				<value>
+					project.model.Story
+				</value>
+				<value>
+					project.model.StoryMedia
+				</value>
+				<value>
+					project.model.StoryInvite
+				</value>
+				<value>
+					project.model.MissionMedia
+				</value>
 			</list>
 		</property>
 	</bean>

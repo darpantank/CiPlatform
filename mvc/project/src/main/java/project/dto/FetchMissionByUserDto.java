@@ -8,20 +8,22 @@ public class FetchMissionByUserDto {
 	private Mission mission;
 	private boolean isFavourited;
 	private Double rating; 
-	private Long ratingByNo;
+	private String image;
 	public FetchMissionByUserDto() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
 
-	public FetchMissionByUserDto(Mission mission, boolean isFavourited, Double rating, Long ratingByNo) {
+	public FetchMissionByUserDto(Mission mission, boolean isFavourited, Double rating, String image) {
 		super();
 		this.mission = mission;
 		this.isFavourited = isFavourited;
 		this.rating = rating;
-		this.ratingByNo = ratingByNo;
+		this.image = image;
 	}
+
+
 	public Mission getMission() {
 		return mission;
 	}
@@ -40,10 +42,15 @@ public class FetchMissionByUserDto {
 	public void setRating(Double rating) {
 		this.rating = rating;
 	}
-	public Long getRatingByNo() {
-		return ratingByNo;
+
+
+	public String getImage() {
+		return image;
 	}
-	public void setRatingByNo(Long ratingByNo) {
-		this.ratingByNo = ratingByNo;
+
+
+	public void setImage(String image) {
+		this.image = image;
 	}
+
 }

@@ -226,7 +226,7 @@
 	                    <span aria-hidden="true"><i class="bi bi-chevron-left"></i></span>
 	                </a>
 	              </li>`;
-	              let perPageMission=3;
+	              let perPageMission=9;
 	              let totalPages=totalCount/perPageMission;
 	              if(totalCount!=0){
 	            	  if(totalPages==0){	            		  
@@ -395,7 +395,11 @@
 						let mission=missions[i].mission;
 						let isFavourite=missions[i].favourited;
 						let ratingCount=Math.ceil(missions[i].rating);
+						let image=missions[i].image;
 						let generatedRatingStar="";
+						if(image==""){
+							image="imagenotfound.PNG";
+						}
 						for(var a=1;a<=5;a++){
 							if(ratingCount>0){
 								generatedRatingStar+=`<div class="col">
@@ -427,7 +431,7 @@
 							<i class="bi bi-person-plus recommandButton" data-bs-toggle="modal" data-bs-target="#recommendModal"></i>
 						</div>
 						<img
-							src="image/Grow-Trees-On-the-path-to-environment-sustainability-1.png"
+							src="image/`+image+`"
 							class="card-img-top missionImgGridView" alt="...">
 						<div class="card-body">
 							<div class="d-flex justify-content-center missionCategoryDiv">
