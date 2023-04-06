@@ -527,7 +527,7 @@
 	        });
 		}
 		function calculateTotalPages(){
-			totalPageRecentVolunteer=getTotalVolunteerOfMission/3;
+			totalPageRecentVolunteer=getTotalVolunteerOfMission/9;
 			totalPageRecentVolunteer=Math.ceil(totalPageRecentVolunteer);
 			console.log("Total Pages"+totalPageRecentVolunteer);
 		}
@@ -582,8 +582,8 @@
 		}
 		function updatePaginationText(){
 			$(".recentVolunteerText").empty();
-			var firstEntry=(3*(currentPageRecentVolunteer-1))+1;
-			var lastEntry=firstEntry+3>getTotalVolunteerOfMission?getTotalVolunteerOfMission:(firstEntry+3)-1;
+			var firstEntry=(9*(currentPageRecentVolunteer-1))+1;
+			var lastEntry=firstEntry+9>getTotalVolunteerOfMission?getTotalVolunteerOfMission:(firstEntry+9)-1;
 			var text=firstEntry+" - "+lastEntry+" Of "+getTotalVolunteerOfMission+" Recent Volunteers";
 			if(getTotalVolunteerOfMission==0){
 				text="No Volunteers Found In This Mission";
@@ -738,6 +738,7 @@
                 dataType: 'json',
                 data:{missionId:missionId},
                 type:"POST",
+                
                 success: function(response){
                 }
             });

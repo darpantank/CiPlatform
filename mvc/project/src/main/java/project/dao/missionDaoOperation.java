@@ -44,7 +44,7 @@ public class MissionDaoOperation implements MissionDaoInterface {
 	private HibernateTemplate hibernateTemplate;
 	private final int totalMissionPerPage=9; //Total Mission On single page used For Pagination purpose please Add +1 to show perfectly
 	private final int totalRelatedMissions=3; // Fetch How many Related missions in Detail Mission Page
-	private final int totalVolunteersInMissionViewPage=3;
+	private final int totalVolunteersInMissionViewPage=9;
 	public List<Mission> loadAllMissionOnSearch(FilterObjectDto filters) {
 		Session s = this.hibernateTemplate.getSessionFactory().openSession();
 		Criteria c = s.createCriteria(Mission.class);

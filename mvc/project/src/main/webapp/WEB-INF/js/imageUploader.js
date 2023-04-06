@@ -4,7 +4,7 @@ jQuery(document).ready(function () {
 
 function ImgUpload() {
     var imgWrap = "";
-    var imgArray = [];
+    imgArray = [];
 
     $('.upload__inputfile').each(function () {
         $(this).on('change', function (e) {

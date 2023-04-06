@@ -266,7 +266,12 @@
 					let mission=missions[i].mission;
 					let isFavourite=missions[i].favourited;
 					let ratingCount=Math.ceil(missions[i].rating);
+					let image=missions[i].image;
+						if(image==""){
+							image="noimagefound.png";
+						}
 						let generatedRatingStar="";
+						
 						for(var a=1;a<=5;a++){
 							if(ratingCount>0){
 								generatedRatingStar+=`<div class="col">
@@ -296,7 +301,7 @@
 	                            	<i class="bi bi-person-plus recommandButtonList" data-bs-toggle="modal" data-bs-target="#recommendModal"></i>
 	                            </div>
 	                            <div class="d-flex justify-content-center missionCategoryListView"><p>`+mission.mission_theme.title+`</p></div>
-	                            <img src="image/Grow-Trees-On-the-path-to-environment-sustainability-1.png" class="img-fluid rounded-start" alt="...">
+	                            <img src="image/`+image+`" class="img-fluid rounded-start" alt="...">
 	                        </div>
 	                        <div class="col-md-9">
 	                            <div class="card-body">
@@ -395,10 +400,10 @@
 						let mission=missions[i].mission;
 						let isFavourite=missions[i].favourited;
 						let ratingCount=Math.ceil(missions[i].rating);
-						let image=missions[i].image;
 						let generatedRatingStar="";
+						let image=missions[i].image;
 						if(image==""){
-							image="imagenotfound.PNG";
+							image="noimagefound.png";
 						}
 						for(var a=1;a<=5;a++){
 							if(ratingCount>0){

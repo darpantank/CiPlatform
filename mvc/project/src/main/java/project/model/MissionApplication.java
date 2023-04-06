@@ -24,7 +24,6 @@ public class MissionApplication {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int mission_application_id;
-	@JsonIgnore
 	@ManyToOne(targetEntity = Mission.class)
 	@JoinColumn(name = "mission_id")
 	private Mission mission;
