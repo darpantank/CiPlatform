@@ -33,6 +33,8 @@
         <p class="titleOfStory">
             Share Your Story
         </p>
+        
+
         <div class="row mt-5">
             <div class="col-md-12 col-lg-4">
                 <div class="form-group">
@@ -61,7 +63,7 @@
         </div>
         <div class="ckeditor mt-4">
             <p>My Story</p>
-            <div id="editor">Sample CkEditor 1</div>
+            <div id="editor">Sample CkEditor</div>
         </div>
         <div class="videoUrl mt-4">
             <div class="form-group">
@@ -73,7 +75,7 @@
             <p>Upload Your Photos</p>
             <div class="upload__btn-box">
                 <label class="upload__btn">
-                    <input type="file" multiple="multiple" data-max_length="20" class="upload__inputfile">
+                    <input type="file" multiple="multiple" accept="image/*" data-max_length="20" class="upload__inputfile">
                     <i class="bi bi-plus-lg plusIcon"></i>
                     <p class="UploadTextMsg">drag and drop picture and video here</p>
                 </label>
@@ -109,44 +111,83 @@
     <script src="js/ckeditor.js"></script>
     <script src="js/add_navbar.js"></script>
     <script>
+    $(".missionSelect").change(function(){
+    	generateFileObjectFromUrl();
+//     	Checked For Draft
+		var missionId=$(".missionSelect").val();
+        $.ajax({
+            url: "getdraftstory",
+            dataType: 'json',
+            data:{missionId:missionId},
+            type:"GET",
+            success: function(response){
+            	console.log(response);     	
+            },
+    	});
+    })
     $(".saveButton").click(function(){
     	var title= $(".titleOfTheStory").val();
     	var mission=$(".missionSelect").val();
     	var date=new Date($(".dateOfStory").val());
     	var videoUrl=$(".videoUrl").val();
     	var story=myEditor.getData();
-    	if(title!=null&&mission!=null&&date!=null&&story!=null)
+    	if(title!=""&&mission!=null&&date!=null&&story!="")
     	{
-    		let myDataObj ={
-        			missionId :mission,
-        			title:title,
-        			date:date,
-        			videoUrl:videoUrl,
-        			story:story,
-        			imgages: $(".upload__inputfile").prop('files')[0]
-        	}
-    		console.log(myDataObj);
-    		saveMyDateInDb(myDataObj);
+    		var data = new FormData();
+			data.append("missionId",mission);
+			data.append("title",title);
+			data.append("date",date);
+			data.append("videoUrl",videoUrl);
+			data.append("story",story);
+			for(var a in imgArray){
+				data.append("images",imgArray[a]);
+			}
+    		console.log(data);
+    		saveMyDateInDb(data);
     	}
     	else{
     		alert("Some Field is Empty");
     	}
     });
-    function saveMyDateInDb(myDataObj){
-    	console.log("Function called");
+    function saveMyDateInDb(data){
+    	
     $.ajax({
         url: "savestory",
         dataType: 'json',
-        data:myDataObj,
+        data:data,
         type:"POST",
-        async: false,
-        cache: false,
-        contentType: 'multipart/form-data',
+        contentType: false,
         processData: false,
         success: function(response){
-        	console.log(response);
-        }
+        	console.log(response+"Hello");     	
+        },
+    	complete:function(){
+    		resetFormData();
+    	}
 	});
+    }
+    function resetFormData(){
+    	alert("Story Added Successfully...");
+    	$("input").val('');
+    	$(".missionSelect").prop("selectedIndex", 0);
+    	imgArray=[];
+    	$(".upload__img-wrap").empty();
+    	myEditor.setData( '' );
+    }
+    async function generateFileObjectFromUrl(){
+    	url="";
+    	name="";
+    	async function getFileFromUrl(url, name, defaultType = 'image/jpeg'){
+    		  const response = await fetch(url);
+    		  const data = await response.blob();
+    		  return new File([data], name, {
+    		    type: data.type || defaultType,
+    		  });
+    		}
+
+    		// `await` can only be used in an async body, but showing it here for simplicity.
+    		const file = await getFileFromUrl(url, name);
+    		console.log(file);
     }
     </script>
 </body>

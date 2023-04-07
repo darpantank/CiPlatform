@@ -1,17 +1,22 @@
 package project.model;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "story")
@@ -34,9 +39,8 @@ public class Story {
 	@UpdateTimestamp
 	private Date updated_at;
 	private Date deleted_at;
-	
-	
-	
+	@OneToMany(targetEntity = StoryMedia.class ,mappedBy = "story")
+	private List<StoryMedia> storyMedia;
 	public Story() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -44,8 +48,12 @@ public class Story {
 
 	
 
+
+
+	
+
 	public Story(int story_id, User user, Mission mission, String title, String description, StoryStatus status,
-			Date published_at, Date created_at, Date updated_at, Date deleted_at) {
+			Date published_at, Date created_at, Date updated_at, Date deleted_at, List<StoryMedia> storyMedia) {
 		super();
 		this.story_id = story_id;
 		this.user = user;
@@ -57,9 +65,14 @@ public class Story {
 		this.created_at = created_at;
 		this.updated_at = updated_at;
 		this.deleted_at = deleted_at;
+		this.storyMedia = storyMedia;
 	}
 
-	
+
+
+
+
+
 
 	public int getStory_id() {
 		return story_id;
@@ -173,6 +186,21 @@ public class Story {
 		return deleted_at;
 	}
 
+	
+
+	public List<StoryMedia> getStoryMedia() {
+		return storyMedia;
+	}
+
+
+
+
+
+
+
+	public void setStoryMedia(List<StoryMedia> storyMedia) {
+		this.storyMedia = storyMedia;
+	}
 
 
 	public void setDeleted_at(Date deleted_at) {

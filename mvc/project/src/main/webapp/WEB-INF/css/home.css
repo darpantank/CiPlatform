@@ -391,6 +391,9 @@ nav {
 .bi-heart-fill{
 	color:red !important;
 }
+a:hover{
+	color:#F88634;
+}
 @media only screen and (max-width: 992px) {
 
     .gotoSidebar,

@@ -14,6 +14,7 @@ import project.model.Mission;
 import project.model.MissionApplication;
 import project.model.MissionTheme;
 import project.model.Skill;
+import project.model.Story;
 import project.model.User;
 
 

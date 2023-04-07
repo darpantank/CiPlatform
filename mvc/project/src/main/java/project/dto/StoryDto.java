@@ -1,8 +1,10 @@
 package project.dto;
 
+import java.util.Arrays;
 import java.util.Date;
 
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
 
 public class StoryDto {
 	private int missionId;
@@ -10,7 +12,7 @@ public class StoryDto {
 	private Date date;
 	private String videoUrl;
 	private String story;
-	private CommonsMultipartFile images;
+	private CommonsMultipartFile[] images;
 	public int getMissionId() {
 		return missionId;
 	}
@@ -42,19 +44,17 @@ public class StoryDto {
 	public void setStory(String story) {
 		this.story = story;
 	}
-	public CommonsMultipartFile getImages() {
+	
+	public CommonsMultipartFile[] getImages() {
 		return images;
 	}
-	public void setImages(CommonsMultipartFile images) {
+	public void setImages(CommonsMultipartFile[] images) {
 		this.images = images;
 	}
+	
 	@Override
 	public String toString() {
 		return "StoryDto [missionId=" + missionId + ", title=" + title + ", date=" + date + ", videoUrl=" + videoUrl
-				+ ", story=" + story + ", images=" + images + "]";
+				+ ", story=" + story + ", images=" + Arrays.toString(images) + "]";
 	}
-
-
-	
-	
 }

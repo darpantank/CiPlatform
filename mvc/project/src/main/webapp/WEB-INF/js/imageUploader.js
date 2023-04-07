@@ -56,5 +56,6 @@ function ImgUpload() {
             }
         }
         $(this).parent().parent().remove();
+        	console.log(imgArray);
     });
 }

@@ -259,6 +259,7 @@
 	                  </a>
 	              </li>`;
 	              $(".pagination").append(data);
+	              $(".active>.page-link").css("background-color","#F88634");
 	         	}
 	         	function printCardOnList(missions){
 	         		$(".ListViewDisplay").empty();
