@@ -26,11 +26,15 @@ p{
     text-align: justify;
     /* text-justify:auto; */
 }
-.StoryButtons button{
+.StoryButtons a{
     padding: 10px;
     border: 2px solid;
     font-size: 20px;
     border-radius: 25px;
+}
+a:hover{
+	text-decoration:none;
+	    color: #F88634;
 }
 .recommendButton{
     border-color: #757575 !important;

@@ -4,7 +4,9 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,10 +29,11 @@ public class Story {
 	@ManyToOne(targetEntity = User.class)
 	@JoinColumn(name = "user_id")
 	private User user;
-	@ManyToOne(targetEntity = Mission.class)
+	@ManyToOne(targetEntity = Mission.class,fetch = FetchType.LAZY)
 	@JoinColumn(name = "mission_id")
 	private Mission mission;
 	private String title;
+	@Column(length = 4000)
 	private String description;
 	private StoryStatus status;
 	private Date published_at;
@@ -39,8 +42,10 @@ public class Story {
 	@UpdateTimestamp
 	private Date updated_at;
 	private Date deleted_at;
-	@OneToMany(targetEntity = StoryMedia.class ,mappedBy = "story")
+	@OneToMany(targetEntity = StoryMedia.class ,mappedBy = "story", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	private List<StoryMedia> storyMedia;
+	
+	private Long views;
 	public Story() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -53,7 +58,8 @@ public class Story {
 	
 
 	public Story(int story_id, User user, Mission mission, String title, String description, StoryStatus status,
-			Date published_at, Date created_at, Date updated_at, Date deleted_at, List<StoryMedia> storyMedia) {
+			Date published_at, Date created_at, Date updated_at, Date deleted_at, List<StoryMedia> storyMedia,
+			Long views) {
 		super();
 		this.story_id = story_id;
 		this.user = user;
@@ -66,6 +72,7 @@ public class Story {
 		this.updated_at = updated_at;
 		this.deleted_at = deleted_at;
 		this.storyMedia = storyMedia;
+		this.views = views;
 	}
 
 
@@ -206,6 +213,23 @@ public class Story {
 	public void setDeleted_at(Date deleted_at) {
 		this.deleted_at = deleted_at;
 	}
+	
+	
+	public Long getViews() {
+		return views;
+	}
+
+
+
+
+
+
+
+	public void setViews(Long views) {
+		this.views = views;
+	}
+
+
 	public enum StoryStatus{
 		DRAFT,
 		PENDING,

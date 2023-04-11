@@ -31,209 +31,19 @@
         <div class="myDesc d-flex justify-content-center flex-column align-items-center w-100 h-100">
             <p class="imgDescriptor">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis nobis cupiditate
                 ad. Explicabo veritatis, dio, dolor modi nam.</p>
-            <button class="btn shareStoryButton">Share Your Story <i class="bi bi-arrow-right"></i></button>
+            <a class="btn shareStoryButton" href="createstory">Share Your Story <i class="bi bi-arrow-right"></i></a>
         </div>
         <img src="image/Grow-Trees-On-the-path-to-environment-sustainability - crop.png" alt="" srcset="">
     </div>
     <div class="container mt-4">
-        <div class="row">
-            <div class="card col-lg-4 col-md-6 col-xs-12">
-                <div class="imgDiv d-flex justify-content-center">
-                    <div class="d-flex justify-content-center missionCategoryDiv">
-                        <p>Customer Experience</p>
-                    </div>
-                    <div class="viewDetailsHoverButton h-100 w-100">
-                        <button class="btn">View Details <i class="bi bi-arrow-right"></i></button>
-                    </div>
-                    <img src="image/Grow-Trees-On-the-path-to-environment-sustainability-1.png"
-                        class="card-img-top w-100" alt="...">
-
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Education Supplies for Every Pair of Shoes Sold</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk
-                        of the
-                        card's content.</p>
-                    <div class="d-flex align-items-center gap-2">
-                        <div><img class="profileImage" src="image/volunteer1.png" alt="" srcset=""></div>
-                        <div>Andrew Jhonson</div>
-                    </div>
-                </div>
-            </div>
-            <div class="card col-lg-4 col-md-6 col-xs-12">
-                <div class="imgDiv d-flex justify-content-center">
-                    <div class="d-flex justify-content-center missionCategoryDiv">
-                        <p>Customer Experience</p>
-                    </div>
-                    <div class="viewDetailsHoverButton h-100 w-100">
-                        <button class="btn">View Details <i class="bi bi-arrow-right"></i></button>
-                    </div>
-                    <img src="image/CSR-initiative-stands-for-Coffee--and-Farmer-Equity-2.png"
-                        class="card-img-top w-100" alt="...">
-
-                </div>
-
-                <div class="card-body">
-                    <h5 class="card-title">Education Supplies for Every Pair of Shoes Sold</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk
-                        of the
-                        card's content.</p>
-                    <div class="d-flex align-items-center gap-2">
-                        <div><img class="profileImage" src="image/volunteer6.png" alt="" srcset=""></div>
-                        <div>James Bond</div>
-                    </div>
-                </div>
-            </div>
-            <div class="card col-lg-4 col-md-6 col-xs-12">
-                <div class="imgDiv d-flex justify-content-center">
-                    <div class="d-flex justify-content-center missionCategoryDiv">
-                        <p>Updates</p>
-                    </div>
-                    <div class="viewDetailsHoverButton h-100 w-100">
-                        <button class="btn">View Details <i class="bi bi-arrow-right"></i></button>
-                    </div>
-                    <img src="image/Animal-welfare-&-save-birds-campaign-1.png"
-                        class="card-img-top w-100" alt="...">
-
-                </div>
-
-                <div class="card-body">
-                    <h5 class="card-title">Education Supplies for Every Pair of Shoes Sold</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk
-                        of the
-                        card's content.</p>
-                    <div class="d-flex align-items-center gap-2">
-                        <div><img class="profileImage" src="image/volunteer3.png" alt="" srcset=""></div>
-                        <div>John Doe</div>
-                    </div>
-                </div>
-            </div>
-            <div class="card col-lg-4 col-md-6 col-xs-12">
-                <div class="imgDiv d-flex justify-content-center">
-                    <div class="d-flex justify-content-center missionCategoryDiv">
-                        <p>Customer Experience</p>
-                    </div>
-                    <div class="viewDetailsHoverButton h-100 w-100">
-                        <button class="btn">View Details <i class="bi bi-arrow-right"></i></button>
-                    </div>
-                    <img src="image/Plantation-and-Afforestation-programme-1.png"
-                        class="card-img-top w-100" alt="...">
-
-                </div>
-
-                <div class="card-body">
-                    <h5 class="card-title">Education Supplies for Every Pair of Shoes Sold</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk
-                        of the
-                        card's content.</p>
-                    <div class="d-flex align-items-center gap-2">
-                        <div><img class="profileImage" src="image/volunteer2.png" alt="" srcset=""></div>
-                        <div>Ben Stokes</div>
-                    </div>
-                </div>
-            </div>
-            <div class="card col-lg-4 col-md-6 col-xs-12">
-                <div class="imgDiv d-flex justify-content-center">
-                    <div class="d-flex justify-content-center missionCategoryDiv">
-                        <p>Customer Experience</p>
-                    </div>
-                    <div class="viewDetailsHoverButton h-100 w-100">
-                        <button class="btn">View Details <i class="bi bi-arrow-right"></i></button>
-                    </div>
-                    <img src="image/Plantation-and-Afforestation-programme-1.png"
-                        class="card-img-top w-100" alt="...">
-
-                </div>
-
-                <div class="card-body">
-                    <h5 class="card-title">Education Supplies for Every Pair of Shoes Sold</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk
-                        of the
-                        card's content.</p>
-                    <div class="d-flex align-items-center gap-2">
-                        <div><img class="profileImage" src="image/volunteer2.png" alt="" srcset=""></div>
-                        <div>Ben Stokes</div>
-                    </div>
-                </div>
-            </div>
-            <div class="card col-lg-4 col-md-6 col-xs-12">
-                <div class="imgDiv d-flex justify-content-center">
-                    <div class="d-flex justify-content-center missionCategoryDiv">
-                        <p>Customer Experience</p>
-                    </div>
-                    <div class="viewDetailsHoverButton h-100 w-100">
-                        <button class="btn">View Details <i class="bi bi-arrow-right"></i></button>
-                    </div>
-                    <img src="image/Plantation-and-Afforestation-programme-1.png"
-                        class="card-img-top w-100" alt="...">
-
-                </div>
-
-                <div class="card-body">
-                    <h5 class="card-title">Education Supplies for Every Pair of Shoes Sold</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk
-                        of the
-                        card's content.</p>
-                    <div class="d-flex align-items-center gap-2">
-                        <div><img class="profileImage" src="image/volunteer2.png" alt="" srcset=""></div>
-                        <div>Ben Stokes</div>
-                    </div>
-                </div>
-            </div>
-            <div class="card col-lg-4 col-md-6 col-xs-12">
-                <div class="imgDiv d-flex justify-content-center">
-                    <div class="d-flex justify-content-center missionCategoryDiv">
-                        <p>Customer Experience</p>
-                    </div>
-                    <div class="viewDetailsHoverButton h-100 w-100">
-                        <button class="btn">View Details <i class="bi bi-arrow-right"></i></button>
-                    </div>
-                    <img src="image/Plantation-and-Afforestation-programme-1.png"
-                        class="card-img-top w-100" alt="...">
-
-                </div>
-
-                <div class="card-body">
-                    <h5 class="card-title">Education Supplies for Every Pair of Shoes Sold</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk
-                        of the
-                        card's content.</p>
-                    <div class="d-flex align-items-center gap-2">
-                        <div><img class="profileImage" src="image/volunteer2.png" alt="" srcset=""></div>
-                        <div>Ben Stokes</div>
-                    </div>
-                </div>
-            </div>
+        <div class="row storyCards">
+<!--             Story Card Fetched Here -->
         </div>
     </div>
     <div class="myPaginationTab d-flex justify-content-center text-danger">
         <nav aria-label="Page navigation example">
             <ul class="pagination">
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
-                        <span aria-hidden="true"><i class="bi bi-chevron-double-left"></i></span>
-                    </a>
-                  </li>
-              <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true"><i class="bi bi-chevron-left"></i></span>
-                </a>
-              </li>
-              <li class="page-item"><a class="page-link active" href="#">1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item"><a class="page-link" href="#">4</a></li>
-              <li class="page-item"><a class="page-link" href="#">5</a></li>
-              <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                  <span aria-hidden="true"><i class="bi bi-chevron-right"></i></span>
-                </a>
-              </li>
-              <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true"><i class="bi bi-chevron-double-right"></i></span>
-                  </a>
-              </li>
+<!--                 pagination Created Here -->
             </ul>
           </nav>
     </div>
@@ -247,6 +57,161 @@
         crossorigin="anonymous"></script>
     <script src="js/sidebarJs.js"></script>
     <script src="js/add_navbar.js"></script>
+    <script>
+    let totalStory=0;
+    let totalStoryPerPage=9;
+    let totalPages=0;
+    let CurrentPage=1;
+    let stories="";
+//     	Ajax Call to Fetch total Story to generate the pagination list 
+    $(document).ready(function(){
+    	$.ajax({
+            url: "loadCountOfStory",
+            dataType: 'json',
+            success: function(response){
+           	totalStory=response;
+           	generatePagination();
+           	loadStories();
+            }
+        });
+    });
+    			function loadStories(){
+//     				ajax call to load stories of first page initially and change according to page number
+    				$.ajax({
+    	                url: "loadStoryByPageNo",
+    	                dataType: 'json',
+    	                data : {currentPage:CurrentPage},
+    	                success: function(response){
+    	                	stories=response;
+    	                	generateStoryCard();
+    	                }
+    	            });
+    				
+    				
+    				
+    			}
+             function generatePagination(){
+            	 totalPages=totalStory/totalStoryPerPage;
+            	 totalPages=Math.ceil(totalPages);
+            	 $(".pagination").empty();
+            	 if(totalPages==0){
+            		 noStoryFound();
+            	 }
+            	 else{
+            		 let pagination=`<li class="page-item">
+                         <a class="page-link" href="#" aria-label="Next">
+                         <span aria-hidden="true"><i class="bi bi-chevron-double-left"></i></span>
+                     </a>
+                   </li>
+               <li class="page-item">
+                 <a class="page-link" href="#" aria-label="Next">
+                     <span aria-hidden="true"><i class="bi bi-chevron-left"></i></span>
+                 </a>
+               </li>`;
+               
+               for(var a=1;a<=totalPages;a++){
+            	   if(CurrentPage==a){            		   
+            	   		pagination+=`<li class="page-item"><a class="page-link active" onclick="changePage(`+a+`)">`+a+`</a></li>`;
+            	   }
+            	   else{
+            		   pagination+=`<li class="page-item"><a class="page-link" onclick="changePage(`+a+`)">`+a+`</a></li>`;
+            	   }
+               }
+               
+               pagination+=`<li class="page-item">
+                   <a class="page-link" href="#" aria-label="Next">
+                   <span aria-hidden="true"><i class="bi bi-chevron-right"></i></span>
+                 </a>
+               </li>
+               <li class="page-item">
+                 <a class="page-link" href="#" aria-label="Next">
+                     <span aria-hidden="true"><i class="bi bi-chevron-double-right"></i></span>
+                   </a>
+               </li>`;
+               
+               $(".pagination").append(pagination);
+            	 }
+             }
+             
+             
+    		function noStoryFound(){
+    			$(".storyCards").empty().append("<h1>No story found...</h1>");
+    		}
+    		
+    		function changePage(a){
+    			CurrentPage=a;
+    			generatePagination();
+    			loadStories();
+    			
+    		}
+    		function generateStoryCard(){    			
+    			$(".storyCards").empty();
+    			console.log(stories);
+    			for(var storyIndex in stories){
+    				var story=stories[storyIndex];
+    				var storyId=story.storyId;
+    				console.log(story);
+    				var missionTheme=story.missionTheme;
+    				if(missionTheme==null){
+    					missionTheme="";
+    				}
+    				var storyDescription=story.storyDescription;
+    				if(storyDescription==null){
+    					storyDescription="";
+    				}
+    				var storyTitle=story.storyTitle;
+    				if(storyTitle==null){
+    					storyTitle="";
+    				}
+    				let userAvatar="image/";
+    				if(userAvatar==null){
+    					userAvatar="image/user1.png";
+    				}
+    				else{    					
+    				userAvatar+=story.userAvatar;
+    				}
+    				var userName=story.userName;
+    				if(userName==null){
+    					userName="";
+    				}
+    				var mediaUrl=story.image.mediaUrl;
+    				var mediaType=story.image.mediaType;
+    				var imageUrl="";
+    				if(mediaType==null||mediaUrl==null){
+    					imageUrl="image/noimagefound.png";	
+    				}
+    				else{
+    					if(mediaType=="IMAGE"){
+    						imageUrl=mediaUrl;
+    					}
+    				}
+    				
+    				let card=`<div class="card col-lg-4 col-md-6 col-xs-12">
+        	            <div class="imgDiv d-flex justify-content-center">
+        	            <div class="d-flex justify-content-center missionCategoryDiv">
+        	                <p class="missionTheme">`+missionTheme+`</p>
+        	            </div>
+        	            <div class="viewDetailsHoverButton h-100 w-100">
+        	                <a class="btn" href="getDetailStory?storyId=`+storyId+`">View Details <i class="bi bi-arrow-right"></i></a>
+        	            </div>
+        	            <img src="`+imageUrl+`" class="storyCardImg card-img-top w-100" alt="...">
+
+        	        </div>
+        	        <div class="card-body">
+        	            <h5 class="card-title">`+storyTitle+`</h5>
+        	            <p class="card-text">`+storyDescription.substring(0,250)+`</p>
+        	            <div class="d-flex align-items-center gap-2">
+        	                <div><img class="profileImage" src="`+userAvatar+`" alt="" srcset=""></div>
+        	                <div>`+userName+`</div>
+        	            </div>
+        	        </div>
+        	    </div>`;
+        	    $(".storyCards").append(card);	
+    			}
+    			
+    		}
+    	
+    </script>
 </body>
 
 </html>

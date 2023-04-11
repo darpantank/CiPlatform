@@ -14,15 +14,22 @@
 	response.sendRedirect("login");
 	%>
 </c:if>
-<%-- <c:if test="${story.status=='DRAFT'}"> --%>
-<%-- 	<c:if test="${user.user_id!=story.user.user_id }">	 --%>
-<%-- 		<c:redirect url="story"></c:redirect> --%>
-<%-- 	</c:if> --%>
-<%-- </c:if> --%>
+<c:if test="${story.status=='DRAFT'}">
+	<c:if test="${user.user_id!=story.user.user_id }">	
+		<c:redirect url="story"></c:redirect>
+	</c:if>
+</c:if>
+<c:if test="${story.status=='PENDING'}">
+	<c:redirect url="story"></c:redirect>
+</c:if>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+	<script>
+		let story_id="<c:out  value='${story.story_id}' />";
+	</script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -33,38 +40,39 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
     <link rel="stylesheet" href="css/imageCaresoul.css">
 </head>
-
 <body>
-    <!-- Recommend to Co Worker Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Recommend to a Co-Worker</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="storytitle">Select Your Co-Worker</label>
-                        <select class="form-control" name="coworkerSelect" placeholder="Select Your Mission">
-                            <option value="" disabled selected hidden>Select Your CoWorker</option>
-                            <option value="Education">john Doe</option>
-                            <option value="Animal Wellfare">Evan Donhule</option>
-                            <option value="Volunteering">James Mary</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Recommend </button>
-                </div>
-            </div>
-        </div>
+    
+<!-- 	Recommend to Coworker Modal  -->
+
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Receommend to Co-Worker</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+					<div class="mb-3">
+						<label for="exampleInputEmail1" class="form-label">Enter Email
+							address Of CoWorker</label> <input type="email" class="form-control"
+							id="recommendworkerEmail" aria-describedby="emailHelp">
+					</div>
+					<div class="modalMessageBody"></div>
+				</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary recommandToCoworker">Recommand</button>
+      </div>
     </div>
+  </div>
+</div>
 
 
-    <div class="container-fluid g-0" id="headerIncludedTag"></div>
+    <div class="container-fluid g-0">
+		<jsp:include page="fheader.jsp" />
+	</div>
     <div class="container mt-4">
+    <input type="hidden" class="storyId" value="${story.story_id }">
         <div class="row">
             <!-- image caresoul Div  -->
             <div class="col-md-12 col-lg-6 imgCarouselDiv">
@@ -104,12 +112,12 @@
                             <p class="text-center">${story.user.first_name} ${story.user.last_name	}</p>
                         </div>
                         <div class="ViewsOfStory">
-                            <p class="noOfView"><img src="image/eye.png" alt="" srcset=""> 12,000 Views</p>
+                            <p class="noOfView"><img src="image/eye.png" alt="" srcset=""> ${story.views} Views</p>
                         </div>
                     </div>
                     <div class="row mt-3">
                         <p class="storyDetailsText">
-                            ${story.title }
+                            ${story.user.why_i_volunteer }
                         </p>
                     </div>
                     <div class="d-flex justify-content-around StoryButtons mt-3">
@@ -125,7 +133,7 @@
             <div class="row mt-4">
                 <div class="headingOfMissionStory">
                     <p class="headingOfMissionStoryText ">
-                        ${story.mission.title }
+                        ${story.title }
                     </p>
                     <hr class="smallBackGroundline">
                 </div>
@@ -147,6 +155,55 @@
         <script src="js/add_navbar.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
         <script src="js/imageCaresoul.js"></script>
+        <script>
+        $(".recommandToCoworker").click(function(){
+    		$(".modalMessageBody").empty();
+    		let messageBody="";
+    		var email_id=$("#recommendworkerEmail").val();
+    		var storyId=$(".storyId").val();
+    		if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email_id)){
+    			$.ajax({
+    	            url: "recommandtocoworkerstory",
+    	            data:{storyId:story_id,
+    	            	  emailId:email_id},
+    	            type:"POST",
+    	            success: function(response){
+    	            	if(response=="emailnotfound"){
+    	            		messageBody=`<div class="alert alert-danger" role="alert">
+    	      				  Email Address is Not Found In Our Record
+    	      				</div>`;
+    	      			$(".modalMessageBody").html(messageBody);
+    	            	}
+    	            	else if(response=="bothusersame"){
+    	            		messageBody=`<div class="alert alert-warning" role="alert">
+    		      				  You can Not Recommand to Your Self
+    		      				</div>`;
+    		      			$(".modalMessageBody").html(messageBody);
+    	            	}
+    	            	else if(response=="sessionnotfound"){
+    	            		messageBody=`<div class="alert alert-warning" role="alert">
+    		      				  Please Re login to send Recommondation to friends...
+    		      				</div>`;
+    		      			$(".modalMessageBody").html(messageBody);
+    	            	}
+    	            	else if(response=="success"){
+    	            		messageBody=`<div class="alert alert-success" role="alert">
+    		      				  Thanks For Sending Recommandation to Your Friend
+    		      				</div>`;
+    		      			$(".modalMessageBody").html(messageBody);
+    		      			
+    	            	}
+    	            }
+    	        });
+    		}
+    		else{
+    			messageBody=`<div class="alert alert-danger" role="alert">
+    				  Email Address is Not Proper
+    				</div>`;
+    			$(".modalMessageBody").html(messageBody);
+    		}
+    	});
+        </script>
 </body>
 
 </html>

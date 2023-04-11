@@ -18,7 +18,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 public class StoryInvite {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int story_media_id;
+	private int story_invite_id;
 	@ManyToOne(targetEntity = Story.class)
 	@JoinColumn(name = "story_id")
 	private Story story;
@@ -37,10 +37,11 @@ public class StoryInvite {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public StoryInvite(int story_media_id, Story story, User fromUser, User toUser, Date created_at, Date updated_at,
+	
+	public StoryInvite(int story_invite_id, Story story, User fromUser, User toUser, Date created_at, Date updated_at,
 			Date deleted_at) {
 		super();
-		this.story_media_id = story_media_id;
+		this.story_invite_id = story_invite_id;
 		this.story = story;
 		this.fromUser = fromUser;
 		this.toUser = toUser;
@@ -48,12 +49,15 @@ public class StoryInvite {
 		this.updated_at = updated_at;
 		this.deleted_at = deleted_at;
 	}
-	public int getStory_media_id() {
-		return story_media_id;
+	
+	public int getStory_invite_id() {
+		return story_invite_id;
 	}
-	public void setStory_media_id(int story_media_id) {
-		this.story_media_id = story_media_id;
+
+	public void setStory_invite_id(int story_invite_id) {
+		this.story_invite_id = story_invite_id;
 	}
+
 	public Story getStory() {
 		return story;
 	}

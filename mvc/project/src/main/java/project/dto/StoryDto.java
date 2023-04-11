@@ -8,6 +8,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 public class StoryDto {
 	private int missionId;
+	private int storyId;
 	private String title;
 	private Date date;
 	private String videoUrl;
@@ -52,6 +53,12 @@ public class StoryDto {
 		this.images = images;
 	}
 	
+	public int getStoryId() {
+		return storyId;
+	}
+	public void setStoryId(int storyId) {
+		this.storyId = storyId;
+	}
 	@Override
 	public String toString() {
 		return "StoryDto [missionId=" + missionId + ", title=" + title + ", date=" + date + ", videoUrl=" + videoUrl

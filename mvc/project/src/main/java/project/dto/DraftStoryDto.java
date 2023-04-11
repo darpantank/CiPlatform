@@ -1,6 +1,7 @@
 package project.dto;
 
 import java.util.Date;
+import java.util.List;
 
 public class DraftStoryDto {
 	private int storyId;
@@ -8,6 +9,7 @@ public class DraftStoryDto {
 	private Date date;
 	private String story;
 	private String videoUrl;
+	private List<StoryMediaTypeUrlDto> images;
 	public int getStoryId() {
 		return storyId;
 	}
@@ -38,5 +40,12 @@ public class DraftStoryDto {
 	public void setVideoUrl(String videoUrl) {
 		this.videoUrl = videoUrl;
 	}
+	public List<StoryMediaTypeUrlDto> getImages() {
+		return images;
+	}
+	public void setImages(List<StoryMediaTypeUrlDto> images) {
+		this.images = images;
+	}
+	
 	
 }

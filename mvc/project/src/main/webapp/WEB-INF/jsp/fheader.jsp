@@ -10,7 +10,7 @@
         <button onclick="closeLeftMainMenu()" class="w3-bar-item w3-button w3-large"> <img src="image/cancel.png"
                 class="sidebarClosingButton" alt="" srcset=""></button>
         <a href="#" class="w3-bar-item w3-button">Explore</a>
-        <a href="#" class="w3-bar-item w3-button">Story</a>
+        <a href="story" class="w3-bar-item w3-button">Story</a>
         <a href="#" class="w3-bar-item w3-button">Policy</a>
     </div>
     <nav class="navbar navbar-expand-lg row d-flex  flex-row justify-content-end">
@@ -21,7 +21,7 @@
                 <img src="image/list.png" alt="" srcset="">
             </button>
             <div class="collapse navbar-collapse left gotoMainbar" id="navbarNav">
-                <a href="#" class="logo">Stories</a>
+                <a href="story" class="logo">Stories</a>
                 <div class="dropdown">
                     <a class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         Policy <img src="image/drop-down.png">
@@ -57,7 +57,7 @@
                     <span class="gotoMainbar"><c:out value="${user.first_name} ${user.last_name}" /></span> <img src="image/drop-down.png" class="gotoMainbar">
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
-                    <li><a class="dropdown-item" href="#">My Profile</a></li>
+                    <li><a class="dropdown-item" href="profile">My Profile</a></li>
                     <li><a class="dropdown-item vtsheet" href="#">Volunteering Timesheet</a></li>
                     <li><a class="dropdown-item" href="logout">Log Out</a></li>
                 </ul>

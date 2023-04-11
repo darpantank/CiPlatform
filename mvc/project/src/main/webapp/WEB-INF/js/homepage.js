@@ -53,7 +53,6 @@
 				 currentPage=1;
             	 CheckedCountry = $(this).find("option:selected").val();
             	 CheckedCountryName = $(this).find("option:selected");
-            	 addFilter(CheckedCountryName[0].innerText);
                  getCityList(CheckedCountry);
                  updateMissionsOnChange();
             });
@@ -160,12 +159,12 @@
 						for(var b in obj){
 							var a=b;
 							missions=obj[b];
-						}   
-						console.log(missions);     		
+						}        		
 						createPaginationList(a,currentPage);
 						editUpdatedMission(a);
 	                	printCardOnGrid(missions);
 	                	printCardOnList(missions);
+	                	addFiltersPills();
 	                	if(a==0){
 	                		if($(".noMissionFound").length===0){
 	                			noMissionFound();
@@ -213,7 +212,17 @@
 	         		currentPage=b;
 	         		updateMissionsOnChange();
 	         	}
-
+//				function addFiltersPills(){
+//					AppliedFilterArray=[];
+//					if(CheckedCountryName[0]!=null){						
+//						AppliedFilterArray.push(CheckedCountryName[0].innerText);		
+//					}
+//					
+////					addFilter();
+//					for(let x in selectedCity){
+//						console.log(selectedCity[x]);
+//					}
+//				}
 	         	function createPaginationList(totalCount,currentPage){
 	         		$(".pagination").empty();
 	         		let data = `<li class="page-item">

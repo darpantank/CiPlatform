@@ -179,6 +179,12 @@ public class HomeController {
 		}
 		return mav;
 	}
+	@RequestMapping(value = "/profile")
+	public String editProfilePage(Model m,HttpServletRequest request) {
+		User user= (User)request.getSession().getAttribute("user");
+		m.addAttribute("user",user);
+		return "editprofile";
+	}
 //	@ExceptionHandler(value = ConstraintViolationException.class)
 //    public String sqlExceptionHanler(Model m) {       
 //        m.addAttribute("message", "Some thing went wrong");

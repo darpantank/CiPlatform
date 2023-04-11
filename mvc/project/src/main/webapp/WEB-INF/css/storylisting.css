@@ -39,7 +39,7 @@
     position: absolute;
     display: none !important;
 }
-.viewDetailsHoverButton button{
+.viewDetailsHoverButton a{
     color:white !important;
     padding: 7px;
     border:1px solid white;
@@ -93,4 +93,7 @@
 .myPaginationTab .active{
     color:white;
     background-color: #F88634 !important;
+}
+.storyCardImg{
+	height:250px;
 }

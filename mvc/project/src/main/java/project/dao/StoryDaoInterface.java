@@ -12,6 +12,13 @@ import project.model.User;
 public interface StoryDaoInterface {
 
 	List<MissionApplication> findMissionFromUser(User user);
-	int saveStory(Story story);
+	void saveStory(Story story);
 	Story getDraftMission(User user, Mission mission);
+	Story fetchStoryObjectById(int storyId);
+	void deleteMediaOfStory(int storyId);
+	Story getDetailStory(int storyId);
+	Long getCountOfStory();
+	List<Story> getStoriesByPageNo(int currentPage);
+	void submitDraftedStory(int storyId, int userId);
+	void recommandToCoWorkerStory(Story story, User sendFromUser, User sendToUser);
 }

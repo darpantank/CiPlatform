@@ -10,7 +10,8 @@ function ImgUpload() {
         $(this).on('change', function (e) {
             imgWrap = $(this).closest('.upload__box').find('.upload__img-wrap');
             var maxLength = $(this).attr('data-max_length');
-
+			console.log("Editing Function Called");
+			console.log(imgArray);
             var files = e.target.files;
             var filesArr = Array.prototype.slice.call(files);
             var iterator = 0;

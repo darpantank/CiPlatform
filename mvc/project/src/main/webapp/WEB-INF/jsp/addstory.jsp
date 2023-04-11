@@ -34,7 +34,7 @@
             Share Your Story
         </p>
         
-
+		<input type="hidden" class="AlereadyPresentStoryId" value="0" >
         <div class="row mt-5">
             <div class="col-md-12 col-lg-4">
                 <div class="form-group">
@@ -75,7 +75,7 @@
             <p>Upload Your Photos</p>
             <div class="upload__btn-box">
                 <label class="upload__btn">
-                    <input type="file" multiple="multiple" accept="image/*" data-max_length="20" class="upload__inputfile">
+                    <input type="file" multiple="multiple" id="upload__inputfile" accept="image/*" data-max_length="20" class="upload__inputfile">
                     <i class="bi bi-plus-lg plusIcon"></i>
                     <p class="UploadTextMsg">drag and drop picture and video here</p>
                 </label>
@@ -86,13 +86,16 @@
             <div><button class="btn">cancel</button></div>
             <div class="d-flex rightButtons">
                 <button class="btn saveButton">Save</button>
-                <button class="btn">Submit</button>
+                <button class="btn submitButton" disabled>Submit</button>
             </div>
         </div>
     </div>
 
 	<script>
 		var imgArray = [];
+    	const input = document.getElementById("upload__inputfile");
+      	let container = new DataTransfer();
+      	let imgTempArray=[];
 	</script>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"
         integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
@@ -111,8 +114,9 @@
     <script src="js/ckeditor.js"></script>
     <script src="js/add_navbar.js"></script>
     <script>
+    let draftStory="";
     $(".missionSelect").change(function(){
-    	generateFileObjectFromUrl();
+//     	generateFileObjectFromUrl();
 //     	Checked For Draft
 		var missionId=$(".missionSelect").val();
         $.ajax({
@@ -121,16 +125,41 @@
             data:{missionId:missionId},
             type:"GET",
             success: function(response){
-            	console.log(response);     	
+            		draftStory=response;  
+            		fillStoryDetails();	
             },
     	});
-    })
+    });
+    $(".submitButton").click(function(){
+    	var storyId=$(".AlereadyPresentStoryId").val();
+    	if(storyId==0){
+    		alert("First get Drafted Story");
+    	}
+    	else{    		
+	    	$.ajax({
+	            url: "submitdraftstory",
+	            dataType: 'json',
+	            data:{storyId:storyId},
+	            type:"GET",
+	            success: function(response){
+	            		if(response){
+	            			alert("Successfully Story Submitted...Once Admin Approve Story it will Display On Story Listing Page");
+	            			
+	            		}
+	            }
+	            ,complete: function(){
+	            	resetFormData();
+	            }
+	    	});
+    	}
+    });
     $(".saveButton").click(function(){
     	var title= $(".titleOfTheStory").val();
     	var mission=$(".missionSelect").val();
     	var date=new Date($(".dateOfStory").val());
     	var videoUrl=$(".videoUrl").val();
     	var story=myEditor.getData();
+    	var storyId=$(".AlereadyPresentStoryId").val();
     	if(title!=""&&mission!=null&&date!=null&&story!="")
     	{
     		var data = new FormData();
@@ -139,17 +168,65 @@
 			data.append("date",date);
 			data.append("videoUrl",videoUrl);
 			data.append("story",story);
+			data.append("storyId",storyId);
 			for(var a in imgArray){
 				data.append("images",imgArray[a]);
 			}
-    		console.log(data);
-    		saveMyDateInDb(data);
+			$(".upload__inputfile").val("");
+    		
+    		saveMyDataInDb(data);
     	}
     	else{
     		alert("Some Field is Empty");
     	}
     });
-    function saveMyDateInDb(data){
+    function fillStoryDetails(){
+    	imgArray=[];
+    	$(".upload__img-wrap").empty();
+    	$(".titleOfTheStory").val(draftStory.storyTitle);
+    	$(".dateOfStory").val(getFormattedDate(draftStory.date));
+    	$(".videoUrl").val("");
+    	$(".AlereadyPresentStoryId").val(draftStory.storyId);
+    	$(".submitButton").removeAttr("disabled");
+    	if(draftStory.storyId!=0){    		
+    		$(".previewButton").remove();
+    		var previewButton="<a href='getDetailStory?storyId="+draftStory.storyId+"' class='btn previewButton' target='_blank'>Preview</a>";
+    		$(".rightButtons").prepend(previewButton);
+    	}
+    	if(draftStory.story==""||draftStory.story==null){    		
+    		myEditor.setData("");
+    	}
+    	else{
+    	myEditor.setData(draftStory.story);
+    	}
+    		
+    	for(var a in draftStory.images){
+    		if(draftStory.images[a].mediaType=="IMAGE"){
+    			generateFileObjectFromUrl(draftStory.images[a].mediaUrl,draftStory.images[a].mediaUrl.replace(/^.*[\\\/]/, ''));
+    		}
+    	}
+setTimeout(function() {
+	input.files = container.files;
+	imgArray=imgTempArray;
+	$(".upload__img-wrap").empty();
+	for(var x in imgTempArray){		
+		var html = "<div class='upload__img-box'><div style='background-image: url(uploadFiles/" + imgTempArray[x].name + ")' data-number='" + $(".upload__img-close").length + "' data-file='" + imgTempArray[x].name + "' class='img-bg'><div class='upload__img-close'><i class='bi bi-x'></i></div></div></div>";
+	    $(".upload__img-wrap").append(html);
+	}
+}, 2500);
+		
+    	
+    }
+    function getFormattedDate(date) {
+			date=new Date(date);
+    	  const year  = date.getFullYear(),
+    	        month = ('0' + (date.getMonth() + 1)).slice(-2),
+    	        day   = ('0' + date.getDate()).slice(-2)
+
+    	  return [year, month, day].join('-')
+    }
+    
+    function saveMyDataInDb(data){
     	
     $.ajax({
         url: "savestory",
@@ -159,24 +236,24 @@
         contentType: false,
         processData: false,
         success: function(response){
-        	console.log(response+"Hello");     	
+        	    	
         },
     	complete:function(){
     		resetFormData();
+    		alert("Story Added Successfully...");
+    		imgArray=[];
     	}
 	});
     }
     function resetFormData(){
-    	alert("Story Added Successfully...");
+    	
     	$("input").val('');
     	$(".missionSelect").prop("selectedIndex", 0);
     	imgArray=[];
     	$(".upload__img-wrap").empty();
     	myEditor.setData( '' );
     }
-    async function generateFileObjectFromUrl(){
-    	url="";
-    	name="";
+    async function generateFileObjectFromUrl(url,name){
     	async function getFileFromUrl(url, name, defaultType = 'image/jpeg'){
     		  const response = await fetch(url);
     		  const data = await response.blob();
@@ -186,8 +263,9 @@
     		}
 
     		// `await` can only be used in an async body, but showing it here for simplicity.
-    		const file = await getFileFromUrl(url, name);
-    		console.log(file);
+    		const file=await getFileFromUrl(url, name);
+    		container.items.add(file);
+    		imgTempArray.push(file);
     }
     </script>
 </body>
