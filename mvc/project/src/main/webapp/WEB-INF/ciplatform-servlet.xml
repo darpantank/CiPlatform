@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/mvc
+		http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx.xsd
+		">
+
+	<tx:annotation-driven />
+	<mvc:annotation-driven
+		enable-matrix-variables="true" />
+	<context:component-scan base-package="project" />
+
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<bean
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+		name="dataSource">
+		<property name="driverClassName"
+			value="com.mysql.jdbc.Driver" />
+		<property name="url"
+			value="jdbc:mysql://localhost:3306/ciplatform" />
+		<property name="username" value="root" />
+		<property name="password" value="root" />
+	</bean>
+	
+	<bean name="sessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="format_sql">true</prop>
+			</props>
+		</property>
+		<property name="annotatedClasses">
+			<list>
+				<value>
+					project.model.User
+				</value>
+				<value>
+					project.model.City
+				</value>
+				<value>
+					project.model.Country
+				</value>
+				<value>
+					project.model.Banner
+				</value>
+				<value>
+					project.model.PasswordReset
+				</value>
+				<value>
+					project.model.Mission
+				</value>
+				<value>
+					project.model.MissionTheme
+				</value>
+				<value>
+					project.model.Skill
+				</value>
+				<value>
+					project.model.MissionSkill
+				</value>
+				<value>
+					project.model.FavoriteMission
+				</value>
+				<value>
+					project.model.MissionRating
+				</value>
+				<value>
+					project.model.MissionDocument
+				</value>
+				<value>
+					project.model.MissionInvite
+				</value>
+				<value>
+					project.model.Comment
+				</value>
+				<value>
+					project.model.MissionApplication
+				</value>
+				<value>
+					project.model.Story
+				</value>
+				<value>
+					project.model.StoryMedia
+				</value>
+				<value>
+					project.model.StoryInvite
+				</value>
+				<value>
+					project.model.MissionMedia
+				</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean name="hibernateTemplate"
+		class="org.springframework.orm.hibernate5.HibernateTemplate">
+		<property name="sessionFactory" ref="sessionFactory">
+
+		</property>
+	</bean>
+
+	<bean name="transactionManager"
+		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+
+	</bean>
+
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+
+	<!-- <bean
+		class="java.util.Properties"
+		name="propertyMail">
+		<property name="mail.smtp.host"
+			value="smtp.gmail.com" />
+		<property name="mail.smtp.socketFactory.port"
+			value="465" />
+		<property name="mail.smtp.socketFactory.class" value="javax.net.ssl.SSLSocketFactory" />
+		<property name="mail.smtp.auth" value="true" />
+		<property name="mail.smtp.port" value="465" />
+	</bean> -->
+	<mvc:resources location="/WEB-INF/" mapping="/**" />
+	<mvc:annotation-driven />
+</beans>
