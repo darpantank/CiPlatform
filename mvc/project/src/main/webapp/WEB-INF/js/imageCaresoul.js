@@ -7,4 +7,8 @@ var swiper = new Swiper(".mySwiper", {
     },
     speed: 400,
 });
-$(".imgCarousel").click(function () { $(".mainPhoto").attr("src", $(this).prop("src")); });
+$(".imgCarousel").click(function () { 
+	$(".mainPhoto").attr("src", $(this).prop("src"));
+	$(".mainPhoto").removeClass("d-none"); 
+	$(".mainPhotoVideo").addClass("d-none");
+	});

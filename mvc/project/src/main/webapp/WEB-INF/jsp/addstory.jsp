@@ -65,7 +65,7 @@
             <p>My Story</p>
             <div id="editor">Sample CkEditor</div>
         </div>
-        <div class="videoUrl mt-4">
+        <div class="videoUrls mt-4">
             <div class="form-group">
                 <label for="storytitle">Enter Video URL</label>
                 <input type="text" class="form-control videoUrl" name="videoUrl"placeholder="Enter Story Title">
@@ -157,7 +157,7 @@
     	var title= $(".titleOfTheStory").val();
     	var mission=$(".missionSelect").val();
     	var date=new Date($(".dateOfStory").val());
-    	var videoUrl=$(".videoUrl").val();
+    	let videoUrl='https://www.youtube.com/embed/'+getId($(".videoUrl").val());
     	var story=myEditor.getData();
     	var storyId=$(".AlereadyPresentStoryId").val();
     	if(title!=""&&mission!=null&&date!=null&&story!="")
@@ -182,10 +182,11 @@
     });
     function fillStoryDetails(){
     	imgArray=[];
+    	let videoUrl="";
     	$(".upload__img-wrap").empty();
     	$(".titleOfTheStory").val(draftStory.storyTitle);
     	$(".dateOfStory").val(getFormattedDate(draftStory.date));
-    	$(".videoUrl").val("");
+    	
     	$(".AlereadyPresentStoryId").val(draftStory.storyId);
     	$(".submitButton").removeAttr("disabled");
     	if(draftStory.storyId!=0){    		
@@ -204,7 +205,11 @@
     		if(draftStory.images[a].mediaType=="IMAGE"){
     			generateFileObjectFromUrl(draftStory.images[a].mediaUrl,draftStory.images[a].mediaUrl.replace(/^.*[\\\/]/, ''));
     		}
+    		if(draftStory.images[a].mediaType=="VIDEO"){
+    			videoUrl=draftStory.images[a].mediaUrl;
+    		}
     	}
+    	$(".videoUrl").val(videoUrl);
 setTimeout(function() {
 	input.files = container.files;
 	imgArray=imgTempArray;
@@ -250,6 +255,7 @@ setTimeout(function() {
     	$("input").val('');
     	$(".missionSelect").prop("selectedIndex", 0);
     	imgArray=[];
+    	imgTempArray=[];
     	$(".upload__img-wrap").empty();
     	myEditor.setData( '' );
     }
@@ -266,6 +272,14 @@ setTimeout(function() {
     		const file=await getFileFromUrl(url, name);
     		container.items.add(file);
     		imgTempArray.push(file);
+    }
+    function getId(url) {
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+        const match = url.match(regExp);
+
+        return (match && match[2].length === 11)
+          ? match[2]
+          : null;
     }
     </script>
 </body>

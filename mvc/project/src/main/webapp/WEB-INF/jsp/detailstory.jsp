@@ -78,24 +78,35 @@
             <div class="col-md-12 col-lg-6 imgCarouselDiv">
                 <div id="firstDiv">
                 <c:choose>
-                 	<c:when test="${story.storyMedia.size() gt 0}" >               		 
-                    	<img src="<c:out value="${story.storyMedia[0].path}"/>" alt=""
-                        class="mainPhoto">
+                 	<c:when test="${story.storyMedia.size() gt 0}" >	 
+						<c:if test="${story.storyMedia[0].type=='VIDEO'}">
+							<iframe src="<c:out value="${story.storyMedia[0].path}"/>" class="mainPhotoVideo"  style="position: relative; height: 100%; width: 100%;"></iframe>
+                        	<img class="mainPhoto d-none">
+						</c:if>
+						<c:if test="${story.storyMedia[0].type=='IMAGE'}">
+							<iframe class="mainPhotoVideo d-none"  style="position: relative; height: 100%; width: 100%;"></iframe>
+                        	<img src="<c:out value="${story.storyMedia[0].path}"/>" class="mainPhoto">
+						</c:if>
+                        
                		</c:when>
                		<c:otherwise>
-               			<img src="<c:out value="image/noimagefound.png"/>" alt=""
-                        class="mainPhoto">
+						<img src="image/noimagefound.png" class="mainPhoto">
                		</c:otherwise>
                 
-                </c:choose>
-               		                
+                </c:choose>        
                		 </div>
                 <div id="SecondDiv">
                     <div class="swiper mySwiper">
                         <div class="swiper-wrapper">
-                        <c:forEach var="a" items="${story.storyMedia}">                        
+                        <c:forEach var="a" items="${story.storyMedia}"> 
+                        <c:if test="${a.type=='IMAGE'}">                        
                             <div class="swiper-slide"><img class="imgCarousel"
                                     src="${a.path }" alt=""></div>
+                        </c:if>  
+                        <c:if test="${a.type=='VIDEO'}">                        
+                            <div class="swiper-slide"><img class="imgCarousel"
+                                    src="${a.path}" alt="" hidden><img src="image/youtube.png" class="videoClass"></div>
+                        </c:if>                     
                         </c:forEach>
                             
                         </div>
@@ -121,9 +132,11 @@
                         </p>
                     </div>
                     <div class="d-flex justify-content-around StoryButtons mt-3">
+                    <c:if test="${story.status!='DRAFT'}">
                         <a class="btn recommendButton" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             <img src="image/add1.png" alt="" srcset=""> Recommend to a Co-Worker
                         </a>
+                        </c:if>
                         <a class="btn openMissionButton" href="getMyMission?mission_id=${story.mission.mission_id}">
                             Open Mission <img src="image/right-arrow.png" alt="" srcset="">
                         </a>
@@ -203,6 +216,11 @@
     			$(".modalMessageBody").html(messageBody);
     		}
     	});
+        $(".videoClass").click(function(){
+        	$(".mainPhotoVideo").attr("src",$(this).siblings(".imgCarousel").prop("src"));
+        	$(".mainPhotoVideo").removeClass("d-none");
+        	$(".mainPhoto").addClass("d-none");
+        	});
         </script>
 </body>
 

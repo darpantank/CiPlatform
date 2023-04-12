@@ -49,11 +49,8 @@ public class StoryController {
 	@PostMapping(value = "/savestory")
 	public @ResponseBody String saveStoryOfUser(StoryDto storyDto,HttpSession session,HttpServletRequest request) {
 		User user=(User)request.getSession().getAttribute("user");
-		for(CommonsMultipartFile x: storyDto.getImages()) {			
-			System.out.println(x.getOriginalFilename());
-		}
 		this.service.saveStoryOfUser(storyDto,user,session);
-		return "Thanks";
+		return "success";
 	}
 	@RequestMapping(value = "/getdraftstory" , method = RequestMethod.GET)
 	public @ResponseBody DraftStoryDto getDraftedStory(@RequestParam("missionId") String missionId,HttpServletRequest request){

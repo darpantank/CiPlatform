@@ -22,8 +22,9 @@ $(document).ready(function() {
     });
     $('#AddSkills').click(function(e) {
         $('#lstBox2').empty();
-        var addSkillFromPop=$('#lstBoxMain').children();
-        $('#lstBox2').append($(addSkillFromPop).clone());
+        addSkillList();
+//        var addSkillFromPop=$('#lstBoxMain').children();
+//        $('#lstBox2').append($(addSkillFromPop).clone());
     });
     $('#SaveSkills').click(function(e){
         var updatedkillSet=$('#lstBox2').children();;

@@ -54,6 +54,7 @@ public class StoryService implements StoryServiceIntereface{
 			return;
 		}
 		Story story=new Story();
+		List<StoryMedia> media=new ArrayList<StoryMedia>();
 		int storyId=storyDto.getStoryId();
 		if(storyId!=0) {
 			story=this.storyDaoInterface.fetchStoryObjectById(storyId);
@@ -69,46 +70,52 @@ public class StoryService implements StoryServiceIntereface{
 //			If story is Not Already Present in DB
 				String timeStamp=String.valueOf(System.currentTimeMillis());
 		        String path=session.getServletContext().getRealPath("/").concat("WEB-INF/").concat(savePath);
-		        List<StoryMedia> media=new ArrayList<StoryMedia>();
-		        for(CommonsMultipartFile file:storyDto.getImages())
-		        {        	
-		        	
-		            int leftLimit = 97; // letter 'a'
-		            int rightLimit = 122; // letter 'z'
-		            int targetStringLength = 10;
-		            Random random = new Random();
-		            StringBuilder buffer = new StringBuilder(targetStringLength);
-		            for (int i = 0; i < targetStringLength; i++) {
-		                int randomLimitedInt = leftLimit + (int) 
-		                  (random.nextFloat() * (rightLimit - leftLimit + 1));
-		                buffer.append((char) randomLimitedInt);
-		            }
-		            String generatedString = buffer.toString();
-		        	
-		        	String filename=timeStamp+generatedString;    
-		        	try{  
-		        		byte barr[]=file.getBytes();  
-		        		String fos=path+filename;
-		        		BufferedOutputStream bout=new BufferedOutputStream(  
-		        				new FileOutputStream(fos));  
-		        		bout.write(barr);
+				if (storyDto.getImages()!=null) {
+					for (CommonsMultipartFile file : storyDto.getImages()) {
+						int leftLimit = 97; // letter 'a'
+						int rightLimit = 122; // letter 'z'
+						int targetStringLength = 10;
+						Random random = new Random();
+						StringBuilder buffer = new StringBuilder(targetStringLength);
+						for (int i = 0; i < targetStringLength; i++) {
+							int randomLimitedInt = leftLimit
+									+ (int) (random.nextFloat() * (rightLimit - leftLimit + 1));
+							buffer.append((char) randomLimitedInt);
+						}
+						String generatedString = buffer.toString();
+
+						String filename = timeStamp + generatedString;
+						try {
+							byte barr[] = file.getBytes();
+							String fos = path + filename;
+							BufferedOutputStream bout = new BufferedOutputStream(new FileOutputStream(fos));
+							bout.write(barr);
 //		        		if successfully saved than Entry into Db 
-		        		StoryMedia storyMedia=new StoryMedia();
-		        		String dbPath=savePath+filename;
-		        		storyMedia.setPath(dbPath);
-		        		storyMedia.setStory(story);
-		        		storyMedia.setType("IMAGE");
-		        		System.out.println(storyMedia.getPath()+" saved...");
-		        		media.add(storyMedia);
-		        		bout.flush();  
-		        		bout.close();  
-		        	}catch(Exception e){e.printStackTrace();}
-		        }
+							StoryMedia storyMedia = new StoryMedia();
+							String dbPath = savePath + filename;
+							storyMedia.setPath(dbPath);
+							storyMedia.setStory(story);
+							storyMedia.setType("IMAGE");
+							media.add(storyMedia);
+							bout.flush();
+							bout.close();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				}
+		        String videoUrl=storyDto.getVideoUrl();
+				if(!videoUrl.equals("")) {
+					System.out.println(videoUrl);
+					StoryMedia storyMedia=new StoryMedia();
+					storyMedia.setPath(videoUrl);
+		    		storyMedia.setStory(story);
+		    		storyMedia.setType("VIDEO");
+		    		System.out.println(storyMedia.getPath()+" saved...");
+		    		media.add(storyMedia);
+				}
 		        story.setStoryMedia(media);
-		        System.out.println(story.getStoryMedia());
-		        System.out.println("Story Media set");
 		        this.storyDaoInterface.saveStory(story);
-		        System.out.println("story Added "+storyId);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -160,10 +167,14 @@ public class StoryService implements StoryServiceIntereface{
 		for(Story story:stories) {
 			StoryCardDto storyCardDto=new StoryCardDto();
 			StoryMediaTypeUrlDto mediaTypeUrlDto=new StoryMediaTypeUrlDto();
-			
 			if(story.getStoryMedia().size()>0) {				
-				mediaTypeUrlDto.setMediaType(story.getStoryMedia().get(0).getType());
-				mediaTypeUrlDto.setMediaUrl(story.getStoryMedia().get(0).getPath());
+				for(StoryMedia storyMedia:story.getStoryMedia()) {
+					if(storyMedia.getType().equals("IMAGE")) {
+						mediaTypeUrlDto.setMediaType(storyMedia.getType());
+						mediaTypeUrlDto.setMediaUrl(storyMedia.getPath());
+						break;
+					}
+				}
 			}
 			storyCardDto.setImage(mediaTypeUrlDto);
 			storyCardDto.setUserAvatar(story.getUser().getAvatar());

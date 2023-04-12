@@ -33,7 +33,6 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="" method="post">
                         <div class="form-group mb-3">
                             <label class="form-label">Enter old password</label>
                             <input type="password" class="form-control" name="oldPassWord"
@@ -50,10 +49,9 @@
                                 placeholder="Enter Your New Password">
                         </div>
                         <div class="d-flex mt-3 justify-content-end buttonsOfModal">
-                            <button class="btn AddSkillButton">Cancel</button>
-                            <button class="btn AddSkillButton orangeButton">Save</button>
+                            <button class="btn roundButton">Cancel</button>
+                            <button class="btn roundButton orangeButton">Save</button>
                         </div>
-                    </form>
                 </div>
             </div>
         </div>
@@ -70,7 +68,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="" method="post">
+                    <form action="" method="post" id="">
                         <div class="form-group mb-3">
                             <label class="form-label">Name</label>
                             <input type="text" class="form-control" name="oldPassWord"
@@ -114,13 +112,7 @@
                         <div class="row g-0 d-flex justify-content-center gap-1">
                             <div class="col-xs-11 col-sm-5">
                                 <select class="listboxes" multiple="multiple" id='lstBox1'>
-                                    <option value="ajax">Ajax</option>
-                                    <option value="jquery">jQuery</option>
-                                    <option value="javascript">JavaScript</option>
-                                    <option value="mootool">MooTools</option>
-                                    <option value="prototype">Prototype</option>
-                                    <option value="dojo">Dojo</option>
-                                    <option value="java">java</option>
+<!--                                   	Total Skills Load Here -->
                                 </select>
                             </div>
                             <div class="col-xs-11 col-sm-1 leftRightButton d-flex justify-content-center flex-column">
@@ -154,7 +146,15 @@
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-3">
                 <div class="profileEditTag mt-5">
+                <c:choose>                
+                <c:when test="${not empty user.avatar}">                	
                     <img src="image/${user.avatar }" class="profilePic" alt="Volunteer" srcset="">
+                </c:when>
+                <c:otherwise>
+                	<img src="image/user1.png" class="profilePic" alt="Volunteer" srcset="">
+                </c:otherwise>
+                </c:choose>
+                
                     <p class="nameOfuser">
                         ${user.first_name} ${user.last_name}
                     </p>
@@ -203,7 +203,7 @@
                         </div>
                         <div class="form-group col-12">
                             <label class="form-label">Why I Volunteer ?</label>
-                            <textarea class="form-control" placeholder="Enter Your comment ..." id="floatingTextarea2"
+                            <textarea class="form-control" placeholder="Enter Your comment ..." id="floatingTextarea3"
                                 style="height: 100px">${user.why_i_volunteer}</textarea>
                         </div>
 
@@ -224,7 +224,7 @@
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
                             <label class="form-label">City</label>
-                            <select class="form-select" id="userCity" aria-label="Select your City">
+                            <select class="form-select userCity" aria-label="Select your City">
                                 <option disabled selected hidden>Select your City</option>
                             </select>
                         </div>
@@ -237,7 +237,7 @@
                     <div class="InputFields row">
                         <div class="form-group col-sm-12 col-md-6">
                             <label class="form-label">Availability</label>
-                            <select class="form-select" id="userCountry" aria-label="Select your Country">
+                            <select class="form-select" id="userAvailability" aria-label="Select your Country">
                                 <option disabled selected hidden>Select your Availability</option>
                                 <option value="1">Weekly</option>
                                 <option value="2">Monthly</option>
@@ -257,21 +257,17 @@
                     <div class="form-group col-12">
                         <div class="textAreaofsKILLS mt-4">
                             <select class="mainSkillBox" multiple="multiple" id="lstBoxMain">
-                                <option value="Ruby On Rails">Ruby On Rails</option>
-                                <option value="Python">Python</option>
-                                <option value="JBPM">JBPM</option>
-                                <option value="java">java</option>
+<!--                                	Skill Add Here Which you want to Save -->
                             </select>
                         </div>
                         <div class="d-flex mt-3">
-                            <button class="btn AddSkillButton" data-bs-toggle="modal"
+                            <button class="btn roundButton" data-bs-toggle="modal"
                                 data-bs-target="#ModalForAddSkills" id="AddSkills">Add Skills</button>
                         </div>
                     </div>
                     <div class="d-flex mt-3 justify-content-end">
-                        <button class="btn AddSkillButton orangeButton">Save</button>
+                        <button type="submit" class="btn roundButton orangeButton">Save</button>
                     </div>
-
                 </div>
 
             </div>
@@ -304,8 +300,9 @@
     let country=[];
     let city=[];
     let skills=[];
-    let CountryOfUser=1;
-    let CityOfUser=1;
+    let countryOfUser="<c:out value='${user.country.country_id}' />";
+    let cityOfUser="<c:out value='${user.city.city_id}' />";
+    let userSkillsObject="";
     $(document).ready(function(){
     	$.ajax({
             url: "loadListOfCountry",
@@ -320,24 +317,33 @@
             url: "loadListOfSkill",
             dataType: 'json',
             success: function(response){
-           	 Skills=response;
-           	console.log(response);
-//            	 addSkillList(SkillList);
+           	 skills=response;
+           		addSkillList();
             }
         });
     	
     });
     $('#userCountry').on('change', function () {
-    	CountryOfUser = $(this).find("option:selected").val();
+    	countryOfUser = $(this).find("option:selected").val();
         getCityList();
    });
+//     function addUserSkills(){
+//     	$(".mainSkillBox").empty();
+//     	var data="";
+//     	for(var i in userSkills){				
+//  			data+='<option value="'+userSkills[i]+'" name="'+skills[userSkills[i]]+'"> '+skills[userSkills[i]]+'</option>';
+//  		}
+//     	$(".mainSkillBox").append(data);
+//     }
     function addCountryList(){
  		var data="";
  		for(var i in country){
- 			if(CountryOfUser==country[i].country_id){
+ 			if(countryOfUser==country[i].country_id){
  				data+='<option selected value="'+country[i].country_id+'" name="'+country[i].name+'">'+country[i].name+'</option>';
  			}
+ 			else{ 				
  			data+='<option value="'+country[i].country_id+'" name="'+country[i].name+'"> '+country[i].name+'</option>';
+ 			}
  		}
  		$("#userCountry").append(data);
  	}
@@ -346,28 +352,52 @@
  		$.ajax({
             url: "loadListOfCity",
             dataType: 'json',
-            data:{countryId: CountryOfUser},
+            data:{countryId: countryOfUser},
             type:"POST",
             success: function(response){
-           	 city=response;
-           	 console.log(response);
+           	 	city=response;      	 	
            		addCityList();
             }
         });
  	}
 	function addCityList(){
- 		$("#userCity").empty();
+ 		$(".userCity").empty();
  		var data="";
  		let status=0;
  		for(var i in city){
  			status=1;
- 			data+='<input type="checkbox" name="'+cityList[i].name+'" value="'+cityList[i].city_id+'"/> '+cityList[i].name+'<br>';
+ 			if(cityOfUser==city[i].city_id){			
+	 			data+='<option type="checkbox" selected name="'+city[i].name+'" value="'+city[i].city_id+'"/> '+city[i].name+'<br>';
+ 			}
+ 			else{
+ 				data+='<option type="checkbox" name="'+city[i].name+'" value="'+city[i].city_id+'"/> '+city[i].name+'<br>';
+ 			}
  		}
  		if(status==0){
  			data+="No City Found";
  		}
- 		$("#userCity").append(data);
+ 		$(".userCity").append(data);
  	}
+	function addSkillList(){
+ 		$("#lstBox1").empty();
+ 		var data="";
+ 		let status=0;
+ 		for(var i in skills){
+ 			status=1;
+ 			data+='<option name="'+skills[i].skill_name+'" value="'+skills[i].skill_id+'"/> '+skills[i].skill_name+'<br>';
+ 		}
+ 		if(status==0){
+ 			data+="No City Found";
+ 		}
+ 		$("#lstBox1").append(data);
+ 	}
+	$('#myForm').submit(function(e) {
+		e.preventDefault();
+	    // Get all the forms elements and their values in one step
+	    var values = $(this).serialize();
+	    console.log(values);
+
+	});
     </script>
 </body>
 
