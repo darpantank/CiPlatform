@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -44,7 +45,7 @@ public class Story {
 	private Date deleted_at;
 	@OneToMany(targetEntity = StoryMedia.class ,mappedBy = "story", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	private List<StoryMedia> storyMedia;
-	
+	@ColumnDefault("0")
 	private Long views;
 	public Story() {
 		super();

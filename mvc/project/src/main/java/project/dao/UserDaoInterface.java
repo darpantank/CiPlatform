@@ -2,7 +2,10 @@ package project.dao;
 
 import java.util.List;
 
+import project.model.City;
+import project.model.Country;
 import project.model.PasswordReset;
+import project.model.Skill;
 import project.model.User;
 
 public interface UserDaoInterface {
@@ -14,4 +17,10 @@ public interface UserDaoInterface {
 	public PasswordReset validateTokenForReset(String token);
 	public boolean deleteToken(PasswordReset prst);
 	public boolean saveUpdatedPassword(String email,String password);
+	public boolean updateUserDetails(User user);
+	public City getCity(int id);
+	public Skill getSkill(int id);
+	public User fetchUserById(int user_id);
+	public Country getCountryObject(int countryId);
+	
 }

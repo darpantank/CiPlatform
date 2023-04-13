@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import project.dto.UserProfileDto;
 import project.model.Mission;
 import project.model.PasswordReset;
 import project.model.User;
@@ -180,11 +182,16 @@ public class HomeController {
 		return mav;
 	}
 	@RequestMapping(value = "/profile")
-	public String editProfilePage(Model m,HttpServletRequest request) {
+	public String editProfilePageView(Model m,HttpServletRequest request) {
 		User user= (User)request.getSession().getAttribute("user");
 		m.addAttribute("user",user);
 		return "editprofile";
 	}
+	@RequestMapping(value = "/editprofile" ,method = RequestMethod.POST)
+	public @ResponseBody boolean updateProfile(UserProfileDto userProfileDto,HttpServletRequest request,HttpSession session) {
+		User user= (User)request.getSession().getAttribute("user");
+		return this.service.editUserProfile(userProfileDto,user,session);
+		}
 //	@ExceptionHandler(value = ConstraintViolationException.class)
 //    public String sqlExceptionHanler(Model m) {       
 //        m.addAttribute("message", "Some thing went wrong");

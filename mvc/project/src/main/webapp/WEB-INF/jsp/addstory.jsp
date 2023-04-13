@@ -118,6 +118,7 @@
     $(".missionSelect").change(function(){
 //     	generateFileObjectFromUrl();
 //     	Checked For Draft
+		$('.missionSelect').attr('disabled', 'disabled');
 		var missionId=$(".missionSelect").val();
         $.ajax({
             url: "getdraftstory",
@@ -157,7 +158,11 @@
     	var title= $(".titleOfTheStory").val();
     	var mission=$(".missionSelect").val();
     	var date=new Date($(".dateOfStory").val());
-    	let videoUrl='https://www.youtube.com/embed/'+getId($(".videoUrl").val());
+    	let originalUrl=$(".videoUrl").val();
+    	let videoUrl="";
+    	if(originalUrl!=''){    		
+    		videoUrl='https://www.youtube.com/embed/'+getId(originalUrl);
+    	}
     	var story=myEditor.getData();
     	var storyId=$(".AlereadyPresentStoryId").val();
     	if(title!=""&&mission!=null&&date!=null&&story!="")
@@ -247,6 +252,7 @@ setTimeout(function() {
     		resetFormData();
     		alert("Story Added Successfully...");
     		imgArray=[];
+    		$(".missionSelect").removeAttr("disabled");
     	}
 	});
     }

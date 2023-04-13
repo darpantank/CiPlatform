@@ -163,12 +163,12 @@
     				if(storyTitle==null){
     					storyTitle="";
     				}
-    				let userAvatar="image/";
-    				if(userAvatar==null){
+    				let userAvatar=story.userAvatar;
+    				if(userAvatar==null||userAvatar==""){
     					userAvatar="image/user1.png";
     				}
     				else{    					
-    				userAvatar+=story.userAvatar;
+    				userAvatar=story.userAvatar;
     				}
     				var userName=story.userName;
     				if(userName==null){

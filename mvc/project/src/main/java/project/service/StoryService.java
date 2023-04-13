@@ -83,8 +83,8 @@ public class StoryService implements StoryServiceIntereface{
 							buffer.append((char) randomLimitedInt);
 						}
 						String generatedString = buffer.toString();
-
-						String filename = timeStamp + generatedString;
+						String extension="."+file.getOriginalFilename().split("\\.")[1];
+						String filename = timeStamp + generatedString+extension;
 						try {
 							byte barr[] = file.getBytes();
 							String fos = path + filename;

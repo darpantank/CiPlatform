@@ -1,5 +1,8 @@
 package project.service;
 
+import javax.servlet.http.HttpSession;
+
+import project.dto.UserProfileDto;
 import project.model.PasswordReset;
 import project.model.User;
 
@@ -15,4 +18,5 @@ public interface UserServiceInterface {
 	public PasswordReset getEmailFromToken(String token);
 	public boolean isTokenExpire(PasswordReset prst);
 	public User getUserFromEmail(String email);
+	public boolean editUserProfile(UserProfileDto userProfileDto, User user,HttpSession session);
 }

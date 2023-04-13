@@ -68,7 +68,6 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="" method="post" id="">
                         <div class="form-group mb-3">
                             <label class="form-label">Name</label>
                             <input type="text" class="form-control" name="oldPassWord"
@@ -92,7 +91,7 @@
                             <button class="btn AddSkillButton">Cancel</button>
                             <button class="btn AddSkillButton orangeButton">Save</button>
                         </div>
-                    </form>
+                    
                 </div>
             </div>
         </div>
@@ -148,7 +147,7 @@
                 <div class="profileEditTag mt-5">
                 <c:choose>                
                 <c:when test="${not empty user.avatar}">                	
-                    <img src="image/${user.avatar }" class="profilePic" alt="Volunteer" srcset="">
+                    <img src="${user.avatar }" class="profilePic" alt="Volunteer" srcset="">
                 </c:when>
                 <c:otherwise>
                 	<img src="image/user1.png" class="profilePic" alt="Volunteer" srcset="">
@@ -169,41 +168,42 @@
                             Basic Information
                         </p>
                     </div>
+                    <form id="myForm" method="post">
                     <div class="InputFields row">
                         <div class="form-group col-sm-12 col-md-6">
                             <label class="form-label">Name</label>
-                            <input type="text" class="form-control" name="nameOfUser" value="${user.first_name }" placeholder="Enter Your Name">
+                            <input type="text" class="form-control" name="firstName" value="${user.first_name }" placeholder="Enter Your Name">
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
                             <label class="form-label">Surname</label>
-                            <input type="text" class="form-control" name="nameOfUser" value="${user.last_name }" placeholder="Enter Your Surname">
+                            <input type="text" class="form-control" name="lastName" value="${user.last_name }" placeholder="Enter Your Surname">
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
                             <label class="form-label">Employee Id</label>
-                            <input type="text" class="form-control" name="nameOfUser"
+                            <input type="text" class="form-control" name="employeeId"
                                 placeholder="Enter Your Employee Id" value="${user.employee_id }">
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
                             <label class="form-label">Manager</label>
-                            <input type="text" class="form-control" name="nameOfUser" placeholder="Enter Your Manager">
+                            <input type="text" class="form-control" name="manager" placeholder="Enter Your Manager">
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
                             <label class="form-label">Title</label>
-                            <input type="text" class="form-control" name="nameOfUser" value="${user.title }" placeholder="Enter Your Title">
+                            <input type="text" class="form-control" name="title" value="${user.title }" placeholder="Enter Your Title">
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
                             <label class="form-label">Department</label>
-                            <input type="text" class="form-control" name="nameOfUser"
+                            <input type="text" class="form-control" name="department"
                                 placeholder="Enter Your Department" value="${user.department}">
                         </div>
                         <div class="form-group col-12">
                             <label class="form-label">My Profile</label>
-                            <textarea class="form-control" placeholder="Enter Your comment ..." id="floatingTextarea2"
+                            <textarea class="form-control" name="myProfile" placeholder="Enter Your comment ..." id="floatingTextarea2"
                                 style="height: 100px">${user.profile_text}</textarea>
                         </div>
                         <div class="form-group col-12">
                             <label class="form-label">Why I Volunteer ?</label>
-                            <textarea class="form-control" placeholder="Enter Your comment ..." id="floatingTextarea3"
+                            <textarea class="form-control" name="whyIVolunteer" placeholder="Enter Your comment ..." id="floatingTextarea3"
                                 style="height: 100px">${user.why_i_volunteer}</textarea>
                         </div>
 
@@ -218,13 +218,13 @@
                        
                         <div class="form-group col-sm-12 col-md-6">
                             <label class="form-label">Country</label>
-                            <select class="form-select" id="userCountry" aria-label="Select your Country">
+                            <select class="form-select" name="countryId" id="userCountry" aria-label="Select your Country">
                                 <option disabled selected hidden>Select your Country</option>
                             </select>
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
                             <label class="form-label">City</label>
-                            <select class="form-select userCity" aria-label="Select your City">
+                            <select class="form-select userCity" name="cityId" aria-label="Select your City">
                                 <option disabled selected hidden>Select your City</option>
                             </select>
                         </div>
@@ -237,7 +237,7 @@
                     <div class="InputFields row">
                         <div class="form-group col-sm-12 col-md-6">
                             <label class="form-label">Availability</label>
-                            <select class="form-select" id="userAvailability" aria-label="Select your Country">
+                            <select class="form-select" name="availability" id="userAvailability" aria-label="Select your Country">
                                 <option disabled selected hidden>Select your Availability</option>
                                 <option value="1">Weekly</option>
                                 <option value="2">Monthly</option>
@@ -246,7 +246,7 @@
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
                             <label class="form-label">LinkedIn</label>
-                            <input type="text" class="form-control" name="country" placeholder="Enter Your LinkedIn">
+                            <input type="text" class="form-control" name="linkedIn" placeholder="Enter Your LinkedIn">
                         </div>
                     </div>
                     <div class="d-flex basicInfoTag mt-4">
@@ -256,17 +256,20 @@
                     </div>
                     <div class="form-group col-12">
                         <div class="textAreaofsKILLS mt-4">
-                            <select class="mainSkillBox" multiple="multiple" id="lstBoxMain">
+                            <select class="mainSkillBox" name="skills" multiple="multiple" id="lstBoxMain">
 <!--                                	Skill Add Here Which you want to Save -->
                             </select>
                         </div>
+                        
                         <div class="d-flex mt-3">
                             <button class="btn roundButton" data-bs-toggle="modal"
                                 data-bs-target="#ModalForAddSkills" id="AddSkills">Add Skills</button>
                         </div>
                     </div>
+                    <input type="file" accept="image/*" name="avatar"  class="profilePictureInput" hidden>
+                    </form>
                     <div class="d-flex mt-3 justify-content-end">
-                        <button type="submit" class="btn roundButton orangeButton">Save</button>
+                        <button class="btn roundButton orangeButton submitButton">Save</button>
                     </div>
                 </div>
 
@@ -303,13 +306,13 @@
     let countryOfUser="<c:out value='${user.country.country_id}' />";
     let cityOfUser="<c:out value='${user.city.city_id}' />";
     let userSkillsObject="";
+    let userSkills=[];
     $(document).ready(function(){
     	$.ajax({
             url: "loadListOfCountry",
             dataType: 'json',
             success: function(response){
             	country=response;
-            	console.log(response);
            	 	addCountryList();
             }
         });
@@ -327,6 +330,9 @@
     	countryOfUser = $(this).find("option:selected").val();
         getCityList();
    });
+    $("#myForm").submit(function(e){
+    	  e.preventDefault();
+    });
 //     function addUserSkills(){
 //     	$(".mainSkillBox").empty();
 //     	var data="";
@@ -391,13 +397,52 @@
  		}
  		$("#lstBox1").append(data);
  	}
-	$('#myForm').submit(function(e) {
-		e.preventDefault();
-	    // Get all the forms elements and their values in one step
-	    var values = $(this).serialize();
-	    console.log(values);
-
+	$(".profilePic").click(function(){		
+		$(".profilePictureInput").click();
+		
 	});
+	$(".profilePictureInput").change(function() {
+        alert('Save Form to Change Profile Picture');
+        profileImage=$('.profilePictureInput').prop('files')[0];
+        
+        var reader  = new FileReader();
+        // it's onload event and you forgot (parameters)
+        reader.onload = function(e)  {
+            var image = document.createElement("img");
+            // the result image data
+            $(".profilePic").remove();
+            image.className = 'profilePic';
+            image.src = e.target.result;
+            document.body.appendChild(image);
+            $(".profileEditTag").prepend(image);
+         }
+         // you have to declare the file loading
+         reader.readAsDataURL(profileImage);
+    });
+	$(".submitButton").click(function(){
+		var formData = new FormData(document.querySelector('form'));
+		userSkills=[];
+		$.each($(".mainSkillBox option"), function(){
+			userSkills.push($(this).val());            
+        });
+		formData.append("skills", userSkills);
+		
+// 		Ajax call to Save Data
+		updateUserProfile(formData);
+		alert("Data Updated Successfully...");
+	});
+	function updateUserProfile(formData){
+		$.ajax({
+            url: "editprofile",
+            data:formData,
+            type:"POST",
+            contentType: false,
+            processData: false,
+            success: function(response){
+           	 	console.log(response);
+            }
+        });
+	}
     </script>
 </body>
 

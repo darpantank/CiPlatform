@@ -570,10 +570,10 @@
 				var name=volunteers[i].name;
 				var avatar=volunteers[i].avatar;
 				if(name==null)name="";
-				if(avatar==null||avatar=="")avatar="user1.png";
+				if(avatar==null||avatar=="")avatar="image/user1.png";
 				
 				let card=`<div class="d-flex flex-column align-items-center">
-                    <img src="image/`+avatar+`" class="rounded-circle recentVolunteerImg" alt=""
+                    <img src="`+avatar+`" class="rounded-circle recentVolunteerImg" alt=""
                     srcset="">
                 <p>`+name+`</p>
             </div>`;
@@ -610,14 +610,14 @@
 				var name=response[a].name;
 				var avatar=response[a].avatar;
 				if(avatar==null||avatar==""){
-					avatar="user1.png";
+					avatar="image/user1.png";
 				}
 				if(createdat==null)createdat='';
 				if(name==null)name='';
 				if(comment==null)comment='';
 			let Comments=`<div class="row border mt-1">
                 <div class="col-auto d-flex align-items-center">
-                <img src="image/`+avatar+`" class="userCommentsImg" alt="" srcset="">
+                <img src="`+avatar+`" class="userCommentsImg" alt="" srcset="">
             </div>
             <div class="col d-flex flex-column">
                 <div class="col">`+name+`</div>

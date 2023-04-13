@@ -119,7 +119,11 @@
                 <div class="col-md-12 col-lg-6">
                     <div class="d-flex justify-content-between align-items-end mt-3">
                         <div class="nameAndPhoto">
-                            <img src="image/${story.user.avatar }" alt="" srcset="" class="StoryOwnerPic">
+                        <c:choose>                        
+                        	<c:when test="${empty story.user.avatar }"><img src="image/user1.png" alt="" srcset="" class="StoryOwnerPic"></c:when>
+                        	<c:otherwise><img src="${story.user.avatar }" alt="" srcset="" class="StoryOwnerPic"></c:otherwise>
+                        </c:choose>
+                            
                             <p class="text-center">${story.user.first_name} ${story.user.last_name	}</p>
                         </div>
                         <div class="ViewsOfStory">

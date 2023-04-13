@@ -1,6 +1,9 @@
 package project.dto;
 
+import java.util.Arrays;
 import java.util.List;
+
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import project.model.Mission.Availability;
 
@@ -17,8 +20,8 @@ public class UserProfileDto {
 	private int countryId;
 	private Availability availability;
 	private String linkedIn;
-	private List<Integer> skills;
-	private String avatar;
+	private int[] skills;
+	private CommonsMultipartFile avatar;
 	public String getFirstName() {
 		return firstName;
 	}
@@ -91,19 +94,26 @@ public class UserProfileDto {
 	public void setLinkedIn(String linkedIn) {
 		this.linkedIn = linkedIn;
 	}
-	public List<Integer> getSkills() {
+	
+	public int[] getSkills() {
 		return skills;
 	}
-	public void setSkills(List<Integer> skills) {
+	public void setSkills(int[] skills) {
 		this.skills = skills;
 	}
-	public String getAvatar() {
+	public CommonsMultipartFile getAvatar() {
 		return avatar;
 	}
-	public void setAvatar(String avatar) {
+	public void setAvatar(CommonsMultipartFile avatar) {
 		this.avatar = avatar;
 	}
-	
-	
+	@Override
+	public String toString() {
+		return "UserProfileDto [firstName=" + firstName + ", lastName=" + lastName + ", employeeId=" + employeeId
+				+ ", manager=" + manager + ", title=" + title + ", department=" + department + ", myProfile="
+				+ myProfile + ", whyIVolunteer=" + whyIVolunteer + ", cityId=" + cityId + ", countryId=" + countryId
+				+ ", availability=" + availability + ", linkedIn=" + linkedIn + ", skills=" + Arrays.toString(skills)
+				+ ", avatar=" + avatar + "]";
+	}
 	
 }

@@ -47,7 +47,7 @@
                 <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 	<c:choose>
                 		<c:when test="${not empty user.avatar}">
-                			<img src="image/${user.avatar}" class="profileLogo">
+                			<img src="${user.avatar}" class="profileLogo">
                 		</c:when>
                 		<c:otherwise>
                 			<img src="image/user1.png" class="profileLogo">

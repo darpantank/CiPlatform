@@ -2,19 +2,24 @@ package project.dao;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Component;
 
+import project.model.City;
+import project.model.Country;
 import project.model.Mission;
 import project.model.PasswordReset;
+import project.model.Skill;
 import project.model.User;
 
 @Component
@@ -83,6 +88,15 @@ public class UserDaoOperation implements UserDaoInterface{
 		}
 			return false;
 	}
+	public City getCity(int id) {
+		return this.hibernateTemplate.get(City.class,id);
+	}
+	public Country getCountryObject(int id) {
+		return this.hibernateTemplate.get(Country.class,id);
+	}
+	public Skill getSkill(int id) {
+		return this.hibernateTemplate.get(Skill.class,id);
+	}
 	@Transactional
 	public boolean saveUpdatedPassword(String email,String password) {
 		User user1=this.validateEmail(email);
@@ -90,4 +104,21 @@ public class UserDaoOperation implements UserDaoInterface{
 		this.hibernateTemplate.update(user1);
 		return true;
 	}
+	@Transactional
+	public boolean updateUserDetails(User user) {
+		System.out.println("Dao Called...");
+		this.hibernateTemplate.getSessionFactory().getCurrentSession().flush();
+		this.hibernateTemplate.clear();
+		Session s = this.hibernateTemplate.getSessionFactory().openSession();
+		Transaction tx= s.beginTransaction();
+		this.hibernateTemplate.update(user);
+		System.out.println("Updated....");
+		tx.commit();
+		s.close();
+		return true;
+	}
+	public User fetchUserById(int user_id) {
+		return this.hibernateTemplate.get(User.class,user_id);
+	}
+
 }

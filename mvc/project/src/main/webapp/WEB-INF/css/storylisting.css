@@ -81,7 +81,8 @@
     padding:3px 7px;
 }
 .profileImage{
-    height: 45px;
+    height: 50px;
+    width: 50px;
     border-radius: 50%;
 }
 .myPaginationTab a{
