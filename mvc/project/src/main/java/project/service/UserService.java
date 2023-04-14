@@ -2,6 +2,7 @@ package project.service;
 
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -16,12 +17,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import project.dao.UserDaoInterface;
+import project.dto.ChangePasswordDto;
 import project.dto.UserProfileDto;
 import project.model.City;
 import project.model.Country;
 import project.model.PasswordReset;
+import project.model.Skill;
 import project.model.StoryMedia;
 import project.model.User;
+import project.model.UserSkill;
 
 @Service
 public class UserService implements UserServiceInterface {
@@ -151,22 +155,45 @@ public class UserService implements UserServiceInterface {
 //		check whyivolunteer Updated Or not
 			user.setWhy_i_volunteer(userProfileDto.getWhyIVolunteer());
 //		Check For Country
-//			if(userProfileDto.getCountryId()!=0&&userProfileDto.getCountryId()!=user.getCountry().getCountry_id()) {
-//				Country country=new Country();
-//				country=this.daoOperation.getCountryObject(userProfileDto.getCountryId());
-//				if(country!=null) {
-//					user.setCountry(country);
-//				}
-//			}
-//			if(userProfileDto.getCityId()!=0&&userProfileDto.getCityId()!=user.getCity().getCity_id()) {
-//				City city=this.daoOperation.getCity(userProfileDto.getCityId());
-//				if(city!=null) {					
-//					user.setCity(city);
-//				}
-//			}
-//			if(userProfileDto.getSkills().length>0) {
-//				System.out.println("skills Found");
-//			}
+			if(userProfileDto.getCountryId()!=0) {
+				Country country=new Country();
+				country=this.daoOperation.getCountryObject(userProfileDto.getCountryId());
+				if(country!=null&&country!=user.getCountry()) {
+					user.setCountry(country);
+				}
+			}
+			
+//			check for city
+			
+			if(userProfileDto.getCityId()!=0) {
+				City city=new City();
+				city=this.daoOperation.getCityObject(userProfileDto.getCityId());
+				if(city!=null&&city!=user.getCity()) {
+					user.setCity(city);
+				}
+			}
+			List<UserSkill> userSkills=new ArrayList<UserSkill>();
+			if(userProfileDto.getSkills().length>0) {
+				for(int skill_id:userProfileDto.getSkills()) {
+					Skill skill=this.daoOperation.getSkillObject(skill_id);
+					if(skill!=null) {
+						UserSkill userSkill=new UserSkill();
+						userSkill.setSkill(skill);
+						userSkill.setUsers(user);
+						userSkills.add(userSkill);
+					}
+				}
+			}
+			if(userSkills.size()>0) {
+//				delete Previously added Skill
+				if(user.getUserSkills().size()>0) {
+					this.daoOperation.deleteAlereadyPresentSkills(user.getUser_id());					
+				}
+				user.setUserSkills(userSkills);
+			}
+			if(userProfileDto.getLinkedIn()!=user.getLinked_in_url()) {
+				user.setLinked_in_url(userProfileDto.getLinkedIn());
+			}
 //		check profile picture updated or not
 		if(userProfileDto.getAvatar()!=null&&userProfileDto.getAvatar().getSize()>0) {
 			CommonsMultipartFile file=userProfileDto.getAvatar();
@@ -189,6 +216,14 @@ public class UserService implements UserServiceInterface {
 				e.printStackTrace();
 			}
 		}
+		
 		return this.daoOperation.updateUserDetails(user);
 	}
+
+	public boolean changeMyPassword(ChangePasswordDto changePasswordDto, User user) {
+		user.setPassword(changePasswordDto.getNewPassWord());
+		return this.daoOperation.updateUserDetails(user);
+	}
+
+	
 }

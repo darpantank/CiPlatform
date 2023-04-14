@@ -18,9 +18,10 @@ public interface UserDaoInterface {
 	public boolean deleteToken(PasswordReset prst);
 	public boolean saveUpdatedPassword(String email,String password);
 	public boolean updateUserDetails(User user);
-	public City getCity(int id);
-	public Skill getSkill(int id);
+	public City getCityObject(int id);
+	public Skill getSkillObject(int id);
 	public User fetchUserById(int user_id);
 	public Country getCountryObject(int countryId);
+	public void deleteAlereadyPresentSkills(int user_id);
 	
 }

@@ -108,6 +108,9 @@
 				<value>
 					project.model.MissionMedia
 				</value>
+				<value>
+					project.model.UserSkill
+				</value>
 			</list>
 		</property>
 	</bean>

@@ -2,22 +2,16 @@ package project.dao;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
-
-import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Restrictions;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Component;
 
 import project.model.City;
 import project.model.Country;
-import project.model.Mission;
 import project.model.PasswordReset;
 import project.model.Skill;
 import project.model.User;
@@ -45,14 +39,14 @@ public class UserDaoOperation implements UserDaoInterface{
 		String que="from PasswordReset where token=:Token";
 		Query q=hibernateTemplate.getSessionFactory().openSession().createQuery(que);
 		q.setParameter("Token", Token);
-		return q.list();
+		return q.getResultList();
 	}
 	public User validateUserDetails(String email,String pass) {
 		String que="from User where email=:email and password=:password";
 		Query q=hibernateTemplate.getSessionFactory().openSession().createQuery(que);
 		q.setParameter("email", email);
 		q.setParameter("password",pass);
-		List<User> mylist=q.list();
+		List<User> mylist=q.getResultList();
 		User myuser=new User();
 		for(User temp:mylist) {
 			myuser=temp;
@@ -65,7 +59,7 @@ public class UserDaoOperation implements UserDaoInterface{
 		Query q=hibernateTemplate.getSessionFactory().openSession().createQuery(que);
 		q.setParameter("email", email);
 		User myuser=new User();
-		List<User> users=q.list();
+		List<User> users=q.getResultList();
 		for(User temp:users) {
 			myuser=temp;
 		}
@@ -78,6 +72,7 @@ public class UserDaoOperation implements UserDaoInterface{
 		q.setParameter("token", token);
 		PasswordReset prst=(PasswordReset)q.getSingleResult();
 		return prst;
+		
 	}
 	
 	@Transactional
@@ -88,13 +83,13 @@ public class UserDaoOperation implements UserDaoInterface{
 		}
 			return false;
 	}
-	public City getCity(int id) {
+	public City getCityObject(int id) {
 		return this.hibernateTemplate.get(City.class,id);
 	}
 	public Country getCountryObject(int id) {
 		return this.hibernateTemplate.get(Country.class,id);
 	}
-	public Skill getSkill(int id) {
+	public Skill getSkillObject(int id) {
 		return this.hibernateTemplate.get(Skill.class,id);
 	}
 	@Transactional
@@ -106,19 +101,21 @@ public class UserDaoOperation implements UserDaoInterface{
 	}
 	@Transactional
 	public boolean updateUserDetails(User user) {
-		System.out.println("Dao Called...");
-		this.hibernateTemplate.getSessionFactory().getCurrentSession().flush();
-		this.hibernateTemplate.clear();
-		Session s = this.hibernateTemplate.getSessionFactory().openSession();
-		Transaction tx= s.beginTransaction();
-		this.hibernateTemplate.update(user);
-		System.out.println("Updated....");
-		tx.commit();
-		s.close();
+		this.hibernateTemplate.merge(user);
 		return true;
 	}
 	public User fetchUserById(int user_id) {
 		return this.hibernateTemplate.get(User.class,user_id);
+	}
+	@Transactional
+	public void deleteAlereadyPresentSkills(int userId) {
+		Session s = this.hibernateTemplate.getSessionFactory().openSession();
+		s.beginTransaction();
+		String hql="delete from UserSkill where users.user_id=:userId";
+		Query q=s.createQuery(hql);
+		q.setParameter("userId",userId);
+		q.executeUpdate();
+		s.getTransaction().commit();
 	}
 
 }

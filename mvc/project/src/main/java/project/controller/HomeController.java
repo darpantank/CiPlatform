@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import project.dto.ChangePasswordDto;
 import project.dto.UserProfileDto;
 import project.model.Mission;
 import project.model.PasswordReset;
@@ -124,7 +125,8 @@ public class HomeController {
 	public ModelAndView validateUser(@RequestParam("email") String email,@RequestParam("password") String password,HttpServletRequest request) {
 		ModelAndView mav=new ModelAndView();
 		User myuser=this.service.validateUserDetail(email, password);
-		if(myuser.getEmail()!=null||myuser.getEmail()!="") {
+
+		if(myuser.getEmail()!=null) {
 			mav.setViewName("home");
 			mav.addObject("message","Successfully login");
 			HttpSession session=request.getSession(true);
@@ -134,8 +136,7 @@ public class HomeController {
 		else {
 			mav.setViewName("login");
 			mav.addObject("message","wrongpassword");
-		}
-		
+		}		
 		return mav;
 	}
 	@RequestMapping(value="/forgotPasswordTokenGenerate" , method = RequestMethod.POST)
@@ -192,6 +193,23 @@ public class HomeController {
 		User user= (User)request.getSession().getAttribute("user");
 		return this.service.editUserProfile(userProfileDto,user,session);
 		}
+	@RequestMapping(value = "/changeMyPassword", method = RequestMethod.POST)
+	public @ResponseBody String changeMyPassword(ChangePasswordDto changePasswordDto,HttpServletRequest request) {
+		User user= (User)request.getSession().getAttribute("user");
+		if(!user.getPassword().equals(changePasswordDto.getOldPassWord())) {
+			return "oldpassnotmatched";
+		}
+		if(changePasswordDto.getConfirmNewPassWord().length()>7&&changePasswordDto.getConfirmNewPassWord().equals(changePasswordDto.getNewPassWord())) {
+			if(this.service.changeMyPassword(changePasswordDto,user)) {
+				return "success";
+			}else {
+				return "servererror";
+			}
+		}
+		else {
+			return "passwordcriterianotmatched";
+		}
+	}
 //	@ExceptionHandler(value = ConstraintViolationException.class)
 //    public String sqlExceptionHanler(Model m) {       
 //        m.addAttribute("message", "Some thing went wrong");

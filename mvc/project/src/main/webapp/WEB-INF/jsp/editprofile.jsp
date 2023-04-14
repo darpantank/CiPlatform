@@ -35,22 +35,23 @@
                 <div class="modal-body">
                         <div class="form-group mb-3">
                             <label class="form-label">Enter old password</label>
-                            <input type="password" class="form-control" name="oldPassWord"
+                            <input type="password" class="form-control oldPassWord" name="oldPassWord"
                                 placeholder="Enter Your Old PassWord">
                         </div>
                         <div class="form-group mb-3">
                             <label class="form-label">Enter New Password</label>
-                            <input type="password" class="form-control" name="newPassWord"
+                            <input type="password" class="form-control newPassWord" name="newPassWord"
                                 placeholder="Enter Your New Password">
                         </div>
                         <div class="form-group mb-3">
                             <label class="form-label">Enter Confirm Password</label>
-                            <input type="password" class="form-control" name="newPassWord1"
+                            <input type="password" class="form-control confirmNewPassWord" name="confirmNewPassWord"
                                 placeholder="Enter Your New Password">
                         </div>
+                        <div class="resetPasswordMessage"></div>
                         <div class="d-flex mt-3 justify-content-end buttonsOfModal">
-                            <button class="btn roundButton">Cancel</button>
-                            <button class="btn roundButton orangeButton">Save</button>
+                            <button class="btn roundButton" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                            <button class="btn roundButton orangeButton resetMyPassword">Save</button>
                         </div>
                 </div>
             </div>
@@ -239,14 +240,15 @@
                             <label class="form-label">Availability</label>
                             <select class="form-select" name="availability" id="userAvailability" aria-label="Select your Country">
                                 <option disabled selected hidden>Select your Availability</option>
-                                <option value="1">Weekly</option>
-                                <option value="2">Monthly</option>
-                                <option value="3">Yearly</option>
+                                <option value="DAILY">DAILY</option>
+                                <option value="WEEKLY">WEEKLY</option>
+                                <option value="WEEKEND">WEEKEND</option>
+                                <option value="MONTHLY">MONTHLY</option>
                             </select>
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
                             <label class="form-label">LinkedIn</label>
-                            <input type="text" class="form-control" name="linkedIn" placeholder="Enter Your LinkedIn">
+                            <input type="text" class="form-control" value="${user.linked_in_url }" name="linkedIn" placeholder="Enter Your LinkedIn">
                         </div>
                     </div>
                     <div class="d-flex basicInfoTag mt-4">
@@ -258,6 +260,9 @@
                         <div class="textAreaofsKILLS mt-4">
                             <select class="mainSkillBox" name="skills" multiple="multiple" id="lstBoxMain">
 <!--                                	Skill Add Here Which you want to Save -->
+							<c:forEach var="a" items="${user.userSkills}">
+								<option name="${a.skill.skill_name}" value="${a.skill.skill_id}"> ${a.skill.skill_name}<br></option>
+							</c:forEach>
                             </select>
                         </div>
                         
@@ -429,8 +434,65 @@
 		
 // 		Ajax call to Save Data
 		updateUserProfile(formData);
-		alert("Data Updated Successfully...");
 	});
+	$(".resetMyPassword").click(function(){
+		$(".resetPasswordMessage").empty();
+		oldPassWord=$(".oldPassWord").val();
+		newPassWord=$(".newPassWord").val();
+		confirmNewPassWord=$(".confirmNewPassWord").val();
+		if(confirmNewPassWord==''||newPassWord==''||oldPassWord==''){
+			$(".resetPasswordMessage").append("<p class='text-danger'>Some Field is Empty</p>");
+		}
+		else if(confirmNewPassWord!=newPassWord){
+			$(".resetPasswordMessage").append("<p class='text-danger'>Confirm Password and password not Matched!</p>");
+		}
+		else if(confirmNewPassWord==oldPassWord){
+			$(".resetPasswordMessage").append("<p class='text-primary'>New Password and Old password Matched!</p>");
+		}
+		else if(confirmNewPassWord.length<8){
+			$(".resetPasswordMessage").append("<p class='text-info'>New Password Must be 8 digit</p>");
+		}
+		else{
+			data={
+					oldPassWord:oldPassWord,
+					newPassWord:newPassWord,
+					confirmNewPassWord:confirmNewPassWord
+			}
+			ChangePassWord(data);
+		}
+	}); 
+	function ChangePassWord(data){
+		$(".resetPasswordMessage").empty();
+		$.ajax({
+            url: "changeMyPassword",
+            data:data,
+            type:"POST",
+            success: function(response){
+            	if(response=="success"){
+            		$(".resetPasswordMessage").append("<p class='text-success'>Password Updated Successfully</p>");
+            		
+            	}
+            	else if(response=="servererror"){
+            		$(".resetPasswordMessage").append("<p class='text-danger'>Something Went Wrong!</p>");
+            	}
+            	else if(response=="passwordcriterianotmatched"){
+            		$(".resetPasswordMessage").append("<p class='text-danger'>Password Criteria Not Matched (New Password Not should 8digit or Not same with confirm password)!</p>");
+            	}
+            	else if(response=="oldpassnotmatched"){
+            		$(".resetPasswordMessage").append("<p class='text-warning'>Old Password Not Matched With our Record</p>");
+            	}
+            	else{
+            		$(".resetPasswordMessage").append("<p class='text-danger'>Something Went Wrong!</p>");
+            	}
+            	resetPasswordForm();
+            }
+        });
+	}
+	function resetPasswordForm(){
+		$(".oldPassWord").val('');
+		$(".newPassWord").val('');
+		$(".confirmNewPassWord").val('');
+	}
 	function updateUserProfile(formData){
 		$.ajax({
             url: "editprofile",
@@ -439,7 +501,13 @@
             contentType: false,
             processData: false,
             success: function(response){
-           	 	console.log(response);
+           	 	if(response){
+           	 		alert("Profile Updated Successfully");
+           	 		location.reload();
+           	 	}
+           	 	else{
+           	 		alert("Profile Not Updated");
+           	 	}
             }
         });
 	}

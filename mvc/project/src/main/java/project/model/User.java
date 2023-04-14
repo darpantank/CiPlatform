@@ -13,9 +13,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 @Entity
 @Table(name = "user")
 public class User {
@@ -33,10 +36,10 @@ public class User {
 	private String why_i_volunteer;
 	private String employee_id;
 	private String department;
-	@OneToOne(cascade = CascadeType.ALL)
+	@ManyToOne(targetEntity = City.class)
 	@JoinColumn(name = "city_id")
 	private City city;
-	@OneToOne(cascade = CascadeType.ALL)
+	@ManyToOne(targetEntity = Country.class)
 	@JoinColumn(name ="country_id" )
 	private Country country;
 	private String profile_text;
@@ -47,19 +50,25 @@ public class User {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
+	@CreationTimestamp
 	private Date created_at;
+	@UpdateTimestamp
 	private Date updated_at;
 	private Date deleted_at;
+	@OneToMany(mappedBy ="users",cascade = CascadeType.ALL)
+	private List<UserSkill> userSkills;
+	
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
 
+	
 	public User(int user_id, String first_name, String last_name, String email, String password, String phone_number,
-			String avatar, String why_i_volunteer, String employee_id, String department, project.model.City city,
-			project.model.Country country, String profile_text, String linked_in_url, String title, Status status,
-			Date created_at, Date updated_at, Date deleted_at, List<Mission> favorite_mission) {
+			String avatar, String why_i_volunteer, String employee_id, String department, City city, Country country,
+			String profile_text, String linked_in_url, String title, Status status, Date created_at, Date updated_at,
+			Date deleted_at, List<UserSkill> userSkills) {
 		super();
 		this.user_id = user_id;
 		this.first_name = first_name;
@@ -80,7 +89,9 @@ public class User {
 		this.created_at = created_at;
 		this.updated_at = updated_at;
 		this.deleted_at = deleted_at;
+		this.userSkills = userSkills;
 	}
+
 
 
 	public int getUser_id() {
@@ -198,9 +209,21 @@ public class User {
 	}
 	
 	
-
+	
 
 	
+	public List<UserSkill> getUserSkills() {
+		return userSkills;
+	}
+
+
+
+	public void setUserSkills(List<UserSkill> userSkills) {
+		this.userSkills = userSkills;
+	}
+
+
+
 	@Override
 	public String toString() {
 		return "user [user_id=" + user_id + ", first_name=" + first_name + ", last_name=" + last_name + ", email="
