@@ -11,6 +11,7 @@ import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Component;
 
 import project.model.City;
+import project.model.ContactUs;
 import project.model.Country;
 import project.model.PasswordReset;
 import project.model.Skill;
@@ -95,8 +96,18 @@ public class UserDaoOperation implements UserDaoInterface{
 	@Transactional
 	public boolean saveUpdatedPassword(String email,String password) {
 		User user1=this.validateEmail(email);
-		user1.setPassword(password);
-		this.hibernateTemplate.update(user1);
+//		user1.setPassword(password);
+//		this.hibernateTemplate.update(user1);
+//		return true;
+		
+		Session s = this.hibernateTemplate.getSessionFactory().openSession();
+		s.beginTransaction();
+		String hql="update User as u set u.password=:password where u.user_id=:userId";
+		Query q=s.createQuery(hql);
+		q.setParameter("password", password);
+		q.setParameter("userId",user1.getUser_id());
+		q.executeUpdate();
+		s.getTransaction().commit();
 		return true;
 	}
 	@Transactional
@@ -111,11 +122,16 @@ public class UserDaoOperation implements UserDaoInterface{
 	public void deleteAlereadyPresentSkills(int userId) {
 		Session s = this.hibernateTemplate.getSessionFactory().openSession();
 		s.beginTransaction();
-		String hql="delete from UserSkill where users.user_id=:userId";
+		String hql="delete from UserSkill where User.user_id=:userId";
 		Query q=s.createQuery(hql);
 		q.setParameter("userId",userId);
 		q.executeUpdate();
 		s.getTransaction().commit();
+	}
+	@Transactional
+	public boolean saveContsctUsDetail(ContactUs contactUs) {
+		this.hibernateTemplate.save(contactUs);
+		return true;
 	}
 
 }

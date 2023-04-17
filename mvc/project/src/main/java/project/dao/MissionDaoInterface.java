@@ -40,4 +40,7 @@ public interface MissionDaoInterface {
 	public List<MissionApplication> getVolunteersOfMission(Mission mission, int pageNumber);
 	public List<MissionMedia> getMediaOfMission(Mission mission);
 	public String findDefaultMediaOfMission(Mission m);
+	public boolean isAppliedForMission(Mission m, User userId);
+	public Long countApplicationForMission(Mission m);
+	public boolean applyForMission(MissionApplication application);
 }

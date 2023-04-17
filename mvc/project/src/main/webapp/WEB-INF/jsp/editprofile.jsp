@@ -23,6 +23,7 @@
 </head>
 
 <body>
+<jsp:include page="spinner.jsp" />
     <!-- Modal For Change PassWord  -->
     <div class="modal fade" id="ModalForPassWordChange" tabindex="-1" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -58,45 +59,7 @@
         </div>
     </div>
 
-    <!-- Modal For Contact Us Page  -->
 
-    <div class="modal fade" id="ModalForContactUs" tabindex="-1" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Contact Us</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                        <div class="form-group mb-3">
-                            <label class="form-label">Name</label>
-                            <input type="text" class="form-control" name="oldPassWord"
-                                placeholder="Enter Your Old PassWord">
-                        </div>
-                        <div class="form-group mb-3">
-                            <label class="form-label">Email Address</label>
-                            <input type="email" class="form-control" name="newPassWord"
-                                placeholder="Enter Your New Password">
-                        </div>
-                        <div class="form-group mb-3">
-                            <label class="form-label">Subject</label>
-                            <input type="password" class="form-control" name="newPassWord1"
-                                placeholder="Enter Your Subject">
-                        </div>
-                        <div class="form-group mb-3">
-                            <label class="form-label">Message</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Enter Your Message" rows="3"></textarea>
-                        </div>
-                        <div class="d-flex mt-3 justify-content-end buttonsOfModal">
-                            <button class="btn AddSkillButton">Cancel</button>
-                            <button class="btn AddSkillButton orangeButton">Save</button>
-                        </div>
-                    
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Add Skill Modal  -->
 
@@ -173,11 +136,11 @@
                     <div class="InputFields row">
                         <div class="form-group col-sm-12 col-md-6">
                             <label class="form-label">Name</label>
-                            <input type="text" class="form-control" name="firstName" value="${user.first_name }" placeholder="Enter Your Name">
+                            <input type="text" class="form-control firstName" name="firstName" value="${user.first_name }" placeholder="Enter Your Name">
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
                             <label class="form-label">Surname</label>
-                            <input type="text" class="form-control" name="lastName" value="${user.last_name }" placeholder="Enter Your Surname">
+                            <input type="text" class="form-control lastName" name="lastName" value="${user.last_name }" placeholder="Enter Your Surname">
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
                             <label class="form-label">Employee Id</label>
@@ -282,14 +245,7 @@
         </div>
     </div>
     <div class="container-fluid g-0 footer mt-4">
-        <div class="container d-flex">
-            <div class="privacyPolicyTab">
-                <a class="btn">Privacy Policy</a>
-            </div>
-            <div class="privacyPolicyTab">
-                <a class="btn" data-bs-toggle="modal" data-bs-target="#ModalForContactUs">Contact Us</a>
-            </div>
-        </div>
+        <jsp:include page="footer.jsp"></jsp:include>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"
@@ -425,15 +381,20 @@
          reader.readAsDataURL(profileImage);
     });
 	$(".submitButton").click(function(){
-		var formData = new FormData(document.querySelector('form'));
-		userSkills=[];
-		$.each($(".mainSkillBox option"), function(){
-			userSkills.push($(this).val());            
-        });
-		formData.append("skills", userSkills);
-		
-// 		Ajax call to Save Data
-		updateUserProfile(formData);
+		if($(".firstName").val()==''||$(".lastName").val()==''){
+			alert("FirstName and Last Name is Compulsory Fields");
+		}
+		else{			
+			var formData = new FormData(document.querySelector('form'));
+			userSkills=[];
+			$.each($(".mainSkillBox option"), function(){
+				userSkills.push($(this).val());            
+	        });
+			formData.append("skills", userSkills);
+			
+	// 		Ajax call to Save Data
+			updateUserProfile(formData);
+		}
 	});
 	$(".resetMyPassword").click(function(){
 		$(".resetPasswordMessage").empty();
@@ -512,6 +473,7 @@
         });
 	}
     </script>
+	<script src="js/spinner.js"></script>
 </body>
 
 </html>

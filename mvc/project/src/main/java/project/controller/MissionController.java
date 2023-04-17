@@ -45,16 +45,16 @@ public class MissionController {
 	@RequestMapping(value="/searchMission",method = RequestMethod.POST)
 	public @ResponseBody Map<Long,List<FetchMissionByUserDto>> loadAllMissionOnSearch(@RequestParam("FilterObject") String filters,HttpServletRequest request){
 		ObjectMapper mp=new ObjectMapper();
-		FilterObjectDto fo=new FilterObjectDto();
+		FilterObjectDto filterObject=new FilterObjectDto();
 		User user=new User();
 		user=(User)request.getSession().getAttribute("user");
 		try{			
-			fo=mp.readValue(filters, FilterObjectDto.class);
+			filterObject=mp.readValue(filters, FilterObjectDto.class);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-		return this.service.loadAllMissionOnSearch(fo,user);
+		return this.service.loadAllMissionOnSearch(filterObject,user);
 	}
 	@RequestMapping(value="/loadListOfCountry")
 	public @ResponseBody String loadCountryList() {
@@ -112,11 +112,16 @@ public class MissionController {
 	public String loadMissionPage(Model m,@RequestParam("mission_id") int mission_id,HttpServletRequest request){
 		Mission Mission=new Mission();
 		User Myuser= (User)request.getSession().getAttribute("user");
+		if(Myuser==null||Myuser.getUser_id()==0) {
+			m.addAttribute("message","sessionexpire");
+			return "login";
+		}
 		Mission=this.service.fetchMissionById(mission_id);
 		m.addAttribute("documents",this.service.getDocumentOfMission(Mission));
 		m.addAttribute("isFavourited",this.service.favouriteMission(Myuser, Mission));
 		m.addAttribute("ratingOfUser",this.service.ratingOfParticularUser(Myuser, Mission));
 		m.addAttribute("media",this.service.getMediaofMission(Mission));
+		m.addAttribute("isAlreadyApplied",this.service.isAppliedForMission(Mission, Myuser));
 		Double rating=0D;
 		Long ratingByPeople=0L;
 		Map<Double,Long> map=this.service.ratingOfMission(Mission);
@@ -202,5 +207,17 @@ public class MissionController {
 	@ResponseBody
 	public List<MissionVolunteersOutgoingDto> getVolunteersOfMission(MissionVolunteerIncomingDto missionVolunteerIncomingDto) {
 		return this.service.getVolunteersOfMission(missionVolunteerIncomingDto);
+	}
+	@RequestMapping(value = "/applyForMission" ,method = RequestMethod.POST)
+	@ResponseBody
+	public boolean applyForMission(@RequestParam("missionId") int missionId,HttpServletRequest request) {
+		User user= (User)request.getSession().getAttribute("user");
+		Mission mission=this.service.fetchMissionById(missionId);
+		if(user==null||user.getUser_id()==0||mission==null||mission.getMission_id()==0) {
+			return false;
+		}
+		else {
+			return this.service.applyForMission(mission,user);			
+		}
 	}
 }

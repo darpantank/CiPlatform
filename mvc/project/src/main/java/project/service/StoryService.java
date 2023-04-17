@@ -208,4 +208,8 @@ public class StoryService implements StoryServiceIntereface{
 		}
 	}
 
+	public void incrementPageViews(int storyId) {
+		this.storyDaoInterface.incrementPageViewCount(storyId);
+	}
+
 }

@@ -122,6 +122,16 @@ public class StoryDao implements StoryDaoInterface {
 		this.hibernateTemplate.save(storyInvite);
 		
 	}
+	@Transactional
+	public void incrementPageViewCount(int storyId) {
+		Session s = this.hibernateTemplate.getSessionFactory().openSession();
+		s.beginTransaction();
+		String hql="update Story as s set s.views=coalesce(s.views,0) + 1 where s.story_id=:storyId";
+		Query q=s.createQuery(hql);
+		q.setParameter("storyId", storyId);
+		q.executeUpdate();
+		s.getTransaction().commit();
+	}
 	
 
 	

@@ -194,7 +194,7 @@ nav {
 }
 
 .missionImgGridView {
-    max-height: 220px;
+    height: 220px;
     max-width: 460px;
 }
 
@@ -263,7 +263,7 @@ nav {
     font-size: 15px;
     color: #414141;
     text-align: center;
-    margin-top: -6%;
+    margin-top: -6% !important;
     z-index: 1;
 }
 .missionDatesGridView p{
@@ -393,6 +393,15 @@ nav {
 }
 a:hover{
 	color:#F88634;
+}
+.volunteeredCount{
+	font-size: 12px;
+}
+.userCount{
+	font-size:12px;
+}
+.progress-bar{
+	background-color:#F88634 !important;
 }
 @media only screen and (max-width: 992px) {
 

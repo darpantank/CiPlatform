@@ -1,10 +1,6 @@
 package project.controller;
 
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -17,12 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import project.dto.DraftStoryDto;
 import project.dto.StoryCardDto;
 import project.dto.StoryDto;
-import project.model.Mission;
 import project.model.Story;
 import project.model.User;
 import project.service.StoryServiceIntereface;
@@ -66,8 +60,19 @@ public class StoryController {
 	public String getDetailStory(@RequestParam("storyId") String storyId,HttpServletRequest request,Model m) {
 		int id=Integer.parseInt(storyId);
 		User user=(User)request.getSession().getAttribute("user");
-		m.addAttribute("story",this.service.getDetailStory(id));
+		Story story=this.service.getDetailStory(id);
+		m.addAttribute("story",story);
 		m.addAttribute("user",user);
+		HttpSession s=request.getSession(false);
+		String missionView="viewCount"+story.getStory_id();
+		if(s!=null&&s.getAttribute(missionView)==null) {			
+			if(user.getUser_id()!=story.getUser().getUser_id()&&story.getStory_id()!=0) {
+//			Count View Of Page
+				this.service.incrementPageViews(story.getStory_id());
+				String temp="viewCount"+story.getStory_id();
+				s.setAttribute(temp, "yes");
+			}
+		}
 		return "detailstory";
 	}
 	@RequestMapping(value = "/loadCountOfStory" ,method=RequestMethod.GET)

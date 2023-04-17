@@ -32,9 +32,8 @@
 </head>
 
 <body>    
-
+	<jsp:include page="spinner.jsp" />
 <!-- 	Recommend to Coworker Modal  -->
-
 	<div class="modal fade" id="recommendModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -175,6 +174,7 @@
                     </div>
 
                 </div>
+                ${Mission}
                 <div class="missionInfoDiv mt-4 container-fluid">
                     <div class="row d-flex g-0 gap-1">
                         <div class="col d-flex flex-column MissioninfoCard">
@@ -200,7 +200,14 @@
                     </div>
                 </div>
                 <div class="applyButtonDiv d-flex justify-content-center mt-3">
-                    <button class="btn">Apply Now <i class="bi bi-arrow-right"></i></button>
+                <c:choose>                
+	                <c:when test="${isAlreadyApplied}">
+	                    <button class="btn" disabled>Applied <i class="bi bi-arrow-right"></i></button>
+	                </c:when>
+	                <c:otherwise>
+	                	<button class="btn applyNow">Apply Now <i class="bi bi-arrow-right"></i></button>
+	                </c:otherwise>
+                </c:choose>
                 </div>
             </div>
         </div>
@@ -363,7 +370,9 @@
 				</div>
 			</div>
 	</div>
-	
+	<div class="container-fluid g-0 footer mt-4">
+        <jsp:include page="footer.jsp"></jsp:include>
+    </div>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"
         integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
@@ -386,7 +395,24 @@
     	loadCommentsOfMission();
     	loadNumberOfVolunteers();
     });
-    
+    $(".applyNow").click(function(){
+    	let missionId=$(".missionId").val();
+    	$.ajax({
+            url: "applyForMission",
+            data: {missionId:missionId},
+            dataType : "json",
+            type:"POST",
+            success: function(response){
+            	if(response){            		
+            	alert("Thanks For Applying in Mission...");
+            	$(".applyNow").html("applied <i class='bi bi-arrow-right'>").attr('disabled','disabled');
+            	}
+            	else{
+            		alert("Already Applied or Admin Closed Entry!")
+            	}
+            }
+        });  
+    });
     $(".postCommentBtn").click(function(){
     	var commentText=$("#userCommentText").val();
     	let missionId=$(".missionId").val();
@@ -529,7 +555,6 @@
 		function calculateTotalPages(){
 			totalPageRecentVolunteer=getTotalVolunteerOfMission/9;
 			totalPageRecentVolunteer=Math.ceil(totalPageRecentVolunteer);
-			console.log("Total Pages"+totalPageRecentVolunteer);
 		}
 		$(".leftButtonRecentVolunteers").click(function(){
 			if(currentPageRecentVolunteer>1){				
@@ -558,7 +583,6 @@
 	            dataType:"json",
 	            success: function(response){
 	            	volunteers=response;
-	            	console.log(response);
 	            	printVolunteers();
 	            	updatePaginationText();
 	            }
@@ -596,7 +620,6 @@
                 data:{missionId:missionId},
                 type:"GET",
                 success: function(response){
-                	console.log(response);
                 	printComments(response);
                 }
             }); 
@@ -634,7 +657,6 @@
 		
 		function printCardOnGrid(missions){
      		$(".GridViewDisplay").empty();
-     		console.log(missions);
 			for(var i in missions){
 				let mission=missions[i].mission;
 				let isFavourite=missions[i].favourited;
@@ -754,6 +776,7 @@
      	}
 
     </script>
+	<script src="js/spinner.js"></script>
 </body>
 
 </html>

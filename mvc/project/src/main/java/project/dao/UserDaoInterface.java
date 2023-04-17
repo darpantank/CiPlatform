@@ -3,6 +3,7 @@ package project.dao;
 import java.util.List;
 
 import project.model.City;
+import project.model.ContactUs;
 import project.model.Country;
 import project.model.PasswordReset;
 import project.model.Skill;
@@ -23,5 +24,6 @@ public interface UserDaoInterface {
 	public User fetchUserById(int user_id);
 	public Country getCountryObject(int countryId);
 	public void deleteAlereadyPresentSkills(int user_id);
+	public boolean saveContsctUsDetail(ContactUs contactUs);
 	
 }

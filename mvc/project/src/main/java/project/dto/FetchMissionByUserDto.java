@@ -9,20 +9,23 @@ public class FetchMissionByUserDto {
 	private boolean isFavourited;
 	private Double rating; 
 	private String image;
+	private boolean isAppliedForMission;
+	private Long noOfApplicatioin;
 	public FetchMissionByUserDto() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
-
-	public FetchMissionByUserDto(Mission mission, boolean isFavourited, Double rating, String image) {
+	public FetchMissionByUserDto(Mission mission, boolean isFavourited, Double rating, String image,
+			boolean isAppliedForMission, Long noOfApplicatioin) {
 		super();
 		this.mission = mission;
 		this.isFavourited = isFavourited;
 		this.rating = rating;
 		this.image = image;
+		this.isAppliedForMission = isAppliedForMission;
+		this.noOfApplicatioin = noOfApplicatioin;
 	}
-
 
 	public Mission getMission() {
 		return mission;
@@ -52,5 +55,31 @@ public class FetchMissionByUserDto {
 	public void setImage(String image) {
 		this.image = image;
 	}
+
+
+
+
+
+	public boolean isAppliedForMission() {
+		return isAppliedForMission;
+	}
+
+
+
+
+
+	public void setAppliedForMission(boolean isAppliedForMission) {
+		this.isAppliedForMission = isAppliedForMission;
+	}
+
+	public Long getNoOfApplicatioin() {
+		return noOfApplicatioin;
+	}
+
+	public void setNoOfApplicatioin(Long noOfApplicatioin) {
+		this.noOfApplicatioin = noOfApplicatioin;
+	}
+	
+	
 
 }

@@ -68,7 +68,6 @@ public class MissionDaoOperation implements MissionDaoInterface {
 	    }
 	    if(filters.getSortBy()!="NO_ORDER") {
 	    	if(filters.getSortBy()=="NEWEST") {
-	    		System.out.println("NEWEST Select");
 	    		c.addOrder(Order.asc("created_at"));
 	    	}
 	    	if(filters.getSortBy()=="OLDEST") {
@@ -133,7 +132,6 @@ public class MissionDaoOperation implements MissionDaoInterface {
 	    }
 	    if(filters.getSortBy()!="NO_ORDER") {
 	    	if(filters.getSortBy()=="NEWEST") {
-	    		System.out.println("NEWEST Select");
 	    		c.addOrder(Order.asc("created_at"));
 	    	}
 	    	if(filters.getSortBy()=="OLDEST") {
@@ -143,7 +141,6 @@ public class MissionDaoOperation implements MissionDaoInterface {
 	    c.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		c.setProjection(Projections.countDistinct("mission_id"));
 		long result=(Long)c.uniqueResult();
-		System.out.println("Total Entry : "+result);
 		return result;
 	}
 
@@ -341,6 +338,40 @@ public class MissionDaoOperation implements MissionDaoInterface {
 			image=(String)missionMedia.getMedia_name();
 		}
 		return image;
+	}
+
+	public boolean isAppliedForMission(Mission m, User userId) {
+		if(userId.getUser_id()==0||m.getMission_id()==0) {
+			return false;
+		}
+		Session s = this.hibernateTemplate.getSessionFactory().openSession();
+		String hql="from MissionApplication as m where m.mission=:mission and m.user=:user";
+		Query q=s.createQuery(hql);
+		q.setParameter("mission", m);
+		q.setParameter("user", userId);		
+		if(q.getResultList().size()==1) {			
+			return true;
+		}
+		return false;
+		
+	}
+
+	public Long countApplicationForMission(Mission m) {
+		if(m.getMission_id()==0) {
+			return 0L;
+		}
+		Session s = this.hibernateTemplate.getSessionFactory().openSession();
+		String hql="select count(*) from MissionApplication as m where m.mission=:mission and m.approval_status=:status";
+		Query q=s.createQuery(hql);
+		q.setParameter("mission", m);
+		q.setParameter("status", ApprovalStatusMissionApplication.APPROVE);		
+		return (Long)q.getSingleResult();
+		
+	}
+	@Transactional
+	public boolean applyForMission(MissionApplication application) {
+		this.hibernateTemplate.save(application);
+		return true;
 	}
 
 	

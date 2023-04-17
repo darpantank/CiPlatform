@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import project.dto.ChangePasswordDto;
+import project.dto.ContactUsDto;
 import project.dto.UserProfileDto;
 import project.model.Mission;
 import project.model.PasswordReset;
@@ -45,6 +46,10 @@ public class HomeController {
 	@RequestMapping("/forgotpassword")
 	public String forgotPasswordView() {
 		return "forgotpassword";
+	}
+	@RequestMapping("/privacy")
+	public String privacyPageView() {
+		return "privacy";
 	}
 	@RequestMapping("/logout")
 	public String LogoutUser(HttpSession request,Model m) {
@@ -209,6 +214,14 @@ public class HomeController {
 		else {
 			return "passwordcriterianotmatched";
 		}
+	}
+	@RequestMapping(value = "/contactUs", method = RequestMethod.POST)
+	public @ResponseBody boolean contactUsPage(ContactUsDto contactUs,HttpServletRequest request) {
+		User user= (User)request.getSession().getAttribute("user");
+		if(user==null||user.getUser_id()==0) {
+			return false;
+		}
+		return this.service.contactUs(user,contactUs);
 	}
 //	@ExceptionHandler(value = ConstraintViolationException.class)
 //    public String sqlExceptionHanler(Model m) {       

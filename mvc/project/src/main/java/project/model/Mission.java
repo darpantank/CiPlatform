@@ -14,9 +14,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "mission")
@@ -46,12 +51,22 @@ public class Mission {
 	private String organization_detail;
 	@Enumerated(EnumType.STRING)
 	private Availability availability;
+	private long total_seat;
 	@CreationTimestamp
 	private Date created_at;
 	private Date updated_at;
 	private Date deleted_at;
+	private Date deadline;
 	@OneToMany(mappedBy = "missions" , cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	private List<MissionSkill> missionSkills;
+	@JsonIgnore
+	@OneToMany(mappedBy ="mission" , cascade = CascadeType.ALL)
+	private List<MissionMedia> missionMedia;
+	@JsonIgnore
+	@OneToMany(mappedBy ="mission" , cascade = CascadeType.ALL)
+	private List<MissionDocument> missionDocument;
+	@OneToOne(cascade = CascadeType.ALL,mappedBy = "mission")
+	private GoalMission goalMission;
 	public enum MissionType{
 		TIME,
 		GOAL;
@@ -71,12 +86,12 @@ public class Mission {
 		// TODO Auto-generated constructor stub
 	}
 	
-	
-	public Mission(int mission_id, project.model.MissionTheme mission_theme, project.model.City city,
-			project.model.Country country, String title, String short_description, String description, Date start_date,
-			Date end_date, MissionType mission_type, Status status, String organization_name,
-			String organization_detail, Availability availability, Date created_at, Date updated_at, Date deleted_at,
-			List<MissionSkill> missionSkills) {
+	public Mission(int mission_id, MissionTheme mission_theme, City city, Country country, String title,
+			String short_description, String description, Date start_date, Date end_date, MissionType mission_type,
+			Status status, String organization_name, String organization_detail, Availability availability,
+			long total_seat, Date created_at, Date updated_at, Date deleted_at, Date deadline,
+			List<MissionSkill> missionSkills, List<MissionMedia> missionMedia, List<MissionDocument> missionDocument,
+			GoalMission goalMission) {
 		super();
 		this.mission_id = mission_id;
 		this.mission_theme = mission_theme;
@@ -92,12 +107,16 @@ public class Mission {
 		this.organization_name = organization_name;
 		this.organization_detail = organization_detail;
 		this.availability = availability;
+		this.total_seat = total_seat;
 		this.created_at = created_at;
 		this.updated_at = updated_at;
 		this.deleted_at = deleted_at;
+		this.deadline = deadline;
 		this.missionSkills = missionSkills;
+		this.missionMedia = missionMedia;
+		this.missionDocument = missionDocument;
+		this.goalMission = goalMission;
 	}
-
 
 	public int getMission_id() {
 		return mission_id;
@@ -215,6 +234,40 @@ public class Mission {
 	}
 	public void setDeleted_at(Date deleted_at) {
 		this.deleted_at = deleted_at;
+	}
+	public long getTotal_seat() {
+		return total_seat;
+	}
+	public void setTotal_seat(long total_seat) {
+		this.total_seat = total_seat;
+	}
+	
+	public GoalMission getGoalMission() {
+		return goalMission;
+	}
+	public void setGoalMission(GoalMission goalMission) {
+		this.goalMission = goalMission;
+	}
+	public List<MissionMedia> getMissionMedia() {
+		return missionMedia;
+	}
+
+	public void setMissionMedia(List<MissionMedia> missionMedia) {
+		this.missionMedia = missionMedia;
+	}
+	public List<MissionDocument> getMissionDocument() {
+		return missionDocument;
+	}
+	public void setMissionDocument(List<MissionDocument> missionDocument) {
+		this.missionDocument = missionDocument;
+	}
+
+	public Date getDeadline() {
+		return deadline;
+	}
+
+	public void setDeadline(Date deadline) {
+		this.deadline = deadline;
 	}
 	
 }

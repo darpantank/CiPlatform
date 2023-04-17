@@ -119,6 +119,17 @@
 					</div>
 					<c:remove var="message"/> 
 			</c:if>
+			<c:if test="${message=='sessionexpire'}">	
+				<div class="alert alert-warning alert-dismissible fade show"
+						role="alert">
+						<strong>Sorry </strong> Your session is Expired Please Relogin... !
+						
+						<button type="button" class="btn-close" data-bs-dismiss="alert"
+							aria-label="Close"></button>
+					</div>
+					<c:remove var="message"/> 
+			</c:if>
+			
 			 
 		</div>
         <div class="row">
@@ -142,7 +153,7 @@
           </div>
         </div>
         <div class="row">
-          <a href="#" class="text-muted text-center">Privacy Policy</a>
+          <a href="privacy" class="text-muted text-center">Privacy Policy</a>
         </div>
 
       </div>

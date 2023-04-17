@@ -41,7 +41,7 @@
     <link rel="stylesheet" href="css/imageCaresoul.css">
 </head>
 <body>
-    
+    <jsp:include page="spinner.jsp" />
 <!-- 	Recommend to Coworker Modal  -->
 
 	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -160,7 +160,9 @@
 
             </div>
         </div>
-
+		<div class="container-fluid g-0 footer mt-4">
+        <jsp:include page="footer.jsp"></jsp:include>
+    </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
         </script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
@@ -226,6 +228,7 @@
         	$(".mainPhoto").addClass("d-none");
         	});
         </script>
+	<script src="js/spinner.js"></script>
 </body>
 
 </html>

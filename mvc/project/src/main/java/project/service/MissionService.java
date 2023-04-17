@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,7 @@ import project.model.Country;
 import project.model.FavoriteMission;
 import project.model.Mission;
 import project.model.MissionApplication;
+import project.model.MissionApplication.ApprovalStatusMissionApplication;
 import project.model.MissionTheme;
 import project.model.Skill;
 import project.model.User;
@@ -49,6 +51,8 @@ public class MissionService implements MissionServiceInterface {
 				fetchMissionWithFav.setRating((Double)map1.keySet().toArray()[0]);
 //				fetchMissionWithFav.setRatingByNo((Long)map1.get(map1.keySet().toArray()[0]));
 				fetchMissionWithFav.setImage(this.daoOfMission.findDefaultMediaOfMission(m));
+				fetchMissionWithFav.setAppliedForMission(this.daoOfMission.isAppliedForMission(m,userId));
+				fetchMissionWithFav.setNoOfApplicatioin(this.daoOfMission.countApplicationForMission(m));
 				if(userId==null) {
 					fetchMissionWithFav.setFavourited(false);
 				}
@@ -164,5 +168,19 @@ public class MissionService implements MissionServiceInterface {
 			myResultList.add(missionVolunteersOutgoingDto);
 		}
 		return myResultList;
+	}
+
+	public boolean applyForMission(Mission mission, User user) {
+		MissionApplication application=new MissionApplication();
+		application.setMission(mission);
+		application.setUser(user);
+		application.setApproval_status(ApprovalStatusMissionApplication.PENDING);
+		if(!this.daoOfMission.isAppliedForMission(mission, user)) {
+			return this.daoOfMission.applyForMission(application);
+		}
+		return false;
+	}
+	public boolean isAppliedForMission(Mission mission,User user) {
+		return this.daoOfMission.isAppliedForMission(mission, user);
 	}
 }

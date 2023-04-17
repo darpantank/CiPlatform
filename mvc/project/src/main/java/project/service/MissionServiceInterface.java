@@ -40,4 +40,6 @@ public interface MissionServiceInterface {
 	public long fetchTotalVolunteersInMisson(Mission mission);
 	public List<MissionVolunteersOutgoingDto> getVolunteersOfMission(MissionVolunteerIncomingDto missionVolunteerIncomingDto);
 	public List<MissionMedia> getMediaofMission(Mission mission);
+	public boolean applyForMission(Mission mission, User user);
+	public boolean isAppliedForMission(Mission mission,User user);
 }

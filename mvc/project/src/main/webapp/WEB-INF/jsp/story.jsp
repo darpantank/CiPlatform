@@ -24,6 +24,7 @@
 </head>
 
 <body>
+<jsp:include page="spinner.jsp" />
     	<div class="container-fluid g-0">
 		<jsp:include page="fheader.jsp" />
 	</div>
@@ -46,6 +47,9 @@
 <!--                 pagination Created Here -->
             </ul>
           </nav>
+    </div>
+    <div class="container-fluid g-0 footer mt-4">
+        <jsp:include page="footer.jsp"></jsp:include>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"
     integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
@@ -212,6 +216,7 @@
     		}
     	
     </script>
+	<script src="js/spinner.js"></script>
 </body>
 
 </html>

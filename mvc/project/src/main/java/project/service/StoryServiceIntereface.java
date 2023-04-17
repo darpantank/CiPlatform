@@ -21,4 +21,5 @@ public interface StoryServiceIntereface {
 	public List<StoryCardDto> getStoriesByPageNo(int currentPage);
 	public void submitDraftedStory(int storyId, int userId);
 	public void recommandToCoWorkerStory(int storyId, User sendFromUser, User sendToUser);
+	public void incrementPageViews(int storyId);
 }

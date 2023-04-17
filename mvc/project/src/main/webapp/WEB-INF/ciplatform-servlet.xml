@@ -45,7 +45,7 @@
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</prop>
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
-				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.show_sql">false</prop>
 				<prop key="format_sql">true</prop>
 			</props>
 		</property>
@@ -110,6 +110,12 @@
 				</value>
 				<value>
 					project.model.UserSkill
+				</value>
+				<value>
+					project.model.GoalMission
+				</value>
+				<value>
+					project.model.ContactUs
 				</value>
 			</list>
 		</property>

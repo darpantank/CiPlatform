@@ -15,6 +15,9 @@
 		 let AppliedFilterArray=[];
 		 let SkillList="";
 		 let currentPage=1;
+		 let skillFilter=[];
+		 let themeFilter=[];
+		 let cityFilter=[];
 		 $(document).ready(function(){
         	 CountryOfUser=$(".defaultCountry").val();
         	 updateMissionsOnChange();
@@ -49,6 +52,8 @@
              $('.search_field').keyup(function(){
             	 updateMissionsOnChange();
              });
+             
+             
              $('.countrySelect, .countrySelectSidebar').on('change', function () {
 				 currentPage=1;
             	 CheckedCountry = $(this).find("option:selected").val();
@@ -66,25 +71,31 @@
         });
 		 function cityCheckedClickEvent(){
 			 selectedCity=[];
+			 cityFilter=[];
 			 currentPage=1;
 			 $('.citySelector input:checked , .citySelectorSidebar input:checked').each(function(){	
-		        selectedCity.push($(this).attr('value'));		        		
+		        selectedCity.push($(this).attr('value'));	
+		        cityFilter.push($(this).attr('name'));	        		
              });
 			 updateMissionsOnChange();
 		 }
 		 function skillCheckedClickEvent(){
 			 skills=[];
+			 skillFilter=[];
 			 currentPage=1;
 			 $('.skillSelector input:checked , .skillSelectorSidebar input:checked').each(function(){	
-				 skills.push($(this).attr('value'));		        		
+				 skills.push($(this).attr('value'));	
+				 skillFilter.push($(this).attr('name'));	        		
              });
 			 updateMissionsOnChange();
 		 }
 		 function themeCheckedClickEvent(){
 			 selectedTheme=[];
+			 themeFilter=[];
 			 currentPage=1;
 			 $('.themeSelector input:checked , .themeSelectorSidebar input:checked').each(function(){
         		selectedTheme.push($(this).attr('value'));
+        		themeFilter.push($(this).attr('name'));
              });
 			 updateMissionsOnChange();
         	 
@@ -164,7 +175,7 @@
 						editUpdatedMission(a);
 	                	printCardOnGrid(missions);
 	                	printCardOnList(missions);
-	                	addFiltersPills();
+	                	addFiltersPill();
 	                	if(a==0){
 	                		if($(".noMissionFound").length===0){
 	                			noMissionFound();
@@ -176,6 +187,22 @@
 	                 }
 	             });   
 	         }
+	         	function addFiltersPill(){
+					 
+					 $("#myList").empty();
+					 if(CheckedCountryName[0]!=null){						
+						addFilter(CheckedCountryName[0].innerText);		
+						}
+					 for(var a in cityFilter){
+						 addFilter(cityFilter[a]);
+					 }
+					 for(var a in themeFilter){
+						 addFilter(themeFilter[a]);
+					 }
+					 for(var a in skillFilter){
+						 addFilter(skillFilter[a]);
+					 }
+				 }
 	         	function getCityList(CheckedCountry){
 	         		//get City List
 	         		$.ajax({
@@ -225,28 +252,19 @@
 //				}
 	         	function createPaginationList(totalCount,currentPage){
 	         		$(".pagination").empty();
-	         		let data = `<li class="page-item">
-	                    <a class="page-link" href="#" aria-label="Next">
+	         		let data = `<li class="page-item goAtFirst">
+	                    <a class="page-link" aria-label="Next">
 	                        <span aria-hidden="true"><i class="bi bi-chevron-double-left"></i></span>
 	                    </a>
 	                  </li>
-	              <li class="page-item">
-	                <a class="page-link" href="#" aria-label="Next">
+	              <li class="page-item previousPagination">
+	                <a class="page-link" aria-label="Next">
 	                    <span aria-hidden="true"><i class="bi bi-chevron-left"></i></span>
 	                </a>
 	              </li>`;
 	              let perPageMission=9;
 	              let totalPages=totalCount/perPageMission;
-	              if(totalCount!=0){
-	            	  if(totalPages==0){	            		  
-	            	  totalPages=1;
-	            	  }
-	              }
-	              if(totalCount%perPageMission!=0)
-	            	  {
-	            	  totalPages++;
-	            	  }
-	            	  
+	              totalPages=Math.ceil(totalPages);
 	              for(var a=1;a<=totalPages;a++){
 	            	  	if(a==currentPage)
 	            		{	            		  
@@ -257,18 +275,55 @@
 	            	  	}
 	              }
 	              
-	              data+=`<li class="page-item">
-	                <a class="page-link" href="#" aria-label="Next">
+	              data+=`<li class="page-item NextPagination">
+	                <a class="page-link" aria-label="Next">
 	                  <span aria-hidden="true"><i class="bi bi-chevron-right"></i></span>
 	                </a>
 	              </li>
-	              <li class="page-item">
-	                <a class="page-link" href="#" aria-label="Next">
+	              <li class="page-item goAtLast">
+	                <a class="page-link" aria-label="Next">
 	                    <span aria-hidden="true"><i class="bi bi-chevron-double-right"></i></span>
 	                  </a>
 	              </li>`;
 	              $(".pagination").append(data);
 	              $(".active>.page-link").css("background-color","#F88634");
+	              $(".goAtLast").click(function(){
+					  if(currentPage==totalPages){
+						  alert("You are On Last Page already!");
+					  }
+					  else{						  
+					  	changeMyPage(totalPages);
+					  }
+				  });
+				  $(".goAtFirst").click(function(){
+					  if(currentPage==1)
+					  {						  
+					  alert("You are On First Page already!");
+					  }
+					  else{					  
+					  changeMyPage(1);
+					  }
+				  });
+					  $(".NextPagination").click(function() {
+						  if(currentPage<totalPages)
+						  {
+							  changeMyPage(++currentPage);
+							  console.log(totalPages)
+						  }
+						  else{
+							  alert("You are On Last Page Already!");
+						  }
+					  });
+					  $(".previousPagination").click(function() {
+						  if(currentPage>1)
+						  {
+							  changeMyPage(--currentPage);
+							  console.log(totalPages)
+						  }
+						  else{
+							  alert("You are On First Page Already!");
+						  }
+					  });
 	         	}
 	         	function printCardOnList(missions){
 	         		$(".ListViewDisplay").empty();
@@ -277,6 +332,43 @@
 					let isFavourite=missions[i].favourited;
 					let ratingCount=Math.ceil(missions[i].rating);
 					let image=missions[i].image;
+					let isApplied=missions[i].appliedForMission;
+					let appliedTag="";
+					let seatTag="";
+					var seatLeft=mission.total_seat-missions[i].noOfApplicatioin;
+					var noOfApplication=missions[i].noOfApplicatioin;
+					var applyTag="";
+					if(isApplied){
+						applyTag=`<a href="getMyMission?mission_id=`+mission.mission_id+`" class="applyButtonGridView">View Details <i class="bi bi-arrow-right"></i></a>`;
+					}
+					else{
+						applyTag=`<a href="getMyMission?mission_id=`+mission.mission_id+`" class="applyButtonGridView">Apply <i class="bi bi-arrow-right"></i></a>`;
+					}
+					if(mission.total_seat!=0){
+						seatTag=`<div class="col">
+						<div class="row align-items-center">
+	                                            <div class="col-auto"><img src="image/Seats-left.png" alt="" srcset=""></div>
+	                                            <div class="col">
+	                                                <div class="row">`+seatLeft+`</div>
+	                                                <div class="row userCount">Seat Left</div>
+	                                            </div>
+	                                            </div>
+	                                        </div>`;
+					}
+					else{
+						seatTag=`<div class="col">
+						<div class="row align-items-center">
+	                                            <div class="col-auto"><img src="image/Already-volunteered.png" alt="" srcset=""></div>
+	                                            <div class="col">
+	                                                <div class="row">`+noOfApplication+`</div>
+	                                                <div class="row userCount">Aleready Volunteered</div>
+	                                            </div>
+	                                            </div>
+	                                        </div>`;
+					}
+					if(isApplied){
+						appliedTag='<p class="missionAppliedListView"> Applied</p>';
+					}
 						if(image==""){
 							image="noimagefound.png";
 						}
@@ -305,7 +397,7 @@
 	                    <div class="row g-0">
 	                        <div class="col-md-3 missionImg">
 	                            <p class="missionCityListView"><i class="bi bi-geo-alt"></i>`+mission.city.name+`</p>
-	                            <p class="missionAppliedListView"> Applied</p>
+	                            `+appliedTag+`
 	                            <div class="missionLikeListView d-flex flex-column">
 	                            	`+LikeTag+`
 	                            	<i class="bi bi-person-plus recommandButtonList" data-bs-toggle="modal" data-bs-target="#recommendModal"></i>
@@ -318,9 +410,9 @@
 	                                <div class="row w-100 d-flex ">
 	                                    <div class="col">
 	                                        <div class="row d-flex justify-content-start firstInfoContainerListView">
-	                                            <div class="col d-flex"><i class="bi bi-geo-alt"> </i><p>`+mission.country.name+`</p></div>
-	                                            <div class="col d-flex"><i class="bi bi-globe"> </i><p> `+mission.mission_theme.title+`</p></div>
-	                                            <div class="col d-flex"><i class="bi bi-people"> </i> <p>`+mission.organization_name+`</p></div>
+	                                            <div class="col d-flex gap-1"><i class="bi bi-geo-alt"> </i><p>`+mission.country.name+`</p></div>
+	                                            <div class="col d-flex gap-1"><i class="bi bi-globe"> </i><p> `+mission.mission_theme.title+`</p></div>
+	                                            <div class="col d-flex gap-1"><i class="bi bi-people"> </i> <p>`+mission.organization_name+`</p></div>
 	                                        </div>
 	                                    </div>
 	                                    <div class="col d-flex justify-content-end">
@@ -336,38 +428,32 @@
 	                                <h5 class="card-title">`+mission.title+`</h5>
 	                                <p class="card-text">`+mission.short_description+`</p>
 	                                <div class="row">
-	                                    <div class="col d-flex">
-	                                        <div class="col d-flex">
-	                                            <div class="col d-flex align-items-center"><img src="image/Seats-left.png" alt="" srcset=""></div>
+	                                    <div class="col">
+	                                    	<div class="row">
+	                                        `+seatTag+`
+	                                        
+	                                        <div class="col">
+	                                        <div class="row align-items-center">
+	                                            <div class="col-auto"><img src="image/achieved.png" alt="" srcset=""></div>
 	                                            <div class="col">
 	                                                <div class="row">2</div>
 	                                                <div class="row">Seats</div>
+	                                            </div>
 	                                            </div>
 	                                        </div>
-	                                        <div class="col d-flex">
-	                                            <div class="col d-flex align-items-center"><img src="image/achieved.png" alt="" srcset=""></div>
+	                                        <div class="col">
+	                                        	<div class="row align-items-center">
+	                                            <div class="col-auto"><img src="image/calender.png" alt="" srcset=""></div>
 	                                            <div class="col">
 	                                                <div class="row">2</div>
 	                                                <div class="row">Seats</div>
+	                                            </div>
 	                                            </div>
 	                                        </div>
-	                                        <div class="col d-flex">
-	                                            <div class="col d-flex align-items-center"><img src="image/achieved.png" alt="" srcset=""></div>
-	                                            <div class="col">
-	                                                <div class="row">2</div>
-	                                                <div class="row">Seats</div>
-	                                            </div>
-	                                        </div>
-	                                        <div class="col d-flex">
-	                                            <div class="col d-flex align-items-center"><img src="image/achieved.png" alt="" srcset=""></div>
-	                                            <div class="col">
-	                                                <div class="row">2</div>
-	                                                <div class="row">Seats</div>
-	                                            </div>
 	                                        </div>
 	                                    </div>
-	                                    <div class="col d-flex justify-content-end">
-	                                        <a href="getMyMission?mission_id=`+mission.mission_id+`" class="applyButtonGridView">View Details <i class="bi bi-arrow-right"></i></a>
+	                                    <div class="col-auto d-flex justify-content-end">
+											`+applyTag+`	
 	                                    </div>
 	                                </div>
 	                            </div>
@@ -412,8 +498,100 @@
 						let ratingCount=Math.ceil(missions[i].rating);
 						let generatedRatingStar="";
 						let image=missions[i].image;
+						let isApplied=missions[i].appliedForMission;
+						let appliedTag="";
+						let seatTag="";
+						var seatLeft=mission.total_seat-missions[i].noOfApplicatioin;
+						var noOfApplication=missions[i].noOfApplicatioin;
+						let timeOrGoalTag='';
+						let dateGoalPills='';
+						let closedTag='';
+						let applyButton=`<a href="getMyMission?mission_id=`+mission.mission_id+`" class="applyButtonGridView">Apply <i
+									class="bi bi-arrow-right"></i></a>`;
+						if(mission.deadline!=null){
+							var currentTimeDate=new Date(mission.deadline);
+							var deadlineDate=new Date();
+							if(deadlineDate>currentTimeDate){
+								closedTag='<button class="btn btn-danger">closed</button>';
+							}
+						}
 						if(image==""){
 							image="noimagefound.png";
+						}
+						if(isApplied){
+							appliedTag='<button class="btn btn-success">applied</button>';
+							applyButton=`<a href="getMyMission?mission_id=`+mission.mission_id+`" class="applyButtonGridView">View Detail <i
+									class="bi bi-arrow-right"></i></a>`;
+						}
+						if(mission.mission_type=='GOAL'){
+							timeOrGoalTag=`<div class="col">
+									<div class="row align-items-center">
+										<div class="col-auto">
+											<img src="image/achieved.png" alt="" srcset="">
+										</div>
+										<div class="col">
+											<div class="row">
+												<div class="progress p-0" style="height: 10px;">
+  													<div class="progress-bar" role="progressbar" style="width: 40%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+												</div>
+											</div>
+											<div class="row">8000 Achieved</div>
+										</div>
+									</div>
+								</div>`;
+								dateGoalPills=`<p>`+mission.goalMission.goal_objective_text+`</p>`;
+						}
+						else{
+							let deadline="not available";
+							if(mission.deadline!=null){
+								deadline=new Date(mission.deadline).toLocaleDateString();
+							}
+							timeOrGoalTag=`<div class="col">
+									<div class="row align-items-center">
+										<div class="col-auto">
+											<img src="image/deadline.png" alt="" srcset="">
+										</div>
+										<div class="col">
+											<div class="row">Date</div>
+											<div class="row">`+deadline+`</div>
+										</div>
+									</div>
+								</div>`;
+								if(mission.start_date==null||mission.end_date==null){									
+									dateGoalPills=`<p>Ongoing Oppurtunities</p>`;
+								}
+								else{
+									dateGoalPills=`<p>From `+deadline+` Untill `+new Date(mission.end_date).toLocaleDateString()+`</p>`;
+								}
+						}
+						if(mission.total_seat!=0){
+//							show Seat Left 
+							seatTag=`<div class="col">
+									<div class="row align-items-center">
+										<div class="col-auto">
+											<img src="image/Seats-left.png" alt="" srcset="">
+										</div>
+										<div class="col">
+											<div class="row">`+seatLeft+`</div>
+											<div class="row volunteeredCount">Seats Left</div>
+										</div>
+									</div>
+
+								</div>`;
+						}
+						else{
+								seatTag=`<div class="col">
+									<div class="row align-items-center">
+										<div class="col-auto">
+											<img src="image/Already-volunteered.png" alt="" srcset="">
+										</div>
+										<div class="col">
+											<div class="row">`+noOfApplication+`</div>
+											<div class="row volunteeredCount">Already Volunteered</div>
+										</div>
+									</div>
+
+								</div>`;
 						}
 						for(var a=1;a<=5;a++){
 							if(ratingCount>0){
@@ -434,8 +612,8 @@
 						}
 						let card=`<div class="card col-lg-4 col-md-6 col-xs-12">
 							<div class="d-flex flex-column appliedCloseButtons">
-							<button class="btn btn-success">applied</button>
-							<button class="btn btn-danger">closed</button>
+							`+appliedTag+`
+							`+closedTag+`
 						</div>
 						<p class="missionCityGridView">
 							<i class="bi bi-geo-alt"></i>`+mission.city.name+`
@@ -466,39 +644,18 @@
 							<div class="hrLine hrLineOverrided"></div>
 							<div class="row missionDatesGridView">
 								<div class="col d-flex justify-content-center">
-									<p>Ongoing Oppurtunity</p>
+									`+dateGoalPills+`
 								</div>
 							</div>
 							<div class="row">
-								<div class="col">
-									<div class="row">
-										<div class="col">
-											<img src="image/Seats-left.png" alt="" srcset="">
-										</div>
-										<div class="col">
-											<div class="row">10</div>
-											<div class="row">Seats Left</div>
-										</div>
-									</div>
-
-								</div>
-								<div class="col">
-									<div class="row">
-										<div class="col">
-											<img src="image/deadline.png" alt="" srcset="">
-										</div>
-										<div class="col">
-											<div class="row">09/01/2019</div>
-											<div class="row">Deadline</div>
-										</div>
-									</div>
-
-								</div>
+								`+seatTag+` 
+								`+timeOrGoalTag+`
+								 
 							</div>
 							<div class="hrLine"></div>
 							<div class="d-flex justify-content-center">
-								<a href="getMyMission?mission_id=`+mission.mission_id+`" class="applyButtonGridView">Apply <i
-									class="bi bi-arrow-right"></i></a>
+							`+applyButton+`
+								
 							</div>
 
 						</div>

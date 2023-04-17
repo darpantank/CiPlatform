@@ -26,6 +26,7 @@
 </head>
 
 <body>
+<jsp:include page="spinner.jsp" />
 <div class="container-fluid g-0">
 		<jsp:include page="fheader.jsp" />
 	</div>
@@ -83,14 +84,13 @@
             <div class="upload__img-wrap mt-3"></div>
         </div>
         <div class="d-flex justify-content-between">
-            <div><button class="btn">cancel</button></div>
+            <div><button class="btn roundedButton">cancel</button></div>
             <div class="d-flex rightButtons">
-                <button class="btn saveButton">Save</button>
-                <button class="btn submitButton" disabled>Submit</button>
+                <button class="btn saveButton roundedButton">Save</button>
+                <button class="btn submitButton roundedButton" disabled>Submit</button>
             </div>
         </div>
     </div>
-
 	<script>
 		var imgArray = [];
     	const input = document.getElementById("upload__inputfile");
@@ -160,8 +160,14 @@
     	var date=new Date($(".dateOfStory").val());
     	let originalUrl=$(".videoUrl").val();
     	let videoUrl="";
-    	if(originalUrl!=''){    		
-    		videoUrl='https://www.youtube.com/embed/'+getId(originalUrl);
+    	if(originalUrl!=''){    
+    		var regExForYoutube=RegExp("((http(s)?:\/\/)?)(www\.)?((youtube\.com\/)|(youtu.be\/))[\S]+");
+    		if(regExForYoutube.test(originalUrl)){
+	    		videoUrl='https://www.youtube.com/embed/'+getId(originalUrl);
+    		}
+    		else{
+    			alert("You Enter Non Youtube URL");
+    		}
     	}
     	var story=myEditor.getData();
     	var storyId=$(".AlereadyPresentStoryId").val();
@@ -288,6 +294,7 @@ setTimeout(function() {
           : null;
     }
     </script>
+	<script src="js/spinner.js"></script>
 </body>
 
 </html>

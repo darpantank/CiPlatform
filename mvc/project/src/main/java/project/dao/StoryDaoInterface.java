@@ -21,4 +21,5 @@ public interface StoryDaoInterface {
 	List<Story> getStoriesByPageNo(int currentPage);
 	void submitDraftedStory(int storyId, int userId);
 	void recommandToCoWorkerStory(Story story, User sendFromUser, User sendToUser);
+	void incrementPageViewCount(int storyId);
 }

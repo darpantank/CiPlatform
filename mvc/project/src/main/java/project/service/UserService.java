@@ -18,8 +18,10 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import project.dao.UserDaoInterface;
 import project.dto.ChangePasswordDto;
+import project.dto.ContactUsDto;
 import project.dto.UserProfileDto;
 import project.model.City;
+import project.model.ContactUs;
 import project.model.Country;
 import project.model.PasswordReset;
 import project.model.Skill;
@@ -97,13 +99,13 @@ public class UserService implements UserServiceInterface {
 	public boolean deleteToken(PasswordReset prst) {
 		return this.daoOperation.deleteToken(prst);
 	}
-
 	public PasswordReset isValidToken(String token) {
 		return this.daoOperation.validateTokenForReset(token);
 	}
 
 	public boolean isPasswordUpdated(String Token, String password) {
-		PasswordReset prst = isValidToken(Token);
+		System.out.println("flow at is passUpdate");
+		PasswordReset prst = this.daoOperation.validateTokenForReset(Token);
 		if (prst.isValidObject()) {
 			String email = prst.getEmail();
 			if (this.daoOperation.saveUpdatedPassword(email, password)) {
@@ -223,6 +225,15 @@ public class UserService implements UserServiceInterface {
 	public boolean changeMyPassword(ChangePasswordDto changePasswordDto, User user) {
 		user.setPassword(changePasswordDto.getNewPassWord());
 		return this.daoOperation.updateUserDetails(user);
+	}
+
+	public boolean contactUs(User user, ContactUsDto contactUsDto) {
+		ContactUs contactUs=new ContactUs();
+		contactUs.setMessage(contactUsDto.getMessage());
+		contactUs.setSubject(contactUsDto.getSubject());
+		contactUs.setUser(user);
+		return this.daoOperation.saveContsctUsDetail(contactUs);
+		
 	}
 
 	

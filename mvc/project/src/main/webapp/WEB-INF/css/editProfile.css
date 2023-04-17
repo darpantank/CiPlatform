@@ -55,15 +55,15 @@
 }
 
 .roundButton {
-    padding: 7px 12px;
-    border: 2px solid #757575;
-    border-radius: 25px;
-    color: #757575;
+    padding: 7px 12px !important;
+    border: 2px solid #757575 !important;
+    border-radius: 25px !important;
+    color: #757575 !important;
 }
 
 .orangeButton {
-    border-color: #F88634;
-    color: #F88634;
+    border-color: #F88634 !important;
+    color: #F88634 !important;
 }
 
 .modalDialogForSkills {

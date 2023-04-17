@@ -45,8 +45,7 @@ public class Story {
 	private Date deleted_at;
 	@OneToMany(targetEntity = StoryMedia.class ,mappedBy = "story", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	private List<StoryMedia> storyMedia;
-	@ColumnDefault("0")
-	private Long views;
+	private long views;
 	public Story() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -219,11 +218,6 @@ public class Story {
 	public Long getViews() {
 		return views;
 	}
-
-
-
-
-
 
 
 	public void setViews(Long views) {

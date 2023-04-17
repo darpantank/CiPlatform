@@ -3,6 +3,7 @@ package project.service;
 import javax.servlet.http.HttpSession;
 
 import project.dto.ChangePasswordDto;
+import project.dto.ContactUsDto;
 import project.dto.UserProfileDto;
 import project.model.PasswordReset;
 import project.model.User;
@@ -21,4 +22,5 @@ public interface UserServiceInterface {
 	public User getUserFromEmail(String email);
 	public boolean editUserProfile(UserProfileDto userProfileDto, User user,HttpSession session);
 	public boolean changeMyPassword(ChangePasswordDto changePasswordDto, User user);
+	public boolean contactUs(User user, ContactUsDto contactUs);
 }

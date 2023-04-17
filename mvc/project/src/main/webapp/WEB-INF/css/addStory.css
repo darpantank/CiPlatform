@@ -32,3 +32,6 @@
 .ck-dropdown,.ck-disabled,.ck-toolbar__separator{
     display: none !important;
 }
+.roundedButton{
+	border-radius:25px !important;
+}
