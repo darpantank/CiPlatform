@@ -15,6 +15,7 @@ import project.model.ContactUs;
 import project.model.Country;
 import project.model.PasswordReset;
 import project.model.Skill;
+import project.model.TimeSheet;
 import project.model.User;
 
 @Component
@@ -60,9 +61,18 @@ public class UserDaoOperation implements UserDaoInterface{
 		Query q=hibernateTemplate.getSessionFactory().openSession().createQuery(que);
 		q.setParameter("email", email);
 		User myuser=new User();
-		List<User> users=q.getResultList();
-		for(User temp:users) {
-			myuser=temp;
+		if(q.getResultList().size()>0) {
+			myuser=(User)q.getResultList().get(0);
+		}
+		return myuser;
+	}
+	public User validateMobileNumber(String mobileNumber) {
+		String que="from User where phone_number=:mobileNo";
+		Query q=hibernateTemplate.getSessionFactory().openSession().createQuery(que);
+		q.setParameter("mobileNo", mobileNumber);
+		User myuser=new User();
+		if(q.getResultList().size()>0) {			
+			myuser=(User)q.getResultList().get(0);
 		}
 		return myuser;
 	}
@@ -132,6 +142,12 @@ public class UserDaoOperation implements UserDaoInterface{
 	public boolean saveContsctUsDetail(ContactUs contactUs) {
 		this.hibernateTemplate.save(contactUs);
 		return true;
+	}
+	public List<TimeSheet> loadTimesheets(int userId) {
+		String que="from TimeSheet where user.user_id=:userId";
+		Query q=hibernateTemplate.getSessionFactory().openSession().createQuery(que);
+		q.setParameter("userId", userId);
+		return q.getResultList();
 	}
 
 }

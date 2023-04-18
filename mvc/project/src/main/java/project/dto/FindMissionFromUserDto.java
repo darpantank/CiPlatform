@@ -3,6 +3,7 @@ package project.dto;
 public class FindMissionFromUserDto {
 	private int missionId;
 	private String missionName;
+	private String missionType;
 	public int getMissionId() {
 		return missionId;
 	}
@@ -15,6 +16,17 @@ public class FindMissionFromUserDto {
 	public void setMissionName(String missionName) {
 		this.missionName = missionName;
 	}
-
+	public String getMissionType() {
+		return missionType;
+	}
+	public void setMissionType(String missionType) {
+		this.missionType = missionType;
+	}
+	@Override
+	public String toString() {
+		return "FindMissionFromUserDto [missionId=" + missionId + ", missionName=" + missionName + ", missionType="
+				+ missionType + "]";
+	}
+	
 	
 }

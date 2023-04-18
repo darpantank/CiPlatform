@@ -7,6 +7,7 @@ import project.model.ContactUs;
 import project.model.Country;
 import project.model.PasswordReset;
 import project.model.Skill;
+import project.model.TimeSheet;
 import project.model.User;
 
 public interface UserDaoInterface {
@@ -25,5 +26,7 @@ public interface UserDaoInterface {
 	public Country getCountryObject(int countryId);
 	public void deleteAlereadyPresentSkills(int user_id);
 	public boolean saveContsctUsDetail(ContactUs contactUs);
+	public User validateMobileNumber(String mobileNumber);
+	public List<TimeSheet> loadTimesheets(int userId);
 	
 }

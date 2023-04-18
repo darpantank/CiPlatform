@@ -21,11 +21,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import project.dto.ChangePasswordDto;
 import project.dto.ContactUsDto;
+import project.dto.TimeSheetDto;
 import project.dto.UserProfileDto;
+import project.exception.UserNotFoundException;
 import project.model.Mission;
 import project.model.PasswordReset;
 import project.model.User;
 import project.service.MissionServiceInterface;
+import project.service.StoryServiceIntereface;
 import project.service.UserServiceInterface;
 
 @Controller
@@ -34,6 +37,8 @@ public class HomeController {
 	UserServiceInterface service;
 	@Autowired
 	MissionServiceInterface mservice;
+	@Autowired
+	StoryServiceIntereface storyService;
 	final static int LOGOUT_TIME = 900; /* User Session Is Validate For 15 Minutes */
 	@RequestMapping("/registration")
 	public String registrationView() {
@@ -62,6 +67,15 @@ public class HomeController {
 	/*
 	 * @RequestMapping("/home") public String homeView() { return "home"; }
 	 */
+	@RequestMapping("/timesheet")
+	public String timesheetPageView(Model m,HttpServletRequest request) throws UserNotFoundException {
+		User user= (User)request.getSession().getAttribute("user");
+		if(user==null||user.getUser_id()==0||user.getEmail()=="") {
+			throw new UserNotFoundException();
+		}
+		m.addAttribute("missions",this.storyService.findMissionOfUsers(user));
+		return "timesheet";
+	}
 	@RequestMapping(value="/resetmypassword", method=RequestMethod.POST)
 	public ModelAndView resetmypassword(@RequestParam("token") String token,@RequestParam("password") String password,@RequestParam("confirm_password") String cnfpassword) {
 		ModelAndView mav=new ModelAndView();
@@ -69,47 +83,44 @@ public class HomeController {
 			
 //			check Given Token is Present in Our DB or not 
 			PasswordReset prst=this.service.isValidToken(token);
-			System.out.println("1 step");
 			if(prst.isValidObject()) {
-				System.out.println("2 step");
-				System.out.println(password +" 2nd");
 				if(this.service.isPasswordUpdated(token, password)) {
-					System.out.println("3 step");
-					System.out.println(password +" 3nd");
 					if(this.service.deleteToken(prst)) {
-						System.out.println("4 step");
-						mav.setViewName("login");
 						mav.addObject("message","passwordupdate");
+						mav.setViewName("login");
 						
 					}
 					else {
-						mav.setViewName("forgotpassword");
 						mav.addObject("message","invalidtoken");
+						mav.setViewName("forgotpassword");
 					}
 				}
 				else {
-					mav.setViewName("forgotpassword");
 					mav.addObject("message","invalidtoken");
+					mav.setViewName("forgotpassword");
 				}
 			}
 			else {
-				mav.setViewName("forgotpassword");
 				mav.addObject("message","invalidtoken");
+				mav.setViewName("forgotpassword");
 			}
 			
 		}
 		else {
 			mav.setViewName("failed");
-			mav.addObject("message","Atleast Enter Password and Confirmpassword same");
+			mav.addObject("message","Enter Password and Confirmpassword same");
 		}
 		return mav;
 	}
 	@RequestMapping(value = "/saveuser",method = RequestMethod.POST)
-	public String saveUser(@ModelAttribute("user") User user1,Model m) {
-		
-		System.out.println(user1);
-		if(!this.service.validateEmailId(user1.getEmail())){
-			if(this.service.storeUserData(user1)) {	
+	public String saveUser(@ModelAttribute("user") User user,Model m) {
+		System.out.println(user);
+		if(user.getEmail()==""||user.getFirst_name()==""||user.getLast_name()==""||user.getPhone_number()==""||user.getPassword()=="") {
+			m.addAttribute("message","All Field Of Form Is Compulsary");
+			return "failed";
+		}
+		if(!this.service.validateEmailId(user.getEmail())&&!this.service.validateMobileNo(user.getPhone_number())){
+			if(this.service.storeUserData(user)) {	
 				System.out.println("User Saved successfully...");
 				m.addAttribute("message","registrationsuccess");
 				return "login";
@@ -120,7 +131,6 @@ public class HomeController {
 			}
 			}
 		else {
-			System.out.println("User Not Valid...");
 			m.addAttribute("message","user Aleready Found in Rcord");
 			return "failed";
 		}
@@ -165,7 +175,6 @@ public class HomeController {
 	public ModelAndView validateToken(@PathVariable("token") String Token) {
 		ModelAndView mav=new ModelAndView();
 		PasswordReset prst=this.service.validateToken(Token);
-		System.out.println(prst);
 		if(prst.getEmail()!=null||prst.getToken()!=null||prst.getCreated_at()!=null) {
 			
 //			Check that Token Is Not Expired before Changing Password Opeartion 
@@ -188,19 +197,28 @@ public class HomeController {
 		return mav;
 	}
 	@RequestMapping(value = "/profile")
-	public String editProfilePageView(Model m,HttpServletRequest request) {
+	public String editProfilePageView(Model m,HttpServletRequest request) throws UserNotFoundException {
 		User user= (User)request.getSession().getAttribute("user");
+		if(user==null||user.getUser_id()==0||user.getEmail()=="") {
+			throw new UserNotFoundException();
+		}
 		m.addAttribute("user",user);
 		return "editprofile";
 	}
 	@RequestMapping(value = "/editprofile" ,method = RequestMethod.POST)
-	public @ResponseBody boolean updateProfile(UserProfileDto userProfileDto,HttpServletRequest request,HttpSession session) {
+	public @ResponseBody boolean updateProfile(UserProfileDto userProfileDto,HttpServletRequest request,HttpSession session) throws UserNotFoundException {
 		User user= (User)request.getSession().getAttribute("user");
+		if(user==null||user.getUser_id()==0||user.getEmail()=="") {
+			throw new UserNotFoundException();
+		}
 		return this.service.editUserProfile(userProfileDto,user,session);
 		}
 	@RequestMapping(value = "/changeMyPassword", method = RequestMethod.POST)
-	public @ResponseBody String changeMyPassword(ChangePasswordDto changePasswordDto,HttpServletRequest request) {
+	public @ResponseBody String changeMyPassword(ChangePasswordDto changePasswordDto,HttpServletRequest request) throws UserNotFoundException {
 		User user= (User)request.getSession().getAttribute("user");
+		if(user==null||user.getUser_id()==0||user.getEmail()=="") {
+			throw new UserNotFoundException();
+		}
 		if(!user.getPassword().equals(changePasswordDto.getOldPassWord())) {
 			return "oldpassnotmatched";
 		}
@@ -216,12 +234,20 @@ public class HomeController {
 		}
 	}
 	@RequestMapping(value = "/contactUs", method = RequestMethod.POST)
-	public @ResponseBody boolean contactUsPage(ContactUsDto contactUs,HttpServletRequest request) {
+	public @ResponseBody boolean contactUsPage(ContactUsDto contactUs,HttpServletRequest request) throws UserNotFoundException {
 		User user= (User)request.getSession().getAttribute("user");
-		if(user==null||user.getUser_id()==0) {
-			return false;
+		if(user==null||user.getUser_id()==0||user.getEmail()=="") {
+			throw new UserNotFoundException();
 		}
 		return this.service.contactUs(user,contactUs);
+	}
+	@RequestMapping(value = "/loadtimesheets",method=RequestMethod.GET)
+	public @ResponseBody List<TimeSheetDto> loadTimesheets(HttpServletRequest request) throws UserNotFoundException{
+		User user= (User)request.getSession().getAttribute("user");
+		if(user==null||user.getUser_id()==0||user.getEmail()=="") {
+			throw new UserNotFoundException();
+		}
+		return this.service.loadTimesheetsOfUser(user);
 	}
 //	@ExceptionHandler(value = ConstraintViolationException.class)
 //    public String sqlExceptionHanler(Model m) {       

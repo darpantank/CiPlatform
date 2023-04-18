@@ -25,6 +25,7 @@ import project.dto.MissionCommentDto;
 import project.dto.MissionVolunteerIncomingDto;
 import project.dto.MissionVolunteersOutgoingDto;
 import project.dto.PostCommentDto;
+import project.exception.UserNotFoundException;
 import project.model.City;
 import project.model.Comment;
 import project.model.Country;
@@ -109,12 +110,11 @@ public class MissionController {
 		return Output;
 	}
 	@RequestMapping(value="/getMyMission" ,method = RequestMethod.GET)
-	public String loadMissionPage(Model m,@RequestParam("mission_id") int mission_id,HttpServletRequest request){
+	public String loadMissionPage(Model m,@RequestParam("mission_id") int mission_id,HttpServletRequest request) throws UserNotFoundException{
 		Mission Mission=new Mission();
 		User Myuser= (User)request.getSession().getAttribute("user");
-		if(Myuser==null||Myuser.getUser_id()==0) {
-			m.addAttribute("message","sessionexpire");
-			return "login";
+		if(Myuser==null||Myuser.getUser_id()==0||Myuser.getEmail()=="") {
+			throw new UserNotFoundException();
 		}
 		Mission=this.service.fetchMissionById(mission_id);
 		m.addAttribute("documents",this.service.getDocumentOfMission(Mission));
@@ -135,10 +135,13 @@ public class MissionController {
 		return "mission";
 	}
 	@RequestMapping(value="/addToMyFavourite" ,method = RequestMethod.POST)
-	public @ResponseBody boolean addMyFavouriteMission(@RequestParam("missionId") String missionId,HttpServletRequest request) {
+	public @ResponseBody boolean addMyFavouriteMission(@RequestParam("missionId") String missionId,HttpServletRequest request) throws UserNotFoundException {
 		int mission=Integer.parseInt(missionId);
 		Mission myMission=this.service.fetchMissionById(mission);
 		User Myuser= (User)request.getSession().getAttribute("user");
+		if(Myuser==null||Myuser.getUser_id()==0||Myuser.getEmail()=="") {
+			throw new UserNotFoundException();
+		}
 		if(Myuser.getEmail()!=null) {			
 			FavoriteMission myATF=new FavoriteMission(myMission,Myuser);
 			return this.service.addToFavourite(myATF);
@@ -153,21 +156,27 @@ public class MissionController {
 		return this.service.getRelatedMission(myMission,Myuser);
 	}
 	@RequestMapping(value = "/ratingToMission",method = RequestMethod.POST)
-	public @ResponseBody Boolean ratingToMission(@RequestParam("missionId") String missionId,@RequestParam("rating") String rating,HttpServletRequest request) {
+	public @ResponseBody Boolean ratingToMission(@RequestParam("missionId") String missionId,@RequestParam("rating") String rating,HttpServletRequest request) throws UserNotFoundException {
 		System.out.print(missionId);
 		int mission=Integer.parseInt(missionId);
 		int ratingCon=Integer.parseInt(rating);
 		User Myuser= (User)request.getSession().getAttribute("user");
+		if(Myuser==null||Myuser.getUser_id()==0||Myuser.getEmail()=="") {
+			throw new UserNotFoundException();
+		}
 		Mission myMission=this.service.fetchMissionById(mission);
 		return this.service.ratingToMission(Myuser,myMission,ratingCon);
 	}
 	
 	@RequestMapping(value= "/recommandtocoworker" , method = RequestMethod.POST)
-	public @ResponseBody String recommandToCoWorker(@RequestParam("missionId") String missionId,@RequestParam("email_id") String email,HttpServletRequest request) {
+	public @ResponseBody String recommandToCoWorker(@RequestParam("missionId") String missionId,@RequestParam("email_id") String email,HttpServletRequest request) throws UserNotFoundException {
 		int mission=Integer.parseInt(missionId);
 		Mission myMission=this.service.fetchMissionById(mission);
 		User SendFromUser= (User)request.getSession().getAttribute("user");
 		User SendToUser= this.userService.getUserFromEmail(email);
+		if(SendFromUser==null||SendFromUser.getUser_id()==0||SendFromUser.getEmail()==""||SendToUser==null||SendToUser.getUser_id()==0||SendToUser.getEmail()=="") {
+			throw new UserNotFoundException();
+		}
 		if(SendToUser.getEmail()==null||SendToUser.getEmail()=="") {
 			return "emailnotfound";
 		}
@@ -191,8 +200,11 @@ public class MissionController {
 	}
 	@PostMapping(value="/postcomment")
 	@ResponseBody
-	public boolean postCommentByUser(PostCommentDto postCommentDto,HttpServletRequest request) {
+	public boolean postCommentByUser(PostCommentDto postCommentDto,HttpServletRequest request) throws UserNotFoundException {
 		User user= (User)request.getSession().getAttribute("user");
+		if(user==null||user.getUser_id()==0||user.getEmail()=="") {
+			throw new UserNotFoundException();
+		}
 		this.service.postComment(postCommentDto, user);
 		return true;
 	}
@@ -210,8 +222,11 @@ public class MissionController {
 	}
 	@RequestMapping(value = "/applyForMission" ,method = RequestMethod.POST)
 	@ResponseBody
-	public boolean applyForMission(@RequestParam("missionId") int missionId,HttpServletRequest request) {
+	public boolean applyForMission(@RequestParam("missionId") int missionId,HttpServletRequest request) throws UserNotFoundException {
 		User user= (User)request.getSession().getAttribute("user");
+		if(user==null||user.getUser_id()==0||user.getEmail()=="") {
+			throw new UserNotFoundException();
+		}
 		Mission mission=this.service.fetchMissionById(missionId);
 		if(user==null||user.getUser_id()==0||mission==null||mission.getMission_id()==0) {
 			return false;

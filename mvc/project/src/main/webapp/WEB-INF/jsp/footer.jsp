@@ -13,6 +13,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                	<div class="contactUsMessageBox"></div>
                         <div class="form-group mb-3">
                             <label class="form-label">Name</label>
                             <input type="text" class="form-control" name="name"
@@ -53,10 +54,12 @@
         integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
      <script>
      	$(".saveContactUs").click(function(){
+     		$(".contactUsMessageBox").empty();
      		var subject=$(".contactUsSubject").val();
      		var message=$(".contactUsMessage").val();
      		if(subject==''||message==''){
-     			alert("Subject and Message Is Required Field(*)");
+     			$(".contactUsMessageBox").append('<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong> Subject and Message Is Required Field(*)<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');	            			
+
      		}
      		else{
      			$.ajax({
@@ -67,11 +70,12 @@
      	            type:"POST",
      	            success: function(response){
      	            		if(response){
-     	            			alert("Contact Us Request Saved...");
-     	            			$('#ModalForContactUs').modal('hide');
+     	            			$(".contactUsMessageBox").append('<div class="alert alert-success alert-dismissible fade show" role="alert"><strong>Thank You </strong> Your Contact Us Request Saved Successfully...<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');	            			
+//      	            			$('#ModalForContactUs').modal('hide');
      	            		}
      	            		else{
-     	            			alert("Something Went Wrong!");
+     	            			$(".contactUsMessageBox").append('<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong> Data Not Saved !<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');	            			
+
      	            		}
      	            },
      	    	});

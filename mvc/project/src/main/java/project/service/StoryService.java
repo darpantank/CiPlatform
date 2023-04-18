@@ -37,6 +37,7 @@ public class StoryService implements StoryServiceIntereface{
 	@Autowired
 	MissionDaoInterface missionDaoInterface;
 	private final String savePath="uploadFiles/";
+	
 	public List<FindMissionFromUserDto> findMissionOfUsers(User user){
 		List<MissionApplication> myMissionApplicationList=this.storyDaoInterface.findMissionFromUser(user);
 		List<FindMissionFromUserDto> myResultList=new ArrayList<FindMissionFromUserDto>();
@@ -44,6 +45,7 @@ public class StoryService implements StoryServiceIntereface{
 			FindMissionFromUserDto findMissionFromUserDto=new FindMissionFromUserDto();
 			findMissionFromUserDto.setMissionId(application.getMission().getMission_id());
 			findMissionFromUserDto.setMissionName(application.getMission().getTitle());
+			findMissionFromUserDto.setMissionType(application.getMission().getMission_type().toString());
 			myResultList.add(findMissionFromUserDto);
 		}
 		return myResultList;

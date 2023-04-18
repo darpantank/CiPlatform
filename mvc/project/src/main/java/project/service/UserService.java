@@ -19,6 +19,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import project.dao.UserDaoInterface;
 import project.dto.ChangePasswordDto;
 import project.dto.ContactUsDto;
+import project.dto.TimeSheetDto;
 import project.dto.UserProfileDto;
 import project.model.City;
 import project.model.ContactUs;
@@ -26,6 +27,7 @@ import project.model.Country;
 import project.model.PasswordReset;
 import project.model.Skill;
 import project.model.StoryMedia;
+import project.model.TimeSheet;
 import project.model.User;
 import project.model.UserSkill;
 
@@ -60,6 +62,14 @@ public class UserService implements UserServiceInterface {
 	public boolean validateEmailId(String email) {
 		User myuser = this.daoOperation.validateEmail(email);
 		if (myuser.getEmail() != null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	public boolean validateMobileNo(String mobileNumber) {
+		User myuser = this.daoOperation.validateMobileNumber(mobileNumber);
+		if (myuser.getPhone_number() != null) {
 			return true;
 		} else {
 			return false;
@@ -234,6 +244,26 @@ public class UserService implements UserServiceInterface {
 		contactUs.setUser(user);
 		return this.daoOperation.saveContsctUsDetail(contactUs);
 		
+	}
+
+	public List<TimeSheetDto> loadTimesheetsOfUser(User user) {
+		List<TimeSheet> requestList=new ArrayList<TimeSheet>();
+		requestList=this.daoOperation.loadTimesheets(user.getUser_id());
+		List<TimeSheetDto> resultList=new ArrayList<TimeSheetDto>();
+		if(requestList.size()>0) {
+			for(TimeSheet sheet:requestList) {
+				TimeSheetDto sheetDto=new TimeSheetDto();
+				sheetDto.setAction(sheet.getAction());
+				sheetDto.setMissionId(sheet.getMission().getMission_id());
+				sheetDto.setMissionName(sheet.getMission().getTitle());
+				sheetDto.setTime(sheet.getTime());
+				sheetDto.setTimesheetId(sheet.getTimesheet_id());
+				sheetDto.setVolunteeredDate(sheet.getDate_volunteered());
+				sheetDto.setMissionType(sheet.getMission().getMission_type().toString());
+				resultList.add(sheetDto);
+			}
+		}
+		return resultList;
 	}
 
 	

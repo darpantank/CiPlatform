@@ -1,9 +1,12 @@
 package project.service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import project.dto.ChangePasswordDto;
 import project.dto.ContactUsDto;
+import project.dto.TimeSheetDto;
 import project.dto.UserProfileDto;
 import project.model.PasswordReset;
 import project.model.User;
@@ -23,4 +26,6 @@ public interface UserServiceInterface {
 	public boolean editUserProfile(UserProfileDto userProfileDto, User user,HttpSession session);
 	public boolean changeMyPassword(ChangePasswordDto changePasswordDto, User user);
 	public boolean contactUs(User user, ContactUsDto contactUs);
+	public boolean validateMobileNo(String mobileNumber);
+	public List<TimeSheetDto> loadTimesheetsOfUser(User user);
 }

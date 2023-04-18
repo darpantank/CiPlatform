@@ -145,7 +145,7 @@
           </div>
         </div>
         <div class="row">
-          <a href="#" class="text-muted text-center">Privacy Policy</a>
+          <a href="privacy" class="text-muted text-center">Privacy Policy</a>
         </div>
 
       </div>

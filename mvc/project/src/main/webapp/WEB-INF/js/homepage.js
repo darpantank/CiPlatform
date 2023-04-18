@@ -50,6 +50,7 @@
         	 
         	 /* Search Mission Logic */
              $('.search_field').keyup(function(){
+				 currentPage=1;
             	 updateMissionsOnChange();
              });
              
@@ -338,6 +339,7 @@
 					var seatLeft=mission.total_seat-missions[i].noOfApplicatioin;
 					var noOfApplication=missions[i].noOfApplicatioin;
 					var applyTag="";
+					
 					if(isApplied){
 						applyTag=`<a href="getMyMission?mission_id=`+mission.mission_id+`" class="applyButtonGridView">View Details <i class="bi bi-arrow-right"></i></a>`;
 					}
@@ -508,13 +510,7 @@
 						let closedTag='';
 						let applyButton=`<a href="getMyMission?mission_id=`+mission.mission_id+`" class="applyButtonGridView">Apply <i
 									class="bi bi-arrow-right"></i></a>`;
-						if(mission.deadline!=null){
-							var currentTimeDate=new Date(mission.deadline);
-							var deadlineDate=new Date();
-							if(deadlineDate>currentTimeDate){
-								closedTag='<button class="btn btn-danger">closed</button>';
-							}
-						}
+						
 						if(image==""){
 							image="noimagefound.png";
 						}
@@ -522,6 +518,15 @@
 							appliedTag='<button class="btn btn-success">applied</button>';
 							applyButton=`<a href="getMyMission?mission_id=`+mission.mission_id+`" class="applyButtonGridView">View Detail <i
 									class="bi bi-arrow-right"></i></a>`;
+						}
+						if(mission.deadline!=null){
+							var currentTimeDate=new Date(mission.deadline);
+							var deadlineDate=new Date();
+							if(deadlineDate>currentTimeDate){
+								closedTag='<button class="btn btn-danger">closed</button>';
+								applyButton=`<a class="applyButtonGridView" disabled>Closed <i
+									class="bi bi-arrow-right"></i></a>`;
+							}
 						}
 						if(mission.mission_type=='GOAL'){
 							timeOrGoalTag=`<div class="col">

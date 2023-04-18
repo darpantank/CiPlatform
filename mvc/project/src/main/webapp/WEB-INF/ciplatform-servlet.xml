@@ -117,6 +117,9 @@
 				<value>
 					project.model.ContactUs
 				</value>
+				<value>
+					project.model.TimeSheet
+				</value>
 			</list>
 		</property>
 	</bean>

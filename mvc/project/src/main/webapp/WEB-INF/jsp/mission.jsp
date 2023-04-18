@@ -174,7 +174,6 @@
                     </div>
 
                 </div>
-                ${Mission}
                 <div class="missionInfoDiv mt-4 container-fluid">
                     <div class="row d-flex g-0 gap-1">
                         <div class="col d-flex flex-column MissioninfoCard">
