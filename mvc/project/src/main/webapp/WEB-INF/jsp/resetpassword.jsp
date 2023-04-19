@@ -82,14 +82,17 @@
       <div class="col-sm-12 col-lg-4 login d-flex flex-column justify-content-between">
         <div class="row"></div>
         <div class="row">
+        <div class="messageBox">
+        	
+        </div>
           <div class="col">
             <p class="text-center forgotPass">New Password</p>
             <p class="text-muted text-center">Please enter a new password in the fields below.</p>
-            <form action="../resetmypassword" method="post">
-            <input type="hidden" name="token" value="${token}" readonly hidden>
+            <form action="../resetmypassword" method="post" id="resetPasswordForm">
+            <input type="hidden" name="token" value="${token}" readonly required hidden>
                 <div class="mb-3">
                     <label for="exampleInputPassword1" class="form-label text-muted">New Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" id="password" name="password" minlength="8" required>
+                    <input type="password" class="form-control" id="password" name="password" minlength="8" required>
                   </div>
               <div class="mb-3">
                 <label for="exampleInputPassword2" class="form-label text-muted">Confirm New Password</label>
@@ -108,7 +111,23 @@
     </div>
   </div>
   <script src="../js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
   <script src="../js/validatePassword.js"></script>
+  <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/jquery.validate.js" type="text/javascript"></script>
+  <script>
+  	$(document).ready(function() {
+	  $("#resetPasswordForm").validate({rules: {
+		  confirm_password:{
+			  equalTo: "#password"
+		  }
+	  },messages:{
+		  confirm_password:{
+			  equalTo: "Password and Confirm Password must same"
+		  }
+	  }	  
+	  });
+	});
+  </script>
   </c:if>
 </body>
 

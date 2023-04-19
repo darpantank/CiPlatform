@@ -6,8 +6,10 @@ import javax.servlet.http.HttpSession;
 
 import project.dto.ChangePasswordDto;
 import project.dto.ContactUsDto;
+import project.dto.TimeBasedTimesheetIncomingDto;
 import project.dto.TimeSheetDto;
 import project.dto.UserProfileDto;
+import project.model.Mission;
 import project.model.PasswordReset;
 import project.model.User;
 
@@ -28,4 +30,5 @@ public interface UserServiceInterface {
 	public boolean contactUs(User user, ContactUsDto contactUs);
 	public boolean validateMobileNo(String mobileNumber);
 	public List<TimeSheetDto> loadTimesheetsOfUser(User user);
+	public boolean saveTimeSheetForTimeBasedMission(User user, Mission mission, TimeBasedTimesheetIncomingDto timesheet);
 }

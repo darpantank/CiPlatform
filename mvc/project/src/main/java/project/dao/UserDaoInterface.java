@@ -28,5 +28,7 @@ public interface UserDaoInterface {
 	public boolean saveContsctUsDetail(ContactUs contactUs);
 	public User validateMobileNumber(String mobileNumber);
 	public List<TimeSheet> loadTimesheets(int userId);
+	public boolean saveUpdateTimeSheet(TimeSheet sheet);
+	public TimeSheet fetchTimeSheetFromId(int timesheetId, int user_id);
 	
 }

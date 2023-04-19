@@ -21,6 +21,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import project.dto.ChangePasswordDto;
 import project.dto.ContactUsDto;
+import project.dto.GoalBasedTimesheetIncomingDto;
+import project.dto.TimeBasedTimesheetIncomingDto;
 import project.dto.TimeSheetDto;
 import project.dto.UserProfileDto;
 import project.exception.UserNotFoundException;
@@ -131,8 +133,8 @@ public class HomeController {
 			}
 			}
 		else {
-			m.addAttribute("message","user Aleready Found in Rcord");
-			return "failed";
+			m.addAttribute("message","registrationfailed");
+			return "registration";
 		}
 		
 	}
@@ -140,7 +142,6 @@ public class HomeController {
 	public ModelAndView validateUser(@RequestParam("email") String email,@RequestParam("password") String password,HttpServletRequest request) {
 		ModelAndView mav=new ModelAndView();
 		User myuser=this.service.validateUserDetail(email, password);
-
 		if(myuser.getEmail()!=null) {
 			mav.setViewName("home");
 			mav.addObject("message","Successfully login");
@@ -185,14 +186,14 @@ public class HomeController {
 				mav.setViewName("resetpassword");
 			}
 			else {
-				mav.addObject("message","token is now expired please regenerate mail and use it within 4 hour");
-				mav.setViewName("failed");
+				mav.addObject("message","tokenexpire");
+				mav.setViewName("forgotpassword");
 			}
 			
 		}
 		else {
 			mav.addObject("message","invalidtoken");
-			mav.setViewName("failed");
+			mav.setViewName("forgotpassword");
 		}
 		return mav;
 	}
@@ -248,6 +249,22 @@ public class HomeController {
 			throw new UserNotFoundException();
 		}
 		return this.service.loadTimesheetsOfUser(user);
+	}
+	@RequestMapping(value="savetimebasedsheet" ,method =RequestMethod.POST )
+	public @ResponseBody boolean saveTimeSheetTimeBasedMission(TimeBasedTimesheetIncomingDto timesheet,HttpServletRequest request) throws UserNotFoundException {
+		System.out.println(timesheet);
+		User user= (User)request.getSession().getAttribute("user");
+		Mission mission=new Mission();
+		mission=this.mservice.fetchMissionById(timesheet.getMissionId());
+		if(user==null||user.getUser_id()==0||user.getEmail()=="") {
+			throw new UserNotFoundException();
+		}		
+		return this.service.saveTimeSheetForTimeBasedMission(user,mission,timesheet);
+	}
+	@RequestMapping(value="savegoalbasedsheet" ,method =RequestMethod.POST )
+	public @ResponseBody boolean saveTimeSheetGoalBasedMission(GoalBasedTimesheetIncomingDto timesheet) {
+		System.out.println(timesheet);
+		return true;
 	}
 //	@ExceptionHandler(value = ConstraintViolationException.class)
 //    public String sqlExceptionHanler(Model m) {       

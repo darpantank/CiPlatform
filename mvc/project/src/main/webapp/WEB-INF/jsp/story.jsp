@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="css/storylisting.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-
+	<link rel="stylesheet" type="text/css" href="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.css">
     <title>Story - CiPlatform</title>
 </head>
 
@@ -59,13 +59,14 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
         integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
         crossorigin="anonymous"></script>
+        <script src="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.min.js"></script>
     <script src="js/sidebarJs.js"></script>
     <script src="js/add_navbar.js"></script>
     <script>
     let totalStory=0;
     let totalStoryPerPage=9;
     let totalPages=0;
-    let CurrentPage=1;
+    let currentPage=1;
     let stories="";
 //     	Ajax Call to Fetch total Story to generate the pagination list 
     $(document).ready(function(){
@@ -79,12 +80,13 @@
             }
         });
     });
+    
     			function loadStories(){
 //     				ajax call to load stories of first page initially and change according to page number
     				$.ajax({
     	                url: "loadStoryByPageNo",
     	                dataType: 'json',
-    	                data : {currentPage:CurrentPage},
+    	                data : {currentPage:currentPage},
     	                success: function(response){
     	                	stories=response;
     	                	generateStoryCard();
@@ -102,19 +104,19 @@
             		 noStoryFound();
             	 }
             	 else{
-            		 let pagination=`<li class="page-item">
+            		 let pagination=`<li class="page-item goAtFirst">
                          <a class="page-link" href="#" aria-label="Next">
                          <span aria-hidden="true"><i class="bi bi-chevron-double-left"></i></span>
                      </a>
                    </li>
-               <li class="page-item">
+               <li class="page-item previousPagination">
                  <a class="page-link" href="#" aria-label="Next">
                      <span aria-hidden="true"><i class="bi bi-chevron-left"></i></span>
                  </a>
                </li>`;
                
                for(var a=1;a<=totalPages;a++){
-            	   if(CurrentPage==a){            		   
+            	   if(currentPage==a){            		   
             	   		pagination+=`<li class="page-item"><a class="page-link active" onclick="changePage(`+a+`)">`+a+`</a></li>`;
             	   }
             	   else{
@@ -122,12 +124,12 @@
             	   }
                }
                
-               pagination+=`<li class="page-item">
+               pagination+=`<li class="page-item NextPagination">
                    <a class="page-link" href="#" aria-label="Next">
                    <span aria-hidden="true"><i class="bi bi-chevron-right"></i></span>
                  </a>
                </li>
-               <li class="page-item">
+               <li class="page-item goAtLast">
                  <a class="page-link" href="#" aria-label="Next">
                      <span aria-hidden="true"><i class="bi bi-chevron-double-right"></i></span>
                    </a>
@@ -135,6 +137,45 @@
                
                $(".pagination").append(pagination);
             	 }
+            	 
+            	 $(".goAtLast").click(function(){
+					  if(currentPage==totalPages){
+						  swal("Sorry !","You are On Last Page already!","info");
+					  }
+					  else{						  
+						  changePage(totalPages);
+					  }
+				  });
+				  $(".goAtFirst").click(function(){
+					  if(currentPage==1)
+					  {						  
+					  	swal("Sorry !","You are On First Page already!","info");
+					  }
+					  else{					  
+						  changePage(1);
+					  }
+				  });
+					  $(".NextPagination").click(function() {
+						  if(currentPage<totalPages)
+						  {
+							  changePage(++currentPage);
+						  }
+						  else{
+							  swal("Sorry !","You are On Last Page Already!","info");
+						  }
+					  });
+					  $(".previousPagination").click(function() {
+						  if(currentPage>1)
+						  {
+							  changePage(--currentPage);
+						  }
+						  else{
+							  swal("Sorry !","You are On First Page Already!","info");
+						  }
+					  });
+            	 
+            	 
+            	 
              }
              
              

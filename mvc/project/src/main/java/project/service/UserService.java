@@ -2,6 +2,8 @@ package project.service;
 
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
+import java.time.DateTimeException;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,14 +21,16 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import project.dao.UserDaoInterface;
 import project.dto.ChangePasswordDto;
 import project.dto.ContactUsDto;
+import project.dto.TimeBasedTimesheetIncomingDto;
 import project.dto.TimeSheetDto;
 import project.dto.UserProfileDto;
+import project.enums.TimeSheetStatus;
 import project.model.City;
 import project.model.ContactUs;
 import project.model.Country;
+import project.model.Mission;
 import project.model.PasswordReset;
 import project.model.Skill;
-import project.model.StoryMedia;
 import project.model.TimeSheet;
 import project.model.User;
 import project.model.UserSkill;
@@ -37,7 +41,6 @@ public class UserService implements UserServiceInterface {
 	final static int TOKEN_VALID_TIME = 240;
 	@Autowired
 	UserDaoInterface daoOperation;
-
 	public boolean storeUserData(User user1) {
 		user1.setCreated_at(new Date());
 		String regex = "^(.+)@(.+)$";
@@ -264,6 +267,46 @@ public class UserService implements UserServiceInterface {
 			}
 		}
 		return resultList;
+	}
+	public boolean saveTimeSheetForTimeBasedMission(User user, Mission mission, TimeBasedTimesheetIncomingDto timesheet) {
+		// TODO Auto-generated method stub
+		//generate New if Not Update Opration
+		TimeSheet sheet=new TimeSheet();
+				if(timesheet.getTimesheetId()==0) {
+					if(mission==null|mission.getMission_id()==0) {
+						return false;
+					}
+					sheet.setDate_volunteered(timesheet.getDateVolunteered());
+					sheet.setMission(mission);
+					sheet.setNotes(timesheet.getMessage());
+					sheet.setStatus(TimeSheetStatus.SUBMIT_FOR_APPROVAL);
+					sheet.setUser(user);
+					try {
+						LocalTime localTime=LocalTime.of(timesheet.getHours(),timesheet.getMinutes());
+						sheet.setTime(localTime);
+					}
+					catch(DateTimeException e) {
+						e.printStackTrace();
+					}
+				}
+				else {
+//					Load Object then set All Methods
+					sheet=this.daoOperation.fetchTimeSheetFromId(timesheet.getTimesheetId(),user.getUser_id());
+					if(sheet!=null) {
+						sheet.setDate_volunteered(timesheet.getDateVolunteered());
+						sheet.setNotes(timesheet.getMessage());
+						sheet.setStatus(TimeSheetStatus.SUBMIT_FOR_APPROVAL);
+						try {
+							LocalTime localTime=LocalTime.of(timesheet.getHours(),timesheet.getMinutes());
+							sheet.setTime(localTime);
+						}
+						catch(DateTimeException e) {
+							e.printStackTrace();
+						}
+					}
+					System.out.println("Update MissionTimeSheet Called");
+				}
+				return this.daoOperation.saveUpdateTimeSheet(sheet);
 	}
 
 	

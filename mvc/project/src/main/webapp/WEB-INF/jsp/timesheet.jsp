@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/timesheet.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" type="text/css" href="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.css">
 </head>
 
 <body>
@@ -29,11 +30,13 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                <input id="timesheetIdTimeBased" value="0" type="hidden">
+                <form id="timeBasedMissionForm">
+                
+                <input id="timesheetIdTimeBased" name="timesheetId" value="0" type="hidden" required>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Mission</label>
                         
-                        <select class="form-control SelectedMissionTimeBased">
+                        <select class="form-control SelectedMissionTimeBased" name="missionId" required>
                         	<option value="" disabled selected hidden>Select Mission</option>
                         	<c:forEach var="a" items="${missions }">
                         		<c:if test="${a.missionType=='TIME'}">
@@ -44,31 +47,33 @@
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Date Volunteerd</label>
-                        <input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                        <input type="date" class="form-control dateVolunteerTimeModal" name="dateVolunteered" required>
                     </div>
                     <div class="d-flex row ">
 
                         <div class="mb-3 col-6">
                             <label for="exampleInputEmail1" class="form-label">Hours</label>
-                            <input type="text" class="form-control hoursTimeBased" id="exampleInputEmail1"
-                                placeholder="Enter Spent Hour" aria-describedby="emailHelp">
+                            <input type="text" class="form-control hoursTimeBased"
+                                placeholder="Enter Spent Hour" name="hours" required max="23" min="0"> 
                         </div>
                         <div class="mb-3 col-6">
                             <label for="exampleInputEmail1" class="form-label">Minutes</label>
                             <input type="Minutes" class="form-control" id="exampleInputEmail1"
-                                placeholder="Enter Spent Minute" aria-describedby="emailHelp">
+                                placeholder="Enter Spent Minute" aria-describedby="emailHelp" name="minutes" required max="59" min="0">
                         </div>
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Message</label>
                         <textarea class="form-control" placeholder="Enter Your Message" id="floatingTextarea2"
-                            style="height: 100px"></textarea>
+                            style="height: 100px" name="message" required></textarea>
                     </div>
                 </div>
+                
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary submitTimeBasedTimeSheet">Save changes</button>
+                    <button type="submit" class="btn btn-primary submitTimeBasedTimeSheet">Save changes</button>
                 </div>
+                </form>
             </div>
         </div>
     </div>
@@ -80,10 +85,13 @@
                     <h5 class="modal-title" id="exampleModalLabel">Please input below Volunteering Goal</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+                <form id="goalBasedMissionForm">
+                
+                <input id="timesheetIdGoalBased" value="0" name="timesheetId" type="hidden" required>
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Mission</label>
-                        <select class="form-control SelectedMissionTimeBased">
+                        <select class="form-control SelectedMissionGoalBased" name="missionId" required>
                         	<option value="" disabled selected hidden>Select Mission</option>
                         	<c:forEach var="a" items="${missions }">
                         		<c:if test="${a.missionType=='GOAL'}">
@@ -94,22 +102,23 @@
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Actions</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Action">
+                        <input type="text" class="form-control actionGoalBasedModal" name="action" required>
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Date Volunteerd</label>
-                        <input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                        <input type="date" class="form-control dateVolunteerGoalModal" name="dateVolunteered" required>
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Message</label>
                         <textarea class="form-control" placeholder="Enter Your Message" id="floatingTextarea2"
-                            style="height: 100px"></textarea>
+                            style="height: 100px" name="message" required></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary submitGoalTimeSheet">Save changes</button>
+                    <button type="submit" class="btn btn-primary submitGoalTimeSheet">Save changes</button>
                 </div>
+                </form>
             </div>
         </div>
     </div>
@@ -189,30 +198,150 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
         integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
         crossorigin="anonymous"></script>
+        <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/jquery.validate.js" type="text/javascript"></script>
+        <script src="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.min.js"></script>
     <script src="js/fetchMission.js"></script>
     <script src="js/spinner.js"></script>
-    <script>
+    <script>		  
     let timesheets='';
     	$( document ).ready(function() {
     		updateTimeSheetsData();
+    		$("#timeBasedMissionForm").validate();
+    		$("#goalBasedMissionForm").validate();
+		});
+    	$("#timeBasedMissionForm").submit(function(e){
+    				e.preventDefault();
+    				if($("#timeBasedMissionForm").valid()){    					
+    					var data=$("#timeBasedMissionForm").serialize();
+    					saveTimeSheetTimeBased(data);
+    				}
     	});
-    	$(".submitGoalTimeSheet").click(
-    			function(){
-    				console.log("Thanks");
-    	});
-    	$(".submitTimeBasedTimeSheet").click(function(){
-    		var hour=$(".hoursTimeBased");
-    		var minute=$(".hoursTimeBased");
-    		if(hour.val()==''){
-    			$(".red").empty();
-    			hour.after('<div class="red">Hours is Required</div>');
+    	$("#goalBasedMissionForm").submit(function(e){
+			e.preventDefault();
+			if($("#goalBasedMissionForm").valid()){    					
+				var data=$("#goalBasedMissionForm").serialize();
+				saveTimeSheetGoalBased(data);
 			}
-    		else{
-    			$(".red").empty();
-    		}
-    		console.log("Thanks");
-    	});
+		});
     	
+    	function printGoalBasedMissionTimeSheet(){
+    		$(".GoalBasedTableBody").empty();
+    		if(Object.keys(timesheets).length>0){
+    			for(var i in timesheets){
+    				timesheet=timesheets[i];
+    				if(timesheet.missionType=='GOAL'){
+//     					dateOfvolunteer=new Date(timesheet.volunteeredDate).toLocaleDateString('en-GB');
+    					dateOfvolunteer=new Date(timesheet.volunteeredDate).toISOString().slice(0, 10);
+    					let row=`<tr>
+    						<input type="hidden" class="timesheetIdGoalBased" value="`+timesheet.timesheetId+`">
+    						<input type="hidden" class="missionIdGoalBased" value="`+timesheet.missionId+`">
+                            <td class="missionnameGoalBased">`+timesheet.missionId+`</td>
+                            <td class="missionnameGoalBased">`+timesheet.missionName+`</td>
+                            <td class="volunteerDateGoalBased">`+dateOfvolunteer+`</td>
+                            <td class="missionActionGoalBased">`+timesheet.action+`</td>
+                            <td class="d-flex gap-2">
+                                <img src="image/editing.png" alt="" srcset="" data-bs-toggle="modal" data-bs-target="#ModalForGoalBased" class="EditDataGoalBased">
+                                <img src="image/delete.png" alt="" srcset="" >
+                            </td>
+                        </tr>`;
+    					$(".GoalBasedTableBody").append(row);
+                        console.log(timesheet);
+    				}
+    			}
+    		}
+    		$(".EditDataGoalBased").click(function () {
+    			var missionId=$(this).parent().siblings(".missionIdGoalBased").val();
+			    $('.SelectedMissionGoalBased option[value="'+missionId+'"]').attr("selected", "selected");
+			    $('.SelectedMissionGoalBased').attr('disabled', 'disabled');
+			    $("#timesheetIdGoalBased").val($(this).parent().siblings(".timesheetIdGoalBased").val());
+			    $(".actionGoalBasedModal").val($(this).parent().siblings(".missionActionGoalBased").html());
+			    $(".dateVolunteerGoalModal").val(($(".volunteerDateGoalBased").html()));
+    		});
+    	}
+    	function printTimeBasedMissionTimeSheet(){
+    		$(".TimeBasedTableBody").empty();
+    		if(Object.keys(timesheets).length>0){
+    			for(var i in timesheets){
+    				timesheet=timesheets[i];
+    				if(timesheet.missionType=='TIME'){
+//     					dateOfvolunteer=new Date(timesheet.volunteeredDate).toLocaleDateString('en-GB');
+    					dateOfvolunteer=new Date(timesheet.volunteeredDate).toISOString().slice(0, 10);
+    					let hours="0";
+    					let minutes="0";
+    					let timeArr=[];
+    					timeArr=timesheet.time;
+    					for(let i in timeArr){
+    						if(i==0){
+    							hours=timeArr[i];
+    						}
+    						if(i==1){
+    							minutes=timeArr[i];
+    						}
+    					}
+//     					console.log(timesheet.time.at[0]);
+    					let row=`<tr>
+    						<input type="hidden" class="timesheetIdTimeBased" value="`+timesheet.timesheetId+`">
+    						<input type="hidden" class="missionIdTimeBased" value="`+timesheet.missionId+`">
+                            <td class="missionnameTimeBased">`+timesheet.missionName+`</td>
+                            <td class="volunteerDateTimeBased">`+dateOfvolunteer+`</td>
+                            <td class="hoursVolunteered">`+hours+`</td>
+                            <td class="minutesVolunteered">`+minutes+`</td>
+                            <td class="d-flex gap-2">
+                                <img src="image/editing.png" class="EditDataTimeBased" alt="" srcset="" data-bs-toggle="modal" data-bs-target="#ModalForTimeBased">
+                                <img src="image/delete.png" alt="" srcset="">
+                            </td>
+                        </tr>`;
+                        $(".TimeBasedTableBody").append(row);
+                        console.log(timesheet);
+    				}
+    			}
+    			$(".EditDataTimeBased").click(function () {
+    				var missionId=$(this).parent().siblings(".missionIdTimeBased").val();
+//     			    $("#MissionNameTimeBasedModal").val($(this).parent().siblings(".missionnameTimeBased").val());
+    			    $('.SelectedMissionTimeBased option[value="'+missionId+'"]').attr("selected", "selected");
+    			    $('.SelectedMissionTimeBased').attr('disabled', 'disabled');
+    			    $("#timesheetIdTimeBased").val($(this).parent().siblings(".timesheetIdTimeBased").val());
+    			    $(".dateVolunteerTimeModal").val(($(".volunteerDateTimeBased").html()));
+    			});
+    		}
+    	}
+    	function saveTimeSheetTimeBased(data){
+    		$.ajax({
+                url: "savetimebasedsheet",
+                data: data,
+                dataType : "json",
+                type:"POST",
+                success: function(response){
+                	if(response){         
+                		$(".modal .btn-close").click();
+                		swal("Thanks","Timesheet Added Successfully","success");
+                	}
+                	//clean Modal
+                	$("#timeBasedMissionForm").trigger("reset");
+                	$(".SelectedMissionTimeBased").removeAttr("selected").removeAttr("selected");
+                	$(".dateVolunteerTimeModal").val('');
+                	updateTimeSheetsData();
+                }
+            });
+    	}
+    	function saveTimeSheetGoalBased(data){
+    		$.ajax({
+                url: "savegoalbasedsheet",
+                data: data,
+                dataType : "json",
+                type:"POST",
+                success: function(response){
+                	alert("Timesheet Added Successfully");
+                	
+                	//clean Modal
+                	
+                	updateTimeSheetsData()
+                }
+            });
+    	}
+//     	$(".submitTimeBasedTimeSheet").click(function(){
+//     		console.log($("#timeBasedMissionForm").serialize());
+//     	});
     	function updateTimeSheetsData(){
     		$.ajax({
                 url: "loadtimesheets",
@@ -226,58 +355,6 @@
             });
     	}
     	
-    	function printGoalBasedMissionTimeSheet(){
-    		$(".GoalBasedTableBody").empty();
-    		if(Object.keys(timesheets).length>0){
-    			for(var i in timesheets){
-    				timesheet=timesheets[i];
-    				if(timesheet.missionType=='GOAL'){
-    					let row=`<tr>
-                            <td class="missionnameGoalBased">`+timesheet.missionId+`</td>
-                            <td class="missionnameGoalBased">`+timesheet.missionName+`</td>
-                            <td>`+timesheet.volunteeredDate+`</td>
-                            <td>`+timesheet.action+`</td>
-                            <td class="d-flex gap-2">
-                                <img src="image/editing.png" alt="" srcset="" data-bs-toggle="modal" data-bs-target="#ModalForGoalBased" class="EditDataGoalBased">
-                                <img src="image/delete.png" alt="" srcset="" >
-                            </td>
-                        </tr>`;
-    					$(".GoalBasedTableBody").append(row);
-                        console.log(timesheet);
-    				}
-    			}
-    		}
-    	}
-    	function printTimeBasedMissionTimeSheet(){
-    		$(".TimeBasedTableBody").empty();
-    		if(Object.keys(timesheets).length>0){
-    			for(var i in timesheets){
-    				timesheet=timesheets[i];
-    				if(timesheet.missionType=='TIME'){
-    					let row=`<tr>
-    						<input type="hidden" class="timesheetIdTimeBased" value="`+timesheet.timesheetId+`">
-    						<input type="hidden" class="missionIdTimeBased" value="`+timesheet.missionId+`">
-                            <td class="missionnameTimeBased">`+timesheet.missionName+`</td>
-                            <td>`+timesheet.volunteeredDate+`</td>
-                            <td>1h</td>
-                            <td>30min</td>
-                            <td class="d-flex gap-2">
-                                <img src="image/editing.png" class="EditDataTimeBased" alt="" srcset="" data-bs-toggle="modal" data-bs-target="#ModalForTimeBased">
-                                <img src="image/delete.png" alt="" srcset="">
-                            </td>
-                        </tr>`;
-                        $(".TimeBasedTableBody").append(row);
-                        console.log(timesheet);
-    				}
-    			}
-    			$(".EditDataTimeBased").click(function () {
-    				var missionId=$(this).parent().siblings(".missionIdTimeBased").val();
-    			    $("#MissionNameTimeBasedModal").val($(this).parent().siblings(".missionnameTimeBased").val());
-    			    $('.SelectedMissionTimeBased option[value="'+missionId+'"]').attr("selected", "selected");
-    			     $("#timesheetIdTimeBased").val($(this).parent().siblings(".timesheetIdTimeBased").val());
-    			});
-    		}
-    	}
     </script>
     
 </body>

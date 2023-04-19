@@ -149,5 +149,21 @@ public class UserDaoOperation implements UserDaoInterface{
 		q.setParameter("userId", userId);
 		return q.getResultList();
 	}
+	@Transactional
+	public boolean saveUpdateTimeSheet(TimeSheet sheet) {
+		this.hibernateTemplate.saveOrUpdate(sheet);
+		return true;
+	}
+	public TimeSheet fetchTimeSheetFromId(int timesheetId, int userId) {
+		String que="from TimeSheet where user.user_id=:userId and timesheet_id=:timesheetId";
+		Query q=hibernateTemplate.getSessionFactory().openSession().createQuery(que);
+		q.setParameter("userId", userId);
+		q.setParameter("timesheetId", timesheetId);
+		TimeSheet myTimeSheet=new TimeSheet();
+		if(q.getResultList().size()>0) {
+			myTimeSheet=(TimeSheet)q.getResultList().get(0);
+		}
+		return myTimeSheet;
+	}
 
 }

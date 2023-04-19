@@ -87,7 +87,7 @@
 			</c:if>
         <div class="row">
           <div class="col">
-            <form action="saveuser" method="post" id="userform">
+            <form action="saveuser" method="post" id="registrationForm">
                 <div class="mb-3">
                     <label for="exampleInput" class="form-label text-muted">First Name</label>
                     <input type="text" class="form-control" id="exampleFirstName" name="first_name" required>
@@ -98,7 +98,7 @@
                   </div>
                   <div class="mb-3">
                     <label for="examplePhoneNumber" class="form-label text-muted">Phone Number</label>
-                    <input type="tel" class="form-control" id="exampleMobileNo" pattern="[1-9]{1}[0-9]{9}" name="phone_number" required>
+                    <input type="tel" class="form-control" id="exampleMobileNo" minlength="10" pattern="[1-9]{1}[0-9]{9}" name="phone_number" required>
                   </div>
               <div class="mb-3">
                 <label for="exampleInputEmail" class="form-label text-muted">Email address</label>
@@ -130,6 +130,12 @@
         integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
   <script src="js/validatePassword.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/jquery.validate.js" type="text/javascript"></script>
+  <script>
+  	$(document).ready(function() {
+	  $("#registrationForm").validate();
+	});
+  </script>
 </body>
 
 </html>

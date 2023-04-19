@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%@ page isELIgnored="false"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="<c:url value="/css/bootstrap.min.css"></c:url>">
 <style>
 	.spinner{
 	display:flex;
@@ -30,7 +32,7 @@
 <body>
 	<div class="spinner">
 		<div id="loading">
-				<img alt="" src="image/Hourglass.gif" class="spinnerImg">
+				<img alt="" src="<c:url value="/image/Hourglass.gif"></c:url>" class="spinnerImg">
 		</div>
 	</div>
 </body>

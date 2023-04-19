@@ -290,7 +290,7 @@
 	              $(".active>.page-link").css("background-color","#F88634");
 	              $(".goAtLast").click(function(){
 					  if(currentPage==totalPages){
-						  alert("You are On Last Page already!");
+						  swal("Sorry !","You are On Last Page already!","info");
 					  }
 					  else{						  
 					  	changeMyPage(totalPages);
@@ -299,7 +299,7 @@
 				  $(".goAtFirst").click(function(){
 					  if(currentPage==1)
 					  {						  
-					  alert("You are On First Page already!");
+					  	swal("Sorry !","You are On First Page already!","info");
 					  }
 					  else{					  
 					  changeMyPage(1);
@@ -309,20 +309,18 @@
 						  if(currentPage<totalPages)
 						  {
 							  changeMyPage(++currentPage);
-							  console.log(totalPages)
 						  }
 						  else{
-							  alert("You are On Last Page Already!");
+							  swal("Sorry !","You are On Last Page Already!","info");
 						  }
 					  });
 					  $(".previousPagination").click(function() {
 						  if(currentPage>1)
 						  {
 							  changeMyPage(--currentPage);
-							  console.log(totalPages)
 						  }
 						  else{
-							  alert("You are On First Page Already!");
+							  swal("Sorry !","You are On First Page Already!","info");
 						  }
 					  });
 	         	}

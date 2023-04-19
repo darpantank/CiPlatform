@@ -15,7 +15,8 @@
     height: 19px;
 }
 .card{
-    min-height: 455px !important;    
+    height: 500px !important;    
+    overflow:scroll;
 }
 .modal-dialog {
     max-width: 50vw !important;
@@ -29,7 +30,7 @@
 .addTimeSheetButton i{
 	color:#F88634 !important;
 }
-.red{
+.error{
 	color:red;
 }
 @media (max-width: 576px) { 

@@ -22,8 +22,8 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+<link rel="stylesheet" type="text/css" href="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.css">
 </head>
-
 <body>
 	<jsp:include page="spinner.jsp" />
 	<!-- 	Recommend to Coworker Modal  -->
@@ -265,6 +265,7 @@
 	<script src="https://code.jquery.com/jquery-3.6.4.js"
 		integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
 		crossorigin="anonymous"></script>
+			<script src="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.min.js"></script>
 	<script src="<c:url value="js/homepage.js" />"></script>
 	<script src="js/sidebarJs.js"></script>
 	<script>	

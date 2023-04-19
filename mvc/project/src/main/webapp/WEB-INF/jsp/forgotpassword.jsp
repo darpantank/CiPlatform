@@ -10,8 +10,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Forgot Password</title>
   <!-- bootstrap css  -->
-  <link rel="stylesheet" href="css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/login.css">
+  <link rel="stylesheet" href="<c:url value="/css/bootstrap.min.css"></c:url>">
+  <link rel="stylesheet" href="<c:url value="/css/login.css"></c:url>">
 </head>
 
 <body>
@@ -32,7 +32,7 @@
           </div>
           <div class="carousel-inner">
             <div class="carousel-item active">
-              <img src="image/Grow-Trees-On-the-path-to-environment-sustainability-login.png" class="d-block w-100 size-fix" alt="...">
+              <img src="<c:url value="/image/Grow-Trees-On-the-path-to-environment-sustainability-login.png"></c:url>" class="d-block w-100 size-fix" alt="...">
               <div class="carousel-caption d-none d-md-block">
                 <p class="carouselLabelText text-start">Sed ut perspiciatis unde omnis iste natus voluptatem.</p>
                 <p class="carouselDescriptionText text-start">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
@@ -43,7 +43,7 @@
               </div>
             </div>
             <div class="carousel-item">
-              <img src="image/Grow-Trees-On-the-path-to-environment-sustainability-login.png" class="d-block w-100 size-fix" alt="...">
+              <img src="<c:url value="/image/Grow-Trees-On-the-path-to-environment-sustainability-login.png"></c:url>" class="d-block w-100 size-fix" alt="...">
               <div class="carousel-caption d-none d-md-block">
                 <p class="carouselLabelText text-start">Sed ut perspiciatis unde omnis iste natus voluptatem.</p>
                 <p class="carouselDescriptionText text-start">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
@@ -54,7 +54,7 @@
               </div>
             </div>
             <div class="carousel-item">
-              <img src="image/Grow-Trees-On-the-path-to-environment-sustainability-login.png" class="d-block w-100 size-fix" alt="...">
+              <img src="<c:url value="/image/Grow-Trees-On-the-path-to-environment-sustainability-login.png"></c:url>" class="d-block w-100 size-fix" alt="...">
               <div class="carousel-caption d-none d-md-block">
                 <p class="carouselLabelText text-start">Sed ut perspiciatis unde omnis iste natus voluptatem.</p>
                 <p class="carouselDescriptionText text-start">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
@@ -65,7 +65,7 @@
               </div>
             </div>
             <div class="carousel-item">
-              <img src="image/Grow-Trees-On-the-path-to-environment-sustainability-login.png" class="d-block w-100 size-fix" alt="...">
+              <img src="<c:url value="/image/Grow-Trees-On-the-path-to-environment-sustainability-login.png"></c:url>" class="d-block w-100 size-fix" alt="...">
               <div class="carousel-caption d-none d-md-block">
                 <p class="carouselLabelText text-start">Sed ut perspiciatis unde omnis iste natus voluptatem.</p>
                 <p class="carouselDescriptionText text-start">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
@@ -111,7 +111,7 @@
 			<c:if test="${message=='invalidtoken'}">	
 				<div class="alert alert-danger alert-dismissible fade show"
 						role="alert">
-						<strong>Sorry </strong> Your Token Is Mismatching
+						<strong>Sorry </strong> Your Token Is Invalid
 						<button type="button" class="btn-close" data-bs-dismiss="alert"
 							aria-label="Close"></button>
 					</div>
@@ -133,10 +133,10 @@
           <div class="col">
             <p class="text-center forgotPass">Forgot Password</p>
             <p class="text-muted text-center">Enter your email address you've using for your account below and we will send you a password reset link</p>
-            <form action="forgotPasswordTokenGenerate" method="post">
+            <form action="forgotPasswordTokenGenerate" method="post" id="forgotPasswordForm">
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label text-muted">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email">
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" required>
               </div>
               <button type="submit" class="btn w-100">Reset My Password</button>
             </form>
@@ -154,7 +154,13 @@
 
 	<script src="https://code.jquery.com/jquery-3.6.3.min.js"
         integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+        
+        <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/jquery.validate.js" type="text/javascript"></script>
+  <script>
+  	$(document).ready(function() {
+	  $("#forgotPasswordForm").validate();
+	});
+  </script>
     </script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
         integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
@@ -162,8 +168,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
         integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
         crossorigin="anonymous"></script>
-          <script src="js/bootstrap.min.js"></script>
-	<script src="js/spinner.js"></script>
+          <script src="<c:url value="/js/bootstrap.min.js"></c:url>"></script>
+	<script src="<c:url value="/js/spinner.js"></c:url>"></script>
 </body>
 
 </html>

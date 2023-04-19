@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/addStory.css">
     <link rel="stylesheet" href="css/upload_drag_drop.css">
+    <link rel="stylesheet" type="text/css" href="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 </head>
 
@@ -84,13 +85,14 @@
             <div class="upload__img-wrap mt-3"></div>
         </div>
         <div class="d-flex justify-content-between">
-            <div><button class="btn roundedButton">cancel</button></div>
+            <div><button class="btn">cancel</button></div>
             <div class="d-flex rightButtons">
-                <button class="btn saveButton roundedButton">Save</button>
-                <button class="btn submitButton roundedButton" disabled>Submit</button>
+                <button class="btn saveButton">Save</button>
+                <button class="btn submitButton" disabled>Submit</button>
             </div>
         </div>
     </div>
+
 	<script>
 		var imgArray = [];
     	const input = document.getElementById("upload__inputfile");
@@ -110,6 +112,7 @@
         crossorigin="anonymous"></script>
     <script src="js/sidebarJs.js"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
+    <script src="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.min.js"></script>
     <script src="js/imageUploader.js"></script>
     <script src="js/ckeditor.js"></script>
     <script src="js/add_navbar.js"></script>
@@ -134,7 +137,7 @@
     $(".submitButton").click(function(){
     	var storyId=$(".AlereadyPresentStoryId").val();
     	if(storyId==0){
-    		alert("First get Drafted Story");
+    		swal("Sorry","First get Drafted Story","info");
     	}
     	else{    		
 	    	$.ajax({
@@ -144,8 +147,7 @@
 	            type:"GET",
 	            success: function(response){
 	            		if(response){
-	            			alert("Successfully Story Submitted...Once Admin Approve Story it will Display On Story Listing Page");
-	            			
+	            			swal("Thanks...","Successfully Story Submitted...Once Admin Approve Story it will Display On Story Listing Page","success");
 	            		}
 	            }
 	            ,complete: function(){
@@ -161,12 +163,13 @@
     	let originalUrl=$(".videoUrl").val();
     	let videoUrl="";
     	if(originalUrl!=''){    
-    		var regExForYoutube=RegExp("((http(s)?:\/\/)?)(www\.)?((youtube\.com\/)|(youtu.be\/))[\S]+");
+    		var regExForYoutube=RegExp("^(https?\:\/\/)?(www\.youtube\.com|youtu\.be)\/.+$");
     		if(regExForYoutube.test(originalUrl)){
 	    		videoUrl='https://www.youtube.com/embed/'+getId(originalUrl);
     		}
     		else{
-    			alert("You Enter Non Youtube URL");
+    			swal("Sorry","You Enter Non Youtube URL","error");
+    			
     		}
     	}
     	var story=myEditor.getData();
@@ -188,7 +191,7 @@
     		saveMyDataInDb(data);
     	}
     	else{
-    		alert("Some Field is Empty");
+    		swal("Sorry !","Some Field is Empty Fill All the Required Fill","warning");
     	}
     });
     function fillStoryDetails(){
@@ -256,7 +259,7 @@ setTimeout(function() {
         },
     	complete:function(){
     		resetFormData();
-    		alert("Story Added Successfully...");
+    		swal("Thanks","Story Added Successfully...","success")
     		imgArray=[];
     		$(".missionSelect").removeAttr("disabled");
     	}

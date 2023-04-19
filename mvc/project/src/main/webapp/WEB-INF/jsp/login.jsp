@@ -140,11 +140,11 @@
             	</div>
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label text-muted">Email address</label>
-                <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                <input type="email" name="email" class="form-control email" required>
               </div>
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label text-muted">Password</label>
-                <input type="password" name="password" class="form-control" id="exampleInputPassword1">
+                <input type="password" name="password" minlength="3" class="form-control password" id="exampleInputPassword1" required>
               </div>
               <button type="submit" class="btn w-100">Login</button>
             </form>
@@ -161,6 +161,12 @@
   </div>
   <script src="js/bootstrap.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/jquery.validate.js" type="text/javascript"></script>
+  <script>
+  	$(document).ready(function() {
+	  $("#loginForm").validate();
+	});
+  </script>
 </body>
 
 </html>
