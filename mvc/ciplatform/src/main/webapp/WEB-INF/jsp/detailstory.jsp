@@ -15,11 +15,11 @@
 	%>
 </c:if>
 <c:if test="${story.status=='DRAFT'}">
-	<c:if test="${user.user_id!=story.user.user_id }">	
+	<c:if test="${user.userId!=story.user.userId }">	
 		<c:redirect url="story"></c:redirect>
 	</c:if>
 </c:if>
-<c:if test="${story.status=='PENDING'}">
+<c:if test="${story.status=='PENDING' && empty admin}">
 	<c:redirect url="story"></c:redirect>
 </c:if>
 
@@ -28,7 +28,7 @@
 
 <head>
 	<script>
-		let story_id="<c:out  value='${story.story_id}' />";
+		let story_id="<c:out  value='${story.storyId}' />";
 	</script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -72,7 +72,7 @@
 		<jsp:include page="fheader.jsp" />
 	</div>
     <div class="container mt-4">
-    <input type="hidden" class="storyId" value="${story.story_id }">
+    <input type="hidden" class="storyId" value="${story.storyId }">
         <div class="row">
             <!-- image caresoul Div  -->
             <div class="col-md-12 col-lg-6 imgCarouselDiv">
@@ -124,7 +124,7 @@
                         	<c:otherwise><img src="${story.user.avatar }" alt="" srcset="" class="StoryOwnerPic"></c:otherwise>
                         </c:choose>
                             
-                            <p class="text-center">${story.user.first_name} ${story.user.last_name	}</p>
+                            <p class="text-center">${story.user.firstName} ${story.user.lastName	}</p>
                         </div>
                         <div class="ViewsOfStory">
                             <p class="noOfView"><img src="image/eye.png" alt="" srcset=""> ${story.views} Views</p>
@@ -132,7 +132,7 @@
                     </div>
                     <div class="row mt-3">
                         <p class="storyDetailsText">
-                            ${story.user.why_i_volunteer }
+                            ${story.user.whyIVolunteer }
                         </p>
                     </div>
                     <div class="d-flex justify-content-around StoryButtons mt-3">
@@ -141,7 +141,7 @@
                             <img src="image/add1.png" alt="" srcset=""> Recommend to a Co-Worker
                         </a>
                         </c:if>
-                        <a class="btn openMissionButton" href="getMyMission?mission_id=${story.mission.mission_id}">
+                        <a class="btn openMissionButton" href="getMyMission?mission_id=${story.mission.missionId}">
                             Open Mission <img src="image/right-arrow.png" alt="" srcset="">
                         </a>
                     </div>

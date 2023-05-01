@@ -38,7 +38,7 @@ public class StoryController {
 	@RequestMapping(path = "/createstory")
 	public String addEditStoryPage(HttpServletRequest request,Model m) throws UserNotFoundException {
 		User user=(User)request.getSession().getAttribute("user");
-		if(user==null||user.getUser_id()==0||user.getEmail()=="") {
+		if(user==null||user.getUserId()==0||user.getEmail()=="") {
 			throw new UserNotFoundException();
 		}
 		m.addAttribute("missions",this.service.findMissionOfUsers(user));
@@ -47,7 +47,7 @@ public class StoryController {
 	@PostMapping(value = "/savestory")
 	public @ResponseBody String saveStoryOfUser(StoryDto storyDto,HttpSession session,HttpServletRequest request) throws UserNotFoundException {
 		User user=(User)request.getSession().getAttribute("user");
-		if(user==null||user.getUser_id()==0||user.getEmail()=="") {
+		if(user==null||user.getUserId()==0||user.getEmail()=="") {
 			throw new UserNotFoundException();
 		}
 		this.service.saveStoryOfUser(storyDto,user,session);
@@ -57,7 +57,7 @@ public class StoryController {
 	public @ResponseBody DraftStoryDto getDraftedStory(@RequestParam("missionId") String missionId,HttpServletRequest request) throws UserNotFoundException{
 		DraftStoryDto story;
 		User user=(User)request.getSession().getAttribute("user");
-		if(user==null||user.getUser_id()==0||user.getEmail()=="") {
+		if(user==null||user.getUserId()==0||user.getEmail()=="") {
 			throw new UserNotFoundException();
 		}
 		story=this.service.getDraftMission(missionId,user);
@@ -70,19 +70,19 @@ public class StoryController {
 	public String getDetailStory(@RequestParam("storyId") String storyId,HttpServletRequest request,Model m) throws UserNotFoundException {
 		int id=Integer.parseInt(storyId);
 		User user=(User)request.getSession().getAttribute("user");
-		if(user==null||user.getUser_id()==0||user.getEmail()=="") {
+		if(user==null||user.getUserId()==0||user.getEmail()=="") {
 			throw new UserNotFoundException();
 		}
 		Story story=this.service.getDetailStory(id);
 		m.addAttribute("story",story);
 		m.addAttribute("user",user);
 		HttpSession s=request.getSession(false);
-		String missionView="viewCount"+story.getStory_id();
+		String missionView="viewCount"+story.getStoryId();
 		if(s!=null&&s.getAttribute(missionView)==null) {			
-			if(user.getUser_id()!=story.getUser().getUser_id()&&story.getStory_id()!=0) {
+			if(user.getUserId()!=story.getUser().getUserId()&&story.getStoryId()!=0) {
 //			Count View Of Page
-				this.service.incrementPageViews(story.getStory_id());
-				String temp="viewCount"+story.getStory_id();
+				this.service.incrementPageViews(story.getStoryId());
+				String temp="viewCount"+story.getStoryId();
 				s.setAttribute(temp, "yes");
 			}
 		}
@@ -100,20 +100,20 @@ public class StoryController {
 	@RequestMapping(value = "/submitdraftstory", method = RequestMethod.GET)
 	public @ResponseBody Boolean submitDraftStory(@RequestParam("storyId") int storyId,HttpServletRequest request) throws UserNotFoundException {
 		User user=(User)request.getSession().getAttribute("user");
-		if(user==null||user.getUser_id()==0||user.getEmail()=="") {
+		if(user==null||user.getUserId()==0||user.getEmail()=="") {
 			throw new UserNotFoundException();
 		}
 		if(user.getEmail()==""||user.getEmail()==null||storyId==0) {
 			return false;
 		}
-		this.service.submitDraftedStory(storyId,user.getUser_id());
+		this.service.submitDraftedStory(storyId,user.getUserId());
 		return true;
 	}
 	@RequestMapping(value= "/recommandtocoworkerstory" , method = RequestMethod.POST)
 	public @ResponseBody String recommandToCoWorkerStory(@RequestParam("storyId") int storyId,@RequestParam("emailId") String email,HttpServletRequest request) throws UserNotFoundException {
 		User SendFromUser= (User)request.getSession().getAttribute("user");
 		User SendToUser= this.userService.getUserFromEmail(email);
-		if(SendFromUser==null||SendFromUser.getUser_id()==0||SendFromUser.getEmail()==""||SendToUser==null||SendToUser.getUser_id()==0||SendToUser.getEmail()=="") {
+		if(SendFromUser==null||SendFromUser.getUserId()==0||SendFromUser.getEmail()==""||SendToUser==null||SendToUser.getUserId()==0||SendToUser.getEmail()=="") {
 			throw new UserNotFoundException();
 		}
 		if(SendToUser.getEmail()==null||SendToUser.getEmail()=="") {

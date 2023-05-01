@@ -28,23 +28,25 @@ public class UserSkill {
 	@JoinColumn(name = "skill_id")
 	private Skill skill;
 	@CreationTimestamp
-	private Date created_at;
+	@Column(name = "created_at")
+	private Date createdAt;
 	@UpdateTimestamp
-	private Date updated_at;
-	private Date deleted_at;
-	
+	@Column(name = "updated_at")
+	private Date updatedAt;
+	@Column(name = "deleted_at")
+	private Date deletedAt;
 	public UserSkill() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public UserSkill(int userSkillId, User users, Skill skill, Date created_at, Date updated_at, Date deleted_at) {
+	public UserSkill(int userSkillId, User users, Skill skill, Date createdAt, Date updatedAt, Date deletedAt) {
 		super();
 		this.userSkillId = userSkillId;
 		this.users = users;
 		this.skill = skill;
-		this.created_at = created_at;
-		this.updated_at = updated_at;
-		this.deleted_at = deleted_at;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+		this.deletedAt = deletedAt;
 	}
 	public int getUserSkillId() {
 		return userSkillId;
@@ -52,7 +54,6 @@ public class UserSkill {
 	public void setUserSkillId(int userSkillId) {
 		this.userSkillId = userSkillId;
 	}
-	
 	public User getUsers() {
 		return users;
 	}
@@ -65,25 +66,23 @@ public class UserSkill {
 	public void setSkill(Skill skill) {
 		this.skill = skill;
 	}
-	public Date getCreated_at() {
-		return created_at;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
-	public void setCreated_at(Date created_at) {
-		this.created_at = created_at;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
-	public Date getUpdated_at() {
-		return updated_at;
+	public Date getUpdatedAt() {
+		return updatedAt;
 	}
-	public void setUpdated_at(Date updated_at) {
-		this.updated_at = updated_at;
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
 	}
-	public Date getDeleted_at() {
-		return deleted_at;
+	public Date getDeletedAt() {
+		return deletedAt;
 	}
-	public void setDeleted_at(Date deleted_at) {
-		this.deleted_at = deleted_at;
+	public void setDeletedAt(Date deletedAt) {
+		this.deletedAt = deletedAt;
 	}
-	
-	
 	
 }

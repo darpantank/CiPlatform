@@ -2,6 +2,7 @@ package com.ciplatform.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -23,21 +24,28 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class MissionMedia {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int mission_media_id;
+	@Column(name = "mission_media_id")
+	private int missionMediaId;
 	@JsonIgnore
 	@ManyToOne(targetEntity = Mission.class)
 	@JoinColumn(name = "mission_id")
 	private Mission mission;
-	private String media_name;
-	private String media_type;
-	private String media_path;
+	@Column(name = "media_name")
+	private String mediaName;
+	@Column(name = "media_type")
+	private String mediaType;
+	@Column(name = "media_path")
+	private String mediaPath;
 	@Enumerated(EnumType.ORDINAL)
 	private MediaDefault mediaDefault;
 	@CreationTimestamp
-	private Date created_at;
+	@Column(name = "created_at")
+	private Date createdAt;
 	@UpdateTimestamp
-	private Date updated_at;
-	private Date deleted_at;
+	@Column(name = "updated_at")
+	private Date updatedAt;
+	@Column(name = "deleted_at")
+	private Date deletedAt;
 	
 	
 	public MissionMedia() {
@@ -45,51 +53,30 @@ public class MissionMedia {
 		// TODO Auto-generated constructor stub
 	}
 
-	
 
-
-	
-
-
-
-
-
-
-	public MissionMedia(int mission_media_id, Mission mission, String media_name, String media_type, String media_path,
-			MediaDefault mediaDefault, Date created_at, Date updated_at, Date deleted_at) {
+	public MissionMedia(int missionMediaId, Mission mission, String mediaName, String mediaType, String mediaPath,
+			MediaDefault mediaDefault, Date createdAt, Date updatedAt, Date deletedAt) {
 		super();
-		this.mission_media_id = mission_media_id;
+		this.missionMediaId = missionMediaId;
 		this.mission = mission;
-		this.media_name = media_name;
-		this.media_type = media_type;
-		this.media_path = media_path;
+		this.mediaName = mediaName;
+		this.mediaType = mediaType;
+		this.mediaPath = mediaPath;
 		this.mediaDefault = mediaDefault;
-		this.created_at = created_at;
-		this.updated_at = updated_at;
-		this.deleted_at = deleted_at;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+		this.deletedAt = deletedAt;
 	}
 
 
-
-
-
-
-
-
-
-
-
-	public int getMission_media_id() {
-		return mission_media_id;
+	public int getMissionMediaId() {
+		return missionMediaId;
 	}
 
 
-	public void setMission_media_id(int mission_media_id) {
-		this.mission_media_id = mission_media_id;
+	public void setMissionMediaId(int missionMediaId) {
+		this.missionMediaId = missionMediaId;
 	}
-
-
-
 
 
 	public Mission getMission() {
@@ -97,46 +84,39 @@ public class MissionMedia {
 	}
 
 
-
-
-
 	public void setMission(Mission mission) {
 		this.mission = mission;
 	}
 
 
-
-
-
-	public String getMedia_name() {
-		return media_name;
+	public String getMediaName() {
+		return mediaName;
 	}
 
 
-	public void setMedia_name(String media_name) {
-		this.media_name = media_name;
+	public void setMediaName(String mediaName) {
+		this.mediaName = mediaName;
 	}
 
 
-	public String getMedia_type() {
-		return media_type;
+	public String getMediaType() {
+		return mediaType;
 	}
 
 
-	public void setMedia_type(String media_type) {
-		this.media_type = media_type;
+	public void setMediaType(String mediaType) {
+		this.mediaType = mediaType;
 	}
 
 
-	public String getMedia_path() {
-		return media_path;
+	public String getMediaPath() {
+		return mediaPath;
 	}
 
 
-	public void setMedia_path(String media_path) {
-		this.media_path = media_path;
+	public void setMediaPath(String mediaPath) {
+		this.mediaPath = mediaPath;
 	}
-
 
 
 	public MediaDefault getMediaDefault() {
@@ -144,68 +124,40 @@ public class MissionMedia {
 	}
 
 
-
-
-
-
-
-
-
-
-
 	public void setMediaDefault(MediaDefault mediaDefault) {
 		this.mediaDefault = mediaDefault;
 	}
 
 
-
-
-
-
-
-
-
-
-
-	public Date getCreated_at() {
-		return created_at;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
 
 
-	public void setCreated_at(Date created_at) {
-		this.created_at = created_at;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 
 
-	public Date getUpdated_at() {
-		return updated_at;
+	public Date getUpdatedAt() {
+		return updatedAt;
 	}
 
 
-	public void setUpdated_at(Date updated_at) {
-		this.updated_at = updated_at;
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
 	}
 
 
-	public Date getDeleted_at() {
-		return deleted_at;
+	public Date getDeletedAt() {
+		return deletedAt;
 	}
 
 
-	public void setDeleted_at(Date deleted_at) {
-		this.deleted_at = deleted_at;
+	public void setDeletedAt(Date deletedAt) {
+		this.deletedAt = deletedAt;
 	}
 	
-
 	
-
-
-	@Override
-	public String toString() {
-		return "MissionMedia [mission_media_id=" + mission_media_id + ", mission=" + mission + ", media_name="
-				+ media_name + ", media_type=" + media_type + ", media_path=" + media_path + ", mediaDefault="
-				+ mediaDefault + ", created_at=" + created_at + ", updated_at=" + updated_at + ", deleted_at="
-				+ deleted_at + "]";
-	}
 }
 

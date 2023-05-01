@@ -1,9 +1,6 @@
 package com.ciplatform.dto;
 
 import com.ciplatform.model.Mission;
-import com.ciplatform.model.User;
-
-
 public class FetchMissionByUserDto {
 	private Mission mission;
 	private boolean isFavourited;
@@ -11,13 +8,16 @@ public class FetchMissionByUserDto {
 	private String image;
 	private boolean isAppliedForMission;
 	private Long noOfApplicatioin;
+	private int goalAchieved;
 	public FetchMissionByUserDto() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
+	
+
 	public FetchMissionByUserDto(Mission mission, boolean isFavourited, Double rating, String image,
-			boolean isAppliedForMission, Long noOfApplicatioin) {
+			boolean isAppliedForMission, Long noOfApplicatioin, int goalAchieved) {
 		super();
 		this.mission = mission;
 		this.isFavourited = isFavourited;
@@ -25,7 +25,10 @@ public class FetchMissionByUserDto {
 		this.image = image;
 		this.isAppliedForMission = isAppliedForMission;
 		this.noOfApplicatioin = noOfApplicatioin;
+		this.goalAchieved = goalAchieved;
 	}
+
+
 
 	public Mission getMission() {
 		return mission;
@@ -78,6 +81,18 @@ public class FetchMissionByUserDto {
 
 	public void setNoOfApplicatioin(Long noOfApplicatioin) {
 		this.noOfApplicatioin = noOfApplicatioin;
+	}
+
+
+
+	public int getGoalAchieved() {
+		return goalAchieved;
+	}
+
+
+
+	public void setGoalAchieved(int goalAchieved) {
+		this.goalAchieved = goalAchieved;
 	}
 	
 	

@@ -3,6 +3,7 @@ package com.ciplatform.model;
 import java.time.LocalTime;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -26,7 +27,8 @@ import com.ciplatform.enums.TimeSheetStatus;
 public class TimeSheet {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int timesheet_id;
+	@Column(name = "timesheet_id")
+	private int timesheetId;
 	@ManyToOne(targetEntity = User.class)
 	@JoinColumn(name = "user_id")
 	private User user;
@@ -36,39 +38,43 @@ public class TimeSheet {
 	private LocalTime time;
 	@ColumnDefault("0")
 	private int action;
-	private Date date_volunteered;
+	@Column(name = "date_volunteered")
+	private Date dateVolunteered;
 	private String notes;
 	@Enumerated(EnumType.ORDINAL)
 	private TimeSheetStatus status;
 	@CreationTimestamp
-	private Date created_at;
+	@Column(name = "created_at")
+	private Date createdAt;
 	@UpdateTimestamp
-	private Date updated_at;
-	private Date deleted_at;
+	@Column(name = "updated_at")
+	private Date updatedAt;
+	@Column(name = "deleted_at")
+	private Date deletedAt;
 	public TimeSheet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public TimeSheet(int timesheet_id, User user, Mission mission, LocalTime time, int action, Date date_volunteered,
-			String notes, TimeSheetStatus status, Date created_at, Date updated_at, Date deleted_at) {
+	public TimeSheet(int timesheetId, User user, Mission mission, LocalTime time, int action, Date dateVolunteered,
+			String notes, TimeSheetStatus status, Date createdAt, Date updatedAt, Date deletedAt) {
 		super();
-		this.timesheet_id = timesheet_id;
+		this.timesheetId = timesheetId;
 		this.user = user;
 		this.mission = mission;
 		this.time = time;
 		this.action = action;
-		this.date_volunteered = date_volunteered;
+		this.dateVolunteered = dateVolunteered;
 		this.notes = notes;
 		this.status = status;
-		this.created_at = created_at;
-		this.updated_at = updated_at;
-		this.deleted_at = deleted_at;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+		this.deletedAt = deletedAt;
 	}
-	public int getTimesheet_id() {
-		return timesheet_id;
+	public int getTimesheetId() {
+		return timesheetId;
 	}
-	public void setTimesheet_id(int timesheet_id) {
-		this.timesheet_id = timesheet_id;
+	public void setTimesheetId(int timesheetId) {
+		this.timesheetId = timesheetId;
 	}
 	public User getUser() {
 		return user;
@@ -94,11 +100,11 @@ public class TimeSheet {
 	public void setAction(int action) {
 		this.action = action;
 	}
-	public Date getDate_volunteered() {
-		return date_volunteered;
+	public Date getDateVolunteered() {
+		return dateVolunteered;
 	}
-	public void setDate_volunteered(Date date_volunteered) {
-		this.date_volunteered = date_volunteered;
+	public void setDateVolunteered(Date dateVolunteered) {
+		this.dateVolunteered = dateVolunteered;
 	}
 	public String getNotes() {
 		return notes;
@@ -112,23 +118,23 @@ public class TimeSheet {
 	public void setStatus(TimeSheetStatus status) {
 		this.status = status;
 	}
-	public Date getCreated_at() {
-		return created_at;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
-	public void setCreated_at(Date created_at) {
-		this.created_at = created_at;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
-	public Date getUpdated_at() {
-		return updated_at;
+	public Date getUpdatedAt() {
+		return updatedAt;
 	}
-	public void setUpdated_at(Date updated_at) {
-		this.updated_at = updated_at;
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
 	}
-	public Date getDeleted_at() {
-		return deleted_at;
+	public Date getDeletedAt() {
+		return deletedAt;
 	}
-	public void setDeleted_at(Date deleted_at) {
-		this.deleted_at = deleted_at;
+	public void setDeletedAt(Date deletedAt) {
+		this.deletedAt = deletedAt;
 	}
 	
 }

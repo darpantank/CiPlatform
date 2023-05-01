@@ -21,6 +21,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.ciplatform.enums.Role;
 import com.ciplatform.enums.Status;
 
 import net.bytebuddy.implementation.bind.annotation.Default;
@@ -29,17 +30,22 @@ import net.bytebuddy.implementation.bind.annotation.Default;
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int user_id;
-	private String first_name;
-	private String last_name;
+	@Column(name = "user_id")
+	private int userId;
+	@Column(name = "first_name")
+	private String firstName;
+	@Column(name = "last_name")
+	private String lastName;
 	@Column(unique=true)
 	private String email;
 	private String password;
-	@Column(unique=true)
-	private String phone_number;
+	@Column(unique=true,name = "phone_number")
+	private String phoneNumber;
 	private String avatar;
-	private String why_i_volunteer;
-	private String employee_id;
+	@Column(name = "why_i_volunteer")
+	private String whyIVolunteer;
+	@Column(name = "employee_id")
+	private String employeeId;
 	private String department;
 	@ManyToOne(targetEntity = City.class)
 	@JoinColumn(name = "city_id")
@@ -47,19 +53,24 @@ public class User {
 	@ManyToOne(targetEntity = Country.class)
 	@JoinColumn(name ="country_id" )
 	private Country country;
-	private String profile_text;
-	private String linked_in_url;
+	@Column(name = "profile_text")
+	private String profileText;
+	@Column(name = "linked_in_url")
+	private String linkedInUrl;
 	private String title;
-	@Enumerated(EnumType.STRING)
+	private Role role;
 	private Status status;
 	public void setStatus(Status status) {
 		this.status = status;
 	}
 	@CreationTimestamp
-	private Date created_at;
+	@Column(name = "created_at")
+	private Date createdAt;
 	@UpdateTimestamp
-	private Date updated_at;
-	private Date deleted_at;
+	@Column(name = "updated_at")
+	private Date updatedAt;
+	@Column(name = "deleted_at")
+	private Date deletedAt;
 	@OneToMany(mappedBy ="users",cascade = CascadeType.ALL)
 	private List<UserSkill> userSkills;
 	
@@ -67,176 +78,205 @@ public class User {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
 
 	
-	public User(int user_id, String first_name, String last_name, String email, String password, String phone_number,
-			String avatar, String why_i_volunteer, String employee_id, String department, City city, Country country,
-			String profile_text, String linked_in_url, String title, Status status, Date created_at, Date updated_at,
-			Date deleted_at, List<UserSkill> userSkills) {
+	public User(int userId, String firstName, String lastName, String email, String password, String phoneNumber,
+			String avatar, String whyIVolunteer, String employeeId, String department, City city, Country country,
+			String profileText, String linkedInUrl, String title, Role role, Status status, Date createdAt,
+			Date updatedAt, Date deletedAt, List<UserSkill> userSkills) {
 		super();
-		this.user_id = user_id;
-		this.first_name = first_name;
-		this.last_name = last_name;
+		this.userId = userId;
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
-		this.phone_number = phone_number;
+		this.phoneNumber = phoneNumber;
 		this.avatar = avatar;
-		this.why_i_volunteer = why_i_volunteer;
-		this.employee_id = employee_id;
+		this.whyIVolunteer = whyIVolunteer;
+		this.employeeId = employeeId;
 		this.department = department;
 		this.city = city;
 		this.country = country;
-		this.profile_text = profile_text;
-		this.linked_in_url = linked_in_url;
+		this.profileText = profileText;
+		this.linkedInUrl = linkedInUrl;
 		this.title = title;
+		this.role = role;
 		this.status = status;
-		this.created_at = created_at;
-		this.updated_at = updated_at;
-		this.deleted_at = deleted_at;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+		this.deletedAt = deletedAt;
 		this.userSkills = userSkills;
 	}
 
 
+	public int getUserId() {
+		return userId;
+	}
 
-	public int getUser_id() {
-		return user_id;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
+
+	public String getFirstName() {
+		return firstName;
 	}
-	public String getFirst_name() {
-		return first_name;
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
-	public void setFirst_name(String first_name) {
-		this.first_name = first_name;
+
+	public String getLastName() {
+		return lastName;
 	}
-	public String getLast_name() {
-		return last_name;
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
-	public void setLast_name(String last_name) {
-		this.last_name = last_name;
-	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 	public String getPassword() {
 		return password;
 	}
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getPhone_number() {
-		return phone_number;
+
+	public String getPhoneNumber() {
+		return phoneNumber;
 	}
-	public void setPhone_number(String phone_number) {
-		this.phone_number = phone_number;
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
+
 	public String getAvatar() {
 		return avatar;
 	}
+
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
 	}
-	public String getWhy_i_volunteer() {
-		return why_i_volunteer;
+
+	public String getWhyIVolunteer() {
+		return whyIVolunteer;
 	}
-	public void setWhy_i_volunteer(String why_i_volunteer) {
-		this.why_i_volunteer = why_i_volunteer;
+
+	public void setWhyIVolunteer(String whyIVolunteer) {
+		this.whyIVolunteer = whyIVolunteer;
 	}
-	public String getEmployee_id() {
-		return employee_id;
+
+	public String getEmployeeId() {
+		return employeeId;
 	}
-	public void setEmployee_id(String employee_id) {
-		this.employee_id = employee_id;
+
+	public void setEmployeeId(String employeeId) {
+		this.employeeId = employeeId;
 	}
+
 	public String getDepartment() {
 		return department;
 	}
+
 	public void setDepartment(String department) {
 		this.department = department;
 	}
+
 	public City getCity() {
 		return city;
 	}
+
 	public void setCity(City city) {
 		this.city = city;
 	}
+
 	public Country getCountry() {
 		return country;
 	}
+
 	public void setCountry(Country country) {
 		this.country = country;
 	}
-	public String getProfile_text() {
-		return profile_text;
+
+	public String getProfileText() {
+		return profileText;
 	}
-	public void setProfile_text(String profile_text) {
-		this.profile_text = profile_text;
+
+	public void setProfileText(String profileText) {
+		this.profileText = profileText;
 	}
-	public String getLinked_in_url() {
-		return linked_in_url;
+
+	public String getLinkedInUrl() {
+		return linkedInUrl;
 	}
-	public void setLinked_in_url(String linked_in_url) {
-		this.linked_in_url = linked_in_url;
+
+	public void setLinkedInUrl(String linkedInUrl) {
+		this.linkedInUrl = linkedInUrl;
 	}
+
 	public String getTitle() {
 		return title;
 	}
+
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	
-	public Status getStatus() {
-		return status;
+
+	public Date getCreatedAt() {
+		return createdAt;
 	}
 
-	public Date getCreated_at() {
-		return created_at;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
-	public void setCreated_at(Date created_at) {
-		this.created_at = created_at;
-	}
-	public Date getUpdated_at() {
-		return updated_at;
-	}
-	public void setUpdated_at(Date updated_at) {
-		this.updated_at = updated_at;
-	}
-	public Date getDeleted_at() {
-		return deleted_at;
-	}
-	public void setDeleted_at(Date deleted_at) {
-		this.deleted_at = deleted_at;
-	}
-	
-	
-	
 
-	
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public Date getDeletedAt() {
+		return deletedAt;
+	}
+
+	public void setDeletedAt(Date deletedAt) {
+		this.deletedAt = deletedAt;
+	}
+
 	public List<UserSkill> getUserSkills() {
 		return userSkills;
 	}
-
-
 
 	public void setUserSkills(List<UserSkill> userSkills) {
 		this.userSkills = userSkills;
 	}
 
-
-
-	@Override
-	public String toString() {
-		return "user [user_id=" + user_id + ", first_name=" + first_name + ", last_name=" + last_name + ", email="
-				+ email + ", password=" + password + ", phone_number=" + phone_number + ", avatar=" + avatar
-				+ ", why_i_volunteer=" + why_i_volunteer + ", employee_id=" + employee_id + ", department=" + department
-				+ ", city=" + city + ", country=" + country + ", profile_text=" + profile_text + ", linked_in_url="
-				+ linked_in_url + ", title=" + title + ", status=" + status + ", created_at=" + created_at
-				+ ", updated_at=" + updated_at + ", deleted_at=" + deleted_at + "]";
+	public Status getStatus() {
+		return status;
 	}
+
+
+	public Role getRole() {
+		return role;
+	}
+
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+	
+	
+	
+	
 }
 

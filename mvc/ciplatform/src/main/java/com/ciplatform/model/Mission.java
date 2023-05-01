@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -18,6 +19,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import com.ciplatform.enums.Availability;
 import com.ciplatform.enums.MissionType;
@@ -29,34 +31,47 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Mission {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int mission_id;
-	@ManyToOne
+	@Column(name = "mission_id")
+	private int missionId;
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="theme_id")
-	private MissionTheme mission_theme;
+	private MissionTheme missionTheme;
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="city_id")
 	private City city ;
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name="country_id")
 	private Country country;
 	private String title;
-	private String short_description;
+	@Column(name = "short_description")
+	private String shortDescription;
+	@Column(columnDefinition = "TEXT")
 	private String description;
-	private Date start_date;
-	private Date end_date;
+	@Column(name = "start_date")
+	private Date startDate;
+	@Column(name = "end_date")
+	private Date endDate;
 	@Enumerated(EnumType.STRING)
-	private MissionType mission_type;
-	@Enumerated(EnumType.STRING)
+	@Column(name = "mission_type")
+	private MissionType missionType;
 	private Status status;
-	private String organization_name;
-	private String organization_detail;
-	@Enumerated(EnumType.STRING)
+	@Column(name = "organization_name")
+	private String organizationName;
+	@Column(name = "organization_detail")
+	private String organizationDetail;
 	private Availability availability;
-	private long total_seat;
+	@Column(name = "total_seat")
+	private long totalSeat;
+	@Column(name = "seat_left")
+	private long seatLeft;
 	@CreationTimestamp
-	private Date created_at;
-	private Date updated_at;
-	private Date deleted_at;
+	@Column(name = "created_at")
+	private Date createdAt;
+	@UpdateTimestamp
+	@Column(name = "updated_at")
+	private Date updatedAt;
+	@Column(name = "deleted_at")
+	private Date deletedAt;
 	private Date deadline;
 	@OneToMany(mappedBy = "missions" , cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	private List<MissionSkill> missionSkills;
@@ -73,31 +88,32 @@ public class Mission {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Mission(int mission_id, MissionTheme mission_theme, City city, Country country, String title,
-			String short_description, String description, Date start_date, Date end_date, MissionType mission_type,
-			Status status, String organization_name, String organization_detail, Availability availability,
-			long total_seat, Date created_at, Date updated_at, Date deleted_at, Date deadline,
+	public Mission(int missionId, MissionTheme missionTheme, City city, Country country, String title,
+			String shortDescription, String description, Date startDate, Date endDate, MissionType missionType,
+			Status status, String organizationName, String organizationDetail, Availability availability,
+			long totalSeat, long seatLeft, Date createdAt, Date updatedAt, Date deletedAt, Date deadline,
 			List<MissionSkill> missionSkills, List<MissionMedia> missionMedia, List<MissionDocument> missionDocument,
 			GoalMission goalMission) {
 		super();
-		this.mission_id = mission_id;
-		this.mission_theme = mission_theme;
+		this.missionId = missionId;
+		this.missionTheme = missionTheme;
 		this.city = city;
 		this.country = country;
 		this.title = title;
-		this.short_description = short_description;
+		this.shortDescription = shortDescription;
 		this.description = description;
-		this.start_date = start_date;
-		this.end_date = end_date;
-		this.mission_type = mission_type;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.missionType = missionType;
 		this.status = status;
-		this.organization_name = organization_name;
-		this.organization_detail = organization_detail;
+		this.organizationName = organizationName;
+		this.organizationDetail = organizationDetail;
 		this.availability = availability;
-		this.total_seat = total_seat;
-		this.created_at = created_at;
-		this.updated_at = updated_at;
-		this.deleted_at = deleted_at;
+		this.totalSeat = totalSeat;
+		this.seatLeft = seatLeft;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+		this.deletedAt = deletedAt;
 		this.deadline = deadline;
 		this.missionSkills = missionSkills;
 		this.missionMedia = missionMedia;
@@ -105,17 +121,17 @@ public class Mission {
 		this.goalMission = goalMission;
 	}
 
-	public int getMission_id() {
-		return mission_id;
+	public int getMissionId() {
+		return missionId;
 	}
-	public void setMission_id(int mission_id) {
-		this.mission_id = mission_id;
+	public void setMissionId(int missionId) {
+		this.missionId = missionId;
 	}
-	public MissionTheme getMission_theme() {
-		return mission_theme;
+	public MissionTheme getMissionTheme() {
+		return missionTheme;
 	}
-	public void setMission_theme(MissionTheme mission_theme) {
-		this.mission_theme = mission_theme;
+	public void setMissionTheme(MissionTheme missionTheme) {
+		this.missionTheme = missionTheme;
 	}
 	public City getCity() {
 		return city;
@@ -129,32 +145,17 @@ public class Mission {
 	public void setCountry(Country country) {
 		this.country = country;
 	}
-	
-
-
-
-
-	public List<MissionSkill> getMissionSkills() {
-		return missionSkills;
-	}
-
-
-	public void setMissionSkills(List<MissionSkill> missionSkills) {
-		this.missionSkills = missionSkills;
-	}
-
-
 	public String getTitle() {
 		return title;
 	}
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public String getShort_description() {
-		return short_description;
+	public String getShortDescription() {
+		return shortDescription;
 	}
-	public void setShort_description(String short_description) {
-		this.short_description = short_description;
+	public void setShortDescription(String shortDescription) {
+		this.shortDescription = shortDescription;
 	}
 	public String getDescription() {
 		return description;
@@ -162,23 +163,23 @@ public class Mission {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Date getStart_date() {
-		return start_date;
+	public Date getStartDate() {
+		return startDate;
 	}
-	public void setStart_date(Date start_date) {
-		this.start_date = start_date;
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
 	}
-	public Date getEnd_date() {
-		return end_date;
+	public Date getEndDate() {
+		return endDate;
 	}
-	public void setEnd_date(Date end_date) {
-		this.end_date = end_date;
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
-	public MissionType getMission_type() {
-		return mission_type;
+	public MissionType getMissionType() {
+		return missionType;
 	}
-	public void setMission_type(MissionType mission_type) {
-		this.mission_type = mission_type;
+	public void setMissionType(MissionType missionType) {
+		this.missionType = missionType;
 	}
 	public Status getStatus() {
 		return status;
@@ -186,17 +187,17 @@ public class Mission {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
-	public String getOrganization_name() {
-		return organization_name;
+	public String getOrganizationName() {
+		return organizationName;
 	}
-	public void setOrganization_name(String organization_name) {
-		this.organization_name = organization_name;
+	public void setOrganizationName(String organizationName) {
+		this.organizationName = organizationName;
 	}
-	public String getOrganization_detail() {
-		return organization_detail;
+	public String getOrganizationDetail() {
+		return organizationDetail;
 	}
-	public void setOrganization_detail(String organization_detail) {
-		this.organization_detail = organization_detail;
+	public void setOrganizationDetail(String organizationDetail) {
+		this.organizationDetail = organizationDetail;
 	}
 	public Availability getAvailability() {
 		return availability;
@@ -204,41 +205,45 @@ public class Mission {
 	public void setAvailability(Availability availability) {
 		this.availability = availability;
 	}
-	public Date getCreated_at() {
-		return created_at;
+	public long getTotalSeat() {
+		return totalSeat;
 	}
-	public void setCreated_at(Date created_at) {
-		this.created_at = created_at;
+	public void setTotalSeat(long totalSeat) {
+		this.totalSeat = totalSeat;
 	}
-	public Date getUpdated_at() {
-		return updated_at;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
-	public void setUpdated_at(Date updated_at) {
-		this.updated_at = updated_at;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
-	public Date getDeleted_at() {
-		return deleted_at;
+	public Date getUpdatedAt() {
+		return updatedAt;
 	}
-	public void setDeleted_at(Date deleted_at) {
-		this.deleted_at = deleted_at;
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
 	}
-	public long getTotal_seat() {
-		return total_seat;
+	public Date getDeletedAt() {
+		return deletedAt;
 	}
-	public void setTotal_seat(long total_seat) {
-		this.total_seat = total_seat;
+	public void setDeletedAt(Date deletedAt) {
+		this.deletedAt = deletedAt;
 	}
-	
-	public GoalMission getGoalMission() {
-		return goalMission;
+	public Date getDeadline() {
+		return deadline;
 	}
-	public void setGoalMission(GoalMission goalMission) {
-		this.goalMission = goalMission;
+	public void setDeadline(Date deadline) {
+		this.deadline = deadline;
+	}
+	public List<MissionSkill> getMissionSkills() {
+		return missionSkills;
+	}
+	public void setMissionSkills(List<MissionSkill> missionSkills) {
+		this.missionSkills = missionSkills;
 	}
 	public List<MissionMedia> getMissionMedia() {
 		return missionMedia;
 	}
-
 	public void setMissionMedia(List<MissionMedia> missionMedia) {
 		this.missionMedia = missionMedia;
 	}
@@ -248,13 +253,21 @@ public class Mission {
 	public void setMissionDocument(List<MissionDocument> missionDocument) {
 		this.missionDocument = missionDocument;
 	}
-
-	public Date getDeadline() {
-		return deadline;
+	public GoalMission getGoalMission() {
+		return goalMission;
+	}
+	public void setGoalMission(GoalMission goalMission) {
+		this.goalMission = goalMission;
 	}
 
-	public void setDeadline(Date deadline) {
-		this.deadline = deadline;
+	public long getSeatLeft() {
+		return seatLeft;
+	}
+
+	public void setSeatLeft(long seatLeft) {
+		this.seatLeft = seatLeft;
 	}
 	
 }
+	
+	

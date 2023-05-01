@@ -2,6 +2,7 @@ package com.ciplatform.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,7 +19,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 public class MissionInvite {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int mission_invite_id;
+	@Column(name = "mission_invite_id")
+	private int missionInviteId;
 	@ManyToOne(targetEntity = Mission.class)
 	@JoinColumn(name = "mission_id")
 	private Mission mission;
@@ -29,30 +31,22 @@ public class MissionInvite {
 	@JoinColumn(name = "to_user_id")
 	private User toUser;
 	@CreationTimestamp
-	private Date created_at;
+	@Column(name = "created_at")
+	private Date createdAt;
 	@UpdateTimestamp
-	private Date updated_at;
-	private Date deleted_at;
+	@Column(name = "updated_at")
+	private Date updatedAt;
+	@Column(name = "deleted_at")
+	private Date deletedAt;
 	public MissionInvite() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public MissionInvite(int mission_invite_id, Mission mission, User fromUser, User toUser, Date created_at,
-			Date updated_at, Date deleted_at) {
-		super();
-		this.mission_invite_id = mission_invite_id;
-		this.mission = mission;
-		this.fromUser = fromUser;
-		this.toUser = toUser;
-		this.created_at = created_at;
-		this.updated_at = updated_at;
-		this.deleted_at = deleted_at;
+	public int getMissionInviteId() {
+		return missionInviteId;
 	}
-	public int getMission_invite_id() {
-		return mission_invite_id;
-	}
-	public void setMission_invite_id(int mission_invite_id) {
-		this.mission_invite_id = mission_invite_id;
+	public void setMissionInviteId(int missionInviteId) {
+		this.missionInviteId = missionInviteId;
 	}
 	public Mission getMission() {
 		return mission;
@@ -72,27 +66,23 @@ public class MissionInvite {
 	public void setToUser(User toUser) {
 		this.toUser = toUser;
 	}
-	public Date getCreated_at() {
-		return created_at;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
-	public void setCreated_at(Date created_at) {
-		this.created_at = created_at;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
-	public Date getUpdated_at() {
-		return updated_at;
+	public Date getUpdatedAt() {
+		return updatedAt;
 	}
-	public void setUpdated_at(Date updated_at) {
-		this.updated_at = updated_at;
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
 	}
-	public Date getDeleted_at() {
-		return deleted_at;
+	public Date getDeletedAt() {
+		return deletedAt;
 	}
-	public void setDeleted_at(Date deleted_at) {
-		this.deleted_at = deleted_at;
+	public void setDeletedAt(Date deletedAt) {
+		this.deletedAt = deletedAt;
 	}
-	
-	
-	
-	
 	
 }

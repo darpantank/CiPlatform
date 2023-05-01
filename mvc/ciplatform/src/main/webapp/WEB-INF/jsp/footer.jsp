@@ -17,7 +17,7 @@
                         <div class="form-group mb-3">
                             <label class="form-label">Name</label>
                             <input type="text" class="form-control" name="name"
-                                placeholder="Enter Your Name" value="${user.first_name}" readonly>
+                                placeholder="Enter Your Name" value="${user.firstName}" readonly>
                         </div>
                         <div class="form-group mb-3">
                             <label class="form-label">Email Address</label>
@@ -42,7 +42,7 @@
             </div>
         </div>
     </div>
-	<div class="container d-flex">
+	<div class="container d-flex footer">
             <div class="privacyPolicyTab">
                 <a class="btn" href="privacy">Privacy Policy</a>
             </div>

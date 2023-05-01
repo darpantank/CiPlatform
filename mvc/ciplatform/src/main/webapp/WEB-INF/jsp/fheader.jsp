@@ -26,10 +26,13 @@
                     <a class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         Policy <img src="image/drop-down.png">
                     </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+				
+				<ul class="dropdown-menu">
+				<c:if test="${not empty cms}">
+					<c:forEach var="a" items="${cms}">
+						<li><a class="dropdown-item" href="privacy#${a.slug}">${a.title}</a></li>
+					</c:forEach>
+				</c:if>
                     </ul>
                 </div>
             </div>
@@ -54,7 +57,7 @@
                 		</c:otherwise>
                 	</c:choose>
                     
-                    <span class="gotoMainbar"><c:out value="${user.first_name} ${user.last_name}" /></span> <img src="image/drop-down.png" class="gotoMainbar">
+                    <span class="gotoMainbar"><c:out value="${user.firstName} ${user.lastName}" /></span> <img src="image/drop-down.png" class="gotoMainbar">
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
                     <li><a class="dropdown-item" href="profile">My Profile</a></li>

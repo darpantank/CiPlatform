@@ -39,10 +39,10 @@ hr{
     display: none;
 }
 .AddButton{
-    padding:7px 12px;
-    border:1px solid #F88634;
-    color:#F88634;
-    border-radius: 25px;
+    padding:7px 12px !important;
+    border:1px solid #F88634 !important;
+    color:#F88634 !important;
+    border-radius: 25px !important;
 }
 table{
 
@@ -53,6 +53,9 @@ thead tr{
 }
 .activeStatus{
     color: #14C506;
+}
+.deActiveStatus{
+	color:#ff0000;
 }
 .activeMyTab{
     color: #F88634 !important;
@@ -105,6 +108,9 @@ i{
 }
 .activeStatus:hover{
     cursor: pointer;
+}
+.error{
+	color:red;
 }
 
 /* @media only screen and (max-width: 992px) {

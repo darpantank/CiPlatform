@@ -112,7 +112,7 @@
 	     		let status=0;
 	     		for(var i in cityList){
 	     			status=1;
-	     			data+='<input type="checkbox" onChange="cityCheckedClickEvent()" name="'+cityList[i].name+'" value="'+cityList[i].city_id+'"/> '+cityList[i].name+'<br>';
+	     			data+='<input type="checkbox" onChange="cityCheckedClickEvent()" name="'+cityList[i].name+'" value="'+cityList[i].cityId+'"/> '+cityList[i].name+'<br>';
 	     		}
 	     		if(status==0){
 	     			data+="No City Found";
@@ -127,7 +127,7 @@
 	     		let status=0;
 	     		for(var i in ThemeList){
 	     			status=1;
-	     			data+='<input type="checkbox" onChange="themeCheckedClickEvent()" name="'+ThemeList[i].title+'" value="'+ThemeList[i].mission_theme_id+'"/> '+ThemeList[i].title+'<br>';
+	     			data+='<input type="checkbox" onChange="themeCheckedClickEvent()" name="'+ThemeList[i].title+'" value="'+ThemeList[i].missionThemeId+'"/> '+ThemeList[i].title+'<br>';
 	     		}
 	     		if(status==0){
 	     			data+="No Theme Found";
@@ -142,7 +142,7 @@
 	     		let status=0;
 	     		for(var i in SkillList){
 	     			status=1;
-	     			data+='<input type="checkbox" onChange="skillCheckedClickEvent()" name="'+SkillList[i].skill_name+'" value="'+SkillList[i].skill_id+'"/> '+SkillList[i].skill_name+'<br>';
+	     			data+='<input type="checkbox" onChange="skillCheckedClickEvent()" name="'+SkillList[i].skillName+'" value="'+SkillList[i].skillId+'"/> '+SkillList[i].skillName+'<br>';
 	     		}
 	     		if(status==0){
 	     			data+="No Skill Found";
@@ -229,9 +229,9 @@
 	         	function addCountryList(country){
 	         		var data="";
 	         		for(var i in country){
-	         			if(CountryOfUser==country[i].country_id){
+	         			if(CountryOfUser==country[i].countryId){
 	         			}
-	         			data+='<option value="'+country[i].country_id+'" name="'+country[i].name+'"> '+country[i].name+'</option>';
+	         			data+='<option value="'+country[i].countryId+'" name="'+country[i].name+'"> '+country[i].name+'</option>';
 	         		}
 	         		$(".countrySelect").append(data);
 	         		$(".countrySelectSidebar").append(data);
@@ -334,17 +334,19 @@
 					let isApplied=missions[i].appliedForMission;
 					let appliedTag="";
 					let seatTag="";
-					var seatLeft=mission.total_seat-missions[i].noOfApplicatioin;
+					let timeOrGoalTag='';
+					var seatLeft=mission.totalSeat-missions[i].noOfApplicatioin;
 					var noOfApplication=missions[i].noOfApplicatioin;
+					var goalAchieved=missions[i].goalAchieved;
 					var applyTag="";
 					
 					if(isApplied){
-						applyTag=`<a href="getMyMission?mission_id=`+mission.mission_id+`" class="applyButtonGridView">View Details <i class="bi bi-arrow-right"></i></a>`;
+						applyTag=`<a href="getMyMission?mission_id=`+mission.missionId+`" class="applyButtonGridView">View Details <i class="bi bi-arrow-right"></i></a>`;
 					}
 					else{
-						applyTag=`<a href="getMyMission?mission_id=`+mission.mission_id+`" class="applyButtonGridView">Apply <i class="bi bi-arrow-right"></i></a>`;
+						applyTag=`<a href="getMyMission?mission_id=`+mission.missionId+`" class="applyButtonGridView">Apply <i class="bi bi-arrow-right"></i></a>`;
 					}
-					if(mission.total_seat!=0){
+					if(mission.totalSeat!=0){
 						seatTag=`<div class="col">
 						<div class="row align-items-center">
 	                                            <div class="col-auto"><img src="image/Seats-left.png" alt="" srcset=""></div>
@@ -366,11 +368,47 @@
 	                                            </div>
 	                                        </div>`;
 					}
+					timeOrGoalTag=`<div class="col">
+									<div class="row align-items-center">
+										<div class="col-auto">
+											<img src="image/deadline.png" alt="" srcset="">
+										</div>
+										<div class="col">
+											<div class="row">Deadline</div>
+											<div class="row">`+new Date(mission.deadline).toLocaleDateString()+`</div>
+										</div>
+									</div></div>
+								`;
+								if(mission.missionType=='GOAL'){
+									let totalGoal=mission.goalMission.goalValue;
+							if(goalAchieved>totalGoal){
+								goalAchieved=totalGoal;
+								closedTag='<button class="btn btn-danger">closed</button>';
+								applyButton=`<a class="applyButtonGridView" disabled>Closed <i
+									class="bi bi-arrow-right"></i></a>`;
+							}
+							let percentageCompleted=Math.round((goalAchieved / totalGoal) * 100);
+									timeOrGoalTag=`<div class="col">
+									<div class="row align-items-end">
+										<div class="col-auto">
+											<img src="image/achieved.png" alt="" srcset="">
+										</div>
+										<div class="col">
+											<div class="row">
+												<div class="progress p-0" style="height: 10px;">
+  													<div class="progress-bar" role="progressbar" style="width: `+percentageCompleted+`%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+												</div>
+											</div>
+											<div class="row">`+goalAchieved+` Achieved</div>
+										</div>
+									</div>
+								</div>`;
+								}
 					if(isApplied){
 						appliedTag='<p class="missionAppliedListView"> Applied</p>';
 					}
 						if(image==""){
-							image="noimagefound.png";
+							image="image/noimagefound.png";
 						}
 						let generatedRatingStar="";
 						
@@ -387,9 +425,9 @@
 										</div>`;
 							}
 						}
-						let LikeTag=`<i class="LikeButtonList bi bi-heart" id="`+mission.mission_id+`"></i>`;
+						let LikeTag=`<i class="LikeButtonList bi bi-heart" id="`+mission.missionId+`"></i>`;
 						if(isFavourite){
-							LikeTag=`<i class="LikeButtonList bi bi-heart-fill" id="`+mission.mission_id+`"></i>`;
+							LikeTag=`<i class="LikeButtonList bi bi-heart-fill" id="`+mission.missionId+`"></i>`;
 						}
 
 	         		let list=`<div class="row ListViewCard">
@@ -402,8 +440,8 @@
 	                            	`+LikeTag+`
 	                            	<i class="bi bi-person-plus recommandButtonList" data-bs-toggle="modal" data-bs-target="#recommendModal"></i>
 	                            </div>
-	                            <div class="d-flex justify-content-center missionCategoryListView"><p>`+mission.mission_theme.title+`</p></div>
-	                            <img src="image/`+image+`" class="img-fluid rounded-start" alt="...">
+	                            <div class="d-flex justify-content-center missionCategoryListView"><p>`+mission.missionTheme.title+`</p></div>
+	                            <img src="`+image+`" class="img-fluid rounded-start" alt="...">
 	                        </div>
 	                        <div class="col-md-9">
 	                            <div class="card-body">
@@ -411,8 +449,8 @@
 	                                    <div class="col">
 	                                        <div class="row d-flex justify-content-start firstInfoContainerListView">
 	                                            <div class="col d-flex gap-1"><i class="bi bi-geo-alt"> </i><p>`+mission.country.name+`</p></div>
-	                                            <div class="col d-flex gap-1"><i class="bi bi-globe"> </i><p> `+mission.mission_theme.title+`</p></div>
-	                                            <div class="col d-flex gap-1"><i class="bi bi-people"> </i> <p>`+mission.organization_name+`</p></div>
+	                                            <div class="col d-flex gap-1"><i class="bi bi-globe"> </i><p> `+mission.missionTheme.title+`</p></div>
+	                                            <div class="col d-flex gap-1"><i class="bi bi-people"> </i> <p>`+mission.organizationName+`</p></div>
 	                                        </div>
 	                                    </div>
 	                                    <div class="col d-flex justify-content-end">
@@ -426,27 +464,18 @@
 	                                    </div>
 	                                </div>
 	                                <h5 class="card-title">`+mission.title+`</h5>
-	                                <p class="card-text">`+mission.short_description+`</p>
+	                                <p class="card-text">`+mission.shortDescription+`</p>
 	                                <div class="row">
 	                                    <div class="col">
 	                                    	<div class="row">
-	                                        `+seatTag+`
+	                                        `+seatTag+timeOrGoalTag+`
 	                                        
-	                                        <div class="col">
-	                                        <div class="row align-items-center">
-	                                            <div class="col-auto"><img src="image/achieved.png" alt="" srcset=""></div>
-	                                            <div class="col">
-	                                                <div class="row">2</div>
-	                                                <div class="row">Seats</div>
-	                                            </div>
-	                                            </div>
-	                                        </div>
 	                                        <div class="col">
 	                                        	<div class="row align-items-center">
 	                                            <div class="col-auto"><img src="image/calender.png" alt="" srcset=""></div>
 	                                            <div class="col">
-	                                                <div class="row">2</div>
-	                                                <div class="row">Seats</div>
+	                                                <div class="row">From`+ new Date(mission.startDate).toLocaleDateString()+` </div>
+	                                                <div class="row">Untill `+ new Date(mission.endDate).toLocaleDateString()+`</div>
 	                                            </div>
 	                                            </div>
 	                                        </div>
@@ -501,20 +530,21 @@
 						let isApplied=missions[i].appliedForMission;
 						let appliedTag="";
 						let seatTag="";
-						var seatLeft=mission.total_seat-missions[i].noOfApplicatioin;
+						var seatLeft=mission.totalSeat-missions[i].noOfApplicatioin;
 						var noOfApplication=missions[i].noOfApplicatioin;
+						var goalAchieved=missions[i].goalAchieved;
 						let timeOrGoalTag='';
 						let dateGoalPills='';
 						let closedTag='';
-						let applyButton=`<a href="getMyMission?mission_id=`+mission.mission_id+`" class="applyButtonGridView">Apply <i
+						let applyButton=`<a href="getMyMission?mission_id=`+mission.missionId+`" class="applyButtonGridView">Apply <i
 									class="bi bi-arrow-right"></i></a>`;
 						
 						if(image==""){
-							image="noimagefound.png";
+							image="image/noimagefound.png";
 						}
 						if(isApplied){
 							appliedTag='<button class="btn btn-success">applied</button>';
-							applyButton=`<a href="getMyMission?mission_id=`+mission.mission_id+`" class="applyButtonGridView">View Detail <i
+							applyButton=`<a href="getMyMission?mission_id=`+mission.missionId+`" class="applyButtonGridView">View Detail <i
 									class="bi bi-arrow-right"></i></a>`;
 						}
 						if(mission.deadline!=null){
@@ -526,7 +556,15 @@
 									class="bi bi-arrow-right"></i></a>`;
 							}
 						}
-						if(mission.mission_type=='GOAL'){
+						if(mission.missionType=='GOAL'){
+							let totalGoal=mission.goalMission.goalValue;
+							if(goalAchieved>totalGoal){
+								goalAchieved=totalGoal;
+								closedTag='<button class="btn btn-danger">closed</button>';
+								applyButton=`<a class="applyButtonGridView" disabled>Closed <i
+									class="bi bi-arrow-right"></i></a>`;
+							}
+							let percentageCompleted=Math.round((goalAchieved / totalGoal) * 100);
 							timeOrGoalTag=`<div class="col">
 									<div class="row align-items-center">
 										<div class="col-auto">
@@ -535,14 +573,14 @@
 										<div class="col">
 											<div class="row">
 												<div class="progress p-0" style="height: 10px;">
-  													<div class="progress-bar" role="progressbar" style="width: 40%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+  													<div class="progress-bar" role="progressbar" style="width: `+percentageCompleted+`%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
 												</div>
 											</div>
-											<div class="row">8000 Achieved</div>
+											<div class="row">`+goalAchieved+` Achieved</div>
 										</div>
 									</div>
 								</div>`;
-								dateGoalPills=`<p>`+mission.goalMission.goal_objective_text+`</p>`;
+								dateGoalPills=`<p>`+mission.goalMission.goalObjectiveText+`</p>`;
 						}
 						else{
 							let deadline="not available";
@@ -555,19 +593,19 @@
 											<img src="image/deadline.png" alt="" srcset="">
 										</div>
 										<div class="col">
-											<div class="row">Date</div>
+											<div class="row">Deadline</div>
 											<div class="row">`+deadline+`</div>
 										</div>
 									</div>
 								</div>`;
-								if(mission.start_date==null||mission.end_date==null){									
+								if(mission.startDate==null||mission.endDate==null){									
 									dateGoalPills=`<p>Ongoing Oppurtunities</p>`;
 								}
 								else{
-									dateGoalPills=`<p>From `+deadline+` Untill `+new Date(mission.end_date).toLocaleDateString()+`</p>`;
+									dateGoalPills=`<p>From `+deadline+` Untill `+new Date(mission.endDate).toLocaleDateString()+`</p>`;
 								}
 						}
-						if(mission.total_seat!=0){
+						if(mission.totalSeat!=0){
 //							show Seat Left 
 							seatTag=`<div class="col">
 									<div class="row align-items-center">
@@ -609,9 +647,9 @@
 										</div>`;
 							}
 						}
-						let LikeTag=`<i class="LikeButton bi bi-heart" id="`+mission.mission_id+`"></i>`;
+						let LikeTag=`<i class="LikeButton bi bi-heart" id="`+mission.missionId+`"></i>`;
 						if(isFavourite){
-							LikeTag=`<i class="LikeButton bi bi-heart-fill" id="`+mission.mission_id+`"></i>`;
+							LikeTag=`<i class="LikeButton bi bi-heart-fill" id="`+mission.missionId+`"></i>`;
 						}
 						let card=`<div class="card col-lg-4 col-md-6 col-xs-12">
 							<div class="d-flex flex-column appliedCloseButtons">
@@ -627,16 +665,16 @@
 							<i class="bi bi-person-plus recommandButton" data-bs-toggle="modal" data-bs-target="#recommendModal"></i>
 						</div>
 						<img
-							src="image/`+image+`"
+							src="`+image+`"
 							class="card-img-top missionImgGridView" alt="...">
 						<div class="card-body">
 							<div class="d-flex justify-content-center missionCategoryDiv">
-								<p class="missionCategoryGridView">`+mission.mission_theme.title+`</p>
+								<p class="missionCategoryGridView">`+mission.missionTheme.title+`</p>
 							</div>
 							<h5 class="card-title">`+mission.title+`</h5>
-							<p class="card-text">`+mission.short_description+`</p>
+							<p class="card-text">`+mission.shortDescription+`</p>
 							<div class="row ratingDivGridView">
-								<div class="col">`+mission.organization_name+`</div>
+								<div class="col">`+mission.organizationName+`</div>
 								<div class="col">
 									<div class="row d-flex flex-row ratingStar flex-nowrap">
 										`+generatedRatingStar+`

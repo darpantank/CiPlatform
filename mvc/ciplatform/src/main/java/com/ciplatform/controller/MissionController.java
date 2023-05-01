@@ -112,7 +112,7 @@ public class MissionController {
 	public String loadMissionPage(Model m,@RequestParam("mission_id") int mission_id,HttpServletRequest request) throws UserNotFoundException{
 		Mission Mission=new Mission();
 		User Myuser= (User)request.getSession().getAttribute("user");
-		if(Myuser==null||Myuser.getUser_id()==0||Myuser.getEmail()=="") {
+		if(Myuser==null||Myuser.getUserId()==0||Myuser.getEmail()=="") {
 			throw new UserNotFoundException();
 		}
 		Mission=this.service.fetchMissionById(mission_id);
@@ -121,6 +121,9 @@ public class MissionController {
 		m.addAttribute("ratingOfUser",this.service.ratingOfParticularUser(Myuser, Mission));
 		m.addAttribute("media",this.service.getMediaofMission(Mission));
 		m.addAttribute("isAlreadyApplied",this.service.isAppliedForMission(Mission, Myuser));
+		int goalAchieved=0;
+		goalAchieved=this.service.calculateGoalOfMission(Mission);
+		m.addAttribute("goalAchieved",goalAchieved);
 		Double rating=0D;
 		Long ratingByPeople=0L;
 		Map<Double,Long> map=this.service.ratingOfMission(Mission);
@@ -138,7 +141,7 @@ public class MissionController {
 		int mission=Integer.parseInt(missionId);
 		Mission myMission=this.service.fetchMissionById(mission);
 		User Myuser= (User)request.getSession().getAttribute("user");
-		if(Myuser==null||Myuser.getUser_id()==0||Myuser.getEmail()=="") {
+		if(Myuser==null||Myuser.getUserId()==0||Myuser.getEmail()=="") {
 			throw new UserNotFoundException();
 		}
 		if(Myuser.getEmail()!=null) {			
@@ -160,7 +163,7 @@ public class MissionController {
 		int mission=Integer.parseInt(missionId);
 		int ratingCon=Integer.parseInt(rating);
 		User Myuser= (User)request.getSession().getAttribute("user");
-		if(Myuser==null||Myuser.getUser_id()==0||Myuser.getEmail()=="") {
+		if(Myuser==null||Myuser.getUserId()==0||Myuser.getEmail()=="") {
 			throw new UserNotFoundException();
 		}
 		Mission myMission=this.service.fetchMissionById(mission);
@@ -173,7 +176,7 @@ public class MissionController {
 		Mission myMission=this.service.fetchMissionById(mission);
 		User SendFromUser= (User)request.getSession().getAttribute("user");
 		User SendToUser= this.userService.getUserFromEmail(email);
-		if(SendFromUser==null||SendFromUser.getUser_id()==0||SendFromUser.getEmail()==""||SendToUser==null||SendToUser.getUser_id()==0||SendToUser.getEmail()=="") {
+		if(SendFromUser==null||SendFromUser.getUserId()==0||SendFromUser.getEmail()==""||SendToUser==null||SendToUser.getUserId()==0||SendToUser.getEmail()=="") {
 			throw new UserNotFoundException();
 		}
 		if(SendToUser.getEmail()==null||SendToUser.getEmail()=="") {
@@ -201,7 +204,7 @@ public class MissionController {
 	@ResponseBody
 	public boolean postCommentByUser(PostCommentDto postCommentDto,HttpServletRequest request) throws UserNotFoundException {
 		User user= (User)request.getSession().getAttribute("user");
-		if(user==null||user.getUser_id()==0||user.getEmail()=="") {
+		if(user==null||user.getUserId()==0||user.getEmail()=="") {
 			throw new UserNotFoundException();
 		}
 		this.service.postComment(postCommentDto, user);
@@ -223,15 +226,23 @@ public class MissionController {
 	@ResponseBody
 	public boolean applyForMission(@RequestParam("missionId") int missionId,HttpServletRequest request) throws UserNotFoundException {
 		User user= (User)request.getSession().getAttribute("user");
-		if(user==null||user.getUser_id()==0||user.getEmail()=="") {
+		if(user==null||user.getUserId()==0||user.getEmail()=="") {
 			throw new UserNotFoundException();
 		}
 		Mission mission=this.service.fetchMissionById(missionId);
-		if(user==null||user.getUser_id()==0||mission==null||mission.getMission_id()==0) {
+		if(user==null||user.getUserId()==0||mission==null||mission.getMissionId()==0) {
 			return false;
 		}
 		else {
 			return this.service.applyForMission(mission,user);			
 		}
+	}
+	@RequestMapping(value = "/homeadmin", method = RequestMethod.GET)
+	public String homeViewFromAdmin(HttpServletRequest request) throws UserNotFoundException {
+		User user= (User)request.getSession().getAttribute("admin");
+		if(user==null||user.getUserId()==0||user.getEmail()=="") {
+			throw new UserNotFoundException();
+		}
+		return "home";
 	}
 }

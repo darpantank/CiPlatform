@@ -20,14 +20,17 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.ciplatform.dao.UserDaoInterface;
 import com.ciplatform.dto.ChangePasswordDto;
+import com.ciplatform.dto.CmsHomePageDto;
 import com.ciplatform.dto.ContactUsDto;
 import com.ciplatform.dto.GoalBasedTimesheetIncomingDto;
 import com.ciplatform.dto.TimeBasedTimesheetIncomingDto;
 import com.ciplatform.dto.TimeSheetDto;
 import com.ciplatform.dto.UserProfileDto;
+import com.ciplatform.enums.Role;
 import com.ciplatform.enums.Status;
 import com.ciplatform.enums.TimeSheetStatus;
 import com.ciplatform.model.City;
+import com.ciplatform.model.CmsPage;
 import com.ciplatform.model.ContactUs;
 import com.ciplatform.model.Country;
 import com.ciplatform.model.Mission;
@@ -44,14 +47,15 @@ public class UserService implements UserServiceInterface {
 	@Autowired
 	UserDaoInterface daoOperation;
 	public boolean storeUserData(User user1) {
-		user1.setCreated_at(new Date());
+		user1.setCreatedAt(new Date());
 		String regex = "^(.+)@(.+)$";
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(user1.getEmail());
-		if (user1.getPassword().length() >= 8 && matcher.matches() && user1.getPhone_number().length() == 10
-				&& user1.getFirst_name() != "" && user1.getLast_name() != "") {
+		if (user1.getPassword().length() >= 8 && matcher.matches() && user1.getPhoneNumber().length() == 10
+				&& user1.getFirstName() != "" && user1.getLastName() != "") {
 			System.out.println("Pass Email Validation true");
 			user1.setStatus(Status.ACTIVE);
+			user1.setRole(Role.USER);
 			if (this.daoOperation.createUser(user1)) {
 				return true;
 			}
@@ -75,7 +79,7 @@ public class UserService implements UserServiceInterface {
 	}
 	public boolean validateMobileNo(String mobileNumber) {
 		User myuser = this.daoOperation.validateMobileNumber(mobileNumber);
-		if (myuser.getPhone_number() != null) {
+		if (myuser.getPhoneNumber() != null) {
 			return true;
 		} else {
 			return false;
@@ -92,8 +96,8 @@ public class UserService implements UserServiceInterface {
 			PasswordReset prst = new PasswordReset();
 			prst.setEmail(email);
 			prst.setToken(Token);
-			prst.setCreated_at(new Date());
-			if (this.daoOperation.storeResetPassToken(prst) != "") {
+			prst.setCreatedAt(new Date());
+			if (this.daoOperation.storeResetPassToken(prst)) {
 				return true;
 			} else {
 				return false;
@@ -139,7 +143,7 @@ public class UserService implements UserServiceInterface {
 	}
 
 	public boolean isTokenExpire(PasswordReset prst) {
-		Date d1 = prst.getCreated_at();
+		Date d1 = prst.getCreatedAt();
 		Date d2 = new Date();
 		long diff = d2.getTime() - d1.getTime();
 		TimeUnit time = TimeUnit.MINUTES;
@@ -154,24 +158,24 @@ public class UserService implements UserServiceInterface {
 	}
 
 	public boolean editUserProfile(UserProfileDto userProfileDto, User user,HttpSession session) {
-		if(!user.getFirst_name().equals(userProfileDto.getFirstName())) {
-			user.setFirst_name(userProfileDto.getFirstName());
+		if(!user.getFirstName().equals(userProfileDto.getFirstName())) {
+			user.setFirstName(userProfileDto.getFirstName());
 		}
 //		check lastName Updated Or not
 		
-		if(!user.getLast_name().equals(userProfileDto.getLastName())) {
-			user.setLast_name(userProfileDto.getLastName());
+		if(!user.getLastName().equals(userProfileDto.getLastName())) {
+			user.setLastName(userProfileDto.getLastName());
 		}
 //		check EmployeeId Updated Or not
-			user.setEmployee_id(userProfileDto.getEmployeeId());
+			user.setEmployeeId(userProfileDto.getEmployeeId());
 //		check title Updated Or not
 			user.setTitle(userProfileDto.getTitle());
 //		check department Updated Or not
 			user.setDepartment(userProfileDto.getDepartment());
 //		check profile Updated Or not
-			user.setProfile_text(userProfileDto.getMyProfile());
+			user.setProfileText(userProfileDto.getMyProfile());
 //		check whyivolunteer Updated Or not
-			user.setWhy_i_volunteer(userProfileDto.getWhyIVolunteer());
+			user.setWhyIVolunteer(userProfileDto.getWhyIVolunteer());
 //		Check For Country
 			if(userProfileDto.getCountryId()!=0) {
 				Country country=new Country();
@@ -205,12 +209,12 @@ public class UserService implements UserServiceInterface {
 			if(userSkills.size()>0) {
 //				delete Previously added Skill
 				if(user.getUserSkills().size()>0) {
-					this.daoOperation.deleteAlereadyPresentSkills(user.getUser_id());					
+					this.daoOperation.deleteAlereadyPresentSkills(user.getUserId());					
 				}
 				user.setUserSkills(userSkills);
 			}
-			if(userProfileDto.getLinkedIn()!=user.getLinked_in_url()) {
-				user.setLinked_in_url(userProfileDto.getLinkedIn());
+			if(userProfileDto.getLinkedIn()!=user.getLinkedInUrl()) {
+				user.setLinkedInUrl(userProfileDto.getLinkedIn());
 			}
 //		check profile picture updated or not
 		if(userProfileDto.getAvatar()!=null&&userProfileDto.getAvatar().getSize()>0) {
@@ -220,8 +224,8 @@ public class UserService implements UserServiceInterface {
 	        try {
 				byte barr[] = file.getBytes();
 				String extension="."+FilenameUtils.getExtension(file.getOriginalFilename());
-				String userName = user.getFirst_name().trim().replaceAll("\\s", "");
-				String filename=userName+user.getUser_id()+timeStamp+extension;
+				String userName = user.getFirstName().trim().replaceAll("\\s", "");
+				String filename=userName+user.getUserId()+timeStamp+extension;
 				String fos = path + filename;
 				BufferedOutputStream bout = new BufferedOutputStream(new FileOutputStream(fos));
 				bout.write(barr);
@@ -254,18 +258,19 @@ public class UserService implements UserServiceInterface {
 
 	public List<TimeSheetDto> loadTimesheetsOfUser(User user) {
 		List<TimeSheet> requestList=new ArrayList<TimeSheet>();
-		requestList=this.daoOperation.loadTimesheets(user.getUser_id());
+		requestList=this.daoOperation.loadTimesheets(user.getUserId());
 		List<TimeSheetDto> resultList=new ArrayList<TimeSheetDto>();
 		if(requestList.size()>0) {
 			for(TimeSheet sheet:requestList) {
 				TimeSheetDto sheetDto=new TimeSheetDto();
 				sheetDto.setAction(sheet.getAction());
-				sheetDto.setMissionId(sheet.getMission().getMission_id());
+				sheetDto.setMissionId(sheet.getMission().getMissionId());
 				sheetDto.setMissionName(sheet.getMission().getTitle());
 				sheetDto.setTime(sheet.getTime());
-				sheetDto.setTimesheetId(sheet.getTimesheet_id());
-				sheetDto.setVolunteeredDate(sheet.getDate_volunteered());
-				sheetDto.setMissionType(sheet.getMission().getMission_type().toString());
+				sheetDto.setTimesheetId(sheet.getTimesheetId());
+				sheetDto.setVolunteeredDate(sheet.getDateVolunteered());
+				sheetDto.setMissionType(sheet.getMission().getMissionType().toString());
+				sheetDto.setNotes(sheet.getNotes());
 				resultList.add(sheetDto);
 			}
 		}
@@ -274,10 +279,10 @@ public class UserService implements UserServiceInterface {
 	public boolean saveTimeSheetForTimeBasedMission(User user, Mission mission, TimeBasedTimesheetIncomingDto timesheet) {
 		TimeSheet sheet=new TimeSheet();
 				if(timesheet.getTimesheetId()==0) {
-					if(mission==null|mission.getMission_id()==0) {
+					if(mission==null|mission.getMissionId()==0) {
 						return false;
 					}
-					sheet.setDate_volunteered(timesheet.getDateVolunteered());
+					sheet.setDateVolunteered(timesheet.getDateVolunteered());
 					sheet.setMission(mission);
 					sheet.setNotes(timesheet.getMessage());
 					sheet.setStatus(TimeSheetStatus.SUBMIT_FOR_APPROVAL);
@@ -292,9 +297,9 @@ public class UserService implements UserServiceInterface {
 				}
 				else {
 //					Load Object then set All Methods
-					sheet=this.daoOperation.fetchTimeSheetFromId(timesheet.getTimesheetId(),user.getUser_id());
+					sheet=this.daoOperation.fetchTimeSheetFromId(timesheet.getTimesheetId(),user.getUserId());
 					if(sheet!=null) {
-						sheet.setDate_volunteered(timesheet.getDateVolunteered());
+						sheet.setDateVolunteered(timesheet.getDateVolunteered());
 						sheet.setNotes(timesheet.getMessage());
 						sheet.setStatus(TimeSheetStatus.SUBMIT_FOR_APPROVAL);
 						try {
@@ -313,10 +318,10 @@ public class UserService implements UserServiceInterface {
 	public boolean saveTimeSheetForGoalBasedMission(User user, Mission mission,GoalBasedTimesheetIncomingDto timesheet) {
 		TimeSheet sheet=new TimeSheet();
 		if(timesheet.getTimesheetId()==0) {
-			if(mission==null|mission.getMission_id()==0) {
+			if(mission==null|mission.getMissionId()==0) {
 				return false;
 			}
-			sheet.setDate_volunteered(timesheet.getDateVolunteered());
+			sheet.setDateVolunteered(timesheet.getDateVolunteered());
 			sheet.setMission(mission);
 			sheet.setNotes(timesheet.getMessage());
 			sheet.setStatus(TimeSheetStatus.SUBMIT_FOR_APPROVAL);
@@ -325,9 +330,9 @@ public class UserService implements UserServiceInterface {
 		}
 		else {
 //			Load Object then set All Methods
-			sheet=this.daoOperation.fetchTimeSheetFromId(timesheet.getTimesheetId(),user.getUser_id());
+			sheet=this.daoOperation.fetchTimeSheetFromId(timesheet.getTimesheetId(),user.getUserId());
 			if(sheet!=null) {
-				sheet.setDate_volunteered(timesheet.getDateVolunteered());
+				sheet.setDateVolunteered(timesheet.getDateVolunteered());
 				sheet.setNotes(timesheet.getMessage());
 				sheet.setStatus(TimeSheetStatus.SUBMIT_FOR_APPROVAL);
 				sheet.setAction(timesheet.getAction());
@@ -338,6 +343,26 @@ public class UserService implements UserServiceInterface {
 
 	public boolean deleteMytimeSheet(int userId, int timesheetId) {
 		return this.daoOperation.deleteMyTimesheet(userId,timesheetId);
+	}
+
+	public List<CmsHomePageDto> fetchCms() {
+		List<CmsPage> cmsList=this.daoOperation.fetchCmsList();
+		List<CmsHomePageDto> cmsHomePageDtos=new ArrayList<CmsHomePageDto>();
+		for(CmsPage cmsPage:cmsList) {
+			CmsHomePageDto dto=new CmsHomePageDto();
+			dto.setTitle(cmsPage.getTitle());
+			dto.setSlug(cmsPage.getSlug());
+			cmsHomePageDtos.add(dto);
+		}
+		return cmsHomePageDtos;
+	}
+
+	public CmsPage findCmsBySlug(String slug) {
+		return this.daoOperation.findCmsBySlug(slug);
+	}
+
+	public List<CmsPage> fetchAllCms() {
+		return this.daoOperation.fetchCmsList();
 	}
 
 	

@@ -11,70 +11,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
   <!-- bootstrap css  -->
-  <link rel="stylesheet" href="css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/login.css">
+  <link rel="stylesheet" href="<c:url value="/css/bootstrap.min.css"></c:url>">
+  <link rel="stylesheet" href="<c:url value="/css/login.css"></c:url>">
 </head>
 
 <body>
+<jsp:include page="spinner.jsp" />
   <div class="container-fluid">
     <div class="row">
       <div class="col-sm-12 col-lg-8">
         <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
           <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
-              aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
-              aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
-              aria-label="Slide 3"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3"
-              aria-label="Slide 4"></button>
+          
+<!--           	Caresoul indicators -->              
           </div>
           <div class="carousel-inner">
-            <div class="carousel-item active">
-              <img src="image/Grow-Trees-On-the-path-to-environment-sustainability-login.png" class="d-block w-100 size-fix" alt="...">
-              <div class="carousel-caption d-none d-md-block">
-                <p class="carouselLabelText text-start">Sed ut perspiciatis unde omnis iste natus voluptatem.</p>
-                <p class="carouselDescriptionText text-start">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                  nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                  reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-              </div>
-            </div>
-            <div class="carousel-item">
-              <img src="image/Grow-Trees-On-the-path-to-environment-sustainability-login.png" class="d-block w-100 size-fix" alt="...">
-              <div class="carousel-caption d-none d-md-block">
-                <p class="carouselLabelText text-start">Sed ut perspiciatis unde omnis iste natus voluptatem.</p>
-                <p class="carouselDescriptionText text-start">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                  nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                  reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-              </div>
-            </div>
-            <div class="carousel-item">
-              <img src="image/Grow-Trees-On-the-path-to-environment-sustainability-login.png" class="d-block w-100 size-fix" alt="...">
-              <div class="carousel-caption d-none d-md-block">
-                <p class="carouselLabelText text-start">Sed ut perspiciatis unde omnis iste natus voluptatem.</p>
-                <p class="carouselDescriptionText text-start">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                  nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                  reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-              </div>
-            </div>
-            <div class="carousel-item">
-              <img src="image/Grow-Trees-On-the-path-to-environment-sustainability-login.png" class="d-block w-100 size-fix" alt="...">
-              <div class="carousel-caption d-none d-md-block">
-                <p class="carouselLabelText text-start">Sed ut perspiciatis unde omnis iste natus voluptatem.</p>
-                <p class="carouselDescriptionText text-start">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                  nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                  reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-              </div>
-            </div>
+<!--       			Caresoul Items Fetched Here       -->
           </div>
         </div>
       </div>
@@ -129,6 +81,28 @@
 					</div>
 					<c:remove var="message"/> 
 			</c:if>
+			<c:if test="${message=='nonadmin'}">	
+				<div class="alert alert-danger alert-dismissible fade show"
+						role="alert">
+						<strong>Sorry </strong> You Don't Have Admin Rights... !
+						
+						<button type="button" class="btn-close" data-bs-dismiss="alert"
+							aria-label="Close"></button>
+					</div>
+					<c:remove var="message"/> 
+			</c:if>
+			<c:if test="${message=='deactivateprofile'}">	
+				<div class="alert alert-danger alert-dismissible fade show"
+						role="alert">
+						<strong>Sorry </strong> Your Profile is Deactivated... !
+						
+						<button type="button" class="btn-close" data-bs-dismiss="alert"
+							aria-label="Close"></button>
+					</div>
+					<c:remove var="message"/> 
+			</c:if>
+			
+			
 			
 			 
 		</div>
@@ -144,7 +118,7 @@
               </div>
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label text-muted">Password</label>
-                <input type="password" name="password" minlength="3" class="form-control password" id="exampleInputPassword1" required>
+                <input type="password" name="password" minlength="8" class="form-control password" id="exampleInputPassword1" required>
               </div>
               <button type="submit" class="btn w-100">Login</button>
             </form>
@@ -159,14 +133,80 @@
       </div>
     </div>
   </div>
-  <script src="js/bootstrap.min.js"></script>
+  <script src="<c:url value="/js/bootstrap.min.js"></c:url>"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
   <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/jquery.validate.js" type="text/javascript"></script>
   <script>
+  let incomingData='';
   	$(document).ready(function() {
 	  $("#loginForm").validate();
+	  fetchBannerList();
 	});
+  	
+  	function fetchBannerList(){
+    	$.ajax({
+	        url: "fetchallbanner",
+	        dataType: 'json',
+	        type:"GET",
+	        success: function(response){
+	        	incomingData=response;
+	        	printBanners();
+	        }
+	    });
+    }
+  	function printBanners(){
+  		printCaresoulIndicators();
+  		printCaresoulImages();
+  	}
+  	function printCaresoulImages(){
+  		$(".carousel-inner").empty();
+  		let imageDiv='';
+  		let counter=0;
+  		for(var i in incomingData){
+  			banner=incomingData[i];
+  			if(counter==0){
+  				imageDiv+=`<div class="carousel-item active">
+  	                <img src="`+banner.image+`" class="d-block w-100 size-fix" alt="...">
+  	                <div class="carousel-caption d-none d-md-block">
+  	                  <p class="carouselLabelText text-start">`+banner.text+`</p>
+  	                  
+  	                </div>
+  	              </div>`;
+  			}
+  			else{
+  				imageDiv+=`<div class="carousel-item">
+  	                <img src="`+banner.image+`" class="d-block w-100 size-fix" alt="...">
+  	                <div class="carousel-caption d-none d-md-block">
+  	                  <p class="carouselLabelText text-start">`+banner.text+`</p>
+  	                  
+  	                </div>
+  	              </div>`;
+  			}
+  			counter++;
+  		}
+  		$(".carousel-inner").append(imageDiv);
+  		
+  	}
+  	function printCaresoulIndicators(){
+  		$(".carousel-indicators").empty();
+  		var counter=0;
+  		var indicatorTag='';
+  			for(var a=0;a<incomingData.length;a++){
+  			if(counter==0){
+  				indicatorTag+=`<button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+		              aria-current="true" aria-label="Slide 1"></button>`;
+  			}
+  			else{
+  				indicatorTag+=`<button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="`+counter+`"
+		              aria-label="Slide `+counter+`"></button>`;
+  			}
+  			counter++;
+  		}
+  		$(".carousel-indicators").append(indicatorTag);		            
+  	}
   </script>
+	<script src="js/spinner.js"></script>
+  
 </body>
 
 </html>

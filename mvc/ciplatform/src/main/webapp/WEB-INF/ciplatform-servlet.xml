@@ -120,6 +120,9 @@
 				<value>
 					com.ciplatform.model.TimeSheet
 				</value>
+				<value>
+					com.ciplatform.model.CmsPage
+				</value>
 			</list>
 		</property>
 	</bean>
@@ -151,6 +154,18 @@
 		<property name="mail.smtp.auth" value="true" />
 		<property name="mail.smtp.port" value="465" />
 	</bean> -->
+   <!-- This XML will apply interceptor to only configured URIs -->
 	<mvc:resources location="/WEB-INF/" mapping="/**" />
 	<mvc:annotation-driven />
+	 
+<!-- 	 Admin Interceptors -->
+
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/admin/**"></mvc:mapping>
+			<mvc:exclude-mapping path="validateuser"/>
+			<bean class="com.ciplatform.interceptor.AdminInterceptor"></bean>
+		</mvc:interceptor>
+		
+	</mvc:interceptors>
 </beans>

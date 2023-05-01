@@ -2,6 +2,7 @@ package com.ciplatform.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -14,12 +15,15 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.ciplatform.enums.Rating;
 @Entity
 @Table(name = "mission_rating")
 public class MissionRating {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int mission_rating_id;
+	@Column(name = "mission_rating_id")
+	private int missionRatingId;
 	@JoinColumn(name = "user_id")
 	@ManyToOne(targetEntity = User.class)
 	private User user;
@@ -29,116 +33,71 @@ public class MissionRating {
 	@Enumerated(EnumType.ORDINAL)
 	private Rating rating;
 	@CreationTimestamp
-	private Date created_at;
+	@Column(name = "created_at")
+	private Date createdAt;
 	@UpdateTimestamp
-	private Date updated_at;
-	private Date deleted_at;
-	
-	
-	
-	public MissionRating(int mission_rating_id, com.ciplatform.model.User user, com.ciplatform.model.Mission mission, Rating rating,
-			Date created_at, Date updated_at, Date deleted_at) {
-		super();
-		this.mission_rating_id = mission_rating_id;
-		this.user = user;
-		this.mission = mission;
-		this.rating = rating;
-		this.created_at = created_at;
-		this.updated_at = updated_at;
-		this.deleted_at = deleted_at;
-	}
-
-
-
+	@Column(name = "updated_at")
+	private Date updatedAt;
+	@Column(name = "deleted_at")
+	private Date deletedAt;
 	public MissionRating() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
-
-
-	
-	public int getMission_rating_id() {
-		return mission_rating_id;
+	public MissionRating(int missionRatingId, User user, Mission mission, Rating rating, Date createdAt, Date updatedAt,
+			Date deletedAt) {
+		super();
+		this.missionRatingId = missionRatingId;
+		this.user = user;
+		this.mission = mission;
+		this.rating = rating;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+		this.deletedAt = deletedAt;
 	}
-
-
-
-	public void setMission_rating_id(int mission_rating_id) {
-		this.mission_rating_id = mission_rating_id;
+	public int getMissionRatingId() {
+		return missionRatingId;
 	}
-
-
-
+	public void setMissionRatingId(int missionRatingId) {
+		this.missionRatingId = missionRatingId;
+	}
 	public User getUser() {
 		return user;
 	}
-
-
-
 	public void setUser(User user) {
 		this.user = user;
 	}
-
-
-
 	public Mission getMission() {
 		return mission;
 	}
-
-
-
 	public void setMission(Mission mission) {
 		this.mission = mission;
 	}
-
-
-
 	public Rating getRating() {
 		return rating;
 	}
-
-
-
 	public void setRating(Rating rating) {
 		this.rating = rating;
 	}
-
-
-
-	public Date getCreated_at() {
-		return created_at;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
-
-
-
-	public void setCreated_at(Date created_at) {
-		this.created_at = created_at;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
-
-
-
-	public Date getUpdated_at() {
-		return updated_at;
+	public Date getUpdatedAt() {
+		return updatedAt;
 	}
-
-
-
-	public void setUpdated_at(Date updated_at) {
-		this.updated_at = updated_at;
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
 	}
-	public Date getDeleted_at() {
-		return deleted_at;
+	public Date getDeletedAt() {
+		return deletedAt;
 	}
-	public void setDeleted_at(Date deleted_at) {
-		this.deleted_at = deleted_at;
+	public void setDeletedAt(Date deletedAt) {
+		this.deletedAt = deletedAt;
 	}
-	public enum Rating{
-		ZERO,
-		ONE,
-		TWO,
-		THREE,
-		FOUR,
-		FIVE
-	}
+	
+	
+	
 }

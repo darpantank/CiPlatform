@@ -11,12 +11,12 @@ import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Component;
 
 import com.ciplatform.enums.ApprovalStatusMissionApplication;
+import com.ciplatform.enums.StoryStatus;
 import com.ciplatform.model.Mission;
 import com.ciplatform.model.MissionApplication;
 import com.ciplatform.model.Story;
 import com.ciplatform.model.StoryInvite;
 import com.ciplatform.model.User;
-import com.ciplatform.model.Story.StoryStatus;
 @Component
 public class StoryDao implements StoryDaoInterface {
 	
@@ -26,10 +26,10 @@ public class StoryDao implements StoryDaoInterface {
 	private HibernateTemplate hibernateTemplate;
 	public List<MissionApplication> findMissionFromUser(User user) {
 		Session s = this.hibernateTemplate.getSessionFactory().openSession();
-		String hql="from MissionApplication as m where m.user=:user and m.approval_status=:approval_status order by created_at";
+		String hql="from MissionApplication as m where m.user=:user and m.approvalStatus=:approvalStatus order by createdAt";
 		Query q=s.createQuery(hql);
 		q.setParameter("user", user);
-		q.setParameter("approval_status",ApprovalStatusMissionApplication.APPROVE);
+		q.setParameter("approvalStatus",ApprovalStatusMissionApplication.APPROVE);
 		return q.getResultList();
 	}
 	@Transactional
@@ -38,9 +38,9 @@ public class StoryDao implements StoryDaoInterface {
 	}
 	public Story getDraftMission(User user,Mission mission) {
 		Session s = this.hibernateTemplate.getSessionFactory().openSession();
-		String hql="from Story as m where m.mission.mission_id=:mission and m.user=:user and m.status=:status";
+		String hql="from Story as m where m.mission.missionId=:mission and m.user=:user and m.status=:status";
 		Query q=s.createQuery(hql);
-		q.setParameter("mission", mission.getMission_id());
+		q.setParameter("mission", mission.getMissionId());
 		q.setParameter("user",user);
 		q.setParameter("status",StoryStatus.DRAFT);
 		Story story=new Story();
@@ -59,7 +59,7 @@ public class StoryDao implements StoryDaoInterface {
 	public void deleteMediaOfStory(int storyId) {
 		Session s = this.hibernateTemplate.getSessionFactory().openSession();
 		s.beginTransaction();
-		String hql="delete from StoryMedia as sm where sm.story.story_id=:storyId";
+		String hql="delete from StoryMedia as sm where sm.story.storyId=:storyId";
 		Query q=s.createQuery(hql);
 		q.setParameter("storyId", storyId);
 		q.executeUpdate();
@@ -67,7 +67,7 @@ public class StoryDao implements StoryDaoInterface {
 	}
 	public Story getDetailStory(int storyId) {
 		Session s = this.hibernateTemplate.getSessionFactory().openSession();
-		String hql="from Story as s where s.story_id=:storyId";
+		String hql="from Story as s where s.storyId=:storyId";
 		Query q=s.createQuery(hql);
 		q.setParameter("storyId", storyId);
 		return (Story)q.getResultList().get(0);
@@ -98,7 +98,7 @@ public class StoryDao implements StoryDaoInterface {
 	public void submitDraftedStory(int storyId, int userId) {
 		Session s = this.hibernateTemplate.getSessionFactory().openSession();
 		s.beginTransaction();
-		String hql="update Story as s set s.status=:status where s.user.user_id=:userId and s.story_id=:storyId";
+		String hql="update Story as s set s.status=:status where s.user.userId=:userId and s.storyId=:storyId";
 		Query q=s.createQuery(hql);
 		q.setParameter("status", StoryStatus.PENDING);
 		q.setParameter("userId", userId);
@@ -120,7 +120,7 @@ public class StoryDao implements StoryDaoInterface {
 	public void incrementPageViewCount(int storyId) {
 		Session s = this.hibernateTemplate.getSessionFactory().openSession();
 		s.beginTransaction();
-		String hql="update Story as s set s.views=coalesce(s.views,0) + 1 where s.story_id=:storyId";
+		String hql="update Story as s set s.views=coalesce(s.views,0) + 1 where s.storyId=:storyId";
 		Query q=s.createQuery(hql);
 		q.setParameter("storyId", storyId);
 		q.executeUpdate();

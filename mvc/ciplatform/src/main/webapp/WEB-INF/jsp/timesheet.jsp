@@ -19,7 +19,7 @@
 <body>
 	<jsp:include page="spinner.jsp" />
 	<script>
-		let userId="${user.user_id}";
+		let userId="${user.userId}";
 	</script>
     <!-- Modal For Time BAsed Mission  -->
     <div class="modal fade" id="ModalForTimeBased" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -64,7 +64,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Message</label>
-                        <textarea class="form-control" placeholder="Enter Your Message" id="floatingTextarea2"
+                        <textarea class="form-control" placeholder="Enter Your Message" id="notesTimeBased"
                             style="height: 100px" name="message" required></textarea>
                     </div>
                 </div>
@@ -102,7 +102,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Actions</label>
-                        <input type="text" class="form-control actionGoalBasedModal" name="action" required>
+                        <input type="number" class="form-control actionGoalBasedModal" name="action" required>
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Date Volunteerd</label>
@@ -110,7 +110,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Message</label>
-                        <textarea class="form-control" placeholder="Enter Your Message" id="floatingTextarea2"
+                        <textarea class="form-control" placeholder="Enter Your Message" id="notesGoalBased"
                             style="height: 100px" name="message" required></textarea>
                     </div>
                 </div>
@@ -234,6 +234,7 @@
     					let row=`<tr>
     						<input type="hidden" class="timesheetIdGoalBased" value="`+timesheet.timesheetId+`">
     						<input type="hidden" class="missionIdGoalBased" value="`+timesheet.missionId+`">
+    						<input type="hidden" class="notesGoalBased" value="`+timesheet.notes+`">
                             <td class="missionnameGoalBased">`+timesheet.missionId+`</td>
                             <td class="missionnameGoalBased">`+timesheet.missionName+`</td>
                             <td class="volunteerDateGoalBased">`+dateOfvolunteer+`</td>
@@ -255,11 +256,12 @@
 			    $("#timesheetIdGoalBased").val($(this).parent().siblings(".timesheetIdGoalBased").val());
 			    $(".actionGoalBasedModal").val($(this).parent().siblings(".missionActionGoalBased").html());
 			    $(".dateVolunteerGoalModal").val(($(this).parent().siblings(".volunteerDateGoalBased").html()));
+			    $("#notesGoalBased").val(($(this).parent().siblings(".notesGoalBased").val()));
     		});
     		$(".deleteDataGoalBased").click(function(){
 				var timesheetId=$(this).parent().siblings(".timesheetIdGoalBased").val();
 				if(timesheetId==undefined||timesheetId==null||timesheetId==0){
-					console.log("Not Found");
+					swal("Not Found");
 				}
 				else{
 					confirmDeleteTimeSheet(timesheetId);
@@ -290,6 +292,7 @@
     					let row=`<tr>
     						<input type="hidden" class="timesheetIdTimeBased" value="`+timesheet.timesheetId+`">
     						<input type="hidden" class="missionIdTimeBased" value="`+timesheet.missionId+`">
+    						<input type="hidden" class="notesTimeBased" value="`+timesheet.notes+`">
                             <td class="missionnameTimeBased">`+timesheet.missionName+`</td>
                             <td class="volunteerDateTimeBased">`+dateOfvolunteer+`</td>
                             <td class="hoursVolunteered">`+hours+`</td>
@@ -321,6 +324,7 @@
     			    $(".minutesTimeBased").val($(this).parent().siblings(".minutesVolunteered").html());
     			    $("#timesheetIdTimeBased").val($(this).parent().siblings(".timesheetIdTimeBased").val());
     			    $(".dateVolunteerTimeModal").val(($(this).parent().siblings(".volunteerDateTimeBased").html()));
+    			    $("#notesTimeBased").val(($(this).parent().siblings(".notesTimeBased").val()));
     			});
     		}
     	}

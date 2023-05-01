@@ -120,7 +120,7 @@
                 </c:choose>
                 
                     <p class="nameOfuser">
-                        ${user.first_name} ${user.last_name}
+                        ${user.firstName} ${user.lastName}
                     </p>
                     <button class="btn" data-bs-toggle="modal" data-bs-target="#ModalForPassWordChange">Change
                         Password</button>
@@ -137,16 +137,16 @@
                     <div class="InputFields row">
                         <div class="form-group col-sm-12 col-md-6">
                             <label class="form-label">Name</label>
-                            <input type="text" class="form-control firstName" name="firstName" value="${user.first_name }" placeholder="Enter Your Name">
+                            <input type="text" class="form-control firstName" name="firstName" value="${user.firstName }" placeholder="Enter Your Name">
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
                             <label class="form-label">Surname</label>
-                            <input type="text" class="form-control lastName" name="lastName" value="${user.last_name }" placeholder="Enter Your Surname">
+                            <input type="text" class="form-control lastName" name="lastName" value="${user.lastName }" placeholder="Enter Your Surname">
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
                             <label class="form-label">Employee Id</label>
                             <input type="text" class="form-control" name="employeeId"
-                                placeholder="Enter Your Employee Id" value="${user.employee_id }">
+                                placeholder="Enter Your Employee Id" value="${user.employeeId }">
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
                             <label class="form-label">Manager</label>
@@ -164,12 +164,12 @@
                         <div class="form-group col-12">
                             <label class="form-label">My Profile</label>
                             <textarea class="form-control" name="myProfile" placeholder="Enter Your comment ..." id="floatingTextarea2"
-                                style="height: 100px">${user.profile_text}</textarea>
+                                style="height: 100px">${user.profileText}</textarea>
                         </div>
                         <div class="form-group col-12">
                             <label class="form-label">Why I Volunteer ?</label>
                             <textarea class="form-control" name="whyIVolunteer" placeholder="Enter Your comment ..." id="floatingTextarea3"
-                                style="height: 100px">${user.why_i_volunteer}</textarea>
+                                style="height: 100px">${user.whyIVolunteer}</textarea>
                         </div>
 
                     </div>
@@ -212,7 +212,7 @@
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
                             <label class="form-label">LinkedIn</label>
-                            <input type="text" class="form-control" value="${user.linked_in_url }" name="linkedIn" placeholder="Enter Your LinkedIn">
+                            <input type="text" class="form-control" value="${user.linkedInUrl }" name="linkedIn" placeholder="Enter Your LinkedIn">
                         </div>
                     </div>
                     <div class="d-flex basicInfoTag mt-4">
@@ -225,7 +225,7 @@
                             <select class="mainSkillBox" name="skills" multiple="multiple" id="lstBoxMain">
 <!--                                	Skill Add Here Which you want to Save -->
 							<c:forEach var="a" items="${user.userSkills}">
-								<option name="${a.skill.skill_name}" value="${a.skill.skill_id}"> ${a.skill.skill_name}<br></option>
+								<option name="${a.skill.skillName}" value="${a.skill.skillId}"> ${a.skill.skillName}<br></option>
 							</c:forEach>
                             </select>
                         </div>
@@ -259,15 +259,14 @@
         integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
         crossorigin="anonymous"></script>
         <script src="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.min.js"></script>
-    <script src="js/add_navbar.js"></script>
     <script src="js/add_skill.js"></script>
     
     <script>
     let country=[];
     let city=[];
     let skills=[];
-    let countryOfUser="<c:out value='${user.country.country_id}' />";
-    let cityOfUser="<c:out value='${user.city.city_id}' />";
+    let countryOfUser="<c:out value='${user.country.countryId}' />";
+    let cityOfUser="<c:out value='${user.city.cityId}' />";
     let userSkillsObject="";
     let userSkills=[];
     $(document).ready(function(){
@@ -308,13 +307,18 @@
  		var data="";
  		for(var i in country){
  			if(countryOfUser==country[i].country_id){
- 				data+='<option selected value="'+country[i].country_id+'" name="'+country[i].name+'">'+country[i].name+'</option>';
+ 				data+='<option selected value="'+country[i].countryId+'" name="'+country[i].name+'">'+country[i].name+'</option>';
  			}
  			else{ 				
- 			data+='<option value="'+country[i].country_id+'" name="'+country[i].name+'"> '+country[i].name+'</option>';
+ 			data+='<option value="'+country[i].countryId+'" name="'+country[i].name+'"> '+country[i].name+'</option>';
  			}
  		}
  		$("#userCountry").append(data);
+ 		if(countryOfUser!=''){     			
+ 			$('#userCountry option[value=' + countryOfUser + ']').attr('selected', true);
+ 			getCityList();
+ 		}
+ 		
  	}
     function getCityList(){
  		//get City List
@@ -336,16 +340,19 @@
  		for(var i in city){
  			status=1;
  			if(cityOfUser==city[i].city_id){			
-	 			data+='<option type="checkbox" selected name="'+city[i].name+'" value="'+city[i].city_id+'"/> '+city[i].name+'<br>';
+	 			data+='<option type="checkbox" selected name="'+city[i].name+'" value="'+city[i].cityId+'"/> '+city[i].name+'<br>';
  			}
  			else{
- 				data+='<option type="checkbox" name="'+city[i].name+'" value="'+city[i].city_id+'"/> '+city[i].name+'<br>';
+ 				data+='<option type="checkbox" name="'+city[i].name+'" value="'+city[i].cityId+'"/> '+city[i].name+'<br>';
  			}
  		}
  		if(status==0){
  			data+="No City Found";
  		}
  		$(".userCity").append(data);
+ 		if(cityOfUser!=''){     			
+ 			$('.userCity option[value=' + cityOfUser + ']').attr('selected', true);
+ 		}
  	}
 	function addSkillList(){
  		$("#lstBox1").empty();
@@ -353,7 +360,7 @@
  		let status=0;
  		for(var i in skills){
  			status=1;
- 			data+='<option name="'+skills[i].skill_name+'" value="'+skills[i].skill_id+'"/> '+skills[i].skill_name+'<br>';
+ 			data+='<option name="'+skills[i].skillName+'" value="'+skills[i].skillId+'"/> '+skills[i].skillName+'<br>';
  		}
  		if(status==0){
  			data+="No City Found";
@@ -465,11 +472,11 @@
             processData: false,
             success: function(response){
            	 	if(response){
-           	 		alert("Profile Updated Successfully");
+           	 		swal("Thank You","Profile Updated Successfully","success");
            	 		location.reload();
            	 	}
            	 	else{
-           	 		alert("Profile Not Updated");
+           	 		swal("Sorry","Profile Not Updated","warning");
            	 	}
             }
         });

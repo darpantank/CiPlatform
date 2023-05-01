@@ -14,21 +14,20 @@
                 aria-expanded="false">
                 <c:choose>
                 		<c:when test="${not empty user.avatar}">
-                			<img src="${user.avatar}" class="profileLogo">
+                			<img src="<c:url value="/${user.avatar}"></c:url>" class="profileLogo">
                 		</c:when>
                 		<c:otherwise>
-                			<img src="image/user1.png" class="profileLogo">
+                			<img src="<c:url value="/image/user1.png"></c:url>" class="profileLogo" >
                 		</c:otherwise>
                 	</c:choose>
-                <span class="gotoMainbar"><c:out value="${user.first_name} ${user.last_name}" /></span> 
+                <span class="gotoMainbar"><c:out value="${user.firstName} ${user.lastName}" /></span> 
                 
-                <img src="image/drop-down.png"
-                    class="gotoMainbar">
+<%--                 <img src="<c:url value="/image/drop-down.png"></c:url>" --%>
+<!--                     class="gotoMainbar"> -->
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another </a></li>
-                <li><a class="dropdown-item" href="#">Something</a></li>
+            	<li><a class="dropdown-item" href="../homeadmin">userpage</a></li>
+                <li><a class="dropdown-item" href="adminlogout">Logout</a></li>
             </ul>
         </div>
     </div>

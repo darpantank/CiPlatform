@@ -24,6 +24,8 @@ import com.ciplatform.dto.FilterObjectDto;
 import com.ciplatform.enums.ApprovalStatusMissionApplication;
 import com.ciplatform.enums.CommentApprovalStatus;
 import com.ciplatform.enums.MediaDefault;
+import com.ciplatform.enums.Rating;
+import com.ciplatform.enums.Status;
 import com.ciplatform.model.City;
 import com.ciplatform.model.Comment;
 import com.ciplatform.model.Country;
@@ -37,7 +39,6 @@ import com.ciplatform.model.MissionRating;
 import com.ciplatform.model.MissionTheme;
 import com.ciplatform.model.Skill;
 import com.ciplatform.model.User;
-import com.ciplatform.model.MissionRating.Rating;
 @Component
 public class MissionDaoOperation implements MissionDaoInterface {
 	@Autowired
@@ -48,30 +49,43 @@ public class MissionDaoOperation implements MissionDaoInterface {
 	public List<Mission> loadAllMissionOnSearch(FilterObjectDto filters) {
 		Session s = this.hibernateTemplate.getSessionFactory().openSession();
 		Criteria c = s.createCriteria(Mission.class);
+		c.add(Restrictions.eq("status",Status.ACTIVE));
 	    if(filters.getKeyword()!="") {
 	    	Criterion searchByTitle= Restrictions.like("title", "%" +filters.getKeyword()+ "%");
 	    	Criterion searchByDescription= Restrictions.like("description", "%" +filters.getKeyword()+ "%");
 	    	c.add(Restrictions.or(searchByTitle,searchByDescription));
 	    }
 	    if(filters.getCountry_id()!= 0) {
-	    	c.add(Restrictions.eq("country.country_id",filters.getCountry_id()));
+	    	c.add(Restrictions.eq("country.countryId",filters.getCountry_id()));
 	    }
 	    if(filters.getCities().size()>0) {
-	    	c.add(Restrictions.in("city.city_id",filters.getCities()));
+	    	c.add(Restrictions.in("city.cityId",filters.getCities()));
 	    }
 	    if(filters.getThemes().size()>0) {
-	    	c.add(Restrictions.in("mission_theme.mission_theme_id",filters.getThemes()));
+	    	c.add(Restrictions.in("missionTheme.missionThemeId",filters.getThemes()));
 	    }
 	    if(filters.getSkills().size()>0) {
 	    	c.createAlias("missionSkills", "ms");
-	    	c.add(Restrictions.in("ms.skills.skill_id",filters.getSkills()));
+	    	c.add(Restrictions.in("ms.skills.skillId",filters.getSkills()));
 	    }
 	    if(filters.getSortBy()!="NO_ORDER") {
 	    	if(filters.getSortBy()=="NEWEST") {
-	    		c.addOrder(Order.asc("created_at"));
+	    		c.addOrder(Order.asc("createdAt"));
 	    	}
 	    	if(filters.getSortBy()=="OLDEST") {
-	    		c.addOrder(Order.desc("created_at"));
+	    		c.addOrder(Order.desc("createdAt"));
+	    	}
+	    	if(filters.getSortBy()=="DEADLINE") {
+	    		c.addOrder(Order.asc("deadline"));
+	    		c.add(Restrictions.isNotNull("deadline"));
+	    	}
+	    	if(filters.getSortBy()=="LOWESTSEAT") {
+	    		c.addOrder(Order.asc("seatLeft"));
+	    		c.add(Restrictions.gt("seatLeft", 0L));
+	    	}
+	    	if(filters.getSortBy()=="HIGHESTSEAT") {
+	    		c.addOrder(Order.desc("seatLeft"));
+	    		c.add(Restrictions.gt("seatLeft", 0L));
 	    	}
 	    }
 	    int StartingIndex=(filters.getCurrentPage()-1)*totalMissionPerPage;
@@ -79,8 +93,10 @@ public class MissionDaoOperation implements MissionDaoInterface {
 	    	StartingIndex=0;
 	    }
 	    ProjectionList myProjections=Projections.projectionList();
-	    myProjections.add(Projections.property("mission_id"));
-	    myProjections.add(Projections.property("created_at"));
+	    myProjections.add(Projections.property("missionId"));
+	    myProjections.add(Projections.property("createdAt"));
+	    myProjections.add(Projections.property("deadline"));
+	    myProjections.add(Projections.property("seatLeft"));
 	    c.setProjection(Projections.distinct(myProjections));
 	    c.setFirstResult(StartingIndex);
 	    c.setMaxResults(totalMissionPerPage);
@@ -93,59 +109,83 @@ public class MissionDaoOperation implements MissionDaoInterface {
 	}
 
 	public List<Country> loadListOfCountry() {
-		return this.hibernateTemplate.loadAll(Country.class);
+		String que="from Country"; 
+		 Query q=hibernateTemplate.getSessionFactory().openSession().createQuery(que);
+		 List<Country> mylist=q.getResultList();
+		return mylist;
 	}
 
-	public List<City> loadCityOfCountry(int country_id) {
-		String que="from City where country_id=:country_id"; 
+	public List<City> loadCityOfCountry(int countryId) {
+		String que="from City where country.countryId=:countryId"; 
 		 Query q=hibernateTemplate.getSessionFactory().openSession().createQuery(que);
-		 q.setParameter("country_id",country_id);
+		 q.setParameter("countryId",countryId);
 		 List<City> mylist=q.getResultList();
 		return mylist;
 	}
 	public List<MissionTheme> loadAllThemes() {
-		return this.hibernateTemplate.loadAll(MissionTheme.class);
+		 String que="from MissionTheme where status=:status"; 
+		 Query q=hibernateTemplate.getSessionFactory().openSession().createQuery(que);
+		 q.setParameter("status",Status.ACTIVE);
+		 List<MissionTheme> mylist=q.getResultList();
+		return mylist;
 	}
 	public List<Skill> loadAllSkill() {
-		return this.hibernateTemplate.loadAll(Skill.class);
+		String que="from Skill where status=:status"; 
+		 Query q=hibernateTemplate.getSessionFactory().openSession().createQuery(que);
+		 q.setParameter("status",Status.ACTIVE);
+		 List<Skill> mylist=q.getResultList();
+		return mylist;
 	}
 	public long countTotalEntry(FilterObjectDto filters) {
 		Session s = this.hibernateTemplate.getSessionFactory().openSession();
 		Criteria c = s.createCriteria(Mission.class);
+	    c.add(Restrictions.eq("status",Status.ACTIVE));
 	    if(filters.getKeyword()!="") {
 	    	Criterion searchByTitle= Restrictions.like("title", "%" +filters.getKeyword()+ "%");
 	    	Criterion searchByDescription= Restrictions.like("description", "%" +filters.getKeyword()+ "%");
 	    	c.add(Restrictions.or(searchByTitle,searchByDescription));
 	    }
 	    if(filters.getCountry_id()!= 0) {
-	    	c.add(Restrictions.eq("country.country_id",filters.getCountry_id()));
+	    	c.add(Restrictions.eq("country.countryId",filters.getCountry_id()));
 	    }
 	    if(filters.getCities().size()>0) {
-	    	c.add(Restrictions.in("city.city_id",filters.getCities()));
+	    	c.add(Restrictions.in("city.cityId",filters.getCities()));
 	    }
 	    if(filters.getThemes().size()>0) {
-	    	c.add(Restrictions.in("mission_theme.mission_theme_id",filters.getThemes()));
+	    	c.add(Restrictions.in("missionTheme.missionThemeId",filters.getThemes()));
 	    }
 	    if(filters.getSkills().size()>0) {
 	    	c.createAlias("missionSkills", "ms");
-	    	c.add(Restrictions.in("ms.skills.skill_id",filters.getSkills()));
+	    	c.add(Restrictions.in("ms.skills.skillId",filters.getSkills()));
 	    }
 	    if(filters.getSortBy()!="NO_ORDER") {
 	    	if(filters.getSortBy()=="NEWEST") {
-	    		c.addOrder(Order.asc("created_at"));
+	    		c.addOrder(Order.asc("createdAt"));
 	    	}
 	    	if(filters.getSortBy()=="OLDEST") {
-	    		c.addOrder(Order.desc("created_at"));
+	    		c.addOrder(Order.desc("createdAt"));
+	    	}
+	    	if(filters.getSortBy()=="DEADLINE") {
+	    		c.addOrder(Order.asc("deadline"));
+	    		c.add(Restrictions.isNotNull("deadline"));
+	    	}
+	    	if(filters.getSortBy()=="LOWESTSEAT") {
+	    		c.addOrder(Order.asc("seatLeft"));
+	    		c.add(Restrictions.gt("seatLeft", 0L));
+	    	}
+	    	if(filters.getSortBy()=="HIGHESTSEAT") {
+	    		c.addOrder(Order.desc("seatLeft"));
+	    		c.add(Restrictions.gt("seatLeft", 0L));
 	    	}
 	    }
 	    c.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-		c.setProjection(Projections.countDistinct("mission_id"));
+		c.setProjection(Projections.countDistinct("missionId"));
 		long result=(Long)c.uniqueResult();
 		return result;
 	}
 
-	public Mission fetchMissionById(int mission_id) {
-		return this.hibernateTemplate.get(Mission.class,mission_id);
+	public Mission fetchMissionById(int missionId) {
+		return this.hibernateTemplate.get(Mission.class,missionId);
 	}
 	@Transactional
 	public boolean addFavourite(FavoriteMission myFavMission) {		
@@ -211,14 +251,14 @@ public class MissionDaoOperation implements MissionDaoInterface {
 		Criteria cUsedInCity = s.createCriteria(Mission.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		Criteria cUsedInCountry = s.createCriteria(Mission.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		Criteria cUsedInTheme = s.createCriteria(Mission.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-		cUsedInCity.add(Restrictions.ne("mission_id", MyMission.getMission_id()));
+		cUsedInCity.add(Restrictions.ne("missionId", MyMission.getMissionId()));
 		cUsedInCity.add(Restrictions.eq("city",MyMission.getCity()));
 		if(cUsedInCity.list().size()==0) {
-			cUsedInCountry.add(Restrictions.ne("mission_id", MyMission.getMission_id()));
+			cUsedInCountry.add(Restrictions.ne("missionId", MyMission.getMissionId()));
 			cUsedInCountry.add(Restrictions.eq("country",MyMission.getCountry()));
 			if(cUsedInCountry.list().size()==0) {
-				cUsedInTheme.add(Restrictions.ne("mission_id", MyMission.getMission_id()));
-				cUsedInTheme.add(Restrictions.eq("mission_theme",MyMission.getMission_theme()));
+				cUsedInTheme.add(Restrictions.ne("missionId", MyMission.getMissionId()));
+				cUsedInTheme.add(Restrictions.eq("missionTheme",MyMission.getMissionTheme()));
 				return cUsedInTheme.list();
 			}
 			else {
@@ -299,7 +339,7 @@ public class MissionDaoOperation implements MissionDaoInterface {
 		Session s = this.hibernateTemplate.getSessionFactory().openSession();
 		Criteria c = s.createCriteria(MissionApplication.class);
 		c.add(Restrictions.eq("mission", mission));
-		c.add(Restrictions.eq("approval_status",ApprovalStatusMissionApplication.APPROVE));
+		c.add(Restrictions.eq("approvalStatus",ApprovalStatusMissionApplication.APPROVE));
 		c.setProjection(Projections.countDistinct("user"));
 		long result=(Long)c.uniqueResult();
 		return result;
@@ -316,7 +356,7 @@ public class MissionDaoOperation implements MissionDaoInterface {
 //		c.setMaxResults(totalVolunteersInMissionViewPage);
 //		return c.list();
 		
-		String hql="from MissionApplication as m where m.mission=:mission and m.approval_status=:approval_status order by created_at";
+		String hql="from MissionApplication as m where m.mission=:mission and m.approvalStatus=:approval_status order by createdAt";
 		Query q=s.createQuery(hql);
 		q.setParameter("mission", mission);
 		q.setParameter("approval_status",ApprovalStatusMissionApplication.APPROVE);
@@ -329,19 +369,19 @@ public class MissionDaoOperation implements MissionDaoInterface {
 	public String findDefaultMediaOfMission(Mission m) {
 		String image="";
 		Session s = this.hibernateTemplate.getSessionFactory().openSession();
-		String hql="from MissionMedia as m where m.mission=:mission and m.mediaDefault=:defaultMedia order by created_at";
+		String hql="from MissionMedia as m where m.mission=:mission and m.mediaDefault=:defaultMedia order by createdAt";
 		Query q=s.createQuery(hql);
 		q.setParameter("mission", m);
 		q.setParameter("defaultMedia",MediaDefault.DEFAULT);
 		if(q.getResultList().size()>0) {			
 			MissionMedia missionMedia=(MissionMedia)q.getResultList().get(0);
-			image=(String)missionMedia.getMedia_name();
+			image=(String)missionMedia.getMediaPath();
 		}
 		return image;
 	}
 
 	public boolean isAppliedForMission(Mission m, User userId) {
-		if(userId.getUser_id()==0||m.getMission_id()==0) {
+		if(userId.getUserId()==0||m.getMissionId()==0) {
 			return false;
 		}
 		Session s = this.hibernateTemplate.getSessionFactory().openSession();
@@ -357,11 +397,11 @@ public class MissionDaoOperation implements MissionDaoInterface {
 	}
 
 	public Long countApplicationForMission(Mission m) {
-		if(m.getMission_id()==0) {
+		if(m.getMissionId()==0) {
 			return 0L;
 		}
 		Session s = this.hibernateTemplate.getSessionFactory().openSession();
-		String hql="select count(*) from MissionApplication as m where m.mission=:mission and m.approval_status=:status";
+		String hql="select count(*) from MissionApplication as m where m.mission=:mission and m.approvalStatus=:status";
 		Query q=s.createQuery(hql);
 		q.setParameter("mission", m);
 		q.setParameter("status", ApprovalStatusMissionApplication.APPROVE);		
@@ -372,6 +412,22 @@ public class MissionDaoOperation implements MissionDaoInterface {
 	public boolean applyForMission(MissionApplication application) {
 		this.hibernateTemplate.save(application);
 		return true;
+	}
+
+	public int calculateGoalOfMission(Mission m) {
+		if(m.getMissionId()==0) {
+			return 0;
+		}
+		Session s = this.hibernateTemplate.getSessionFactory().openSession();
+		String hql="select SUM(action) from TimeSheet where mission=:mission";
+		Query q=s.createQuery(hql);
+		q.setParameter("mission", m);
+		int answer=0;
+		if(q.getSingleResult()!=null) {
+			Long temp=(Long)q.getSingleResult();
+			answer=temp.intValue();
+		}
+		return answer;
 	}
 
 	

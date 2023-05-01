@@ -1,6 +1,8 @@
 package com.ciplatform.model;
 
 import java.util.Date;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,7 +19,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 public class FavoriteMission {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int favourite_mission_id;
+	@Column(name = "favourite_mission_id")
+	private int favouriteMissionId;
 	@ManyToOne(targetEntity = User.class)
 	@JoinColumn(name = "user_id")
 	private User user;
@@ -25,34 +28,42 @@ public class FavoriteMission {
 	@JoinColumn(name = "mission_id")
 	private Mission mission;
 	@CreationTimestamp
-	private Date created_at;
+	@Column(name = "created_at")
+	private Date createdAt;
 	@UpdateTimestamp
-	private Date updated_at;
-	private Date deleted_at;
+	@Column(name = "updated_at")
+	private Date updatedAt;
+	@Column(name = "deleted_at")
+	private Date deletedAt;
 	public FavoriteMission() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public FavoriteMission(int favourite_mission_id, com.ciplatform.model.User user, com.ciplatform.model.Mission mission,
-			Date created_at, Date updated_at, Date deleted_at) {
+	
+	public FavoriteMission(int favouriteMissionId, User user, Mission mission, Date createdAt, Date updatedAt,
+			Date deletedAt) {
 		super();
-		this.favourite_mission_id = favourite_mission_id;
+		this.favouriteMissionId = favouriteMissionId;
 		this.user = user;
 		this.mission = mission;
-		this.created_at = created_at;
-		this.updated_at = updated_at;
-		this.deleted_at = deleted_at;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+		this.deletedAt = deletedAt;
 	}
+
 	public FavoriteMission(Mission myMission,User Myuser) {
 		this.user = Myuser;
 		this.mission = myMission;
 	}
-	public int getFavourite_mission_id() {
-		return favourite_mission_id;
+	
+	public Date getCreatedAt() {
+		return createdAt;
 	}
-	public void setFavourite_mission_id(int favourite_mission_id) {
-		this.favourite_mission_id = favourite_mission_id;
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
+
 	public User getUser() {
 		return user;
 	}
@@ -65,23 +76,30 @@ public class FavoriteMission {
 	public void setMission(Mission mission) {
 		this.mission = mission;
 	}
-	public Date getCreated_at() {
-		return created_at;
+
+	public int getFavouriteMissionId() {
+		return favouriteMissionId;
 	}
-	public void setCreated_at(Date created_at) {
-		this.created_at = created_at;
+
+	public void setFavouriteMissionId(int favouriteMissionId) {
+		this.favouriteMissionId = favouriteMissionId;
 	}
-	public Date getUpdated_at() {
-		return updated_at;
+
+	public Date getUpdatedAt() {
+		return updatedAt;
 	}
-	public void setUpdated_at(Date updated_at) {
-		this.updated_at = updated_at;
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
 	}
-	public Date getDeleted_at() {
-		return deleted_at;
+
+	public Date getDeletedAt() {
+		return deletedAt;
 	}
-	public void setDeleted_at(Date deleted_at) {
-		this.deleted_at = deleted_at;
+
+	public void setDeletedAt(Date deletedAt) {
+		this.deletedAt = deletedAt;
 	}
+	
 	
 }

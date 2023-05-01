@@ -2,6 +2,7 @@ package com.ciplatform.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -12,48 +13,52 @@ public class PasswordReset {
 	@Id
 	private String email;
 	private String token;
-	private Date created_at;
+	@Column(name = "created_at")
+	private Date createdAt;
 	public PasswordReset() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
 	
-
-	public PasswordReset(String token, String email, Date created_at) {
+	public PasswordReset(String email, String token, Date createdAt) {
 		super();
 		this.email = email;
 		this.token = token;
-		this.created_at = created_at;
+		this.createdAt = createdAt;
 	}
-
 
 
 	public String getEmail() {
 		return email;
 	}
+
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+
 	public String getToken() {
 		return token;
 	}
+
+
 	public void setToken(String token) {
 		this.token = token;
 	}
-	public Date getCreated_at() {
-		return created_at;
-	}
-	public void setCreated_at(Date created_at) {
-		this.created_at = created_at;
+
+
+	public Date getCreatedAt() {
+		return createdAt;
 	}
 
 
-
-	@Override
-	public String toString() {
-		return "password_reset [token=" + token + ", email=" + email + ", created_at=" + created_at + "]";
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
+
+
 	public boolean isValidObject() {
 		if(this.email!=""||this.token!="") {
 			return true;

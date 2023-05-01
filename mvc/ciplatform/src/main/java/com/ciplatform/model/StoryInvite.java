@@ -2,6 +2,7 @@ package com.ciplatform.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,7 +19,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 public class StoryInvite {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int story_invite_id;
+	@Column(name = "story_invite_id")
+	private int storyInviteId;
 	@ManyToOne(targetEntity = Story.class)
 	@JoinColumn(name = "story_id")
 	private Story story;
@@ -29,35 +31,34 @@ public class StoryInvite {
 	@JoinColumn(name="to_user_id")
 	private User toUser;
 	@CreationTimestamp
-	private Date created_at;
+	@Column(name = "created_at")
+	private Date createdAt;
 	@UpdateTimestamp
-	private Date updated_at;
-	private Date deleted_at;
+	@Column(name = "updated_at")
+	private Date updatedAt;
+	@Column(name = "deleted_at")
+	private Date deletedAt;
 	public StoryInvite() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	public StoryInvite(int story_invite_id, Story story, User fromUser, User toUser, Date created_at, Date updated_at,
-			Date deleted_at) {
+	public StoryInvite(int storyInviteId, Story story, User fromUser, User toUser, Date createdAt, Date updatedAt,
+			Date deletedAt) {
 		super();
-		this.story_invite_id = story_invite_id;
+		this.storyInviteId = storyInviteId;
 		this.story = story;
 		this.fromUser = fromUser;
 		this.toUser = toUser;
-		this.created_at = created_at;
-		this.updated_at = updated_at;
-		this.deleted_at = deleted_at;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+		this.deletedAt = deletedAt;
 	}
-	
-	public int getStory_invite_id() {
-		return story_invite_id;
+	public int getStoryInviteId() {
+		return storyInviteId;
 	}
-
-	public void setStory_invite_id(int story_invite_id) {
-		this.story_invite_id = story_invite_id;
+	public void setStoryInviteId(int storyInviteId) {
+		this.storyInviteId = storyInviteId;
 	}
-
 	public Story getStory() {
 		return story;
 	}
@@ -76,26 +77,24 @@ public class StoryInvite {
 	public void setToUser(User toUser) {
 		this.toUser = toUser;
 	}
-	public Date getCreated_at() {
-		return created_at;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
-	public void setCreated_at(Date created_at) {
-		this.created_at = created_at;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
-	public Date getUpdated_at() {
-		return updated_at;
+	public Date getUpdatedAt() {
+		return updatedAt;
 	}
-	public void setUpdated_at(Date updated_at) {
-		this.updated_at = updated_at;
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
 	}
-	public Date getDeleted_at() {
-		return deleted_at;
+	public Date getDeletedAt() {
+		return deletedAt;
 	}
-	public void setDeleted_at(Date deleted_at) {
-		this.deleted_at = deleted_at;
+	public void setDeletedAt(Date deletedAt) {
+		this.deletedAt = deletedAt;
 	}
-	
-	
 	
 	
 }

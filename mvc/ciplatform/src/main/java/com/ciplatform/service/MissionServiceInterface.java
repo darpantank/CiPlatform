@@ -42,4 +42,5 @@ public interface MissionServiceInterface {
 	public List<MissionMedia> getMediaofMission(Mission mission);
 	public boolean applyForMission(Mission mission, User user);
 	public boolean isAppliedForMission(Mission mission,User user);
+	public int calculateGoalOfMission(Mission mission);
 }

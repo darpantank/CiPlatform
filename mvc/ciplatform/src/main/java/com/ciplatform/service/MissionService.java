@@ -15,6 +15,7 @@ import com.ciplatform.dto.MissionVolunteerIncomingDto;
 import com.ciplatform.dto.MissionVolunteersOutgoingDto;
 import com.ciplatform.dto.PostCommentDto;
 import com.ciplatform.enums.ApprovalStatusMissionApplication;
+import com.ciplatform.enums.MissionType;
 import com.ciplatform.model.City;
 import com.ciplatform.model.Comment;
 import com.ciplatform.model.Country;
@@ -51,6 +52,9 @@ public class MissionService implements MissionServiceInterface {
 				}
 				else {					
 					fetchMissionWithFav.setFavourited(this.daoOfMission.favouriteMission(userId,m));
+				}
+				if(m.getMissionType()==MissionType.GOAL) {
+					fetchMissionWithFav.setGoalAchieved(this.daoOfMission.calculateGoalOfMission(m));
 				}
 				myMissionListWithFavourite.add(fetchMissionWithFav);
 			}
@@ -94,19 +98,32 @@ public class MissionService implements MissionServiceInterface {
 		return this.daoOfMission.getMediaOfMission(mission);
 	}
 
-	public List<FetchMissionByUserDto> getRelatedMission(Mission mission,User user) {
+	public List<FetchMissionByUserDto> getRelatedMission(Mission mission,User userId) {
 		List<Mission> missions=this.daoOfMission.getRelatedMissions(mission);
 		if(missions.size()>3) {
 			missions=missions.subList(0,3);
 		}
 		List<FetchMissionByUserDto> missionWithData=new ArrayList<FetchMissionByUserDto>();
 		for(Mission m:missions) {
-			FetchMissionByUserDto temp=new FetchMissionByUserDto();
-			temp.setMission(m);
-			temp.setFavourited(this.daoOfMission.favouriteMission(user, m));
-			Map<Double,Long> map=this.daoOfMission.getRatingOfMission(m);
-			temp.setRating((Double)map.keySet().toArray()[0]);
-			missionWithData.add(temp);
+//			
+			FetchMissionByUserDto fetchMissionWithFav=new FetchMissionByUserDto();
+			Map<Double,Long> map1=this.daoOfMission.getRatingOfMission(m);
+			fetchMissionWithFav.setMission(m);
+			fetchMissionWithFav.setRating((Double)map1.keySet().toArray()[0]);
+//			fetchMissionWithFav.setRatingByNo((Long)map1.get(map1.keySet().toArray()[0]));
+			fetchMissionWithFav.setImage(this.daoOfMission.findDefaultMediaOfMission(m));
+			fetchMissionWithFav.setAppliedForMission(this.daoOfMission.isAppliedForMission(m,userId));
+			fetchMissionWithFav.setNoOfApplicatioin(this.daoOfMission.countApplicationForMission(m));
+			if(userId==null) {
+				fetchMissionWithFav.setFavourited(false);
+			}
+			else {					
+				fetchMissionWithFav.setFavourited(this.daoOfMission.favouriteMission(userId,m));
+			}
+			if(m.getMissionType()==MissionType.GOAL) {
+				fetchMissionWithFav.setGoalAchieved(this.daoOfMission.calculateGoalOfMission(m));
+			}
+			missionWithData.add(fetchMissionWithFav);
 		}
 		return missionWithData;
 	}
@@ -119,7 +136,7 @@ public class MissionService implements MissionServiceInterface {
 	}
 
 	public void recommandToCoWorker(Mission myMission, User sendFromUser, User sendToUser) {
-		String msg="<!DOCTYPE html><h2>Your Friend "+sendFromUser.getFirst_name()+" "+sendFromUser.getLast_name()+" is recommand to you for this mission</h2><h3>Click Below Button to Open Mission</h3> <br><a href='http://localhost:8080/project/getMyMission?mission_id="+myMission.getMission_id()+"' class='btn btn-success'>Click Here</a>";
+		String msg="<!DOCTYPE html><h2>Your Friend "+sendFromUser.getFirstName()+" "+sendFromUser.getLastName()+" is recommand to you for this mission</h2><h3>Click Below Button to Open Mission</h3> <br><a href='http://localhost:8080/project/getMyMission?mission_id="+myMission.getMissionId()+"' class='btn btn-success'>Click Here</a>";
 		String subject="Ci-Platform Recommandation Link";
 		if(SendMail.send(sendToUser.getEmail(), msg,subject)) {			
 			this.daoOfMission.recommandToCoWorker(myMission,sendFromUser,sendToUser);
@@ -133,8 +150,8 @@ public class MissionService implements MissionServiceInterface {
 			MissionCommentDto commentDto=new MissionCommentDto();
 			commentDto.setAvatar(comment.getUser().getAvatar());
 			commentDto.setComment(comment.getComment());
-			commentDto.setName(comment.getUser().getFirst_name()+" "+comment.getUser().getLast_name());
-			commentDto.setCreated_at(comment.getCreated_at());
+			commentDto.setName(comment.getUser().getFirstName()+" "+comment.getUser().getLastName());
+			commentDto.setCreatedAt(comment.getCreatedAt());
 			listOfCommentsDto.add(commentDto);
 		}
 		return listOfCommentsDto;
@@ -157,7 +174,7 @@ public class MissionService implements MissionServiceInterface {
 		for(MissionApplication application:myApplicationList) {
 			MissionVolunteersOutgoingDto missionVolunteersOutgoingDto=new MissionVolunteersOutgoingDto();
 			missionVolunteersOutgoingDto.setAvatar(application.getUser().getAvatar());
-			missionVolunteersOutgoingDto.setName(application.getUser().getFirst_name()+" "+application.getUser().getLast_name());
+			missionVolunteersOutgoingDto.setName(application.getUser().getFirstName()+" "+application.getUser().getLastName());
 			myResultList.add(missionVolunteersOutgoingDto);
 		}
 		return myResultList;
@@ -167,7 +184,7 @@ public class MissionService implements MissionServiceInterface {
 		MissionApplication application=new MissionApplication();
 		application.setMission(mission);
 		application.setUser(user);
-		application.setApproval_status(ApprovalStatusMissionApplication.PENDING);
+		application.setApprovalStatus(ApprovalStatusMissionApplication.PENDING);
 		if(!this.daoOfMission.isAppliedForMission(mission, user)) {
 			return this.daoOfMission.applyForMission(application);
 		}
@@ -175,5 +192,9 @@ public class MissionService implements MissionServiceInterface {
 	}
 	public boolean isAppliedForMission(Mission mission,User user) {
 		return this.daoOfMission.isAppliedForMission(mission, user);
+	}
+
+	public int calculateGoalOfMission(Mission mission) {
+		return this.daoOfMission.calculateGoalOfMission(mission);
 	}
 }

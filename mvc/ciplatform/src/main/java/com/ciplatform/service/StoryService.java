@@ -2,10 +2,8 @@ package com.ciplatform.service;
 
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 
 import javax.servlet.http.HttpSession;
@@ -21,12 +19,12 @@ import com.ciplatform.dto.FindMissionFromUserDto;
 import com.ciplatform.dto.StoryCardDto;
 import com.ciplatform.dto.StoryDto;
 import com.ciplatform.dto.StoryMediaTypeUrlDto;
+import com.ciplatform.enums.StoryStatus;
 import com.ciplatform.model.Mission;
 import com.ciplatform.model.MissionApplication;
 import com.ciplatform.model.Story;
 import com.ciplatform.model.StoryMedia;
 import com.ciplatform.model.User;
-import com.ciplatform.model.Story.StoryStatus;
 
 @Service
 public class StoryService implements StoryServiceIntereface{
@@ -43,9 +41,9 @@ public class StoryService implements StoryServiceIntereface{
 		List<FindMissionFromUserDto> myResultList=new ArrayList<FindMissionFromUserDto>();
 		for(MissionApplication application:myMissionApplicationList) {
 			FindMissionFromUserDto findMissionFromUserDto=new FindMissionFromUserDto();
-			findMissionFromUserDto.setMissionId(application.getMission().getMission_id());
+			findMissionFromUserDto.setMissionId(application.getMission().getMissionId());
 			findMissionFromUserDto.setMissionName(application.getMission().getTitle());
-			findMissionFromUserDto.setMissionType(application.getMission().getMission_type().toString());
+			findMissionFromUserDto.setMissionType(application.getMission().getMissionType().toString());
 			myResultList.add(findMissionFromUserDto);
 		}
 		return myResultList;
@@ -130,16 +128,16 @@ public class StoryService implements StoryServiceIntereface{
 		Story story=this.storyDaoInterface.getDraftMission(user,mission);
 		
 //		if story object null then return from here 
-		if(story.getStory_id()==0) {
+		if(story.getStoryId()==0) {
 			return new DraftStoryDto();
 		}
 //		Object To DTO 
 		
 		DraftStoryDto draftStoryDto=new DraftStoryDto();
 		List<StoryMediaTypeUrlDto> storyMediaDraftDto=new ArrayList<StoryMediaTypeUrlDto>();
-		draftStoryDto.setDate(story.getCreated_at());
+		draftStoryDto.setDate(story.getCreatedAt());
 		draftStoryDto.setStory(story.getDescription());
-		draftStoryDto.setStoryId(story.getStory_id());
+		draftStoryDto.setStoryId(story.getStoryId());
 		draftStoryDto.setStoryTitle(story.getTitle());
 		for(StoryMedia storyMedia:story.getStoryMedia()) {
 			StoryMediaTypeUrlDto mediaTypeUrlDto=new StoryMediaTypeUrlDto();
@@ -181,10 +179,10 @@ public class StoryService implements StoryServiceIntereface{
 			storyCardDto.setImage(mediaTypeUrlDto);
 			storyCardDto.setUserAvatar(story.getUser().getAvatar());
 			storyCardDto.setStoryDescription(story.getDescription());
-			storyCardDto.setStoryId(story.getStory_id());
+			storyCardDto.setStoryId(story.getStoryId());
 			storyCardDto.setStoryTitle(story.getTitle());
-			storyCardDto.setUserName(story.getUser().getFirst_name()+" "+story.getUser().getLast_name());
-			storyCardDto.setMissionTheme(story.getMission().getMission_theme().getTitle());
+			storyCardDto.setUserName(story.getUser().getFirstName()+" "+story.getUser().getLastName());
+			storyCardDto.setMissionTheme(story.getMission().getMissionTheme().getTitle());
 			
 			
 			result.add(storyCardDto);
@@ -201,8 +199,8 @@ public class StoryService implements StoryServiceIntereface{
 	public void recommandToCoWorkerStory(int storyId, User sendFromUser, User sendToUser) {
 		Story story=new Story();
 		story=this.storyDaoInterface.fetchStoryObjectById(storyId);
-		if(story.getStory_id()!=0) {			
-			String msg="<!DOCTYPE html><h2>Your Friend "+sendFromUser.getFirst_name()+" "+sendFromUser.getLast_name()+" is recommand to you for this Story</h2><h3>Click Below Button to Open Mission</h3> <br><a href='http://localhost:8080/project/getDetailStory?storyId="+story.getStory_id()+"' class='btn btn-success'>Click Here</a>";
+		if(story.getStoryId()!=0) {			
+			String msg="<!DOCTYPE html><h2>Your Friend "+sendFromUser.getFirstName()+" "+sendFromUser.getLastName()+" is recommand to you for this Story</h2><h3>Click Below Button to Open Mission</h3> <br><a href='http://localhost:8080/project/getDetailStory?storyId="+story.getStoryId()+"' class='btn btn-success'>Click Here</a>";
 			String subject="Ci-Platform Story Recommandation Link";
 			if(SendMail.send(sendToUser.getEmail(), msg,subject)) {			
 				this.storyDaoInterface.recommandToCoWorkerStory(story,sendFromUser,sendToUser);

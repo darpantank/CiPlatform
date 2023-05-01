@@ -10,11 +10,10 @@ public class FilterObjectDto {
 	private List<Integer> skills;
 	private int currentPage;
 	private String sortBy;
-	String[] ORDER_BY={"NO_ORDER","NEWEST","OLDEST"};
+	String[] ORDER_BY={"NO_ORDER","NEWEST","OLDEST","DEADLINE","LOWESTSEAT","HIGHESTSEAT"};
 	public FilterObjectDto(){
 		super();
 	}
-	
 	public FilterObjectDto(String keyword, int country_id, List<Integer> cities, List<Integer> themes,
 			List<Integer> skills, int currentPage, String sortBy) {
 		super();

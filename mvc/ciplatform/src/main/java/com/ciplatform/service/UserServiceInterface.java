@@ -5,11 +5,13 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import com.ciplatform.dto.ChangePasswordDto;
+import com.ciplatform.dto.CmsHomePageDto;
 import com.ciplatform.dto.ContactUsDto;
 import com.ciplatform.dto.GoalBasedTimesheetIncomingDto;
 import com.ciplatform.dto.TimeBasedTimesheetIncomingDto;
 import com.ciplatform.dto.TimeSheetDto;
 import com.ciplatform.dto.UserProfileDto;
+import com.ciplatform.model.CmsPage;
 import com.ciplatform.model.Mission;
 import com.ciplatform.model.PasswordReset;
 import com.ciplatform.model.User;
@@ -36,4 +38,7 @@ public interface UserServiceInterface {
 	public boolean saveTimeSheetForGoalBasedMission(User user, Mission mission,
 			GoalBasedTimesheetIncomingDto timesheet);
 	public boolean deleteMytimeSheet(int user_id, int timesheetId);
+	public List<CmsHomePageDto> fetchCms();
+	public CmsPage findCmsBySlug(String slug);
+	public List<CmsPage> fetchAllCms();
 }

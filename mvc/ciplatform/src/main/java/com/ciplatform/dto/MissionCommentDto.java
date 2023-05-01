@@ -6,17 +6,18 @@ public class MissionCommentDto {
 	private String name;
 	private String comment;
 	private String avatar;
-	private Date created_at;
-	public MissionCommentDto(String name, String comment, String avatar, Date created_at) {
+	private Date createdAt;
+	
+	public MissionCommentDto() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public MissionCommentDto(String name, String comment, String avatar, Date createdAt) {
 		super();
 		this.name = name;
 		this.comment = comment;
 		this.avatar = avatar;
-		this.created_at = created_at;
-	}
-	public MissionCommentDto() {
-		super();
-		// TODO Auto-generated constructor stub
+		this.createdAt = createdAt;
 	}
 	public String getName() {
 		return name;
@@ -36,11 +37,11 @@ public class MissionCommentDto {
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
 	}
-	public Date getCreated_at() {
-		return created_at;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
-	public void setCreated_at(Date created_at) {
-		this.created_at = created_at;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 	
 }

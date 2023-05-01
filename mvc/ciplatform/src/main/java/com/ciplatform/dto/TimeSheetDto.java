@@ -11,6 +11,7 @@ public class TimeSheetDto {
 	private Date volunteeredDate;
 	private int action;
 	private LocalTime time;
+	private String notes;
 	public int getTimesheetId() {
 		return timesheetId;
 	}
@@ -53,6 +54,10 @@ public class TimeSheetDto {
 	public void setMissionType(String missionType) {
 		this.missionType = missionType;
 	}
-	
-	
+	public String getNotes() {
+		return notes;
+	}
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
 }

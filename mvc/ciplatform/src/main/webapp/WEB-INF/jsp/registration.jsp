@@ -13,65 +13,16 @@
 </head>
 
 <body>
+<jsp:include page="spinner.jsp" />
   <div class="container-fluid">
     <div class="row">
       <div class="col-sm-12 col-lg-8 col-md-12">
         <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
           <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
-              aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
-              aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
-              aria-label="Slide 3"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3"
-              aria-label="Slide 4"></button>
+            
           </div>
           <div class="carousel-inner">
-            <div class="carousel-item active">
-              <img src="image/Grow-Trees-On-the-path-to-environment-sustainability-login.png" class="d-block w-100 size-fix" alt="...">
-              <div class="carousel-caption d-none d-md-block">
-                <p class="carouselLabelText text-start">Sed ut perspiciatis unde omnis iste natus voluptatem.</p>
-                <p class="carouselDescriptionText text-start">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                  nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                  reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-              </div>
-            </div>
-            <div class="carousel-item">
-              <img src="image/Grow-Trees-On-the-path-to-environment-sustainability-login.png" class="d-block w-100 size-fix" alt="...">
-              <div class="carousel-caption d-none d-md-block">
-                <p class="carouselLabelText text-start">Sed ut perspiciatis unde omnis iste natus voluptatem.</p>
-                <p class="carouselDescriptionText text-start">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                  nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                  reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-              </div>
-            </div>
-            <div class="carousel-item">
-              <img src="image/Grow-Trees-On-the-path-to-environment-sustainability-login.png" class="d-block w-100 size-fix" alt="...">
-              <div class="carousel-caption d-none d-md-block">
-                <p class="carouselLabelText text-start">Sed ut perspiciatis unde omnis iste natus voluptatem.</p>
-                <p class="carouselDescriptionText text-start">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                  nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                  reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-              </div>
-            </div>
-            <div class="carousel-item">
-              <img src="image/Grow-Trees-On-the-path-to-environment-sustainability-login.png" class="d-block w-100 size-fix" alt="...">
-              <div class="carousel-caption d-none d-md-block">
-                <p class="carouselLabelText text-start">Sed ut perspiciatis unde omnis iste natus voluptatem.</p>
-                <p class="carouselDescriptionText text-start">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                  nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                  reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-              </div>
-            </div>
+                       
           </div>
         </div>
       </div>
@@ -90,15 +41,15 @@
             <form action="saveuser" method="post" id="registrationForm">
                 <div class="mb-3">
                     <label for="exampleInput" class="form-label text-muted">First Name</label>
-                    <input type="text" class="form-control" id="exampleFirstName" name="first_name" required>
+                    <input type="text" class="form-control" id="exampleFirstName" name="firstName" required>
                   </div>
                   <div class="mb-3">
                     <label for="exampleInput" class="form-label text-muted">Last Name</label>
-                    <input type="text" class="form-control" id="exampleLastName" name="last_name" required>
+                    <input type="text" class="form-control" id="exampleLastName" name="lastName" required>
                   </div>
                   <div class="mb-3">
                     <label for="examplePhoneNumber" class="form-label text-muted">Phone Number</label>
-                    <input type="tel" class="form-control" id="exampleMobileNo" minlength="10" pattern="[1-9]{1}[0-9]{9}" name="phone_number" required>
+                    <input type="tel" class="form-control" id="exampleMobileNo" minlength="10" pattern="[1-9]{1}[0-9]{9}" name="phoneNumber" required>
                   </div>
               <div class="mb-3">
                 <label for="exampleInputEmail" class="form-label text-muted">Email address</label>
@@ -134,7 +85,71 @@
   <script>
   	$(document).ready(function() {
 	  $("#registrationForm").validate();
+	  fetchBannerList();
 	});
+  	function fetchBannerList(){
+    	$.ajax({
+	        url: "fetchallbanner",
+	        dataType: 'json',
+	        type:"GET",
+	        success: function(response){
+	        	incomingData=response;
+	        	printBanners();
+	        }
+	    });
+    }
+  	function printBanners(){
+  		printCaresoulIndicators();
+  		printCaresoulImages();
+  	}
+  	function printCaresoulImages(){
+  		$(".carousel-inner").empty();
+  		let imageDiv='';
+  		let counter=0;
+  		for(var i in incomingData){
+  			banner=incomingData[i];
+  			if(counter==0){
+  				imageDiv+=`<div class="carousel-item active">
+  	                <img src="`+banner.image+`" class="d-block w-100 size-fix" alt="...">
+  	                <div class="carousel-caption d-none d-md-block">
+  	                  <p class="carouselLabelText text-start">`+banner.text+`</p>
+  	                  
+  	                </div>
+  	              </div>`;
+  			}
+  			else{
+  				imageDiv+=`<div class="carousel-item">
+  	                <img src="`+banner.image+`" class="d-block w-100 size-fix" alt="...">
+  	                <div class="carousel-caption d-none d-md-block">
+  	                  <p class="carouselLabelText text-start">`+banner.text+`</p>
+  	                  
+  	                </div>
+  	              </div>`;
+  			}
+  			counter++;
+  		}
+  		$(".carousel-inner").append(imageDiv);
+  		
+  	}
+  	function printCaresoulIndicators(){
+  		$(".carousel-indicators").empty();
+  		var counter=0;
+  		var indicatorTag='';
+  			for(var a=0;a<incomingData.length;a++){
+  			if(counter==0){
+  				indicatorTag+=`<button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+		              aria-current="true" aria-label="Slide 1"></button>`;
+  			}
+  			else{
+  				indicatorTag+=`<button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="`+counter+`"
+		              aria-label="Slide `+counter+`"></button>`;
+  			}
+  			counter++;
+  		}
+  		$(".carousel-indicators").append(indicatorTag);		            
+  	}
+  </script>
+	<script src="js/spinner.js"></script>
   </script>
 </body>
 

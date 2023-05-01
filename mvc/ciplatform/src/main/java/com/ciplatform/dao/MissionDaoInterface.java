@@ -43,4 +43,5 @@ public interface MissionDaoInterface {
 	public boolean isAppliedForMission(Mission m, User userId);
 	public Long countApplicationForMission(Mission m);
 	public boolean applyForMission(MissionApplication application);
+	public int calculateGoalOfMission(Mission m);
 }

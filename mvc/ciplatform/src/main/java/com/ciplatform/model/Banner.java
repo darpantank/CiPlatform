@@ -11,8 +11,10 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
 @Entity
 @Table(name = "banner")
+@Where(clause = "deleted_at is null")
 public class Banner {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,9 +25,12 @@ public class Banner {
 	@Column(name = "sort_by")
 	private int sortOrder;
 	@CreationTimestamp
+	@Column(name = "created_at")
 	private Date createdAt;
 	@UpdateTimestamp
+	@Column(name = "updated_at")
 	private Date updatedAt;
+	@Column(name = "deleted_at")
 	private Date deletedAt;
 	public Banner() {
 		super();

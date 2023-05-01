@@ -2,6 +2,7 @@ package com.ciplatform.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -23,7 +24,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Comment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int comment_id;
+	@Column(name = "comment_id")
+	private int commentId;
 	@ManyToOne(targetEntity = User.class)
 	@JoinColumn(name = "user_id")
 	private User user;
@@ -33,12 +35,16 @@ public class Comment {
 	private Mission mission;
 	private String comment;
 	@Enumerated(EnumType.ORDINAL)
+	@Column(name = "approval_status")
 	private CommentApprovalStatus approvalStatus;
 	@CreationTimestamp
-	private Date created_at;
+	@Column(name = "created_at")
+	private Date createdAt;
 	@UpdateTimestamp
-	private Date updated_at;
-	private Date deleted_at;
+	@Column(name = "updated_at")
+	private Date updatedAt;
+	@Column(name = "deleted_at")
+	private Date deletedAt;
 	
 	
 	
@@ -52,17 +58,32 @@ public class Comment {
 
 	
 
-	public Comment(int comment_id, User user, Mission mission, String comment, CommentApprovalStatus approvalStatus,
-			Date created_at, Date updated_at, Date deleted_at) {
+	
+
+
+	public Comment(int commentId, User user, Mission mission, String comment, CommentApprovalStatus approvalStatus,
+			Date createdAt, Date updatedAt, Date deletedAt) {
 		super();
-		this.comment_id = comment_id;
+		this.commentId = commentId;
 		this.user = user;
 		this.mission = mission;
 		this.comment = comment;
 		this.approvalStatus = approvalStatus;
-		this.created_at = created_at;
-		this.updated_at = updated_at;
-		this.deleted_at = deleted_at;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+		this.deletedAt = deletedAt;
+	}
+
+
+
+
+	
+
+
+
+
+	public int getCommentId() {
+		return commentId;
 	}
 
 
@@ -70,15 +91,18 @@ public class Comment {
 
 
 
-	public int getComment_id() {
-		return comment_id;
+
+
+
+	public void setCommentId(int commentId) {
+		this.commentId = commentId;
 	}
 
 
 
-	public void setComment_id(int comment_id) {
-		this.comment_id = comment_id;
-	}
+
+
+
 
 
 
@@ -118,41 +142,80 @@ public class Comment {
 
 
 
-	public Date getCreated_at() {
-		return created_at;
-	}
-
-
-
-	public void setCreated_at(Date created_at) {
-		this.created_at = created_at;
-	}
-
-
-
-	public Date getUpdated_at() {
-		return updated_at;
-	}
-
-
-
-	public void setUpdated_at(Date updated_at) {
-		this.updated_at = updated_at;
-	}
-
-
-
-	public Date getDeleted_at() {
-		return deleted_at;
-	}
-
-
-
-	public void setDeleted_at(Date deleted_at) {
-		this.deleted_at = deleted_at;
-	}
-
 	
+	
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+
+
+
+
+
+
+
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+
+
+
+
+
+
+
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+
+
+
+
+
+
+
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+
+
+
+
+
+
+
+
+	public Date getDeletedAt() {
+		return deletedAt;
+	}
+
+
+
+
+
+
+
+
+
+	public void setDeletedAt(Date deletedAt) {
+		this.deletedAt = deletedAt;
+	}
+
+
+
+
+
+
+
+
 
 	public String getComment() {
 		return comment;

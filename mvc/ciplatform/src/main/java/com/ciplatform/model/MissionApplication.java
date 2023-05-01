@@ -2,6 +2,7 @@ package com.ciplatform.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -23,21 +24,27 @@ import com.ciplatform.enums.ApprovalStatusMissionApplication;
 public class MissionApplication {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int mission_application_id;
+	@Column(name = "mission_application_id")
+	private int missionApplicationId;
 	@ManyToOne(targetEntity = Mission.class)
 	@JoinColumn(name = "mission_id")
 	private Mission mission;
 	@ManyToOne(targetEntity = User.class)
 	@JoinColumn(name = "user_id")
 	private User user;
-	private Date applied_at;
+	@Column(name = "applied_at")
+	private Date appliedAt;
 	@Enumerated(EnumType.ORDINAL)
-	private ApprovalStatusMissionApplication approval_status;
+	@Column(name="approval_status")
+	private ApprovalStatusMissionApplication approvalStatus;
 	@CreationTimestamp
-	private Date created_at;
+	@Column(name = "created_at")
+	private Date createdAt;
 	@UpdateTimestamp
-	private Date updated_at;
-	private Date deleted_at;
+	@Column(name = "updated_at")
+	private Date updatedAt;
+	@Column(name = "deleted_at")
+	private Date deletedAt;
 	
 	
 	
@@ -46,31 +53,39 @@ public class MissionApplication {
 		// TODO Auto-generated constructor stub
 	}
 
+
+
 	
 
-	public MissionApplication(int mission_application_id, Mission mission, User user, Date applied_at,
-			ApprovalStatusMissionApplication approval_status, Date created_at, Date updated_at, Date deleted_at) {
+	
+
+	public MissionApplication(int missionApplicationId, Mission mission, User user, Date appliedAt,
+			ApprovalStatusMissionApplication approvalStatus, Date createdAt, Date updatedAt, Date deletedAt) {
 		super();
-		this.mission_application_id = mission_application_id;
+		this.missionApplicationId = missionApplicationId;
 		this.mission = mission;
 		this.user = user;
-		this.applied_at = applied_at;
-		this.approval_status = approval_status;
-		this.created_at = created_at;
-		this.updated_at = updated_at;
-		this.deleted_at = deleted_at;
-	}
-
-	
-
-	public int getMission_application_id() {
-		return mission_application_id;
+		this.appliedAt = appliedAt;
+		this.approvalStatus = approvalStatus;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+		this.deletedAt = deletedAt;
 	}
 
 
 
-	public void setMission_application_id(int mission_application_id) {
-		this.mission_application_id = mission_application_id;
+
+
+
+
+	public int getMissionApplicationId() {
+		return missionApplicationId;
+	}
+
+
+
+	public void setMissionApplicationId(int missionApplicationId) {
+		this.missionApplicationId = missionApplicationId;
 	}
 
 
@@ -99,69 +114,77 @@ public class MissionApplication {
 
 
 
-	public Date getApplied_at() {
-		return applied_at;
+	public Date getAppliedAt() {
+		return appliedAt;
 	}
 
 
 
-	public void setApplied_at(Date applied_at) {
-		this.applied_at = applied_at;
+	public void setAppliedAt(Date appliedAt) {
+		this.appliedAt = appliedAt;
 	}
 
 
 
-	public ApprovalStatusMissionApplication getApproval_status() {
-		return approval_status;
-	}
-
-
-
-	public void setApproval_status(ApprovalStatusMissionApplication approval_status) {
-		this.approval_status = approval_status;
-	}
-
-
-
-	public Date getCreated_at() {
-		return created_at;
-	}
-
-
-
-	public void setCreated_at(Date created_at) {
-		this.created_at = created_at;
-	}
-
-
-
-	public Date getUpdated_at() {
-		return updated_at;
-	}
-
-
-
-	public void setUpdated_at(Date updated_at) {
-		this.updated_at = updated_at;
-	}
-
-
-
-	public Date getDeleted_at() {
-		return deleted_at;
-	}
-
-
-
-	public void setDeleted_at(Date deleted_at) {
-		this.deleted_at = deleted_at;
-	}
 	
-	
-	
-	@Override
-	public String toString() {
-		return "MissionApplication [mission_application_id=" + mission_application_id + ", user=" + user + ", applied_at=" + applied_at + ", approval_status=" + approval_status
-				+ ", created_at=" + created_at + ", updated_at=" + updated_at + ", deleted_at=" + deleted_at + "]";
+
+
+
+	public ApprovalStatusMissionApplication getApprovalStatus() {
+		return approvalStatus;
 	}
+
+
+
+
+
+
+
+	public void setApprovalStatus(ApprovalStatusMissionApplication approvalStatus) {
+		this.approvalStatus = approvalStatus;
+	}
+
+
+
+
+
+
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+
+
+	public Date getDeletedAt() {
+		return deletedAt;
+	}
+
+
+
+	public void setDeletedAt(Date deletedAt) {
+		this.deletedAt = deletedAt;
+	}
+
+	
+
+	
 }

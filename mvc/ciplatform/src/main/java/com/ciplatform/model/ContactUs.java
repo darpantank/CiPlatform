@@ -19,7 +19,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 public class ContactUs {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int contact_us_id;
+	@Column(name = "contact_us_id")
+	private int contactUsId;
 	@ManyToOne(targetEntity = User.class)
 	@JoinColumn(name = "user_id")
 	private User user;
@@ -27,31 +28,39 @@ public class ContactUs {
 	@Column(columnDefinition = "TEXT")
 	private String message;
 	@CreationTimestamp
-	private Date created_at;
+	@Column(name = "created_at")
+	private Date createdAt;
 	@UpdateTimestamp
-	private Date updated_at;
-	private Date deleted_at;
+	@Column(name = "updated_at")
+	private Date updatedAt;
+	@Column(name = "deleted_at")
+	private Date deletedAt;
 	public ContactUs() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public ContactUs(int contact_us_id, User user, String subject, String message, Date created_at, Date updated_at,
-			Date deleted_at) {
+	
+	public ContactUs(int contactUsId, User user, String subject, String message, Date createdAt, Date updatedAt,
+			Date deletedAt) {
 		super();
-		this.contact_us_id = contact_us_id;
+		this.contactUsId = contactUsId;
 		this.user = user;
 		this.subject = subject;
 		this.message = message;
-		this.created_at = created_at;
-		this.updated_at = updated_at;
-		this.deleted_at = deleted_at;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+		this.deletedAt = deletedAt;
 	}
-	public int getContact_us_id() {
-		return contact_us_id;
+
+	
+	public int getContactUsId() {
+		return contactUsId;
 	}
-	public void setContact_us_id(int contact_us_id) {
-		this.contact_us_id = contact_us_id;
+
+	public void setContactUsId(int contactUsId) {
+		this.contactUsId = contactUsId;
 	}
+
 	public User getUser() {
 		return user;
 	}
@@ -70,23 +79,30 @@ public class ContactUs {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	public Date getCreated_at() {
-		return created_at;
+
+	public Date getCreatedAt() {
+		return createdAt;
 	}
-	public void setCreated_at(Date created_at) {
-		this.created_at = created_at;
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
-	public Date getUpdated_at() {
-		return updated_at;
+
+	public Date getUpdatedAt() {
+		return updatedAt;
 	}
-	public void setUpdated_at(Date updated_at) {
-		this.updated_at = updated_at;
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
 	}
-	public Date getDeleted_at() {
-		return deleted_at;
+
+	public Date getDeletedAt() {
+		return deletedAt;
 	}
-	public void setDeleted_at(Date deleted_at) {
-		this.deleted_at = deleted_at;
+
+	public void setDeletedAt(Date deletedAt) {
+		this.deletedAt = deletedAt;
 	}
+	
 	
 }

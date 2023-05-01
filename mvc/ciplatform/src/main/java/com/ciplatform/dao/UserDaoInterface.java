@@ -3,6 +3,7 @@ package com.ciplatform.dao;
 import java.util.List;
 
 import com.ciplatform.model.City;
+import com.ciplatform.model.CmsPage;
 import com.ciplatform.model.ContactUs;
 import com.ciplatform.model.Country;
 import com.ciplatform.model.PasswordReset;
@@ -12,7 +13,7 @@ import com.ciplatform.model.User;
 
 public interface UserDaoInterface {
 	public boolean createUser(User user1);
-	public String storeResetPassToken(PasswordReset prst);
+	public boolean storeResetPassToken(PasswordReset prst);
 	public List<PasswordReset> validateToken(String Token);
 	public User validateUserDetails(String email,String pass);
 	public User validateEmail(String email);
@@ -31,5 +32,7 @@ public interface UserDaoInterface {
 	public boolean saveUpdateTimeSheet(TimeSheet sheet);
 	public TimeSheet fetchTimeSheetFromId(int timesheetId, int user_id);
 	public boolean deleteMyTimesheet(int userId, int timesheetId);
+	public List<CmsPage> fetchCmsList();
+	public CmsPage findCmsBySlug(String slug);
 	
 }

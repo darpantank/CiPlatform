@@ -52,13 +52,13 @@
     </div>
   </div>
 </div>
-	<c:if test="${not empty user.user_id}">
+	<c:if test="${not empty user.userId}">
 		<input type="text" class="defaultId" hidden
 		value="${user}">
 	</c:if>
-	<c:if test="${not empty user.country.country_id}">
+	<c:if test="${not empty user.country.countryId}">
 		<input type="text" class="defaultCountry" hidden
-		value="${user.country.country_id}">
+		value="${user.country.countryId}">
 	</c:if>
 	<!-- Filter SideBar -->
 	<div class="w3-sidebar w3-bar-block w3-card w3-animate-left"
@@ -194,6 +194,9 @@
 							<option value="0" hidden>Sort By</option>
 							<option value="1">Newest</option>
 							<option value="2">Oldest</option>
+							<option value="3">Deadline</option>
+							<option value="4">Lowest Available Seat</option>
+							<option value="5">Highest Available Seat</option>
 						</select>
 					</div>
 					<div class="row">

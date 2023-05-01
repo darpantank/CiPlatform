@@ -45,7 +45,7 @@
                     <select class="form-control missionSelect" name="missionSelect" placeholder="Select Your Mission">
                         <option value="" disabled selected hidden>Select Your Mission</option>
                         <c:forEach var="a" items="${missions}">
-                        	<option value="${a.missionId }">${a.missionName }</option>
+                        	<option value="${a.missionId}">${a.missionName}</option>
                         </c:forEach>
                     </select>
                 </div>
@@ -116,6 +116,7 @@
     <script src="js/imageUploader.js"></script>
     <script src="js/ckeditor.js"></script>
     <script src="js/add_navbar.js"></script>
+    <script src="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.min.js"></script>
     <script>
     let draftStory="";
     $(".missionSelect").change(function(){

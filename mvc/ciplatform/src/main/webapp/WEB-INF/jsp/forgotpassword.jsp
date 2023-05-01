@@ -159,7 +159,69 @@
   <script>
   	$(document).ready(function() {
 	  $("#forgotPasswordForm").validate();
+	  fetchBannerList();
 	});
+  	function fetchBannerList(){
+    	$.ajax({
+	        url: "fetchallbanner",
+	        dataType: 'json',
+	        type:"GET",
+	        success: function(response){
+	        	incomingData=response;
+	        	printBanners();
+	        }
+	    });
+    }
+  	function printBanners(){
+  		printCaresoulIndicators();
+  		printCaresoulImages();
+  	}
+  	function printCaresoulImages(){
+  		$(".carousel-inner").empty();
+  		let imageDiv='';
+  		let counter=0;
+  		for(var i in incomingData){
+  			banner=incomingData[i];
+  			if(counter==0){
+  				imageDiv+=`<div class="carousel-item active">
+  	                <img src="`+banner.image+`" class="d-block w-100 size-fix" alt="...">
+  	                <div class="carousel-caption d-none d-md-block">
+  	                  <p class="carouselLabelText text-start">`+banner.text+`</p>
+  	                  
+  	                </div>
+  	              </div>`;
+  			}
+  			else{
+  				imageDiv+=`<div class="carousel-item">
+  	                <img src="`+banner.image+`" class="d-block w-100 size-fix" alt="...">
+  	                <div class="carousel-caption d-none d-md-block">
+  	                  <p class="carouselLabelText text-start">`+banner.text+`</p>
+  	                  
+  	                </div>
+  	              </div>`;
+  			}
+  			counter++;
+  		}
+  		$(".carousel-inner").append(imageDiv);
+  		
+  	}
+  	function printCaresoulIndicators(){
+  		$(".carousel-indicators").empty();
+  		var counter=0;
+  		var indicatorTag='';
+  			for(var a=0;a<incomingData.length;a++){
+  			if(counter==0){
+  				indicatorTag+=`<button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+		              aria-current="true" aria-label="Slide 1"></button>`;
+  			}
+  			else{
+  				indicatorTag+=`<button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="`+counter+`"
+		              aria-label="Slide `+counter+`"></button>`;
+  			}
+  			counter++;
+  		}
+  		$(".carousel-indicators").append(indicatorTag);		            
+  	}
   </script>
     </script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"

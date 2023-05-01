@@ -1,9 +1,11 @@
 package com.ciplatform.controller;
 
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.hibernate.exception.ConstraintViolationException;
@@ -19,16 +21,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ciplatform.dto.BannerOutgoingDto;
 import com.ciplatform.dto.ChangePasswordDto;
+import com.ciplatform.dto.CmsHomePageDto;
 import com.ciplatform.dto.ContactUsDto;
 import com.ciplatform.dto.GoalBasedTimesheetIncomingDto;
 import com.ciplatform.dto.TimeBasedTimesheetIncomingDto;
 import com.ciplatform.dto.TimeSheetDto;
 import com.ciplatform.dto.UserProfileDto;
+import com.ciplatform.enums.Role;
+import com.ciplatform.enums.Status;
 import com.ciplatform.exception.UserNotFoundException;
+import com.ciplatform.model.CmsPage;
 import com.ciplatform.model.Mission;
 import com.ciplatform.model.PasswordReset;
 import com.ciplatform.model.User;
+import com.ciplatform.service.AdminServiceInterface;
 import com.ciplatform.service.MissionServiceInterface;
 import com.ciplatform.service.StoryServiceIntereface;
 import com.ciplatform.service.UserServiceInterface;
@@ -41,6 +49,8 @@ public class HomeController {
 	MissionServiceInterface mservice;
 	@Autowired
 	StoryServiceIntereface storyService;
+	@Autowired
+	AdminServiceInterface adminService;
 	final static int LOGOUT_TIME = 900; /* User Session Is Validate For 15 Minutes */
 	@RequestMapping("/registration")
 	public String registrationView() {
@@ -55,7 +65,8 @@ public class HomeController {
 		return "forgotpassword";
 	}
 	@RequestMapping("/privacy")
-	public String privacyPageView() {
+	public String privacyPageView(Model m) {
+		m.addAttribute("cms",this.service.fetchAllCms());
 		return "privacy";
 	}
 	@RequestMapping("/logout")
@@ -72,7 +83,7 @@ public class HomeController {
 	@RequestMapping("/timesheet")
 	public String timesheetPageView(Model m,HttpServletRequest request) throws UserNotFoundException {
 		User user= (User)request.getSession().getAttribute("user");
-		if(user==null||user.getUser_id()==0||user.getEmail()=="") {
+		if(user==null||user.getUserId()==0||user.getEmail()=="") {
 			throw new UserNotFoundException();
 		}
 		m.addAttribute("missions",this.storyService.findMissionOfUsers(user));
@@ -117,11 +128,11 @@ public class HomeController {
 	@RequestMapping(value = "/saveuser",method = RequestMethod.POST)
 	public String saveUser(@ModelAttribute("user") User user,Model m) {
 		System.out.println(user);
-		if(user.getEmail()==""||user.getFirst_name()==""||user.getLast_name()==""||user.getPhone_number()==""||user.getPassword()=="") {
+		if(user.getEmail()==""||user.getFirstName()==""||user.getLastName()==""||user.getPhoneNumber()==""||user.getPassword()=="") {
 			m.addAttribute("message","All Field Of Form Is Compulsary");
 			return "failed";
 		}
-		if(!this.service.validateEmailId(user.getEmail())&&!this.service.validateMobileNo(user.getPhone_number())){
+		if(!this.service.validateEmailId(user.getEmail())&&!this.service.validateMobileNo(user.getPhoneNumber())){
 			if(this.service.storeUserData(user)) {	
 				System.out.println("User Saved successfully...");
 				m.addAttribute("message","registrationsuccess");
@@ -139,15 +150,31 @@ public class HomeController {
 		
 	}
 	@RequestMapping(value = "/validateuser",method = RequestMethod.POST)
-	public ModelAndView validateUser(@RequestParam("email") String email,@RequestParam("password") String password,HttpServletRequest request) {
+	public ModelAndView validateUser(@RequestParam("email") String email,@RequestParam("password") String password,HttpServletRequest request,HttpServletResponse response) {
 		ModelAndView mav=new ModelAndView();
 		User myuser=this.service.validateUserDetail(email, password);
+		List<CmsHomePageDto> myCms=this.service.fetchCms();
 		if(myuser.getEmail()!=null) {
 			mav.setViewName("home");
 			mav.addObject("message","Successfully login");
 			HttpSession session=request.getSession(true);
 			session.setMaxInactiveInterval(LOGOUT_TIME);
 			session.setAttribute("user",myuser);
+			session.setAttribute("cms",myCms);
+				if(myuser.getRole()==Role.ADMIN) {
+					session.setAttribute("admin",myuser);
+					try {
+						response.sendRedirect(session.getServletContext().getContextPath().concat("/admin/users"));
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				if(myuser.getStatus()==Status.INACTIVE) {
+					mav.setViewName("login");
+					mav.addObject("message","deactivateprofile");
+					session.removeAttribute("user");
+				}
 			}
 		else {
 			mav.setViewName("login");
@@ -176,7 +203,7 @@ public class HomeController {
 	public ModelAndView validateToken(@PathVariable("token") String Token) {
 		ModelAndView mav=new ModelAndView();
 		PasswordReset prst=this.service.validateToken(Token);
-		if(prst.getEmail()!=null||prst.getToken()!=null||prst.getCreated_at()!=null) {
+		if(prst.getEmail()!=null||prst.getToken()!=null||prst.getCreatedAt()!=null) {
 			
 //			Check that Token Is Not Expired before Changing Password Opeartion 
 			
@@ -200,7 +227,7 @@ public class HomeController {
 	@RequestMapping(value = "/profile")
 	public String editProfilePageView(Model m,HttpServletRequest request) throws UserNotFoundException {
 		User user= (User)request.getSession().getAttribute("user");
-		if(user==null||user.getUser_id()==0||user.getEmail()=="") {
+		if(user==null||user.getUserId()==0||user.getEmail()=="") {
 			throw new UserNotFoundException();
 		}
 		m.addAttribute("user",user);
@@ -209,7 +236,7 @@ public class HomeController {
 	@RequestMapping(value = "/editprofile" ,method = RequestMethod.POST)
 	public @ResponseBody boolean updateProfile(UserProfileDto userProfileDto,HttpServletRequest request,HttpSession session) throws UserNotFoundException {
 		User user= (User)request.getSession().getAttribute("user");
-		if(user==null||user.getUser_id()==0||user.getEmail()=="") {
+		if(user==null||user.getUserId()==0||user.getEmail()=="") {
 			throw new UserNotFoundException();
 		}
 		return this.service.editUserProfile(userProfileDto,user,session);
@@ -217,7 +244,7 @@ public class HomeController {
 	@RequestMapping(value = "/changeMyPassword", method = RequestMethod.POST)
 	public @ResponseBody String changeMyPassword(ChangePasswordDto changePasswordDto,HttpServletRequest request) throws UserNotFoundException {
 		User user= (User)request.getSession().getAttribute("user");
-		if(user==null||user.getUser_id()==0||user.getEmail()=="") {
+		if(user==null||user.getUserId()==0||user.getEmail()=="") {
 			throw new UserNotFoundException();
 		}
 		if(!user.getPassword().equals(changePasswordDto.getOldPassWord())) {
@@ -237,7 +264,7 @@ public class HomeController {
 	@RequestMapping(value = "/contactUs", method = RequestMethod.POST)
 	public @ResponseBody boolean contactUsPage(ContactUsDto contactUs,HttpServletRequest request) throws UserNotFoundException {
 		User user= (User)request.getSession().getAttribute("user");
-		if(user==null||user.getUser_id()==0||user.getEmail()=="") {
+		if(user==null||user.getUserId()==0||user.getEmail()=="") {
 			throw new UserNotFoundException();
 		}
 		return this.service.contactUs(user,contactUs);
@@ -245,7 +272,7 @@ public class HomeController {
 	@RequestMapping(value = "/loadtimesheets",method=RequestMethod.GET)
 	public @ResponseBody List<TimeSheetDto> loadTimesheets(HttpServletRequest request) throws UserNotFoundException{
 		User user= (User)request.getSession().getAttribute("user");
-		if(user==null||user.getUser_id()==0||user.getEmail()=="") {
+		if(user==null||user.getUserId()==0||user.getEmail()=="") {
 			throw new UserNotFoundException();
 		}
 		return this.service.loadTimesheetsOfUser(user);
@@ -255,7 +282,7 @@ public class HomeController {
 		User user= (User)request.getSession().getAttribute("user");
 		Mission mission=new Mission();
 		mission=this.mservice.fetchMissionById(timesheet.getMissionId());
-		if(user==null||user.getUser_id()==0||user.getEmail()=="") {
+		if(user==null||user.getUserId()==0||user.getEmail()=="") {
 			throw new UserNotFoundException();
 		}		
 		return this.service.saveTimeSheetForTimeBasedMission(user,mission,timesheet);
@@ -265,7 +292,7 @@ public class HomeController {
 		User user= (User)request.getSession().getAttribute("user");
 		Mission mission=new Mission();
 		mission=this.mservice.fetchMissionById(timesheet.getMissionId());
-		if(user==null||user.getUser_id()==0||user.getEmail()=="") {
+		if(user==null||user.getUserId()==0||user.getEmail()=="") {
 			throw new UserNotFoundException();
 		}		
 		return this.service.saveTimeSheetForGoalBasedMission(user,mission,timesheet);
@@ -273,19 +300,24 @@ public class HomeController {
 	@RequestMapping(value = "/deletetimesheet",method=RequestMethod.GET)
 	public @ResponseBody boolean deleteTimeSheet(@RequestParam("timesheetId") int timesheetId,HttpServletRequest request) throws UserNotFoundException {
 		User user= (User)request.getSession().getAttribute("user");
-		if(user==null||user.getUser_id()==0||user.getEmail()=="") {
+		if(user==null||user.getUserId()==0||user.getEmail()=="") {
 			throw new UserNotFoundException();
 		}	
-		return this.service.deleteMytimeSheet(user.getUser_id(),timesheetId);
+		return this.service.deleteMytimeSheet(user.getUserId(),timesheetId);
 	}
-//	@ExceptionHandler(value = ConstraintViolationException.class)
-//    public String sqlExceptionHanler(Model m) {       
-//        m.addAttribute("message", "Some thing went wrong");
-//        return "failed";
-//    }
-//	@ExceptionHandler(value = Exception.class)
-//    public String centralExceptionHanler(Model m) {       
-//        m.addAttribute("message", "Data Handling Error");
-//        return "failed";
-//    }
+	@RequestMapping(value = "/fetchallbanner",method = RequestMethod.GET)
+	public @ResponseBody List<BannerOutgoingDto> getAllBanners(){
+		return this.adminService.fetchBanners();
+	}
+	@RequestMapping(value = "cms/{slug}",method = RequestMethod.GET)
+	public String slugFinding(@PathVariable("slug") String slug,Model m) {
+		CmsPage cmsPage=this.service.findCmsBySlug(slug);
+		if(cmsPage==null) {
+			return "home";
+		}
+		else {		
+			m.addAttribute("cms",cmsPage);
+			return "cmspage";
+		}
+	}
 }

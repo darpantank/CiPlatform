@@ -3,6 +3,7 @@ package com.ciplatform.model;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,39 +20,75 @@ import org.hibernate.annotations.UpdateTimestamp;
 public class City {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int city_id;
+	@Column(name = "city_id")
+	private int cityId;
 	@OneToOne(cascade = CascadeType.ALL)       
 	@JoinColumn(name = "country_id")
 	private Country country;
 	private String name;
 	@CreationTimestamp
-	private Date created_at;
+	@Column(name = "created_at")
+	private Date createdAt;
 	@UpdateTimestamp
-	private Date updated_at;
-	private Date deleted_at;
+	@Column(name = "updated_at")
+	private Date updatedAt;
+	@Column(name = "deleted_at")
+	private Date deletedAt;
 	public City() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	public City(int city_id, com.ciplatform.model.Country country, String name, Date created_at, Date updated_at,
-			Date deleted_at) {
+	public City(int cityId, Country country, String name, Date createdAt, Date updatedAt, Date deletedAt) {
 		super();
-		this.city_id = city_id;
+		this.cityId = cityId;
 		this.country = country;
 		this.name = name;
-		this.created_at = created_at;
-		this.updated_at = updated_at;
-		this.deleted_at = deleted_at;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+		this.deletedAt = deletedAt;
 	}
 
-	public int getCity_id() {
-		return city_id;
+
+	public int getCityId() {
+		return cityId;
 	}
-	public void setCity_id(int city_id) {
-		this.city_id = city_id;
+
+
+	public void setCityId(int cityId) {
+		this.cityId = cityId;
 	}
-	
+
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+
+	public Date getDeletedAt() {
+		return deletedAt;
+	}
+
+
+	public void setDeletedAt(Date deletedAt) {
+		this.deletedAt = deletedAt;
+	}
+
+
 	public Country getCountry() {
 		return country;
 	}
@@ -66,29 +103,5 @@ public class City {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Date getCreated_at() {
-		return created_at;
-	}
-	public void setCreated_at(Date created_at) {
-		this.created_at = created_at;
-	}
-	public Date getUpdated_at() {
-		return updated_at;
-	}
-	public void setUpdated_at(Date updated_at) {
-		this.updated_at = updated_at;
-	}
-	public Date getDeleted_at() {
-		return deleted_at;
-	}
-	public void setDeleted_at(Date deleted_at) {
-		this.deleted_at = deleted_at;
-	}
-
-	@Override
-	public String toString() {
-		return "city [city_id=" + city_id + ", country=" + country + ", name=" + name + ", created_at=" + created_at
-				+ ", updated_at=" + updated_at + ", deleted_at=" + deleted_at + "]";
-	}	
 	
 }
