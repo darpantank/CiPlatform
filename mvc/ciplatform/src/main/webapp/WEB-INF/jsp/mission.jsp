@@ -386,7 +386,7 @@
 				</div>
 			</div>
 	</div>
-	<div class="container-fluid g-0 footer mt-4">
+	<div class="container-fluid g-0 bg-light z-index-1111 position-sticky bottom-0 start-0" style="z-index:1111">
         <jsp:include page="footer.jsp"></jsp:include>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"
@@ -829,7 +829,7 @@
 					</div>
 					<h5 class="card-title">`+mission.title+`</h5>
 					<p class="card-text">`+mission.shortDescription+`</p>
-					<div class="row ratingDivGridView">
+					<div class="row ratingDivGridView mb-3">
 						<div class="col">`+mission.organizationName+`</div>
 						<div class="col">
 							<div class="row d-flex flex-row ratingStar flex-nowrap">
@@ -844,7 +844,7 @@
 							`+dateGoalPills+`
 						</div>
 					</div>
-					<div class="row">
+					<div class="row mt-3">
 						`+seatTag+` 
 						`+timeOrGoalTag+`
 						 

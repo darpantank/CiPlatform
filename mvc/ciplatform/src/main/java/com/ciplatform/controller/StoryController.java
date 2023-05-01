@@ -94,7 +94,6 @@ public class StoryController {
 	}
 	@RequestMapping(value = "/loadStoryByPageNo" , method = RequestMethod.GET)
 	public @ResponseBody List<StoryCardDto> loadStoryByPageNo(@RequestParam("currentPage") int currentPage) {
-		System.out.println("Current Page is : "+currentPage);
 		return this.service.getStoriesByPageNo(currentPage);
 	}
 	@RequestMapping(value = "/submitdraftstory", method = RequestMethod.GET)

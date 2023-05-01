@@ -51,7 +51,6 @@
         </div>
 
     </div>
-	<jsp:include page="footer.jsp"></jsp:include>
 
 
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"

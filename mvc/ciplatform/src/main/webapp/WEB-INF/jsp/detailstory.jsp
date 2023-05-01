@@ -160,7 +160,7 @@
 
             </div>
         </div>
-		<div class="container-fluid g-0 footer mt-4">
+		<div class="container-fluid g-0 bg-light z-index-1111 position-sticky bottom-0 start-0" style="z-index:1111">
         <jsp:include page="footer.jsp"></jsp:include>
     </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">

@@ -48,7 +48,7 @@
             </ul>
           </nav>
     </div>
-    <div class="container-fluid g-0 footer mt-4">
+    <div class="container-fluid g-0 bg-light mt-2 position-sticky bottom-0 start-0" style="z-index:1111">
         <jsp:include page="footer.jsp"></jsp:include>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"
