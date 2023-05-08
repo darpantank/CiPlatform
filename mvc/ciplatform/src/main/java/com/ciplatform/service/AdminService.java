@@ -287,7 +287,6 @@ public class AdminService implements AdminServiceInterface {
 			if(incomingDto.isDeleteStory()) {
 				story.setDeletedAt(new Date());
 			}
-			System.out.println(story);
 			return this.daoOperation.updateStory(story);
 		}
 		
@@ -397,7 +396,6 @@ public class AdminService implements AdminServiceInterface {
 						String userName = user.getFirstName().trim().replaceAll("\\s", "");
 						String filename=userName+user.getUserId()+timeStamp+extension;
 						String fos = finalPath + filename;
-						System.out.println(fos);
 						BufferedOutputStream bout = new BufferedOutputStream(new FileOutputStream(fos));
 						bout.write(barr);
 //		    			if successfully saved than Entry into Db 
@@ -726,6 +724,10 @@ public class AdminService implements AdminServiceInterface {
 				if (dto.getMissionImages()!=null) {
 					List<MissionMedia> myMedias=new ArrayList<MissionMedia>();
 			        String Finalpath=path.concat("WEB-INF/").concat(savePath);
+			        boolean isDefaultReuired=true;
+			        if(mission.getMissionMedia().size()>0) {
+			        	isDefaultReuired=false;
+			        }
 					for (CommonsMultipartFile file : dto.getMissionImages()) {
 						
 						if(file.getSize()>0) {
@@ -757,7 +759,13 @@ public class AdminService implements AdminServiceInterface {
 							media.setMediaPath(dbPath);
 							media.setMediaName(file.getOriginalFilename());
 							media.setMission(mission);
-							media.setMediaDefault(MediaDefault.NOTDEFAULT);
+							if(isDefaultReuired) {								
+								media.setMediaDefault(MediaDefault.DEFAULT);
+								isDefaultReuired=false;
+							}
+							else {
+								media.setMediaDefault(MediaDefault.NOTDEFAULT);
+							}
 							myMedias.add(media);
 							bout.flush();
 							bout.close();

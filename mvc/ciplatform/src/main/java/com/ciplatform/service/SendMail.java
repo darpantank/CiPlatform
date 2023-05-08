@@ -37,7 +37,6 @@ public class SendMail {
 			// send message
 			Transport.send(message);
 			status=true;
-			System.out.println("message sent successfully");
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);
 		}

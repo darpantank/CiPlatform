@@ -56,11 +56,11 @@
      			</c:choose>
                 	
                     <div class="mb-3">
-                        <label for="inputPassword5" class="form-label">Skill Name</label>
+                        <label for="inputPassword5" class="form-label required">Skill Name</label>
                         <input type="text" class="form-control" value="${skill.skillName }" name="skillName" required>
                     </div>
                     <div class="mb-3">
-                        <label for="inputPassword5" class="form-label">Status</label> 
+                        <label for="inputPassword5" class="form-label required">Status</label> 
                         <select class="form-control" name="status" required>
 									<option value="ACTIVE" selected>ACTIVE</option>
 									<option value="INACTIVE">INACTIVE</option>
@@ -95,6 +95,7 @@
     <script>
     $(document).ready(function() {
   	  $("#mySkillAddForm").validate();
+  	$('label.required').append('&nbsp;<strong>*</strong>&nbsp;');
   	});
     $(".saveSkillPage").click(function(e){
     	e.preventDefault();

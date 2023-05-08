@@ -50,7 +50,7 @@
 					</c:if>
                 <div class="UserTextDiv mt-4">
                     <div class="d-flex">
-                        <p class="userText">User</p>
+                        <p class="userText">Mission</p>
                     </div>
                     <hr>
                 </div>
@@ -113,7 +113,13 @@
     	        rowReorder: {
     	            selector: 'td:nth-child(2)'
     	        },
-    	        responsive: true
+    	        responsive: true,
+    	        aoColumnDefs: [
+    	        	  {
+    	        	     bSortable: false,
+    	        	     aTargets: [ -1 ]
+    	        	  }
+    	        	]
     	    } );
     	    
     	    $('#searchFilter').on( 'keyup', function () {

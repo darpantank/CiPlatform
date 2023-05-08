@@ -23,6 +23,13 @@
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 <link rel="stylesheet" type="text/css" href="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.css">
+<style type="text/css">
+    	body{
+    	min-height:100vh;
+    	display:flex;
+    	flex-direction:column;}
+    </style>
+    
 </head>
 <body>
 	<jsp:include page="spinner.jsp" />
@@ -254,7 +261,8 @@
 			</ul>
 		</nav>
 	</div>
-	    <div class="container-fluid g-0 bg-light z-index-1111 mt-2 position-sticky bottom-0 start-0" style="z-index:1111">
+	    
+    <div class="container-fluid g-0 mt-auto bg-light">
         <jsp:include page="footer.jsp"></jsp:include>
     </div>
 	<script

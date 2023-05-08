@@ -41,7 +41,7 @@
                 <div class="container">
                     <div class="UserTextDiv mt-4">
                         <div class="d-flex">
-                            <p class="userText">Mission Theme Page</p>
+                            <p class="userText">Mission Theme</p>
                         </div>
                         <hr>
                     </div>
@@ -100,7 +100,13 @@
             rowReorder: {
                 selector: 'td:nth-child(2)'
             },
-            responsive: true
+            responsive: true,
+            aoColumnDefs: [
+	        	  {
+	        	     bSortable: false,
+	        	     aTargets: [ -1 ]
+	        	  }
+	        	]
         } );
         $('#searchFilter').on( 'keyup', function () {
        t.search( this.value ).draw();

@@ -53,7 +53,6 @@ public class UserService implements UserServiceInterface {
 		Matcher matcher = pattern.matcher(user1.getEmail());
 		if (user1.getPassword().length() >= 8 && matcher.matches() && user1.getPhoneNumber().length() == 10
 				&& user1.getFirstName() != "" && user1.getLastName() != "") {
-			System.out.println("Pass Email Validation true");
 			user1.setStatus(Status.ACTIVE);
 			user1.setRole(Role.USER);
 			if (this.daoOperation.createUser(user1)) {
@@ -94,6 +93,10 @@ public class UserService implements UserServiceInterface {
 		String subject="Ci-Platform Reset Password";
 		if (SendMail.send(email, message,subject)) {
 			PasswordReset prst = new PasswordReset();
+			PasswordReset oldToken=this.daoOperation.getAlreadyPresentTokenInDb(email);
+			if(oldToken!=null) {
+				prst=oldToken;
+			}
 			prst.setEmail(email);
 			prst.setToken(Token);
 			prst.setCreatedAt(new Date());
@@ -124,7 +127,7 @@ public class UserService implements UserServiceInterface {
 	}
 
 	public boolean isPasswordUpdated(String Token, String password) {
-		System.out.println("flow at is passUpdate");
+		
 		PasswordReset prst = this.daoOperation.validateTokenForReset(Token);
 		if (prst.isValidObject()) {
 			String email = prst.getEmail();
@@ -148,9 +151,9 @@ public class UserService implements UserServiceInterface {
 		long diff = d2.getTime() - d1.getTime();
 		TimeUnit time = TimeUnit.MINUTES;
 		long diffrence = time.convert(diff, TimeUnit.MILLISECONDS);
-		System.out.println();
+		
 		if (diffrence > TOKEN_VALID_TIME) {
-			System.out.println(diffrence);
+			
 			return true;
 		} else {
 			return false;
@@ -310,7 +313,7 @@ public class UserService implements UserServiceInterface {
 							e.printStackTrace();
 						}
 					}
-					System.out.println("Update MissionTimeSheet Called");
+					
 				}
 				return this.daoOperation.saveUpdateTimeSheet(sheet);
 	}

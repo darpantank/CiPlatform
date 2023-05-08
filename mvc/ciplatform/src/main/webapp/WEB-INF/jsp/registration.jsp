@@ -40,28 +40,28 @@
           <div class="col">
             <form action="saveuser" method="post" id="registrationForm">
                 <div class="mb-3">
-                    <label for="exampleInput" class="form-label text-muted">First Name</label>
+                    <label for="exampleInput" class="form-label text-muted required">First Name</label>
                     <input type="text" class="form-control" id="exampleFirstName" name="firstName" required>
                   </div>
                   <div class="mb-3">
-                    <label for="exampleInput" class="form-label text-muted">Last Name</label>
+                    <label for="exampleInput" class="form-label text-muted required">Last Name</label>
                     <input type="text" class="form-control" id="exampleLastName" name="lastName" required>
                   </div>
                   <div class="mb-3">
-                    <label for="examplePhoneNumber" class="form-label text-muted">Phone Number</label>
-                    <input type="tel" class="form-control" id="exampleMobileNo" minlength="10" pattern="[1-9]{1}[0-9]{9}" name="phoneNumber" required>
+                    <label for="examplePhoneNumber" class="form-label text-muted required">Phone Number</label>
+                    <input type="tel" class="form-control" id="exampleMobileNo" minlength="10" maxlength="10" pattern="[1-9]{1}[0-9]{9}" name="phoneNumber" onkeypress="return onlyNumberKey(event)"  required>
                   </div>
               <div class="mb-3">
-                <label for="exampleInputEmail" class="form-label text-muted">Email address</label>
+                <label for="exampleInputEmail" class="form-label text-muted required">Email address</label>
                 <input type="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" name="email" required>
               </div>
               <div class="mb-3">
-                <label for="exampleInputPassword" class="form-label text-muted">Password</label>
+                <label for="exampleInputPassword" class="form-label text-muted required">Password</label>
                 <input type="password" class="form-control" id="password" name="password" minlength="8" required>
               </div>
               <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label text-muted">Confirm Password</label>
-                <input type="password" class="form-control" id="confirm_password" minlength="8" required>
+                <label for="exampleInputPassword1" class="form-label text-muted required">Confirm Password</label>
+                <input type="password" class="form-control" id="confirm_password" name="confirm_password" minlength="8" required>
               </div>
               <button type="submit" class="btn w-100">Register</button>
             </form>
@@ -79,13 +79,31 @@
   <script src="js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"
         integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-  <script src="js/validatePassword.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
   <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/jquery.validate.js" type="text/javascript"></script>
   <script>
+  function onlyNumberKey(evt) {
+      
+      // Only ASCII character in that range allowed
+      var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+      if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
+          return false;
+      return true;
+  }
   	$(document).ready(function() {
-	  $("#registrationForm").validate();
+	  $("#registrationForm").validate(
+			  {rules: {
+				  confirm_password:{
+					  equalTo: "#password"
+				  }
+			  },messages:{
+				  confirm_password:{
+					  equalTo: "Password and Confirm Password must same"
+				  }
+			  }	  
+			  });
 	  fetchBannerList();
+	  $('label.required').append('&nbsp;<strong>*</strong>&nbsp;');
 	});
   	function fetchBannerList(){
     	$.ajax({

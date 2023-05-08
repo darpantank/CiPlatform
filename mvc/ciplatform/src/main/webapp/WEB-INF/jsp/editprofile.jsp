@@ -21,6 +21,12 @@
     <link rel="stylesheet" href="css/editProfile.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <link rel="stylesheet" type="text/css" href="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.css">
+	<style type="text/css">
+    	body{
+    	min-height:100vh;
+    	display:flex;
+    	flex-direction:column;}
+    </style>
 </head>
 
 <body>

@@ -101,6 +101,17 @@
 					</div>
 					<c:remove var="message"/> 
 			</c:if>
+			<c:if test="${message=='invalidtoken'}">	
+				<div class="alert alert-danger alert-dismissible fade show"
+						role="alert">
+						<strong>Sorry </strong> Your Token Is Not Valid Please Resend Token... !
+						
+						<button type="button" class="btn-close" data-bs-dismiss="alert"
+							aria-label="Close"></button>
+					</div>
+					<c:remove var="message"/> 
+			</c:if>
+			
 			
 			
 			
@@ -113,17 +124,17 @@
             		<p class="text-center text-primary" id="message"></p>
             	</div>
               <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label text-muted">Email address</label>
+                <label for="exampleInputEmail1" class="form-label text-muted required">Email address</label>
                 <input type="email" name="email" class="form-control email" required>
               </div>
               <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label text-muted">Password</label>
+                <label for="exampleInputPassword1" class="form-label text-muted required">Password</label>
                 <input type="password" name="password" minlength="8" class="form-control password" id="exampleInputPassword1" required>
               </div>
               <button type="submit" class="btn w-100">Login</button>
             </form>
             <p class="text-center"><a href="forgotpassword" class="text-muted">Lost your password?</a></p>
-            <p class="text-muted text-center">Don’t have an account? <a href="registration">Create an account</a></p>
+            <p class="text-muted text-center">Don't have an account? <a href="registration">Create an account</a></p>
           </div>
         </div>
         <div class="row">
@@ -141,9 +152,11 @@
   	$(document).ready(function() {
 	  $("#loginForm").validate();
 	  fetchBannerList();
+	  $('label.required').append('&nbsp;<strong>*</strong>&nbsp;');
 	});
   	
   	function fetchBannerList(){
+  		
     	$.ajax({
 	        url: "fetchallbanner",
 	        dataType: 'json',
@@ -205,7 +218,7 @@
   		$(".carousel-indicators").append(indicatorTag);		            
   	}
   </script>
-	<script src="js/spinner.js"></script>
+	<script src="<c:url value='/js/spinner.js'></c:url>"></script>
   
 </body>
 

@@ -41,7 +41,7 @@
                 <div class="container">
                     <div class="UserTextDiv mt-4">
                         <div class="d-flex">
-                            <p class="userText">Mission Application Page</p>
+                            <p class="userText">Mission Application</p>
                         </div>
                         <hr>
                     </div>
@@ -106,8 +106,12 @@
             responsive: true,
             "columnDefs": [
                 { className:"missionId", "targets": [ 1 ] },
-                { className:"userId", "targets": [ 2 ] }
-              ]
+                { className:"userId", "targets": [ 2 ] },
+                {
+	        	     bSortable: false,
+	        	     aTargets: [ -1 ]
+	        	  }
+              ]        
         } );
         $('#searchFilter').on( 'keyup', function () {
        t.search( this.value ).draw();

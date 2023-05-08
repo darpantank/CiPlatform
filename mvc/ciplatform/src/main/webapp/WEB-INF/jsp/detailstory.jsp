@@ -39,6 +39,12 @@
     <link rel="stylesheet" href="css/storyDetails.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
     <link rel="stylesheet" href="css/imageCaresoul.css">
+    <style type="text/css">
+    	body{
+    	min-height:100vh;
+    	display:flex;
+    	flex-direction:column;}
+    </style>
 </head>
 <body>
     <jsp:include page="spinner.jsp" />
@@ -160,9 +166,6 @@
 
             </div>
         </div>
-		<div class="container-fluid g-0 bg-light z-index-1111 position-sticky bottom-0 start-0" style="z-index:1111">
-        <jsp:include page="footer.jsp"></jsp:include>
-    </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
         </script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
@@ -229,6 +232,10 @@
         	});
         </script>
 	<script src="js/spinner.js"></script>
+	        <div class="container-fluid g-0 mt-auto bg-light">
+        <jsp:include page="footer.jsp"></jsp:include>
+    </div>
+    
 </body>
 
 </html>

@@ -159,7 +159,6 @@ public class MissionController {
 	}
 	@RequestMapping(value = "/ratingToMission",method = RequestMethod.POST)
 	public @ResponseBody Boolean ratingToMission(@RequestParam("missionId") String missionId,@RequestParam("rating") String rating,HttpServletRequest request) throws UserNotFoundException {
-		System.out.print(missionId);
 		int mission=Integer.parseInt(missionId);
 		int ratingCon=Integer.parseInt(rating);
 		User Myuser= (User)request.getSession().getAttribute("user");

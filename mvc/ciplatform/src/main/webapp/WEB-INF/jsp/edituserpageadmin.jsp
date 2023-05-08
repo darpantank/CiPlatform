@@ -56,15 +56,15 @@
 					</c:choose>
 					
 						<div class="form-group col-sm-12 col-md-6">
-                            <label class="form-label">First Name</label>
+                            <label class="form-label required">First Name</label>
                             <input type="text" class="form-control firstName" name="firstName" value="${selectedUser.firstName}" placeholder="Enter Your First Name" required>
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
-                            <label class="form-label">Last Name</label>
+                            <label class="form-label required">Last Name</label>
                             <input type="text" class="form-control lastName" name="lastName" value="${selectedUser.lastName}" placeholder="Enter Your Last Name" required>
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
-                            <label class="form-label">Email</label>
+                            <label class="form-label required">Email</label>
                             <c:choose>
                             	<c:when test="${not empty selectedUser.email}">
                             		<input type="text" class="form-control email" name="email" value="${selectedUser.email}" placeholder="Enter Your Email" disabled>
@@ -75,7 +75,7 @@
                             </c:choose>
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
-                            <label class="form-label">Password</label>
+                            <label class="form-label required">Password</label>
                             <input type="text" class="form-control password" name="password" value="${selectedUser.password}" placeholder="Enter Your Password" required>
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
@@ -91,13 +91,13 @@
                             <textarea class="form-control profileText" name="profileText" placeholder="Enter Your Profile text ..." id="floatingTextarea2" style="height: 100px">${selectedUser.profileText}</textarea>
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
-                            <label class="form-label">Country</label>
+                            <label class="form-label required">Country</label>
                             <select class="form-select" name="countryId" id="userCountry" aria-label="Select your Country" required>
                                 <option disabled selected hidden>Select your Country</option>
                             </select>
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
-                            <label class="form-label">City</label>
+                            <label class="form-label required">City</label>
                             <select class="form-select userCity" name="cityId" aria-label="Select your City" required>
                                 <option disabled selected hidden>Select your City</option>
                             </select>
@@ -158,6 +158,9 @@
                	 	addCountryList();
                 }
             });
+    		
+    		$('label.required').append('&nbsp;<strong>*</strong>&nbsp;');
+    		
     	} );
     	$(".saveUser").click(function(e){
     		e.preventDefault();

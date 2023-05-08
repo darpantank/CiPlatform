@@ -5,7 +5,6 @@
     <link rel="stylesheet" href="css/navbar.css">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-
     <div class="w3-sidebar w3-bar-block w3-card w3-animate-left myMainSideBar" style="display:none" id="leftMainMenu">
         <button onclick="closeLeftMainMenu()" class="w3-bar-item w3-button w3-large"> <img src="image/cancel.png"
                 class="sidebarClosingButton" alt="" srcset=""></button>
@@ -21,6 +20,7 @@
                 <img src="image/list.png" alt="" srcset="">
             </button>
             <div class="collapse navbar-collapse left gotoMainbar" id="navbarNav">
+                <a href="home" class="logo">HomePage</a>
                 <a href="story" class="logo">Stories</a>
                 <div class="dropdown">
                     <a class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">

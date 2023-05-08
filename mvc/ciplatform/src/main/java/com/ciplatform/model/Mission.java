@@ -19,6 +19,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.ciplatform.enums.Availability;
@@ -76,6 +78,7 @@ public class Mission {
 	@OneToMany(mappedBy = "missions" , cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	private List<MissionSkill> missionSkills;
 	@JsonIgnore
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(mappedBy ="mission" , cascade = CascadeType.ALL)
 	private List<MissionMedia> missionMedia;
 	@JsonIgnore

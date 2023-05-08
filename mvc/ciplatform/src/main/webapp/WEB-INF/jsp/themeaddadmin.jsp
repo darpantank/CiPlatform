@@ -56,11 +56,11 @@
      			</c:choose>
                 	
                     <div class="mb-3">
-                        <label for="inputPassword5" class="form-label">Title</label>
+                        <label for="inputPassword5" class="form-label required">Title</label>
                         <input type="text" class="form-control" value="${theme.title }" name="title" required>
                     </div>
                     <div class="mb-3">
-                        <label for="inputPassword5" class="form-label">Status</label> 
+                        <label for="inputPassword5" class="form-label required">Status</label> 
                         <select class="form-control" name="status" required>
 									<option value="ACTIVE" selected>ACTIVE</option>
 									<option value="INACTIVE">INACTIVE</option>
@@ -97,6 +97,7 @@
     <script>
     $(document).ready(function() {
   	  $("#myThemeAddForm").validate();
+  	$('label.required').append('&nbsp;<strong>*</strong>&nbsp;');
   	});
     $(".saveThemePage").click(function(e){
     	e.preventDefault();

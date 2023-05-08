@@ -10,7 +10,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -146,7 +145,6 @@ public class AdminController {
 	}
 	@RequestMapping(value = "/updatemission" , method=RequestMethod.POST)
 	public @ResponseBody boolean updateMission(MissionIncomingDto dto,HttpSession session) {
-		System.out.println(dto);
 		String path=session.getServletContext().getRealPath("/");
 		return this.service.addUpdateMission(dto,path);
 	}
@@ -303,13 +301,13 @@ public class AdminController {
 	@RequestMapping(value = "/adminlogout",method=RequestMethod.GET)
 	public String logoutAdmin(Model m,HttpServletResponse response,HttpServletRequest request) {
 		try {
+			request.removeAttribute("admin");
+			m.addAttribute("message","logoutsuccess");
 			response.sendRedirect(request.getContextPath());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		request.removeAttribute("admin");
-		m.addAttribute("message","logoutsuccess");
 		return "login";
 	}
 }

@@ -9,7 +9,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>skill Page</title>
+    <title>Banner</title>
     <link rel="stylesheet" href="<c:url value="/css/bootstrap.min.css"></c:url>">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css">
@@ -44,7 +44,7 @@
                 <div class="container">
                     <div class="UserTextDiv mt-4">
                         <div class="d-flex">
-                            <p class="userText">Skill Page</p>
+                            <p class="userText">Banner Management</p>
                         </div>
                         <hr>
                     </div>
@@ -100,11 +100,13 @@
     let incomingData='';
     var t;
     $(document).ready(function() {
+    	
         t = $('#example').DataTable( {
             rowReorder: {
                 selector: 'td:nth-child(2)'
             },
-            responsive: true
+            responsive: true,
+			            
         } );
         $('#searchFilter').on( 'keyup', function () {
        t.search( this.value ).draw();

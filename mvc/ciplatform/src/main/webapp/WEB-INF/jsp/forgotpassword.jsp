@@ -21,60 +21,13 @@
       <div class="col-sm-12 col-lg-8">
         <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
           <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
-              aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
-              aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
-              aria-label="Slide 3"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3"
-              aria-label="Slide 4"></button>
+            
           </div>
           <div class="carousel-inner">
-            <div class="carousel-item active">
-              <img src="<c:url value="/image/Grow-Trees-On-the-path-to-environment-sustainability-login.png"></c:url>" class="d-block w-100 size-fix" alt="...">
-              <div class="carousel-caption d-none d-md-block">
-                <p class="carouselLabelText text-start">Sed ut perspiciatis unde omnis iste natus voluptatem.</p>
-                <p class="carouselDescriptionText text-start">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                  nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                  reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-              </div>
-            </div>
-            <div class="carousel-item">
-              <img src="<c:url value="/image/Grow-Trees-On-the-path-to-environment-sustainability-login.png"></c:url>" class="d-block w-100 size-fix" alt="...">
-              <div class="carousel-caption d-none d-md-block">
-                <p class="carouselLabelText text-start">Sed ut perspiciatis unde omnis iste natus voluptatem.</p>
-                <p class="carouselDescriptionText text-start">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                  nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                  reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-              </div>
-            </div>
-            <div class="carousel-item">
-              <img src="<c:url value="/image/Grow-Trees-On-the-path-to-environment-sustainability-login.png"></c:url>" class="d-block w-100 size-fix" alt="...">
-              <div class="carousel-caption d-none d-md-block">
-                <p class="carouselLabelText text-start">Sed ut perspiciatis unde omnis iste natus voluptatem.</p>
-                <p class="carouselDescriptionText text-start">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                  nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                  reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-              </div>
-            </div>
-            <div class="carousel-item">
-              <img src="<c:url value="/image/Grow-Trees-On-the-path-to-environment-sustainability-login.png"></c:url>" class="d-block w-100 size-fix" alt="...">
-              <div class="carousel-caption d-none d-md-block">
-                <p class="carouselLabelText text-start">Sed ut perspiciatis unde omnis iste natus voluptatem.</p>
-                <p class="carouselDescriptionText text-start">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                  nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                  reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-              </div>
-            </div>
+            
+            
+            
+            
           </div>
         </div>
       </div>
@@ -133,9 +86,9 @@
           <div class="col">
             <p class="text-center forgotPass">Forgot Password</p>
             <p class="text-muted text-center">Enter your email address you've using for your account below and we will send you a password reset link</p>
-            <form action="forgotPasswordTokenGenerate" method="post" id="forgotPasswordForm">
+            <form action="<c:url value='/forgotPasswordTokenGenerate'></c:url>" method="post" id="forgotPasswordForm">
               <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label text-muted">Email address</label>
+                <label for="exampleInputEmail1" class="form-label text-muted required">Email address</label>
                 <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" required>
               </div>
               <button type="submit" class="btn w-100">Reset My Password</button>
@@ -160,10 +113,11 @@
   	$(document).ready(function() {
 	  $("#forgotPasswordForm").validate();
 	  fetchBannerList();
+	  $('label.required').append('&nbsp;<strong>*</strong>&nbsp;');
 	});
   	function fetchBannerList(){
     	$.ajax({
-	        url: "fetchallbanner",
+	        url: "<c:url value='/fetchallbanner'></c:url>",
 	        dataType: 'json',
 	        type:"GET",
 	        success: function(response){
@@ -184,7 +138,7 @@
   			banner=incomingData[i];
   			if(counter==0){
   				imageDiv+=`<div class="carousel-item active">
-  	                <img src="`+banner.image+`" class="d-block w-100 size-fix" alt="...">
+  	                <img src="<c:url value='/`+banner.image+`'></c:url>" class="d-block w-100 size-fix" alt="...">
   	                <div class="carousel-caption d-none d-md-block">
   	                  <p class="carouselLabelText text-start">`+banner.text+`</p>
   	                  
@@ -193,7 +147,7 @@
   			}
   			else{
   				imageDiv+=`<div class="carousel-item">
-  	                <img src="`+banner.image+`" class="d-block w-100 size-fix" alt="...">
+  	                <img src="<c:url value='/`+banner.image+`'></c:url>" class="d-block w-100 size-fix" alt="...">
   	                <div class="carousel-caption d-none d-md-block">
   	                  <p class="carouselLabelText text-start">`+banner.text+`</p>
   	                  

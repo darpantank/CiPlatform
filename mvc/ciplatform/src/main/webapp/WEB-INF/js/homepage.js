@@ -203,7 +203,12 @@
 					 for(var a in skillFilter){
 						 addFilter(skillFilter[a]);
 					 }
+					 $("#myList").append("<div class='col d-flex align-items-center justify-content-between clearAllFilter'><p>Clear all</p></div>");
+					 $(".clearAllFilter").click(function(){
+						 clearAllFilter();
+					 });
 				 }
+				 
 	         	function getCityList(CheckedCountry){
 	         		//get City List
 	         		$.ajax({
@@ -240,17 +245,30 @@
 	         		currentPage=b;
 	         		updateMissionsOnChange();
 	         	}
-//				function addFiltersPills(){
-//					AppliedFilterArray=[];
-//					if(CheckedCountryName[0]!=null){						
-//						AppliedFilterArray.push(CheckedCountryName[0].innerText);		
-//					}
-//					
-////					addFilter();
-//					for(let x in selectedCity){
-//						console.log(selectedCity[x]);
-//					}
-//				}
+//				
+				function clearAllFilter(){
+						$('.themeSelector input , .themeSelectorSidebar input').prop('checked', false);
+	    				 selectedTheme=[];
+	    				 themeFilter=[];
+	    				 
+	    				 $('.skillSelector input , .skillSelectorSidebar input').prop('checked', false);
+	    				 skills=[];
+	    				 skillFilter=[];
+	    				 
+	    				  $('.citySelector input , .citySelectorSidebar input').prop('checked', false);
+	    				 selectedCity=[];
+	    				 cityFilter=[];
+	    				 
+	    				 searchWord='';
+	    				 
+	    				 CheckedCountry='';
+	    				 $(".countrySelect option[value='country']").prop('selected',true);
+	    				 CheckedCountryName='';
+	    				 
+	    				 currentPage=1;
+	    				 CheckedSortBy=0;
+	    				 updateMissionsOnChange();
+				}
 	         	function createPaginationList(totalCount,currentPage){
 	         		$(".pagination").empty();
 	         		let data = `<li class="page-item goAtFirst">

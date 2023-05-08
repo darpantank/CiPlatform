@@ -100,7 +100,13 @@
             rowReorder: {
                 selector: 'td:nth-child(2)'
             },
-            responsive: true
+            responsive: true,
+            aoColumnDefs: [
+	        	  {
+	        	     bSortable: false,
+	        	     aTargets: [ -1 ]
+	        	  }
+	        	]
         } );
         $('#searchFilter').on( 'keyup', function () {
        t.search( this.value ).draw();

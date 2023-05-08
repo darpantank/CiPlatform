@@ -27,8 +27,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
     <link rel="stylesheet" href="<c:url value="/css/imageCaresoul.css"/>">
     <link rel="stylesheet" type="text/css" href="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.css">
-    <script>
-    </script>
+    <style type="text/css">
+    	body{
+    	min-height:100vh;
+    	display:flex;
+    	flex-direction:column;}
+    </style>
 </head>
 
 <body>    
@@ -386,7 +390,7 @@
 				</div>
 			</div>
 	</div>
-	<div class="container-fluid g-0 bg-light z-index-1111 position-sticky bottom-0 start-0" style="z-index:1111">
+	<div class="container-fluid g-0 mt-auto bg-light">
         <jsp:include page="footer.jsp"></jsp:include>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"
@@ -432,7 +436,7 @@
     });
     $(".postCommentBtn").click(function(){
     	$(".commentNotFound").remove();
-    	var commentText=$("#userCommentText").val();
+    	var commentText=$("#userCommentText").val().trim();
     	let missionId=$(".missionId").val();
     	var mydata={'mission_id':missionId,
         		'comment':commentText};

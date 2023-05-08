@@ -137,7 +137,7 @@ public class AdminDaoOperation implements AdminDaoInterface {
 
 	public List<Banner> fetchBanners() {
 		Session s = this.hibernateTemplate.getSessionFactory().openSession();
-		String hql="from Banner order by sortOrder desc";
+		String hql="from Banner order by sortOrder";
 		Query q=s.createQuery(hql);
 		return q.getResultList();
 	}

@@ -2,7 +2,10 @@ package com.ciplatform.controller;
 
 
 import java.io.IOException;
+import java.lang.System.Logger.Level;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -43,6 +47,7 @@ import com.ciplatform.service.UserServiceInterface;
 
 @Controller
 public class HomeController {
+	Logger logger=Logger.getGlobal();
 	@Autowired
 	UserServiceInterface service;
 	@Autowired
@@ -70,9 +75,9 @@ public class HomeController {
 		return "privacy";
 	}
 	@RequestMapping("/logout")
-	public String LogoutUser(HttpSession request,Model m) {
-	    request.removeAttribute("user");
-	    request.invalidate();
+	public String LogoutUser(HttpSession session,Model m) {
+	    session.removeAttribute("user");
+	    session.invalidate();
 	    m.addAttribute("message","logoutsuccess");
 		return "login";
 	}
@@ -127,14 +132,12 @@ public class HomeController {
 	}
 	@RequestMapping(value = "/saveuser",method = RequestMethod.POST)
 	public String saveUser(@ModelAttribute("user") User user,Model m) {
-		System.out.println(user);
 		if(user.getEmail()==""||user.getFirstName()==""||user.getLastName()==""||user.getPhoneNumber()==""||user.getPassword()=="") {
 			m.addAttribute("message","All Field Of Form Is Compulsary");
 			return "failed";
 		}
 		if(!this.service.validateEmailId(user.getEmail())&&!this.service.validateMobileNo(user.getPhoneNumber())){
 			if(this.service.storeUserData(user)) {	
-				System.out.println("User Saved successfully...");
 				m.addAttribute("message","registrationsuccess");
 				return "login";
 			}
@@ -149,6 +152,14 @@ public class HomeController {
 		}
 		
 	}
+	@RequestMapping("/home")
+	public String homeViewOnValidate(HttpServletRequest request) throws UserNotFoundException {
+		User user= (User)request.getSession().getAttribute("user");
+		if(user==null||user.getUserId()==0||user.getEmail()=="") {
+			throw new UserNotFoundException();
+		}
+		return "home";
+	}
 	@RequestMapping(value = "/validateuser",method = RequestMethod.POST)
 	public ModelAndView validateUser(@RequestParam("email") String email,@RequestParam("password") String password,HttpServletRequest request,HttpServletResponse response) {
 		ModelAndView mav=new ModelAndView();
@@ -161,6 +172,15 @@ public class HomeController {
 			session.setMaxInactiveInterval(LOGOUT_TIME);
 			session.setAttribute("user",myuser);
 			session.setAttribute("cms",myCms);
+			if(myuser!=null&&myuser.getRole()==Role.USER) {
+				try {	
+					response.addHeader("Cache-Control", "max-age=60, must-revalidate, no-transform");
+					response.sendRedirect(session.getServletContext().getContextPath().concat("/home"));
+				}
+				catch(IOException e) {
+					e.printStackTrace();
+				}
+			}
 				if(myuser.getRole()==Role.ADMIN) {
 					session.setAttribute("admin",myuser);
 					try {

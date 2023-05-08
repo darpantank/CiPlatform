@@ -106,12 +106,10 @@ public class StoryService implements StoryServiceIntereface{
 				}
 		        String videoUrl=storyDto.getVideoUrl();
 				if(!videoUrl.equals("")) {
-					System.out.println(videoUrl);
 					StoryMedia storyMedia=new StoryMedia();
 					storyMedia.setPath(videoUrl);
 		    		storyMedia.setStory(story);
 		    		storyMedia.setType("VIDEO");
-		    		System.out.println(storyMedia.getPath()+" saved...");
 		    		media.add(storyMedia);
 				}
 		        story.setStoryMedia(media);

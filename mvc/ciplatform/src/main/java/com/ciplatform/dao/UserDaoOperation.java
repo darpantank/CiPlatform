@@ -29,7 +29,6 @@ public class UserDaoOperation implements UserDaoInterface{
 	@Transactional
 	public boolean createUser(User user1) {
 		Integer i=(Integer) this.hibernateTemplate.save(user1);
-		System.out.println(i);
 		if(i==0) {
 			return false;
 		}
@@ -37,7 +36,7 @@ public class UserDaoOperation implements UserDaoInterface{
 	}
 	@Transactional
 	public boolean storeResetPassToken(PasswordReset prst) {
-		this.hibernateTemplate.save("token",prst);
+		this.hibernateTemplate.saveOrUpdate(prst);
 		return true;
 	}
 	public List<PasswordReset> validateToken(String Token) {
@@ -197,6 +196,9 @@ public class UserDaoOperation implements UserDaoInterface{
 			cmsPage=(CmsPage)q.getResultList().get(0);
 		}
 		return cmsPage;
+	}
+	public PasswordReset getAlreadyPresentTokenInDb(String email) {
+		return this.hibernateTemplate.get(PasswordReset.class,email);
 	}
 
 }

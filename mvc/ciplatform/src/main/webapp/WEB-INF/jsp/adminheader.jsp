@@ -3,10 +3,32 @@
     <%@ page isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<c:set var = "now" value = "<%= new java.util.Date()%>" />
+<script type = "text/javascript" >
+const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];   
+   
+   function preventBack(){window.history.forward();}
+    setTimeout("preventBack()", 0);
+    window.onunload=function(){null};
+    function display_c(){
+    	var refresh=1000; // Refresh rate in milli seconds
+    	mytime=setTimeout('display_ct()',refresh)
+    	}
+
+    	function display_ct() {
+    		let x=new Date();
+    		let fdate=days[x.getDay()]+" "+months[x.getMonth()]+" "+x.getDate()+", "+x.getFullYear()+", "+x.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+    	document.getElementById('ct').innerHTML=fdate;
+    	display_c();
+    	 }
+    	window.onload = function() {
+    		display_ct();
+    		};
+    	
+</script>
 <div class="container d-flex justify-content-between align-items-center">
     <div>
-        <p class="currentDateTime">${now}</p>
+        <p id="ct"></p>
     </div>
     <div>
         <div class="dropdown">

@@ -34,5 +34,6 @@ public interface UserDaoInterface {
 	public boolean deleteMyTimesheet(int userId, int timesheetId);
 	public List<CmsPage> fetchCmsList();
 	public CmsPage findCmsBySlug(String slug);
+	public PasswordReset getAlreadyPresentTokenInDb(String email);
 	
 }

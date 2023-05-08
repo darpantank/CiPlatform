@@ -112,7 +112,11 @@ i{
 .error{
 	color:red;
 }
-
+.dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+	background:none !important;
+	background-color :#F88634 !important; 
+	color:white !important;
+}
 /* @media only screen and (max-width: 992px) {
     .gotoMainbar{
         display: none !important;

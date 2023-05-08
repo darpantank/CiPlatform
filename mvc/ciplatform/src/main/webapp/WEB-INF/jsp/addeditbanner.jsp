@@ -60,11 +60,11 @@
      			</c:choose>
                 	
                     <div class="mb-3">
-                        <label for="inputPassword5" class="form-label">Banner Text</label>
+                        <label for="inputPassword5" class="form-label required">Banner Text</label>
                         <input type="text" class="form-control text" value="${banner.text }" name="text" required>
                      </div>
                      <div class="mb-3">
-                        <label for="inputPassword5" class="form-label">Banner Sort Order</label>
+                        <label for="inputPassword5" class="form-label required">Banner Sort Order</label>
                         <input type="number" class="form-control text" value="${banner.sortOrder }" name="sortOrder" required>
                      </div>
                      <div class="mb-3">
@@ -119,6 +119,7 @@
     <script>
     $(document).ready(function() {
   	  $("#myBannerAddForm").validate();
+  		$('label.required').append('&nbsp;<strong>*</strong>&nbsp;');
   	});
     $(".saveBannerPage").click(function(e){
     	e.preventDefault();

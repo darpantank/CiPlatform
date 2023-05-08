@@ -42,11 +42,11 @@
             <form action="../resetmypassword" method="post" id="resetPasswordForm">
             <input type="hidden" name="token" value="${token}" readonly required hidden>
                 <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label text-muted">New Password</label>
+                    <label for="exampleInputPassword1" class="form-label text-muted required">New Password</label>
                     <input type="password" class="form-control" id="password" name="password" minlength="8" required>
                   </div>
               <div class="mb-3">
-                <label for="exampleInputPassword2" class="form-label text-muted">Confirm New Password</label>
+                <label for="exampleInputPassword2" class="form-label text-muted required">Confirm New Password</label>
                 <input type="password" class="form-control" name="confirm_password" id="confirm_password" minlength="8" required>
               </div>
               <button type="submit" class="btn w-100">Change Password</button>
@@ -79,6 +79,7 @@
 	  });
 	  
 	  fetchBannerList();
+	  $('label.required').append('&nbsp;<strong>*</strong>&nbsp;');
 	});
   	function fetchBannerList(){
     	$.ajax({

@@ -59,15 +59,15 @@
 						</c:otherwise>
 					</c:choose>
 						<div class="form-group col-sm-12 col-md-12">
-                            <label class="form-label">Title</label>
-                            <input type="text" class="form-control shortDescription" name="title" value="${mission.title}" placeholder="Enter Mission Short Description" required>
+                            <label class="form-label required">Title</label>
+                            <input type="text" class="form-control shortDescription" name="title" value="${mission.title}" placeholder="Enter Mission Short Description" maxlength="50" required>
                         </div>
 						<div class="form-group col-sm-12 col-md-6">
-                            <label class="form-label">Short Description</label>
-                            <input type="text" class="form-control shortDescription" name="shortDescription" value="${mission.shortDescription}" placeholder="Enter Mission Short Description" required>
+                            <label class="form-label required">Short Description</label>
+                            <input type="text" class="form-control shortDescription" name="shortDescription" value="${mission.shortDescription}" placeholder="Enter Mission Short Description" maxlength="50" required>
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
-                            <label class="form-label">Mission Type</label>
+                            <label class="form-label required">Mission Type</label>
                             <select class="form-select missionType" name="missionType" required>
                             		<option disabled selected hidden>Select Mission Type</option>
 									<option value="TIME">Time</option>
@@ -75,28 +75,28 @@
 							</select>
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
-                            <label class="form-label">Country Of Mission</label>
+                            <label class="form-label required">Country Of Mission</label>
                             <select class="form-select" name="countryId" id="missionCountry" aria-label="Select your Country" required>
                                 <option disabled selected hidden>Select your Country</option>
                             </select>
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
-                            <label class="form-label">City Of Mission</label>
+                            <label class="form-label required">City Of Mission</label>
                             <select class="form-select missionCity" name="cityId" aria-label="Select your City" required>
                                 <option disabled selected hidden>Select your City</option>
                             </select>
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
                             <label class="form-label">Organization Name</label>
-                            <input type="text" class="form-control organizationName" name="organizationName" value="${mission.organizationName}">
+                            <input type="text" class="form-control organizationName" name="organizationName" maxlength="50" value="${mission.organizationName}">
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
                             <label class="form-label">Organization Details</label>
-                            <input type="text" class="form-control organizationDetail" name="organizationDetail" value="${mission.organizationDetail}" >
+                            <input type="text" class="form-control organizationDetail" name="organizationDetail" maxlength="255" value="${mission.organizationDetail}" >
                         </div>
                         
                         <div class="form-group col-sm-12 col-md-6">
-                            <label class="form-label">Status</label>
+                            <label class="form-label required">Status</label>
                             <select class="form-select status" name="status" required>
 									<option value="ACTIVE" selected="">ACTIVE</option>
 									<option value="INACTIVE">INACTIVE</option>
@@ -107,11 +107,11 @@
                             <input type="file" name="missionDocuments" class="form-control missionDocuments" accept=".xlsx,.xls,.doc, .docx,.ppt, .pptx,.txt,.pdf"  multiple>
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
-                            <label class="form-label">Start Date</label>
+                            <label class="form-label required">Start Date</label>
                             <input type="date" value="${startDate}" name="startDate" class="form-control startDate" required>
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
-                            <label class="form-label">End Date</label>
+                            <label class="form-label required">End Date</label>
                             <input type="date" value="${endDate}" name="endDate" class="form-control endDate" required>
                         </div>
                         <div class="mb-3">
@@ -239,7 +239,12 @@
     let missionAvailability="<c:out value='${mission.availability}' />";
     let incomingData='';
     	$(document).ready(function() {
+    		$.validator.addMethod("endDate", function(value, element) {
+                var startDate = $('.startDate').val();
+                return Date.parse(startDate) <= Date.parse(value) || value == "";
+            }, "* End date must be after start date");
     		$("#missionEditForm").validate();
+    		$('label.required').append('&nbsp;<strong>*</strong>&nbsp;');
     		var today = new Date();
     		$.ajax({
                 url: "../loadListOfCountry",

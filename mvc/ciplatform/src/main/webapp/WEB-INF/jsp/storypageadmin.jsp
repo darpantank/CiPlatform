@@ -41,7 +41,7 @@
                 <div class="container">
                     <div class="UserTextDiv mt-4">
                         <div class="d-flex">
-                            <p class="userText">Story Page</p>
+                            <p class="userText">Story</p>
                         </div>
                         <hr>
                     </div>
@@ -100,7 +100,13 @@
             rowReorder: {
                 selector: 'td:nth-child(2)'
             },
-            responsive: true
+            responsive: true,
+            aoColumnDefs: [
+	        	  {
+	        	     bSortable: false,
+	        	     aTargets: [ -1 ]
+	        	  }
+	        	]
         } );
         $('#searchFilter').on( 'keyup', function () {
        t.search( this.value ).draw();
@@ -123,7 +129,7 @@
     	for(var a in incomingData){ 
     		story=incomingData[a];
     		var userIdTag=`<p class="userId">`+story.userId+`</p>`;
-    		let imgTags=`<div class="d-flex justify-content-around" id="`+story.storyId+`">
+    		let imgTags=`<div class="d-flex gap-2" id="`+story.storyId+`">
     		<div><a class="btn btn-outline-warning btn-sm rounded-pill" href="../getDetailStory?storyId=`+story.storyId+`">View</a></div>
     		<div class="approvedStory"><i class="bi bi-check-circle true"></i></div>
     		<div class="rejectStory"><i class="bi bi-x-circle false"></i></div>
