@@ -21,6 +21,17 @@
             </button>
             <div class="collapse navbar-collapse left gotoMainbar" id="navbarNav">
                 <a href="home" class="logo">HomePage</a>
+<!--                 <div class="dropdown "> -->
+           
+<!-- 				<select class="border-0"> -->
+<!-- 				<div class="dropdown-menu exploreMenu"> -->
+<!-- 					<option class="dropdown-item" selected hidden>Explore</option> -->
+<!-- 					<option class="dropdown-item">Top Themes</option> -->
+<!-- 					<option class="dropdown-item">Most Ranked</option> -->
+<!-- 					<option class="dropdown-item">Top Favourite</option> -->
+<!-- 				</div> -->
+<!--                 </select> -->
+<!--                 </div> -->
                 <a href="story" class="logo">Stories</a>
                 <div class="dropdown">
                     <a class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -68,4 +79,31 @@
              </c:if>
         </div>
     </nav>
+    <script>
+    if(document.cookie!=""){
+    	if(getCookie("isLogOut")=="true"){
+    		alert("Cookie Found");
+    		window.location.replace("login");
+    	}
+    }
+    function getCookie(cname) {
+    	  let name = cname + "=";
+    	  let decodedCookie = decodeURIComponent(document.cookie);
+    	  let ca = decodedCookie.split(';');
+    	  for(let i = 0; i <ca.length; i++) {
+    	    let c = ca[i];
+    	    while (c.charAt(0) == ' ') {
+    	      c = c.substring(1);
+    	    }
+    	    if (c.indexOf(name) == 0) {
+    	      return c.substring(name.length, c.length);
+    	    }
+    	  }
+    	  return "";
+    	}
+//     	let myCookie= getCookie("isLogOut");
+//     	if(myCookie=="true"){
+//     		alert("You Are Aleready Logout");
+//     	}
+    </script>
     <script src="js/sidebarJs.js"></script>

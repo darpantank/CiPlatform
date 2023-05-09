@@ -37,22 +37,22 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Change Password</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Change Password </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                         <div class="form-group mb-3">
-                            <label class="form-label">Enter old password</label>
+                            <label class="form-label">Enter old password <strong>*</strong></label>
                             <input type="password" class="form-control oldPassWord" name="oldPassWord"
                                 placeholder="Enter Your Old PassWord">
                         </div>
                         <div class="form-group mb-3">
-                            <label class="form-label">Enter New Password</label>
+                            <label class="form-label">Enter New Password <strong>*</strong></label>
                             <input type="password" class="form-control newPassWord" name="newPassWord"
                                 placeholder="Enter Your New Password">
                         </div>
                         <div class="form-group mb-3">
-                            <label class="form-label">Enter Confirm Password</label>
+                            <label class="form-label">Enter Confirm Password <strong>*</strong></label>
                             <input type="password" class="form-control confirmNewPassWord" name="confirmNewPassWord"
                                 placeholder="Enter Your New Password">
                         </div>
@@ -142,11 +142,11 @@
                     <form id="myForm" method="post">
                     <div class="InputFields row">
                         <div class="form-group col-sm-12 col-md-6">
-                            <label class="form-label">Name</label>
+                            <label class="form-label">Name <strong>*</strong></label>
                             <input type="text" class="form-control firstName" name="firstName" value="${user.firstName }" placeholder="Enter Your Name">
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
-                            <label class="form-label">Surname</label>
+                            <label class="form-label">Surname <strong>*</strong></label>
                             <input type="text" class="form-control lastName" name="lastName" value="${user.lastName }" placeholder="Enter Your Surname">
                         </div>
                         <div class="form-group col-sm-12 col-md-6">

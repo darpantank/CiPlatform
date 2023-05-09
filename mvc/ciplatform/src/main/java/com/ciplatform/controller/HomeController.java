@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -75,9 +76,10 @@ public class HomeController {
 		return "privacy";
 	}
 	@RequestMapping("/logout")
-	public String LogoutUser(HttpSession session,Model m) {
+	public String LogoutUser(HttpSession session,Model m,HttpServletResponse response) {
 	    session.removeAttribute("user");
 	    session.invalidate();
+	    response.addCookie(new Cookie("isLogOut", "true"));
 	    m.addAttribute("message","logoutsuccess");
 		return "login";
 	}
@@ -172,6 +174,9 @@ public class HomeController {
 			session.setMaxInactiveInterval(LOGOUT_TIME);
 			session.setAttribute("user",myuser);
 			session.setAttribute("cms",myCms);
+			Cookie myCookie=new Cookie("isLogOut", "false");
+			myCookie.setMaxAge(900);
+			response.addCookie(myCookie);
 			if(myuser!=null&&myuser.getRole()==Role.USER) {
 				try {	
 					response.addHeader("Cache-Control", "max-age=60, must-revalidate, no-transform");

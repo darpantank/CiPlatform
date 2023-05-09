@@ -41,7 +41,7 @@
             <div class="col-md-12 col-lg-4">
                 <div class="form-group">
                     <div class="rightArrow"><i class="bi bi-chevron-down"></i></div>
-                    <label for="storytitle">Select Mission</label>
+                    <label for="storytitle">Select Mission <strong>*</strong></label>
                     <select class="form-control missionSelect" name="missionSelect" placeholder="Select Your Mission">
                         <option value="" disabled selected hidden>Select Your Mission</option>
                         <c:forEach var="a" items="${missions}">
@@ -52,7 +52,7 @@
             </div>
             <div class="col-md-12 col-lg-4">
                 <div class="form-group">
-                    <label for="storytitle">My Story Title</label>
+                    <label for="storytitle">My Story Title <strong>*</strong></label>
                     <input type="text" class="form-control titleOfTheStory" name="titleOfStory" placeholder="Enter Story Title">
                 </div>
             </div>
@@ -64,7 +64,7 @@
             </div>
         </div>
         <div class="ckeditor mt-4">
-            <p>My Story</p>
+            <p>My Story <strong>*</strong></p>
             <div id="editor">Sample CkEditor</div>
         </div>
         <div class="videoUrls mt-4">
@@ -237,8 +237,12 @@ setTimeout(function() {
 		
     	
     }
-    function getFormattedDate(date) {
-			date=new Date(date);
+    function getFormattedDate(dateInput) {
+			if(dateInput==""||dateInput==null){
+				date=new Date();
+			}else{				
+				date=new Date(dateInput);
+			}
     	  const year  = date.getFullYear(),
     	        month = ('0' + (date.getMonth() + 1)).slice(-2),
     	        day   = ('0' + date.getDate()).slice(-2)

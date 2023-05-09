@@ -279,7 +279,7 @@
 			<script src="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.min.js"></script>
 	<script src="<c:url value="js/homepage.js" />"></script>
 	<script src="js/sidebarJs.js"></script>
-	<script>	
+	<script>
 	$(".recommandToCoworker").click(function(){
 		$(".modalMessageBody").empty();
 		let messageBody="";

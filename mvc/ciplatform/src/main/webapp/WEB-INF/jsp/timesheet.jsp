@@ -40,7 +40,7 @@
                 
                 <input id="timesheetIdTimeBased" name="timesheetId" value="0" type="hidden" required>
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Mission</label>
+                        <label for="exampleInputEmail1" class="form-label">Mission <strong>*</strong></label>
                         
                         <select class="form-control SelectedMissionTimeBased" name="missionId" required>
                         	<option value="" disabled selected hidden>Select Mission</option>
@@ -52,24 +52,24 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Date Volunteerd</label>
+                        <label for="exampleInputEmail1" class="form-label"> Date Volunteerd <strong>*</strong></label>
                         <input type="date" class="form-control dateVolunteerTimeModal" name="dateVolunteered" required>
                     </div>
                     <div class="d-flex row ">
 
                         <div class="mb-3 col-6">
-                            <label for="exampleInputEmail1" class="form-label">Hours</label>
+                            <label for="exampleInputEmail1" class="form-label">Hours <strong>*</strong></label>
                             <input type="text" class="form-control hoursTimeBased"
                                 placeholder="Enter Spent Hour" name="hours" required max="23" min="0"> 
                         </div>
                         <div class="mb-3 col-6">
-                            <label for="exampleInputEmail1" class="form-label">Minutes</label>
+                            <label for="exampleInputEmail1" class="form-label">Minutes <strong>*</strong></label>
                             <input type="Minutes" class="form-control minutesTimeBased"
                                 placeholder="Enter Spent Minute" name="minutes" required max="59" min="0">
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Message</label>
+                        <label for="exampleInputEmail1" class="form-label">Message <strong>*</strong></label>
                         <textarea class="form-control" placeholder="Enter Your Message" id="notesTimeBased"
                             style="height: 100px" name="message" required></textarea>
                     </div>
@@ -96,7 +96,7 @@
                 <input id="timesheetIdGoalBased" value="0" name="timesheetId" type="hidden" required>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Mission</label>
+                        <label for="exampleInputEmail1" class="form-label">Mission <strong>*</strong></label>
                         <select class="form-control SelectedMissionGoalBased" name="missionId" required>
                         	<option value="" disabled selected hidden>Select Mission</option>
                         	<c:forEach var="a" items="${missions }">
@@ -107,15 +107,15 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Actions</label>
+                        <label for="exampleInputEmail1" class="form-label">Actions <strong>*</strong></label>
                         <input type="number" class="form-control actionGoalBasedModal" name="action" required>
                     </div>
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Date Volunteerd</label>
+                        <label for="exampleInputEmail1" class="form-label">Date Volunteerd <strong>*</strong></label>
                         <input type="date" class="form-control dateVolunteerGoalModal" name="dateVolunteered" required>
                     </div>
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Message</label>
+                        <label for="exampleInputEmail1" class="form-label">Message <strong>*</strong></label>
                         <textarea class="form-control" placeholder="Enter Your Message" id="notesGoalBased"
                             style="height: 100px" name="message" required></textarea>
                     </div>
