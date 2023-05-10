@@ -222,6 +222,8 @@ public class UserService implements UserServiceInterface {
 //		check profile picture updated or not
 		if(userProfileDto.getAvatar()!=null&&userProfileDto.getAvatar().getSize()>0) {
 			CommonsMultipartFile file=userProfileDto.getAvatar();
+			if(file.getContentType().equals("image/jpeg")||file.getContentType().equals("image/png")) {
+
 			String timeStamp=String.valueOf(System.currentTimeMillis());
 	        String path=session.getServletContext().getRealPath("/").concat("WEB-INF/").concat(savePath);
 	        try {
@@ -240,6 +242,7 @@ public class UserService implements UserServiceInterface {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		}
 		}
 		
 		return this.daoOperation.updateUserDetails(user);

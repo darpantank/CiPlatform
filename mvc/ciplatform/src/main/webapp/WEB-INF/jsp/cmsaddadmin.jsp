@@ -130,6 +130,9 @@
 						swal("Thanks","Cms added successfully...","success");
 // 						Clear The Form Data
 						resetCmsPage();
+						setTimeout(function () {
+                    		window.location.href="cmspage";
+                          }, 1000);
 <%-- 						window.location.href = '<%=request.getContextPath()%>/admin/cmspage'; --%>
         	    	}
         }

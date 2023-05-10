@@ -112,7 +112,8 @@ public class StoryController {
 	public @ResponseBody String recommandToCoWorkerStory(@RequestParam("storyId") int storyId,@RequestParam("emailId") String email,HttpServletRequest request) throws UserNotFoundException {
 		User SendFromUser= (User)request.getSession().getAttribute("user");
 		User SendToUser= this.userService.getUserFromEmail(email);
-		if(SendFromUser==null||SendFromUser.getUserId()==0||SendFromUser.getEmail()==""||SendToUser==null||SendToUser.getUserId()==0||SendToUser.getEmail()=="") {
+//		||SendFromUser.getUserId()==0||SendFromUser.getEmail()==""||SendToUser==null||SendToUser.getUserId()==0||SendToUser.getEmail()==""
+		if(SendFromUser==null) {
 			throw new UserNotFoundException();
 		}
 		if(SendToUser.getEmail()==null||SendToUser.getEmail()=="") {

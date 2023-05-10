@@ -243,6 +243,10 @@
                 var startDate = $('.startDate').val();
                 return Date.parse(startDate) <= Date.parse(value) || value == "";
             }, "* End date must be after start date");
+    		$.validator.addMethod("deadline", function(value, element) {
+                var endDate = $('.endDate').val();
+                return Date.parse(endDate) >= Date.parse(value) || value == "";
+            }, "* Deadline date must be before end date");
     		$("#missionEditForm").validate();
     		$('label.required').append('&nbsp;<strong>*</strong>&nbsp;');
     		var today = new Date();
@@ -303,6 +307,9 @@
      	            		swal("Thanks","Mission Update Successfully","success");
                     	//clean Form
                     	$("#missionEditForm").trigger("reset");
+                    	setTimeout(function () {
+                    		window.location.href="missionpage";
+                          }, 1000);
      	            	}
      	            },
      	    	});

@@ -272,15 +272,15 @@
 	         	function createPaginationList(totalCount,currentPage){
 	         		$(".pagination").empty();
 	         		let data = `<li class="page-item goAtFirst">
-	                    <a class="page-link" aria-label="Next">
-	                        <span aria-hidden="true"><i class="bi bi-chevron-double-left"></i></span>
-	                    </a>
-	                  </li>
-	              <li class="page-item previousPagination">
-	                <a class="page-link" aria-label="Next">
-	                    <span aria-hidden="true"><i class="bi bi-chevron-left"></i></span>
-	                </a>
-	              </li>`;
+					                 <a class="page-link" aria-label="Next">
+					                  <span aria-hidden="true"><i class="bi bi-chevron-double-left"></i></span>
+					                 </a>
+					             </li>
+					              <li class="page-item previousPagination">
+					                <a class="page-link" aria-label="Next">
+					                    <span aria-hidden="true"><i class="bi bi-chevron-left"></i></span>
+					                </a>
+					              </li>`;
 	              let perPageMission=9;
 	              let totalPages=totalCount/perPageMission;
 	              totalPages=Math.ceil(totalPages);
@@ -293,7 +293,6 @@
 	            	  		data+=`<li class="page-item"><a class="page-link" onclick="changeMyPage(`+a+`)">`+a+`</a></li>`;
 	            	  	}
 	              }
-	              
 	              data+=`<li class="page-item NextPagination">
 	                <a class="page-link" aria-label="Next">
 	                  <span aria-hidden="true"><i class="bi bi-chevron-right"></i></span>

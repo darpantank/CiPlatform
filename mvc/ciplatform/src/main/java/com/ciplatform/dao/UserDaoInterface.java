@@ -6,6 +6,7 @@ import com.ciplatform.model.City;
 import com.ciplatform.model.CmsPage;
 import com.ciplatform.model.ContactUs;
 import com.ciplatform.model.Country;
+import com.ciplatform.model.Notifications;
 import com.ciplatform.model.PasswordReset;
 import com.ciplatform.model.Skill;
 import com.ciplatform.model.TimeSheet;
@@ -35,5 +36,6 @@ public interface UserDaoInterface {
 	public List<CmsPage> fetchCmsList();
 	public CmsPage findCmsBySlug(String slug);
 	public PasswordReset getAlreadyPresentTokenInDb(String email);
+	public void saveNotifications(Notifications notifications);
 	
 }

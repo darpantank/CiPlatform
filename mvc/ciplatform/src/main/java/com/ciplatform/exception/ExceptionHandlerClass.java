@@ -19,7 +19,6 @@ public class ExceptionHandlerClass {
 	}
 	@ExceptionHandler(value = AdminNotFoundException.class)
 	public String adminDataNotPresent(Model m) {
-		System.out.println("Exception Handler Called...");
 		m.addAttribute("message","nonadmin");
 		return "login";
 	}

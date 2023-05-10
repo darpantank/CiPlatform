@@ -181,7 +181,7 @@
 	            data: Object,
 	            dataType: "JSON",
 	            success: function () {
-	                swal("Done!", "It was succesfully deleted!", "success");
+	                swal("Done!", "Application Status is now updated...", "success");
 	                fetchApplicationsList();
 	            },
 	            error: function (xhr, ajaxOptions, thrownError) {

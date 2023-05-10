@@ -21,6 +21,9 @@
             </button>
             <div class="collapse navbar-collapse left gotoMainbar" id="navbarNav">
                 <a href="home" class="logo">HomePage</a>
+                <c:if test="${admin.role=='ADMIN' }">
+                <a href="admin/users" >Admin Panel</a>
+                </c:if>
 <!--                 <div class="dropdown "> -->
            
 <!-- 				<select class="border-0"> -->
@@ -54,7 +57,7 @@
             <div class="bellSearch d-flex align-content-center">
                 <!-- Only For Mobile View Only  -->
                 <img src="image/search.png" class="searchButtonMonitor" alt="" onclick="openSecondHeader()"></button>
-                <img src="image/bell.png" alt="">
+                
             </div>
              <c:if test="${not empty user.email}">
             <div class="dropdown">
@@ -79,31 +82,5 @@
              </c:if>
         </div>
     </nav>
-    <script>
-    if(document.cookie!=""){
-    	if(getCookie("isLogOut")=="true"){
-    		alert("Cookie Found");
-    		window.location.replace("login");
-    	}
-    }
-    function getCookie(cname) {
-    	  let name = cname + "=";
-    	  let decodedCookie = decodeURIComponent(document.cookie);
-    	  let ca = decodedCookie.split(';');
-    	  for(let i = 0; i <ca.length; i++) {
-    	    let c = ca[i];
-    	    while (c.charAt(0) == ' ') {
-    	      c = c.substring(1);
-    	    }
-    	    if (c.indexOf(name) == 0) {
-    	      return c.substring(name.length, c.length);
-    	    }
-    	  }
-    	  return "";
-    	}
-//     	let myCookie= getCookie("isLogOut");
-//     	if(myCookie=="true"){
-//     		alert("You Are Aleready Logout");
-//     	}
-    </script>
+   
     <script src="js/sidebarJs.js"></script>

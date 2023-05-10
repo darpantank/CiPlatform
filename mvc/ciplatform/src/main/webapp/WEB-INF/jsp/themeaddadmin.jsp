@@ -119,7 +119,9 @@
 						swal("Thanks","Theme added successfully...","success");
 // 						Clear The Form Data
 						resetThemePage();
-						window.location.href = '<%=request.getContextPath()%>/admin/themepage';
+						setTimeout(function () {
+                    		window.location.href="themepage";
+                          }, 1000);
         	    	}
         }
 		});

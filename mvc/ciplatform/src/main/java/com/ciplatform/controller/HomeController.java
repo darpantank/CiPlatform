@@ -76,10 +76,8 @@ public class HomeController {
 		return "privacy";
 	}
 	@RequestMapping("/logout")
-	public String LogoutUser(HttpSession session,Model m,HttpServletResponse response) {
-	    session.removeAttribute("user");
+	public String LogoutUser(HttpSession session,Model m) {
 	    session.invalidate();
-	    response.addCookie(new Cookie("isLogOut", "true"));
 	    m.addAttribute("message","logoutsuccess");
 		return "login";
 	}

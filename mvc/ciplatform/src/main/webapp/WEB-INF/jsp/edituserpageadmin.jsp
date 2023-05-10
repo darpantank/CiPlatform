@@ -76,7 +76,7 @@
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
                             <label class="form-label required">Password</label>
-                            <input type="text" class="form-control password" name="password" value="${selectedUser.password}" placeholder="Enter Your Password" required>
+                            <input type="text" class="form-control password" minlength="8" name="password" value="${selectedUser.password}" placeholder="Enter Your Password" required>
                         </div>
                         <div class="form-group col-sm-12 col-md-6">
                             <label class="form-label">Employee Id</label>
@@ -179,6 +179,9 @@
      	            		swal("Thanks","User Profile Update Successfully","success");
                     	//clean Form
                     	$("#userEditProfileForm").trigger("reset");
+                    	setTimeout(function () {
+                    		window.location.href="users";
+                          }, 1000);
      	            	}
      	            },
      	    	});

@@ -7,9 +7,9 @@
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];   
    
-   function preventBack(){window.history.forward();}
-    setTimeout("preventBack()", 0);
-    window.onunload=function(){null};
+//    function preventBack(){window.history.forward();}
+//     setTimeout("preventBack()", 0);
+//     window.onunload=function(){null};
     function display_c(){
     	var refresh=1000; // Refresh rate in milli seconds
     	mytime=setTimeout('display_ct()',refresh)
@@ -49,7 +49,7 @@ const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", 
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
             	<li><a class="dropdown-item" href="../homeadmin">userpage</a></li>
-                <li><a class="dropdown-item" href="adminlogout">Logout</a></li>
+                <li><a class="dropdown-item" href="../logout">Logout</a></li>
             </ul>
         </div>
     </div>

@@ -297,18 +297,5 @@ public class AdminController {
 	public @ResponseBody boolean deleteBanner(@RequestParam("bannerId") int bannerId) {
 		return this.service.deleteBanner(bannerId);
 	}
-//	Admin Logout
-	
-	@RequestMapping(value = "/adminlogout",method=RequestMethod.GET)
-	public String logoutAdmin(Model m,HttpServletResponse response,HttpServletRequest request) {
-		try {
-			request.removeAttribute("admin");
-			m.addAttribute("message","logoutsuccess");
-			response.sendRedirect(request.getContextPath());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return "login";
-	}
+
 }

@@ -119,7 +119,7 @@
 		</div>
         <div class="row">
           <div class="col">
-            <form action="validateuser" method="post" id="loginForm">
+            <form action="<c:url value='/validateuser'></c:url>" method="post" id="loginForm">
             	<div class="mb-3">
             		<p class="text-center text-primary" id="message"></p>
             	</div>
@@ -158,7 +158,7 @@
   	function fetchBannerList(){
   		
     	$.ajax({
-	        url: "fetchallbanner",
+	        url: "<c:url value='/fetchallbanner'></c:url>",
 	        dataType: 'json',
 	        type:"GET",
 	        success: function(response){
@@ -179,7 +179,7 @@
   			banner=incomingData[i];
   			if(counter==0){
   				imageDiv+=`<div class="carousel-item active">
-  	                <img src="`+banner.image+`" class="d-block w-100 size-fix" alt="...">
+  	                <img src="<c:url value='/`+banner.image+`'></c:url>" class="d-block w-100 size-fix" alt="...">
   	                <div class="carousel-caption d-none d-md-block">
   	                  <p class="carouselLabelText text-start">`+banner.text+`</p>
   	                  
@@ -188,7 +188,7 @@
   			}
   			else{
   				imageDiv+=`<div class="carousel-item">
-  	                <img src="`+banner.image+`" class="d-block w-100 size-fix" alt="...">
+  	                <img src="<c:url value='/`+banner.image+`'></c:url>" class="d-block w-100 size-fix" alt="...">
   	                <div class="carousel-caption d-none d-md-block">
   	                  <p class="carouselLabelText text-start">`+banner.text+`</p>
   	                  

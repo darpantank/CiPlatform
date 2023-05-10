@@ -141,7 +141,10 @@
 						swal("Thanks","Banner added successfully...","success");
 // 						Clear The Form Data
 						resetBannerPage();
-						window.location.href = '<%=request.getContextPath()%>/admin/bannerpage';
+						setTimeout(function () {
+                    		window.location.href="bannerpage";
+                          }, 1000);
+						
         	    	}
         }
 		});

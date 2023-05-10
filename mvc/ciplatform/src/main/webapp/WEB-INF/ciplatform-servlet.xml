@@ -123,6 +123,9 @@
 				<value>
 					com.ciplatform.model.CmsPage
 				</value>
+				<value>
+					com.ciplatform.model.Notifications
+				</value>
 			</list>
 		</property>
 	</bean>
@@ -162,7 +165,7 @@
 
 	<mvc:interceptors>
 		<mvc:interceptor>
-			<mvc:mapping path="/**/*" />
+			<mvc:mapping path="/*"/>
 			<bean id="webContentInterceptor" class="org.springframework.web.servlet.mvc.WebContentInterceptor">
 				<property name="cacheSeconds" value="0" />
 				<property name="useExpiresHeader" value="true" />
@@ -171,7 +174,7 @@
 			</bean>
 		</mvc:interceptor>
 		<mvc:interceptor>
-			<mvc:mapping path="/admin/**"></mvc:mapping>
+			<mvc:mapping path="/admin/*"></mvc:mapping>
 			<mvc:exclude-mapping path="validateuser"/>
 			<bean class="com.ciplatform.interceptor.AdminInterceptor"></bean>
 		</mvc:interceptor>

@@ -16,6 +16,7 @@ import com.ciplatform.model.City;
 import com.ciplatform.model.CmsPage;
 import com.ciplatform.model.ContactUs;
 import com.ciplatform.model.Country;
+import com.ciplatform.model.Notifications;
 import com.ciplatform.model.PasswordReset;
 import com.ciplatform.model.Skill;
 import com.ciplatform.model.TimeSheet;
@@ -199,6 +200,10 @@ public class UserDaoOperation implements UserDaoInterface{
 	}
 	public PasswordReset getAlreadyPresentTokenInDb(String email) {
 		return this.hibernateTemplate.get(PasswordReset.class,email);
+	}
+	@Transactional
+	public void saveNotifications(Notifications notifications) {
+		this.hibernateTemplate.save(notifications);
 	}
 
 }

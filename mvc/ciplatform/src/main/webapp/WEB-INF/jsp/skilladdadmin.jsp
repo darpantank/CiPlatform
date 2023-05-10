@@ -117,7 +117,10 @@
 						swal("Thanks","Skill added successfully...","success");
 // 						Clear The Form Data
 						resetSkillPage();
-						window.location.href = '<%=request.getContextPath()%>/admin/skillpage';
+						setTimeout(function () {
+                    		window.location.href="skillpage";
+                          }, 1000);
+						
         	    	}
         }
 		});

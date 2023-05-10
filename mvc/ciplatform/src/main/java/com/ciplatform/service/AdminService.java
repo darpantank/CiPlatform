@@ -24,6 +24,7 @@ import com.ciplatform.dto.MissionApplicationIncomingDto;
 import com.ciplatform.dto.MissionApplicationOutgoingDto;
 import com.ciplatform.dto.MissionIncomingDto;
 import com.ciplatform.dto.MissionOutgoingDto;
+import com.ciplatform.dto.NotificationSetDto;
 import com.ciplatform.dto.SkillDto;
 import com.ciplatform.dto.StoryIncomingDto;
 import com.ciplatform.dto.StoryOutgoingDto;
@@ -34,6 +35,7 @@ import com.ciplatform.dto.UserProfileEditAdminDto;
 import com.ciplatform.enums.ApprovalStatusMissionApplication;
 import com.ciplatform.enums.MediaDefault;
 import com.ciplatform.enums.MissionType;
+import com.ciplatform.enums.NotificationType;
 import com.ciplatform.enums.Role;
 import com.ciplatform.enums.Status;
 import com.ciplatform.model.Banner;
@@ -47,6 +49,7 @@ import com.ciplatform.model.MissionDocument;
 import com.ciplatform.model.MissionMedia;
 import com.ciplatform.model.MissionSkill;
 import com.ciplatform.model.MissionTheme;
+import com.ciplatform.model.Notifications;
 import com.ciplatform.model.Skill;
 import com.ciplatform.model.Story;
 import com.ciplatform.model.StoryMedia;
@@ -260,9 +263,17 @@ public class AdminService implements AdminServiceInterface {
 				this.daoOperation.lessSeatCountInMission(application.getMissionId());
 			}
 		}
+		
+		//Set User Notifications
+		this.missionApplicationNotificationsSave(application);
 		return this.daoOperation.updateStatusOfApplication(application);
 	}
-
+	public void missionApplicationNotificationsSave(MissionApplicationIncomingDto application) {
+		Notifications notifications=new Notifications();
+		notifications.setUser(this.daoOperation.fetchUserById(application.getUserId()));
+		notifications.setNotificationText("Your Application For Mission "+this.daoOperation.fetchMissionById(application.getMissionId()).getTitle()+" is Now "+application.getStatus());
+		this.userDaoOpration.saveNotifications(notifications);
+	}
 	public List<StoryOutgoingDto> fetchPendingStory() {
 		List<Story> stories=this.daoOperation.fetchPendingStory();
 		List<StoryOutgoingDto> storyOutgoingDtos=new ArrayList<StoryOutgoingDto>();

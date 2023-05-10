@@ -241,7 +241,7 @@
                                 data-bs-target="#ModalForAddSkills" id="AddSkills">Add Skills</button>
                         </div>
                     </div>
-                    <input type="file" accept="image/*" name="avatar"  class="profilePictureInput" hidden>
+                    <input type="file" accept="image/jpeg, image/png" name="avatar"  class="profilePictureInput" hidden>
                     </form>
                     <div class="d-flex mt-3 justify-content-end">
                         <button class="btn roundButton orangeButton submitButton">Save</button>
